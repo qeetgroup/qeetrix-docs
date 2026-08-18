@@ -1,0 +1,20 @@
+Design tokens are the source of truth in Qeetrix. Every colour, space, radius, shadow, and motion value is authored once and flows to every component — so a single change re-tones the whole system.
+
+## OKLCH, end to end
+
+Colours are authored in **OKLCH**, not hex. OKLCH is perceptually uniform, which makes ramps predictable and theming sane: shift a hue or lightness and the relationships between shades hold.
+
+```css
+/* generated --qx-* variables */
+--qx-color-brand-500: oklch(0.705 0.213 47.6); /* #F26D0E, OD-DS-03 */
+```
+
+## Compiled, not hand-written
+
+Tokens live as W3C DTCG JSON and compile through **Style Dictionary** into CSS variables and JSON. Nothing downstream is hand-maintained.
+
+## Contrast is a build gate
+
+Every semantic text/surface pair is checked to **WCAG-AA** at build time — a failing pair fails the build. That's why the brand orange is used for fills and large text, while links use the darker `--brand-text` shade.
+
+Explore the full set in the [token reference](/tokens), or tune your own in [Theme Studio](/theme).
