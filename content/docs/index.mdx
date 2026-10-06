@@ -1,0 +1,42 @@
+---
+title: Introduction
+description: The Qeetrix design system — components, tokens and icons for every Qeet product.
+icon: Rocket
+---
+
+import { Badge, Button } from "@qeetrix/ui";
+
+Qeetrix is the design system behind the Qeet Group suite. Every Qeet front end — Qeet ID, Qeet Pay,
+Qeet Notify and the rest — is built from it, so a button in one product looks and behaves like a
+button in every other.
+
+<div className="not-prose flex flex-wrap items-center gap-3 rounded-xl border p-6">
+  <Button>Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="outline">Outline</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Badge variant="success">Live</Badge>
+</div>
+
+## Packages
+
+| Package          | What it contains                                                                   |
+| ---------------- | ---------------------------------------------------------------------------------- |
+| `@qeetrix/ui`    | 145 React UI modules built on Base UI, plus the design tokens, Qeet fonts and logo |
+| `@qeetrix/icons` | 1,863 icons in round and sharp shapes, and brand logos                             |
+
+## Principles
+
+- **Token-driven.** Colour, spacing, radius and elevation come from design tokens, authored in
+  OKLCH. Components never hard-code a value, so re-theming happens in one place.
+- **Accessible by construction.** Components are built on Base UI, which implements WAI-ARIA
+  behaviour, and every one is tested with axe. Text and surface pairs meet WCAG AA contrast.
+- **Light and dark.** Every component is themed through semantic tokens, and the theme follows a
+  `.dark` class on the page.
+
+## Next steps
+
+<Cards>
+  <Card title="Installation" href="/docs/installation" description="Add Qeetrix to a React 19 + Tailwind CSS v4 app." />
+  <Card title="Icons" href="/docs/icons" description="Use icons and brand logos from @qeetrix/icons." />
+</Cards>

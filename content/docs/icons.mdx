@@ -1,0 +1,68 @@
+---
+title: Icons
+description: Use icons and brand logos from @qeetrix/icons.
+icon: Shapes
+---
+
+import { StarIcon } from "@qeetrix/icons/icons/star";
+
+`@qeetrix/icons` has 1,863 icons, each drawn in a round and a sharp shape, plus a library of brand
+logos.
+
+## Import an icon
+
+Import each icon from its own path:
+
+```tsx
+import { StarIcon } from "@qeetrix/icons/icons/star";
+
+export function Favourite() {
+  return <StarIcon />;
+}
+```
+
+<Callout>
+  Importing from the package root also works, but it loads every icon and every brand logo unless
+  your bundler tree-shakes it. Per-icon paths are the safer default.
+</Callout>
+
+## Shape, variant and size
+
+<div className="not-prose flex flex-wrap items-center gap-6 rounded-xl border p-6">
+  <StarIcon />
+  <StarIcon variant="filled" />
+  <StarIcon shape="sharp" />
+  <StarIcon shape="sharp" variant="filled" />
+  <StarIcon size={32} />
+</div>
+
+```tsx
+<StarIcon />
+<StarIcon variant="filled" />
+<StarIcon shape="sharp" />
+<StarIcon shape="sharp" variant="filled" />
+<StarIcon size={32} />
+```
+
+| Prop      | Values                    | Default     |
+| --------- | ------------------------- | ----------- |
+| `shape`   | `"round"` · `"sharp"`     | `"round"`   |
+| `variant` | `"outline"` · `"filled"`  | `"outline"` |
+| `size`    | pixels, or any CSS length | —           |
+
+Every icon has both shapes. `variant` is typed per icon, so asking for a drawing that an icon doesn't
+have is a type error. Icons also accept any `<svg>` prop, such as `className` or `aria-label`.
+
+## Brand logos
+
+Brand logos are named exports ending in `Logo`, such as `GithubLogo` or `FigmaLogo`. Each renders the
+brand's published SVG, unmodified, as an `<img>`; its `variant` prop picks one of that logo's files.
+Logos are only exported from the package root:
+
+```tsx
+import { GithubLogo } from "@qeetrix/icons";
+
+export function Footer() {
+  return <GithubLogo />;
+}
+```

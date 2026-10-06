@@ -1,0 +1,14 @@
+/* Qeetrix brings Tailwind itself, plus tokens, fonts and component class scanning. */
+@import "@qeetrix/ui/styles.css";
+/* Point Fumadocs' --color-fd-* palette at the shadcn variables Qeetrix tokens define. */
+@import "fumadocs-ui/css/shadcn.css";
+@import "fumadocs-ui/css/preset.css";
+
+html {
+  scrollbar-gutter: stable;
+}
+
+html > body[data-scroll-locked] {
+  margin-right: 0px !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
