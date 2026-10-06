@@ -1,0 +1,67 @@
+---
+title: Installation
+description: Add Qeetrix to a React 19 + Tailwind CSS v4 app.
+icon: Download
+---
+
+## Install the packages
+
+```bash
+bun add @qeetrix/ui @qeetrix/icons
+```
+
+`@qeetrix/ui` needs React and React DOM 19 or later and Tailwind CSS 4 or later. Install them too if
+your app doesn't have them yet.
+
+## Import the stylesheet
+
+In your global stylesheet, import Qeetrix in place of Tailwind:
+
+```css title="globals.css"
+@import "@qeetrix/ui/styles.css";
+```
+
+This brings in Tailwind itself, the Qeetrix tokens and theme mapping, and the Qeet fonts. It also
+tells Tailwind to scan the Qeetrix package, so component classes are generated without an extra
+`@source` line.
+
+<Callout type="warn">
+  Don't also add `@import "tailwindcss"` — Qeetrix already includes it, and importing it twice
+  duplicates Tailwind's base styles.
+</Callout>
+
+## Use a component
+
+```tsx
+import { Button } from "@qeetrix/ui";
+
+export function Continue() {
+  return <Button variant="outline">Continue</Button>;
+}
+```
+
+## Dark mode
+
+The light and dark themes switch on a `.dark` class. Wrap your app in `ThemeProvider` to manage it:
+
+```tsx
+import { ThemeProvider } from "@qeetrix/ui";
+
+export function App({ children }: { children: React.ReactNode }) {
+  return <ThemeProvider defaultTheme="system">{children}</ThemeProvider>;
+}
+```
+
+Its keyboard shortcut is off by default. Pass `enableKeyboardShortcut` to toggle the theme with
+<kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd>.
+
+If your app already toggles a `.dark` class — for example with `next-themes` — leave
+`ThemeProvider` out. The tokens follow the class either way, and two theme managers would fight
+over it.
+
+## Raw tokens
+
+For values outside components, such as charts or emails:
+
+- `@qeetrix/ui/tokens.css` — every token as a `--qx-*` CSS variable, including the primitive ramps
+- `@qeetrix/ui/tokens.json` — the same tokens, resolved for each theme
