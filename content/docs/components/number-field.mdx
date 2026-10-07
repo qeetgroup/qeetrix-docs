@@ -1,0 +1,51 @@
+---
+title: "Number Field"
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Usage
+
+### Import
+
+```tsx
+import { NumberField } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/number-field`.
+
+### States
+
+`hover` · `focus-visible` · `active` · `disabled` · `read-only` · `invalid`
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Supported |
+| Dark mode | Supported |
+| Density | Supported |
+| Server rendering | Client component |
+| Reduced motion | Supported |
+
+## Accessibility
+
+Follows the WAI-ARIA `spinbutton` pattern. Not yet audited.
+
+### Keyboard
+
+<kbd>Tab</kbd> <kbd>ArrowUp</kbd> <kbd>ArrowDown</kbd>
+
+### Focus
+
+Each control is a Tab stop, in order.
+
+### Known limitations
+
+- **Semantics:** Base UI renders a text input with aria-roledescription ("Number field") rather than role=spinbutton; the spinbutton keyboard contract (ArrowUp/ArrowDown step) holds. The role description comes from the catalogue (numberField.roleDescription).
+
+## Tests
+
+Covered by unit, accessibility (axe), interaction and visual tests.
+
+{/* qeetrix:generated:end */}

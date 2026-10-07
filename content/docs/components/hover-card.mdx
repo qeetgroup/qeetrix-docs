@@ -1,0 +1,56 @@
+---
+title: "Hover Card"
+description: "Rich preview shown on hover/focus of a trigger (user cards, entity previews)."
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Usage
+
+### Import
+
+```tsx
+import { HoverCard } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/hover-card`.
+
+### Controlled and uncontrolled
+
+Pass the value prop to control it, or the default prop to let the component own it.
+
+| Value | Default | Change |
+| --- | --- | --- |
+| `open` | `defaultOpen` | `onOpenChange` |
+
+### States
+
+`open`
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Supported |
+| Dark mode | Supported |
+| Density | Not supported |
+| Server rendering | Client component |
+| Reduced motion | Supported |
+
+## Accessibility
+
+No ARIA widget pattern. Not yet audited.
+
+### Keyboard
+
+<kbd>Tab</kbd> <kbd>Escape</kbd>
+
+### Focus
+
+Each control is a Tab stop, in order. While open, focus returns on close.
+
+## Tests
+
+Covered by unit, accessibility (axe) and visual tests.
+
+{/* qeetrix:generated:end */}

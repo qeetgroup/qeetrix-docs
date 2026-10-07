@@ -1,0 +1,69 @@
+---
+title: Accessibility
+description: What Qeetrix guarantees, and what your app still owns.
+---
+
+Qeetrix targets **WCAG 2.2 AA**. A component library can make the right thing the easy thing, but
+an accessible screen still depends on how you use it: the names you give controls, the order of
+your content, the words you choose.
+
+## What Qeetrix guarantees
+
+- **Proven patterns.** Composite widgets, such as menus, listboxes, comboboxes, dialogs, tabs and
+  trees, are built on Base UI, which implements the WAI-ARIA patterns, including their keyboard
+  model and focus management.
+- **Contrast.** Every text and surface pair the colour roles are designed for meets AA contrast, in
+  both themes.
+- **Reduced motion.** When the user asks for less motion, one rule in `styles.css` collapses every
+  transition and animation. See [Motion](/docs/foundations/motion#reduced-motion).
+- **Forced colours.** In Windows high-contrast modes, the colours map to system colours, shadows
+  drop away, and focus falls back to a system highlight outline.
+- **Visible focus.** Keyboard focus draws a consistent ring that stays visible against every
+  surface.
+
+Each component page lists its ARIA pattern, keyboard support, focus behaviour and audit results;
+see the [Components](/docs/components) overview for every component's audit state.
+
+## What your app owns
+
+### Name every control
+
+Use the most robust name available, in this order:
+
+| Source          | Example                                               |
+| --------------- | ----------------------------------------------------- |
+| Visible text    | `<Button>Save</Button>`                               |
+| A field label   | `<FieldLabel>` with `<FieldControl>`                  |
+| A titled region | A `Dialog` is named by its `DialogTitle`              |
+| `aria-label`    | Icon-only controls, as a last resort                  |
+
+Prefer a visible label: an `aria-label` can't be seen, isn't translated by page translation tools,
+and silently goes stale when the visible text changes. `IconButton` requires an `aria-label`, so an
+icon-only button can't be written without one.
+
+### Hide decorative icons
+
+An icon beside text is decoration: mark it `aria-hidden`, as the examples in these docs do. Icons
+from `@qeetrix/icons` are decorative by default; give one an `aria-label` only when it stands alone
+and carries meaning.
+
+### Right-to-left
+
+Set `dir="rtl"` on `<html>` to mirror the layout. For keyboard behaviour to follow, such as which
+arrow key expands a tree, wrap the app in `DirectionProvider` too:
+
+```tsx
+import { DirectionProvider } from "@qeetrix/ui";
+
+<DirectionProvider locale="ar-EG">{children}</DirectionProvider>;
+```
+
+### Charts
+
+Colour alone can't carry a chart's data for everyone. Pair each chart with `ChartDataTable`, the
+non-colour alternative.
+
+### Test your screens
+
+Automated checks such as axe catch part of the problem. Also try each flow with only a keyboard,
+with a screen reader, at 200% zoom, and with reduced motion and high contrast turned on.

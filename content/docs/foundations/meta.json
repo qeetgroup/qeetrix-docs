@@ -1,0 +1,15 @@
+{
+  "title": "Foundations",
+  "description": "Colour, type, space, elevation, motion and icons.",
+  "icon": "Palette",
+  "root": true,
+  "pages": [
+    "index",
+    "colors",
+    "typography",
+    "spacing",
+    "elevation",
+    "motion",
+    "icons"
+  ]
+}

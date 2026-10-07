@@ -1,0 +1,95 @@
+---
+title: Next.js
+description: Set up Qeetrix in a Next.js App Router app.
+---
+
+## Install
+
+```bash
+bun add @qeetrix/ui @qeetrix/icons
+bun add -d tailwindcss @tailwindcss/postcss
+```
+
+`@qeetrix/ui` needs React 19 or later and Tailwind CSS 4 or later.
+
+## Configure PostCSS
+
+`@qeetrix/ui/styles.css` is Tailwind source, so Next.js compiles it through Tailwind's PostCSS
+plugin:
+
+```js title="postcss.config.mjs"
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+```
+
+## Import the stylesheet
+
+```css title="app/globals.css"
+@import "@qeetrix/ui/styles.css";
+
+/* Your token overrides go after the import. */
+```
+
+It brings Tailwind, the tokens, and the Qeet fonts and Fira Code, so you don't need `next/font` for
+them.
+
+## Set up the root layout
+
+```tsx title="app/layout.tsx"
+import { ThemeProvider, Toaster } from "@qeetrix/ui";
+import type { ReactNode } from "react";
+import "./globals.css";
+
+// Applies the stored theme before the first paint. Keep the key in step with `storageKey`.
+const themeScript = `try{var s=localStorage.getItem("theme");var d=s==="dark"||((!s||s==="system")&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.add(d?"dark":"light")}catch(_){}`;
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body>
+        <ThemeProvider defaultTheme="system" storageKey="theme">
+          {children}
+          <Toaster />
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+- The script sets the theme class before React runs, so `<html>` differs from the server render;
+  `suppressHydrationWarning` on `<html>` tells React that's expected.
+- `<Toaster />` is mounted once so any component can call `toast()`.
+
+See [Theming](/docs/guides/theming) for what `ThemeProvider` does and how to override tokens.
+
+## Use components
+
+```tsx title="app/page.tsx"
+import { PlusIcon } from "@qeetrix/icons";
+import { Button } from "@qeetrix/ui";
+
+export default function Page() {
+  return (
+    <Button>
+      <PlusIcon data-icon="inline-start" aria-hidden />
+      Invite member
+    </Button>
+  );
+}
+```
+
+Interactive components carry their own `"use client"` boundary, so a Server Component can render
+them directly; each component page's **Support** table says whether it renders on the server or is
+a client component. Your own components need `"use client"` when they use state, effects or event
+handlers, for example a button that calls `toast()`.
+
+Icons import from the package root; Next's bundler keeps only the ones you use.

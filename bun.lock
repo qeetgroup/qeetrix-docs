@@ -5,8 +5,8 @@
     "": {
       "name": "qeetrix-docs",
       "dependencies": {
-        "@qeetrix/icons": "^1.0.10",
-        "@qeetrix/ui": "^2.1.0",
+        "@qeetrix/icons": "^1.0.11",
+        "@qeetrix/ui": "^2.1.2",
         "cn": "^0.4.0",
         "fumadocs-core": "16.16.2",
         "fumadocs-mdx": "15.4.6",
@@ -279,9 +279,9 @@
 
     "@nodelib/fs.walk": ["@nodelib/fs.walk@1.2.8", "", { "dependencies": { "@nodelib/fs.scandir": "2.1.5", "fastq": "^1.6.0" } }, "sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg=="],
 
-    "@qeetrix/icons": ["@qeetrix/icons@1.0.10", "", { "peerDependencies": { "react": "^19.0.0" } }, "sha512-8yguXOxfeCeH1t3iQQ/v4zPQmLvnHwxAVWiPlNapvNHzA8l+ngTdCm2/uvC/wni4E6ZdG3yksrPsn1zScwH1og=="],
+    "@qeetrix/icons": ["@qeetrix/icons@1.0.11", "", { "peerDependencies": { "react": "^19.0.0" } }, "sha512-LZLzvxRALx+m49hcRSGxZ2T/XBbycZyqvrBr4mIZGdmHbSzJOsMLjBUWlXTuD0vfvMOsDwXpkZ5+qxfJQl4L+Q=="],
 
-    "@qeetrix/ui": ["@qeetrix/ui@2.1.0", "", { "dependencies": { "@base-ui/react": "^1.5.0", "@tanstack/react-table": "^8.21.3", "@tanstack/react-virtual": "^3.14.3", "@tiptap/pm": "^3.27.0", "@tiptap/react": "^3.27.0", "@tiptap/starter-kit": "^3.27.0", "class-variance-authority": "^0.7.1", "clsx": "^2.1.1", "embla-carousel-react": "^8.6.0", "lucide-react": "^0.577.0", "qrcode": "^1.5.4", "react-day-picker": "^9.9.0", "react-resizable-panels": "^4.11.2", "recharts": "^3.8.1", "shadcn": "^4.7.0", "tailwind-merge": "^3.6.0", "tw-animate-css": "^1.3.6" }, "peerDependencies": { "react": ">=19", "react-dom": ">=19", "tailwindcss": ">=4" } }, "sha512-DrpT80Rbm3pFZGfFuIEPlp3JhXqOSKnF8Pe9oN0smiZ95mndNXk7UouIWI2rWxY3RAnRRVCpVJBFCL7IIVoz3A=="],
+    "@qeetrix/ui": ["@qeetrix/ui@2.1.2", "", { "dependencies": { "@base-ui/react": "^1.5.0", "@qeetrix/icons": "^1.0.11", "@tanstack/react-table": "^8.21.3", "@tanstack/react-virtual": "^3.14.3", "@tiptap/pm": "^3.27.0", "@tiptap/react": "^3.27.0", "@tiptap/starter-kit": "^3.27.0", "class-variance-authority": "^0.7.1", "clsx": "^2.1.1", "embla-carousel-react": "^8.6.0", "qrcode": "^1.5.4", "react-day-picker": "^9.9.0", "react-resizable-panels": "^4.11.2", "recharts": "^3.8.1", "shadcn": "^4.7.0", "tailwind-merge": "^3.6.0", "tw-animate-css": "^1.3.6" }, "peerDependencies": { "react": ">=19", "react-dom": ">=19", "tailwindcss": ">=4" } }, "sha512-5D1k5fwJPXQOvR05ePBkOfIMKFlQsRV6E+fvzw/HlpS/RR4WX7Wlrq4XCa6q2iBEW2VbM1Wgoe7PMErkOGwqMA=="],
 
     "@reduxjs/toolkit": ["@reduxjs/toolkit@2.13.0", "", { "dependencies": { "@standard-schema/spec": "^1.0.0", "@standard-schema/utils": "^0.3.0", "immer": "^11.0.0", "redux": "^5.0.1", "redux-thunk": "^3.1.0", "reselect": "^5.1.0" }, "peerDependencies": { "react": "^16.9.0 || ^17.0.0 || ^18 || ^19", "react-redux": "^7.2.1 || ^8.1.3 || ^9.0.0" }, "optionalPeers": ["react", "react-redux"] }, "sha512-f6jwVRfwW30+tnllz4YcsHHpPYYOE7abcHkyUCovD+P7DyhdAI5prz2Fh/8TLhakjpN+7aIEion1s5L/tvlYlA=="],
 

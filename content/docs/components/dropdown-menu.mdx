@@ -1,0 +1,67 @@
+---
+title: "Dropdown Menu"
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Usage
+
+### Import
+
+```tsx
+import { DropdownMenu } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/dropdown-menu`.
+
+### Controlled and uncontrolled
+
+Pass the value prop to control it, or the default prop to let the component own it.
+
+| Value | Default | Change |
+| --- | --- | --- |
+| `open` | `defaultOpen` | `onOpenChange` |
+
+### States
+
+`focus-visible` · `disabled` · `checked` · `open`
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Supported |
+| Dark mode | Supported |
+| Density | Supported |
+| Server rendering | Client component |
+| Reduced motion | Supported |
+
+## Accessibility
+
+Follows the WAI-ARIA `menu-button` pattern. Audited.
+
+| Check | Result |
+| --- | --- |
+| Semantics | Pass |
+| Accessible name | Pass |
+| Keyboard | Pass |
+| Focus | Pass |
+| Screen reader | Pass |
+| Right-to-left | Not applicable |
+| Reduced motion | Pass |
+| Forced colours | Pass |
+| Contrast | Pass |
+
+### Keyboard
+
+<kbd>Enter</kbd> <kbd>Space</kbd> <kbd>Escape</kbd> <kbd>ArrowUp</kbd> <kbd>ArrowDown</kbd> <kbd>Home</kbd> <kbd>End</kbd>
+
+### Focus
+
+One Tab stop for the group; arrow keys move between items (roving tab stop). While open, focus is contained and focus returns on close.
+
+## Tests
+
+Covered by unit, accessibility (axe), interaction and visual tests.
+
+{/* qeetrix:generated:end */}

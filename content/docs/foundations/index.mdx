@@ -1,0 +1,44 @@
+---
+title: Foundations
+description: The design tokens every Qeetrix component is built from.
+icon: Palette
+---
+
+Qeetrix is token-driven. Colour, type, corners, elevation and motion are design tokens, and
+components read the tokens instead of hard-coding values, so a change to a token reaches every
+component that uses it.
+
+## Where tokens live
+
+| File                      | What it has                                                                | Use it for                                 |
+| ------------------------- | -------------------------------------------------------------------------- | ------------------------------------------ |
+| `@qeetrix/ui/styles.css`  | The semantic tokens as `--qx-*` variables, mapped to Tailwind utilities    | Apps: the one stylesheet you import        |
+| `@qeetrix/ui/qeetrix.css` | The same semantic variables, without Tailwind                              | Theming against the variables directly     |
+| `@qeetrix/ui/tokens.css`  | Every token, including the primitive palette and scales                    | Design tooling that needs the raw ramps    |
+| `@qeetrix/ui/tokens.json` | Every token, resolved for each theme                                       | Anything that isn't CSS                    |
+
+## Semantic and primitive tokens
+
+Components read only **semantic** tokens: roles with a meaning, such as `surface.canvas` or
+`text.secondary`. The **primitive** tokens behind them, the raw palette and scales, are not in
+`styles.css`, so a component can't come to depend on a palette value by accident.
+
+## Names
+
+A variable follows its token's path: `color.surface.canvas` is `--qx-color-surface-canvas`. Many
+tokens also have a Tailwind utility, such as `bg-canvas`, `shadow-hover` or `duration-fast`; the
+tables on each page list them.
+
+## Light and dark
+
+Every semantic token has a light and a dark value, switched by the `.dark` class. The tables show
+both, whichever theme you're reading in.
+
+<Cards>
+  <Card title="Colour" href="/docs/foundations/colors" description="Text, surface, border, action and feedback roles, and the palette." />
+  <Card title="Typography" href="/docs/foundations/typography" description="Type roles, font families and the scale." />
+  <Card title="Spacing and Corners" href="/docs/foundations/spacing" description="Corner roles and the spacing scale." />
+  <Card title="Elevation" href="/docs/foundations/elevation" description="Shadow roles for every surface." />
+  <Card title="Motion" href="/docs/foundations/motion" description="Durations, easings and reduced motion." />
+  <Card title="Icons" href="/docs/foundations/icons" description="Icons and the Qeet logos from @qeetrix/icons." />
+</Cards>

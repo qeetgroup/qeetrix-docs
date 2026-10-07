@@ -1,0 +1,23 @@
+---
+title: Motion
+description: Duration and easing roles, and how Qeetrix honours reduced motion.
+---
+
+Motion has two layers: a primitive scale of durations and easings, and the semantic roles that
+components use. A role names its purpose, `normal` rather than `200ms` or `enter` rather than a
+curve, and the roles are Tailwind utilities too.
+
+## Durations
+
+<MotionTokens kind="duration" />
+
+## Easings
+
+<MotionTokens kind="easing" />
+
+## Reduced motion
+
+When the user asks for reduced motion, `styles.css` collapses every transition and animation in
+one place, to `--qx-motion-reduced-duration`. Transitions keep a duration just above zero so
+`transitionend` still fires for components that wait on it. A component only needs its own
+handling when it drives motion from JavaScript.

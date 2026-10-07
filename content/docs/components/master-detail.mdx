@@ -1,0 +1,48 @@
+---
+title: "Master Detail"
+description: "Responsive list + detail layout: a resizable two-pane split on wide screens, and a list with the detail in a slide-over `Sheet` below `collapseBelow` (Mail, Contacts, Tasks, Logs, People directories, payment ledgers)."
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+<Callout title="Beta">
+  Ready to use, but its API may still change before it is marked stable.
+</Callout>
+
+## Usage
+
+### Import
+
+```tsx
+import { MasterDetail } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/master-detail`.
+
+### Controlled and uncontrolled
+
+Pass the value prop to control it, or the default prop to let the component own it.
+
+| Value | Default | Change |
+| --- | --- | --- |
+| `detailOpen` | `defaultDetailOpen` | `onDetailOpenChange` |
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Not applicable |
+| Dark mode | Supported |
+| Density | Not applicable |
+| Server rendering | Client component |
+| Reduced motion | Not applicable |
+
+## Accessibility
+
+No ARIA widget pattern. Not yet audited.
+
+## Tests
+
+Covered by unit, accessibility (axe), interaction and visual tests.
+
+{/* qeetrix:generated:end */}

@@ -1,0 +1,60 @@
+---
+title: "Data Table"
+description: "DataTable wraps TanStack Table over the qeetrix Table primitives."
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+<Callout title="Beta">
+  Ready to use, but its API may still change before it is marked stable.
+</Callout>
+
+## Examples
+
+### Default
+
+Sorting, search, row selection and pagination out of the box.
+
+<ComponentPreview name="data-table/1-default" />
+
+## Usage
+
+### Import
+
+```tsx
+import { DataTable } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/data-table`.
+
+### States
+
+`hover` · `focus-visible` · `loading` · `indeterminate` · `expanded` · `busy`
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Supported |
+| Dark mode | Supported |
+| Density | Supported |
+| Server rendering | Client component |
+| Reduced motion | Supported |
+
+## Accessibility
+
+Follows the WAI-ARIA `table` pattern. Not yet audited.
+
+### Keyboard
+
+<kbd>Tab</kbd> <kbd>Enter</kbd> <kbd>Space</kbd> <kbd>ArrowLeft</kbd> <kbd>ArrowRight</kbd> <kbd>Home</kbd> <kbd>End</kbd>
+
+### Focus
+
+Each control is a Tab stop, in order.
+
+## Tests
+
+Covered by unit, accessibility (axe), interaction, visual and hydration tests.
+
+{/* qeetrix:generated:end */}

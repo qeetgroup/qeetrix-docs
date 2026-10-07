@@ -1,0 +1,24 @@
+---
+title: Spacing and Corners
+description: The corner roles, the radius scale, and the primitive spacing scale.
+---
+
+## Corners
+
+Components round their corners through roles, so a control, a field and a surface each keep their
+own shape. The swatches below are drawn with the live variables.
+
+<CornerTokens />
+
+The control, field, chip, surface and overlay roles come from Tailwind's radius scale, which is
+built on one variable, `--radius`: `rounded-lg` equals it, and the scale runs from `rounded-sm`
+(0.6×) to `rounded-4xl` (2.6×). Changing `--radius` retunes them all; `pill`, `circle` and `none`
+stay fixed.
+
+## Spacing
+
+Components space themselves with Tailwind's spacing utilities, such as `gap-2` and `px-4`. The
+named steps below are the primitive spacing scale, published in `@qeetrix/ui/tokens.css` for design
+tooling.
+
+<SpaceScale />

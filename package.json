@@ -9,16 +9,18 @@
     "bun": ">=1.3"
   },
   "scripts": {
-    "build": "next build",
-    "dev": "next dev -p 3006",
+    "build": "node scripts/generate-components.mjs && node scripts/generate-tokens.mjs && next build",
+    "dev": "node scripts/generate-components.mjs && node scripts/generate-tokens.mjs && next dev -p 3006",
     "start": "next start -p 3006",
-    "types:check": "next typegen && tsc --noEmit",
+    "generate:components": "node scripts/generate-components.mjs",
+    "generate:tokens": "node scripts/generate-tokens.mjs",
+    "types:check": "node scripts/generate-components.mjs && node scripts/generate-tokens.mjs && next typegen && tsc --noEmit",
     "lint": "biome check",
     "format": "biome format --write"
   },
   "dependencies": {
-    "@qeetrix/icons": "^1.0.10",
-    "@qeetrix/ui": "^2.1.0",
+    "@qeetrix/icons": "^1.0.11",
+    "@qeetrix/ui": "^2.1.2",
     "cn": "^0.4.0",
     "fumadocs-core": "16.16.2",
     "fumadocs-mdx": "15.4.6",

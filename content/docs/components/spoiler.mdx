@@ -1,0 +1,68 @@
+---
+title: "Spoiler"
+description: "Truncates content to `maxLines` with an inline show-more/less toggle (Disclosure)."
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Usage
+
+### Import
+
+```tsx
+import { Spoiler } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/spoiler`.
+
+### Controlled and uncontrolled
+
+Pass the value prop to control it, or the default prop to let the component own it.
+
+| Value | Default | Change |
+| --- | --- | --- |
+| `expanded` | `defaultExpanded` | `onExpandedChange` |
+
+### States
+
+`hover` · `focus-visible` · `expanded`
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Not applicable |
+| Dark mode | Supported |
+| Density | Not applicable |
+| Server rendering | Client component |
+| Reduced motion | Supported |
+
+## Accessibility
+
+Follows the WAI-ARIA `disclosure` pattern. Audited.
+
+| Check | Result |
+| --- | --- |
+| Semantics | Pass |
+| Accessible name | Pass |
+| Keyboard | Pass |
+| Focus | Pass |
+| Screen reader | Pass |
+| Right-to-left | Not applicable |
+| Reduced motion | Not applicable |
+| Forced colours | Pass |
+| Contrast | Pass |
+
+### Keyboard
+
+<kbd>Tab</kbd> <kbd>Enter</kbd> <kbd>Space</kbd>
+
+### Focus
+
+Each control is a Tab stop, in order.
+
+## Tests
+
+Covered by unit, accessibility (axe), interaction and visual tests.
+
+{/* qeetrix:generated:end */}

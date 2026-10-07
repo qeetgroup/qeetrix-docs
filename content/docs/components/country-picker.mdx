@@ -1,0 +1,52 @@
+---
+title: "Country Picker"
+description: "CountryPicker: ISO 3166-1 alpha-2 codes with localised names from `Intl.DisplayNames`."
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+<Callout title="Beta">
+  Ready to use, but its API may still change before it is marked stable.
+</Callout>
+
+## Usage
+
+### Import
+
+```tsx
+import { CountryPicker } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/country-picker`.
+
+### Controlled and uncontrolled
+
+Pass the value prop to control it, or the default prop to let the component own it.
+
+| Value | Default | Change |
+| --- | --- | --- |
+| `value` | `defaultValue` | `onChange` |
+
+### States
+
+`disabled` · `invalid` · `required`
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Not applicable |
+| Dark mode | Supported |
+| Density | Supported |
+| Server rendering | Client component |
+| Reduced motion | Not applicable |
+
+## Accessibility
+
+No ARIA widget pattern. Not yet audited.
+
+## Tests
+
+Covered by unit, accessibility (axe), interaction, visual and hydration tests.
+
+{/* qeetrix:generated:end */}

@@ -1,0 +1,47 @@
+---
+title: Colour
+description: Semantic colour roles for text, surfaces, borders, actions and feedback, and the palette behind them.
+---
+
+Build with the semantic roles. Each one has a meaning and a value for each theme, and every text
+and surface pair the roles are designed for meets WCAG AA contrast. Colour is authored in OKLCH.
+
+The **Tailwind** column gives each colour's utility with `bg-`; the same name works with `text-`,
+`border-` and the other colour utilities. Roles without a utility of their own are used through the
+variable.
+
+## Text
+
+<ColorTokens group="text" />
+
+## Surface
+
+<ColorTokens group="surface" />
+
+## Border
+
+<ColorTokens group="border" />
+
+## Action
+
+<ColorTokens group="action" />
+
+## Feedback
+
+<ColorTokens group="feedback" />
+
+## Focus, selection and overlay
+
+<ColorTokens group="focus" />
+
+<ColorTokens group="selection" />
+
+<ColorTokens group="overlay" />
+
+## Palette
+
+The primitive ramps the roles are built from. They're published in `@qeetrix/ui/tokens.css` for
+design tooling, but not in `styles.css`: build with the roles above. Hover a step for its variable
+and value.
+
+<Palette ramps={["qeet", "graphite", "neutral", "danger", "success", "warning", "info"]} />

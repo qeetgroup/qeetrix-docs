@@ -1,0 +1,66 @@
+---
+title: "Checkbox"
+description: "The Qeet selection control, square."
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Examples
+
+### Default
+
+Wrap the checkbox in a `Label` to name it.
+
+<ComponentPreview name="checkbox/1-default" />
+
+### With description
+
+A horizontal `Field` adds a description and wires it to the checkbox.
+
+<ComponentPreview name="checkbox/2-with-description" />
+
+## Usage
+
+### Import
+
+```tsx
+import { Checkbox } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/checkbox`.
+
+### Controlled and uncontrolled
+
+Pass the value prop to control it, or the default prop to let the component own it.
+
+| Value | Default | Change |
+| --- | --- | --- |
+| `checked` | `defaultChecked` | `onCheckedChange` |
+
+### States
+
+`hover` · `focus-visible` · `disabled` · `read-only` · `invalid` · `checked` · `indeterminate`
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Not applicable |
+| Dark mode | Supported |
+| Density | Not declared |
+| Server rendering | Client component |
+| Reduced motion | Supported |
+
+## Accessibility
+
+Follows the WAI-ARIA `checkbox` pattern. Not yet audited.
+
+### Keyboard
+
+<kbd>Space</kbd> <kbd>Tab</kbd>
+
+## Tests
+
+Covered by unit, accessibility (axe), interaction and visual tests.
+
+{/* qeetrix:generated:end */}

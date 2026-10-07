@@ -1,0 +1,106 @@
+---
+title: TanStack Start
+description: Set up Qeetrix in a TanStack Start app on Vite, as the Qeet consoles do.
+---
+
+## Install
+
+```bash
+bun add @qeetrix/ui @qeetrix/icons
+bun add -d tailwindcss @tailwindcss/vite
+```
+
+`@qeetrix/ui` needs React 19 or later and Tailwind CSS 4 or later.
+
+## Configure Vite
+
+`@qeetrix/ui/styles.css` is Tailwind source, so add Tailwind's Vite plugin next to TanStack Start's:
+
+```ts title="vite.config.ts"
+import tailwindcss from "@tailwindcss/vite";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import viteReact from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [tailwindcss(), tanstackStart(), viteReact()],
+});
+```
+
+## Import the stylesheet
+
+```css title="src/styles.css"
+@import "@qeetrix/ui/styles.css";
+
+/* Your token overrides go after the import. */
+```
+
+## Set up the root route
+
+```tsx title="src/routes/__root.tsx"
+import { ThemeProvider, Toaster } from "@qeetrix/ui";
+import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import type { ReactNode } from "react";
+import appCss from "../styles.css?url";
+
+// Applies the stored theme before the first paint. Keep the key in step with `storageKey`.
+const themeScript = `try{var s=localStorage.getItem("theme");var d=s==="dark"||((!s||s==="system")&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.add(d?"dark":"light")}catch(_){}`;
+
+export const Route = createRootRoute({
+  head: () => ({
+    meta: [
+      { charSet: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+    ],
+    links: [{ rel: "stylesheet", href: appCss }],
+  }),
+  shellComponent: RootDocument,
+});
+
+function RootDocument({ children }: { children: ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <HeadContent />
+      </head>
+      <body>
+        <ThemeProvider defaultTheme="system" storageKey="theme">
+          {children}
+          <Toaster />
+        </ThemeProvider>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+```
+
+- The `?url` import gives the compiled stylesheet's URL, which the route's `head` links.
+- The script runs before the page paints, so a dark-mode user never sees a flash of light;
+  `suppressHydrationWarning` on `<html>` tells React the class it adds is expected.
+- `<Toaster />` is mounted once so any component can call `toast()`.
+
+See [Theming](/docs/guides/theming) for what `ThemeProvider` does and how to override tokens.
+
+## Use components
+
+```tsx title="src/routes/index.tsx"
+import { PlusIcon } from "@qeetrix/icons";
+import { Button } from "@qeetrix/ui";
+import { createFileRoute } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/")({ component: Home });
+
+function Home() {
+  return (
+    <Button>
+      <PlusIcon data-icon="inline-start" aria-hidden />
+      Invite member
+    </Button>
+  );
+}
+```
+
+Vite pre-bundles dependencies the first time the dev server starts after an install, which includes
+`@qeetrix/icons`; later starts reuse that cache.

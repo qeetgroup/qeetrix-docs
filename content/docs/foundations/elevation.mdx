@@ -1,0 +1,16 @@
+---
+title: Elevation
+description: Shadow roles for every surface, in the light and the dark theme.
+---
+
+Elevation is the role a surface plays, and the shadow is the value it renders with: a component
+picks `raised`, `overlay` or `modal`, never a shadow number, so the whole ladder can be retuned in
+one place. In the dark theme the shadows are deeper, and surfaces also step up in lightness as they
+rise (see the surface roles in [Colour](/docs/foundations/colors#surface)).
+
+Each role is shown on a light and on a dark surface.
+
+<ElevationTokens />
+
+Tailwind's own shadow scale, `shadow-2xs` to `shadow-xl`, is remapped onto the same ladder, so a
+generic `shadow-md` in product code is a Qeetrix shadow too.
