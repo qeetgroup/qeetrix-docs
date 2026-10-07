@@ -1,0 +1,142 @@
+---
+title: Theming
+description: Light and dark themes, and how an app overrides corners, colours and single components.
+---
+
+## How a theme resolves
+
+Components never hold colour values. They write a utility that reads a bridge variable, which reads
+a semantic token, which each theme sets:
+
+```text
+color.surface.elevated        the role a component means
+        ↓
+--qx-color-surface-elevated   declared in :root, redeclared in .dark
+        ↓
+--popover                     the bridge variable, referencing the role
+        ↓
+bg-popover                    the utility a component writes
+```
+
+Switching theme replaces one set of CSS variables. No component re-renders, and nothing runs in
+JavaScript.
+
+## Light and dark
+
+The dark theme applies under a `.dark` class on `<html>`. `ThemeProvider` manages that class:
+
+```tsx
+import { ThemeProvider } from "@qeetrix/ui";
+
+<ThemeProvider defaultTheme="system" storageKey="theme">
+  {children}
+</ThemeProvider>;
+```
+
+It lets the user choose `light`, `dark` or `system`, follows the operating system's preference
+while set to `system`, remembers the choice in `localStorage` under `storageKey`, and toggles
+`.dark` on `<html>`. Its keyboard shortcut (<kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Shift</kbd> +
+<kbd>D</kbd>) is off unless you pass `enableKeyboardShortcut`.
+
+If your app already toggles a `.dark` class, for example with `next-themes`, leave `ThemeProvider`
+out: the tokens follow the class either way.
+
+### A theme toggle
+
+`useTheme()` returns `{ theme, resolvedTheme, setTheme }`. On the server, `resolvedTheme` can't see
+the stored choice, so don't branch markup on it; let CSS pick the icon and read the theme only when
+the button is pressed:
+
+```tsx
+"use client";
+
+import { MoonIcon, SunIcon } from "@qeetrix/icons";
+import { Button, useTheme } from "@qeetrix/ui";
+
+export function ThemeToggle() {
+  const { resolvedTheme, setTheme } = useTheme();
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label="Toggle theme"
+      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+    >
+      <SunIcon aria-hidden className="hidden dark:block" />
+      <MoonIcon aria-hidden className="dark:hidden" />
+    </Button>
+  );
+}
+```
+
+### No flash on load
+
+React runs after the page first paints, so on its own `ThemeProvider` applies the stored theme a
+moment late, and a dark-mode user sees a flash of light. A small blocking script in `<head>` fixes
+that by applying the class before the first paint. `ThemeProvider` is built to keep that script's
+answer rather than replace it.
+
+```js
+try {
+  var stored = localStorage.getItem("theme"); // the same key as `storageKey`
+  var dark =
+    stored === "dark" ||
+    ((!stored || stored === "system") && matchMedia("(prefers-color-scheme: dark)").matches);
+  document.documentElement.classList.add(dark ? "dark" : "light");
+} catch (_) {}
+```
+
+The [Next.js](/docs/guides/nextjs) and [TanStack Start](/docs/guides/tanstack-start) guides show
+where it goes.
+
+## Overriding tokens
+
+Override at the layer that matches what you mean, after the stylesheet import:
+
+```css title="globals.css"
+@import "@qeetrix/ui/styles.css";
+
+/* One component's look: the narrowest change. */
+:root {
+  --qx-component-card-corner: var(--radius-2xl);
+}
+
+/* A meaning, everywhere it is used. */
+:root {
+  --qx-color-surface-rail: var(--qx-color-surface-sunken);
+}
+
+/* The shadcn contract, if your app already themes against it. */
+:root {
+  --primary: oklch(0.6 0.2 250);
+}
+```
+
+A colour override needs a dark value too: redeclare it under `.dark`.
+
+<Callout type="warn">
+  Don't override a palette primitive, such as `--qx-color-qeet-500`, to change how something
+  looks. The palette isn't in `styles.css`, so the override has nothing to replace. Change the
+  semantic token that points at it.
+</Callout>
+
+## Corners
+
+Every component's corners come from one variable. The radius scale is derived from `--radius`,
+and the corner roles read the scale, so this retunes the whole library:
+
+```css
+:root {
+  --radius: 0.75rem;
+}
+```
+
+## Brand colour
+
+Qeet uses two oranges. `#F26D0E` is the brand colour, for identity: the logo, accents and brand
+text on dark surfaces. It carries white text at only 3.0:1, so filled actions and checked controls
+use Qeet Ember, `#D04800`, which carries a white label at 4.55:1 in both themes.
+
+If your app re-points `--primary`, keep the same rule: choose a fill that carries its label at
+4.5:1 or more, and set a `.dark` value as well. Re-branding the whole system, the brand ramp that
+every semantic token follows, is done in `@qeetrix/ui`'s token source rather than in an app.

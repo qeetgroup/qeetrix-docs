@@ -1,5 +1,7 @@
 {
   "title": "Components",
+  "description": "Every @qeetrix/ui component.",
   "icon": "Component",
+  "root": true,
   "pages": ["index", "..."]
 }

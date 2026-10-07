@@ -4,6 +4,26 @@ title: "Button"
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Variants
+
+One primary action per view; secondary and outline beside it, ghost in toolbars, and destructive for actions that can't be undone.
+
+<ComponentPreview name="button/1-variants" />
+
+### Sizes
+
+Four text sizes, and icon-only sizes that need an `aria-label`.
+
+<ComponentPreview name="button/2-sizes" />
+
+### Loading
+
+`loading` shows a spinner, sets `aria-busy` and ignores clicks while keeping focus. `loadingLabel` replaces the label for the duration and holds the button's width.
+
+<ComponentPreview name="button/3-loading" />
+
 ## Usage
 
 ### Import
@@ -14,7 +34,7 @@ import { Button } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/button`.
 
-### Variants
+### Variant props
 
 | Prop | Values |
 | --- | --- |

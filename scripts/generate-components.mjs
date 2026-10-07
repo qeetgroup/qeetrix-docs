@@ -3,6 +3,10 @@
  * content/docs/components/, from the component manifest the installed package publishes, so the
  * pages match the library they document. Runs before `dev` and `build`.
  *
+ * A component with examples in src/examples/<slug>/<n>-<name>.tsx gets an Examples section: each
+ * file is rendered with its source, titled from its name and described by its doc comment, and
+ * src/examples/registry.ts (generated, not committed) maps them for <ComponentPreview />.
+ *
  * Each page's frontmatter and everything between the generated markers are rewritten on every
  * run. Anything written below the end marker (examples, guidance) is kept. A page whose component
  * has left the manifest is deleted, unless it has hand-written content, which is reported instead.
@@ -108,9 +112,45 @@ const yaml = (value) => JSON.stringify(value);
 const bySlug = new Map(
   manifest.components.map((component) => [component.name, component.slug]),
 );
+/**
+ * A component's name as page titles, the sidebar and links show it: words split at the capitals,
+ * in title case, with acronyms kept whole and short joining words lowercase — `DataTable` →
+ * "Data Table", `JSONTree` → "JSON Tree", `TableOfContents` → "Table of Contents". The code name
+ * stays in the import line.
+ */
+const MINOR_WORDS = new Set([
+  "a",
+  "an",
+  "and",
+  "as",
+  "at",
+  "by",
+  "for",
+  "in",
+  "of",
+  "on",
+  "or",
+  "the",
+  "to",
+]);
+
+function displayName(name) {
+  const words = name
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
+    .split(" ");
+  return words
+    .map((word, index) =>
+      index > 0 && MINOR_WORDS.has(word.toLowerCase())
+        ? word.toLowerCase()
+        : word,
+    )
+    .join(" ");
+}
+
 const link = (name) =>
   bySlug.has(name)
-    ? `[${name}](/docs/components/${bySlug.get(name)})`
+    ? `[${displayName(name)}](/docs/components/${bySlug.get(name)})`
     : code(name);
 
 const STATUS = {
@@ -174,6 +214,43 @@ function table(head, rows) {
 }
 
 // ---------------------------------------------------------------------------------------------
+// Examples
+
+const examplesDir = join(root, "src/examples");
+const EXAMPLE_FILE = /^(\d+)-([a-z0-9-]+)\.tsx$/;
+const allExamples = [];
+
+function examplesFor(slug) {
+  const dir = join(examplesDir, slug);
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .map((file) => EXAMPLE_FILE.exec(file))
+    .filter(Boolean)
+    .sort((a, b) => Number(a[1]) - Number(b[1]))
+    .map(([file, , name]) => {
+      const source = readFileSync(join(dir, file), "utf8");
+      const doc = /\/\*\*([\s\S]*?)\*\/\s*export default/.exec(source)?.[1];
+      return {
+        key: `${slug}/${file.slice(0, -".tsx".length)}`,
+        title: (name.charAt(0).toUpperCase() + name.slice(1)).replaceAll(
+          "-",
+          " ",
+        ),
+        description: doc
+          ? doc
+              .split("\n")
+              .map((line) => line.replace(/^\s*\*\s?/, "").trim())
+              .join(" ")
+              .replace(/\s+/g, " ")
+              .trim()
+          : null,
+        // The page prints the doc comment as prose, so the code tab leaves it out.
+        code: `${source.replace(/\/\*\*[\s\S]*?\*\/\n(?=export default)/, "").trimEnd()}\n`,
+      };
+    });
+}
+
+// ---------------------------------------------------------------------------------------------
 // Pages
 
 function componentPage(c) {
@@ -199,6 +276,17 @@ function componentPage(c) {
     );
   }
 
+  const examples = examplesFor(c.slug);
+  if (examples.length) {
+    allExamples.push(...examples);
+    out.push("## Examples", "");
+    for (const example of examples) {
+      out.push(`### ${example.title}`, "");
+      if (example.description) out.push(mdx(example.description), "");
+      out.push(`<ComponentPreview name="${example.key}" />`, "");
+    }
+  }
+
   // Usage sections nest under one heading, so the table of contents shows the page's shape.
   out.push(
     "## Usage",
@@ -218,7 +306,7 @@ function componentPage(c) {
     props.push([code("variant"), list(c.api.variants)]);
   if (c.api.sizes?.length) props.push([code("size"), list(c.api.sizes)]);
   if (props.length)
-    out.push("### Variants", "", table(["Prop", "Values"], props), "");
+    out.push("### Variant props", "", table(["Prop", "Values"], props), "");
 
   if (c.api.controlled?.length) {
     out.push(
@@ -387,7 +475,7 @@ for (const c of manifest.components) {
   writeFileSync(
     file,
     render(
-      { title: c.name, description: description(c.name) },
+      { title: displayName(c.name), description: description(c.name) },
       componentPage(c),
       tailOf(file),
     ),
@@ -396,7 +484,35 @@ for (const c of manifest.components) {
 // Formatted the way Biome formats it, so generated files pass `bun run lint`.
 writeFileSync(
   join(outDir, "meta.json"),
-  '{\n  "title": "Components",\n  "icon": "Component",\n  "pages": ["index", "..."]\n}\n',
+  '{\n  "title": "Components",\n  "description": "Every @qeetrix/ui component.",\n  "icon": "Component",\n  "root": true,\n  "pages": ["index", "..."]\n}\n',
+);
+
+// The examples registry: every example's component and its source, for <ComponentPreview />.
+const known = new Set(manifest.components.map((component) => component.slug));
+const orphans = existsSync(examplesDir)
+  ? readdirSync(examplesDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory() && !known.has(entry.name))
+      .map((entry) => entry.name)
+  : [];
+mkdirSync(examplesDir, { recursive: true });
+writeFileSync(
+  join(examplesDir, "registry.ts"),
+  [
+    "// Generated by scripts/generate-components.mjs from src/examples/<component>/<n>-<name>.tsx.",
+    "// Do not edit: add or change an example file and run `bun run generate:components`.",
+    'import type { ComponentType } from "react";',
+    ...allExamples.map(
+      (example, index) => `import Example${index} from "./${example.key}";`,
+    ),
+    "",
+    "export const examples: Record<string, { component: ComponentType; code: string }> = {",
+    ...allExamples.map(
+      (example, index) =>
+        `  ${JSON.stringify(example.key)}: { component: Example${index}, code: ${JSON.stringify(example.code)} },`,
+    ),
+    "};",
+    "",
+  ].join("\n"),
 );
 
 const kept = [];
@@ -407,8 +523,13 @@ for (const name of readdirSync(outDir)) {
   else if (readFileSync(file, "utf8").includes(START)) rmSync(file);
 }
 console.log(
-  `✔ ${manifest.components.length} component pages + overview from @qeetrix/ui ${pkg.version}`,
+  `✔ ${manifest.components.length} component pages + overview from @qeetrix/ui ${pkg.version}, ${allExamples.length} examples`,
 );
+if (orphans.length) {
+  console.warn(
+    `⚠ src/examples has folders for components not in the manifest: ${orphans.join(", ")}`,
+  );
+}
 if (kept.length) {
   console.warn(
     `⚠ no longer in the manifest, kept for their hand-written content: ${kept.join(", ")}`,
