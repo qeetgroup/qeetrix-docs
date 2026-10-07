@@ -1,5 +1,6 @@
 ---
 title: "Chart"
+description: "Chart containers built on Recharts and themed with the Qeetrix series colours, with `ChartDataTable` as the non-colour alternative every chart should offer."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
@@ -8,12 +9,34 @@ title: "Chart"
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+`ChartContainer` themes a Recharts chart you compose yourself. Each `config` entry names a series and, unless it sets a `color`, takes the categorical colour for its position in the config, as `--color-<key>`. The tooltip and legend content read their labels from it too.
+
+<ComponentPreview name="chart/1-default" />
+
+### Data table
+
+`accessibilityTable` takes a native table of the plotted data, usually a `ChartDataTable`. It is screen-reader-only by default; `accessibilityTableVisibility="visible"` shows it below the plot.
+
+<ComponentPreview name="chart/2-data-table" />
+
 ## Usage
 
 ### Import
 
 ```tsx
-import { Chart } from "@qeetrix/ui";
+import {
+  ChartContainer,
+  ChartDataTable,
+  ChartLegend,
+  ChartLegendContent,
+  ChartStyle,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@qeetrix/ui";
 ```
 
 It can also be imported on its own from `@qeetrix/ui/components/chart`.

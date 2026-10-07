@@ -9,6 +9,20 @@ description: "Vertical event/audit history."
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+Each event is a marker on the rail and its content. `tone` colours the marker as a second channel only, so the title must still say what happened. `TimelineTime` with `dateTime` renders a `<time>` element.
+
+<ComponentPreview name="timeline/1-default" />
+
+### Icons and minor
+
+Three levels of emphasis: an `icon` marker for the events that matter most, a plain dot for the rest, and `emphasis="minor"` for housekeeping, which shrinks the marker and mutes the text so a run of it reads as one quiet block.
+
+<ComponentPreview name="timeline/2-icons-and-minor" />
+
 ## Usage
 
 ### Import

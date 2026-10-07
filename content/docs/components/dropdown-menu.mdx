@@ -1,8 +1,29 @@
 ---
 title: "Dropdown Menu"
+description: "A menu of actions or options that opens from a trigger, with groups, labels, checkbox and radio items, keyboard shortcuts and submenus."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Examples
+
+### Default
+
+A button that opens a list of actions. The arrow keys move through the items, Enter runs one, and Escape closes the menu and returns focus to the button. `DropdownMenuShortcut` only shows a shortcut; binding it is up to you.
+
+<ComponentPreview name="dropdown-menu/1-default" />
+
+### Checkbox and radio items
+
+Checkbox items toggle on their own; radio items pick one from a group. Neither closes the menu when chosen, so several can be changed in one go. Both take `checked` / `value` to be controlled, or `defaultChecked` / `defaultValue` as here.
+
+<ComponentPreview name="dropdown-menu/2-checkbox-and-radio" />
+
+### Submenu
+
+Row actions behind an icon-only trigger. `DropdownMenuSub` nests a submenu that opens from its trigger item (hover, or the arrow key toward it), and `variant="destructive"` marks the action that can't be taken back.
+
+<ComponentPreview name="dropdown-menu/3-submenu" />
 
 ## Usage
 

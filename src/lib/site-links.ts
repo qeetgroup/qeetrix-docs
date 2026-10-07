@@ -22,6 +22,7 @@ export const links = {
   elevation: "/docs/foundations/elevation",
   motion: "/docs/foundations/motion",
   icons: "/docs/foundations/icons",
+  iconBrowser: "/icons",
 
   nextjs: "/docs/guides/nextjs",
   tanstackStart: "/docs/guides/tanstack-start",
@@ -54,6 +55,7 @@ export const links = {
 export const primaryNav = [
   { label: "Docs", href: links.docs },
   { label: "Components", href: links.components },
+  { label: "Icons", href: links.iconBrowser },
   { label: "Foundations", href: links.foundations },
   { label: "Guides", href: links.guides },
   { label: "Patterns", href: links.patterns },

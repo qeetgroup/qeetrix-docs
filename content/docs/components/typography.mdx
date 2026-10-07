@@ -5,6 +5,26 @@ description: "Consistent text styling for discrete pieces of copy — headings, 
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+The variant picks both the style and the element: `h2` renders an `<h2>`. To keep the document outline right, change the element with `as` and keep the look, as the `h3` variant here renders an `<h2>`. No variant has outer margins; the parent's gap spaces them.
+
+<ComponentPreview name="typography/1-default" />
+
+### Inline and lists
+
+`inlineCode` is sized in em, so it matches the text around it; `list` is a bulleted list; `small` is an interface label and `large` an emphasised line.
+
+<ComponentPreview name="typography/2-inline-and-lists" />
+
+### Truncate
+
+`truncate` clips overflow with an ellipsis: `true` for one line, a number to clamp to that many lines. The full text stays in the DOM for screen readers; offer a way to see it when it matters.
+
+<ComponentPreview name="typography/3-truncate" />
+
 ## Usage
 
 ### Import

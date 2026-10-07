@@ -75,9 +75,11 @@ export function CapabilityStrip() {
   return (
     <section aria-label="At a glance" className={container}>
       <ul className="grid grid-cols-2 gap-y-6 border-t border-border-subtle py-7 sm:grid-cols-3 lg:grid-cols-6 lg:divide-x lg:divide-border-subtle">
-        {capabilities().map(({ icon, label, detail }) => (
+        {capabilities().map(({ icon, label, detail }, index) => (
           <li
             key={label}
+            data-home-reveal
+            data-home-delay={index * 40}
             className="flex items-center gap-3.5 px-3 lg:justify-center lg:first:justify-start lg:first:ps-0 lg:last:justify-end lg:last:pe-0"
           >
             {icon}

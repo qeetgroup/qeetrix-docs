@@ -9,6 +9,20 @@ description: "Read-only text/JSON diff (config history, file versions, audit)."
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+A read-only diff for config history and audit. Changed lines carry a +/− marker as well as a tint, and where a line was edited rather than replaced the changed words are emphasised. Giving `beforeLabel` or `afterLabel` adds a header with both names and the change counts.
+
+<ComponentPreview name="diff-viewer/1-default" />
+
+### Split
+
+`mode="split"` shows the old and new versions side by side, each pane headed by its label.
+
+<ComponentPreview name="diff-viewer/2-split" />
+
 ## Usage
 
 ### Import

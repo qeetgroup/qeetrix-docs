@@ -9,6 +9,20 @@ description: "A minimal full-height application frame: a flex row for an optiona
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+The console layout: `SidebarProvider` renders the row and `SidebarInset` is the page column (and its `<main>`), so the content region renders as a plain element with `AppShellContent render={<div />}`. Collapse the sidebar with the trigger; only the content region scrolls, beneath the header. The desktop sidebar is `position: fixed`; the frame's `transform` makes it the sidebar's containing block here, and `h-full` sizes the sidebar to the frame instead of the viewport.
+
+<ComponentPreview name="app-shell/1-default" />
+
+### Header and content
+
+The header-above-content arrangement: `AppShell` → `AppShellMain` → `AppShellHeader` + `AppShellContent`, which is then the page's `<main>`. A sidebar would go first inside `AppShell`; this hosted Qeet Notify page has none. `AppShell` is at least the viewport's height by default (`min-h-svh`); `h-full min-h-0` fits it to this frame instead.
+
+<ComponentPreview name="app-shell/2-header-and-content" />
+
 ## Usage
 
 ### Import

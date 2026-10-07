@@ -9,6 +9,20 @@ description: "JSONTree renders any JSON-serialisable value as a collapsible inde
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+A collapsible tree for any JSON value. Objects and arrays get a disclosure chevron, and a collapsed one shows a summary such as "5 keys" or "3 items". By default only the top level starts open. The tree takes the arrow keys, Home and End.
+
+<ComponentPreview name="json-tree/1-default" />
+
+### Open depth
+
+`initialOpenDepth` sets how deep the tree starts open: `2` opens the top level and its children, and `0` starts fully collapsed.
+
+<ComponentPreview name="json-tree/2-open-depth" />
+
 ## Usage
 
 ### Import

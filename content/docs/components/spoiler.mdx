@@ -5,6 +5,20 @@ description: "Truncates content to `maxLines` with an inline show-more/less togg
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+Long text is clamped to three lines with a fade, and "Show more" discloses the rest. Content that already fits gets no toggle at all.
+
+<ComponentPreview name="spoiler/1-default" />
+
+### Custom labels
+
+`maxLines` sets how much shows before the clamp, and `showLabel` / `hideLabel` replace the default "Show more" and "Show less".
+
+<ComponentPreview name="spoiler/2-custom-labels" />
+
 ## Usage
 
 ### Import

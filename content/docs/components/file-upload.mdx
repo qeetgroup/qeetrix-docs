@@ -1,5 +1,6 @@
 ---
 title: "File Upload"
+description: "Upload files by dropping or browsing: a `Dropzone`, with `FileList` and `FileUploadItem` to show each file's progress, status and errors."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
@@ -8,12 +9,26 @@ title: "File Upload"
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Dropzone
+
+Drop files or browse. `accept`, `maxSize` and `maxFiles` are checked before `onDrop` hands you the files.
+
+<ComponentPreview name="file-upload/1-dropzone" />
+
+### File list
+
+Each file shows its progress and state, with remove, cancel and retry where they apply.
+
+<ComponentPreview name="file-upload/2-file-list" />
+
 ## Usage
 
 ### Import
 
 ```tsx
-import { FileUpload } from "@qeetrix/ui";
+import { Dropzone, FileList, FileUploadItem } from "@qeetrix/ui";
 ```
 
 It can also be imported on its own from `@qeetrix/ui/components/file-upload`.

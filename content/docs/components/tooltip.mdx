@@ -1,8 +1,23 @@
 ---
 title: "Tooltip"
+description: "A short label that appears on hover or keyboard focus to name or describe a control."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Examples
+
+### Default
+
+A short label for a control, shown on hover and on keyboard focus. Touch devices don't show tooltips, so the icon-only button still names itself with `aria-label`.
+
+<ComponentPreview name="tooltip/1-default" />
+
+### Group
+
+`TooltipProvider` gives a group one shared delay: once a tooltip is open its neighbours open instantly, so sweeping along a toolbar doesn't wait at every button. A `Kbd` in the content shows the control's shortcut.
+
+<ComponentPreview name="tooltip/2-group" />
 
 ## Usage
 

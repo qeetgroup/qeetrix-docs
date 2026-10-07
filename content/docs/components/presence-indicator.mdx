@@ -5,6 +5,20 @@ description: "A presence/status mark (online · away · busy · offline) for ava
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+Each state has its own shape — a disc, a crescent, a barred disc and a ring — so presence never rests on green versus red. The mark is announced by its status, or by `label`.
+
+<ComponentPreview name="presence-indicator/1-default" />
+
+### On avatar
+
+On an avatar, the ring and the cut-outs are painted in `--presence-surface`, which defaults to the page background. Set it to the surface underneath, here `--card`. `pulse` adds a soft pulse that stops under reduced motion.
+
+<ComponentPreview name="presence-indicator/2-on-avatar" />
+
 ## Usage
 
 ### Import

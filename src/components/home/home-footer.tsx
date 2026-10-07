@@ -78,7 +78,7 @@ const socials = [
 ];
 
 const linkClass =
-  "rounded-sm text-caption text-muted-foreground transition-colors duration-fast hover:text-foreground focus-visible:focus-ring";
+  "inline-flex min-h-9 items-center rounded-sm text-caption text-muted-foreground transition-colors duration-fast hover:text-foreground focus-visible:focus-ring sm:min-h-0";
 
 function FooterAnchor({ label, href }: FooterLink) {
   return href.startsWith("/") ? (
@@ -97,9 +97,9 @@ export function HomeFooter() {
   return (
     <footer className="border-t border-border-subtle bg-canvas">
       <div
-        className={`${container} grid gap-10 py-12 lg:grid-cols-[1.4fr_repeat(4,1fr)]`}
+        className={`${container} grid grid-cols-2 gap-x-6 gap-y-10 py-12 md:grid-cols-4 lg:grid-cols-[1.4fr_repeat(4,1fr)]`}
       >
-        <div className="flex max-w-xs flex-col gap-3">
+        <div className="col-span-2 flex max-w-xs flex-col gap-3 md:col-span-4 lg:col-span-1">
           <Link
             href="/"
             className="flex items-center gap-2 self-start rounded-md font-heading text-heading font-semibold text-foreground focus-visible:focus-ring"
@@ -120,7 +120,7 @@ export function HomeFooter() {
                 <a
                   href={href}
                   aria-label={label}
-                  className="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors duration-fast hover:bg-surface-interactive hover:text-foreground focus-visible:focus-ring"
+                  className="inline-flex size-11 items-center justify-center rounded-md text-muted-foreground transition-colors duration-fast hover:bg-surface-interactive hover:text-foreground focus-visible:focus-ring"
                 >
                   {icon}
                 </a>

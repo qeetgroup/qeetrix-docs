@@ -1,5 +1,6 @@
 ---
 title: "Color Swatch"
+description: "A colour sample that can be selected."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
@@ -7,6 +8,20 @@ title: "Color Swatch"
 <Callout title="Beta">
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
+
+## Examples
+
+### Default
+
+With `onClick` a swatch becomes a button; `selected` marks the current one. Each needs a `label`.
+
+<ComponentPreview name="color-swatch/1-default" />
+
+### Sizes
+
+Four sizes. Without `onClick` a swatch is a plain colour chip, as in a palette or a legend.
+
+<ComponentPreview name="color-swatch/2-sizes" />
 
 ## Usage
 

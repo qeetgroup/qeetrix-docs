@@ -5,6 +5,26 @@ description: "Circular progress (`role=\"progressbar\"`)."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+A ring with the percentage in its centre. Its accessible name defaults to that percentage, so pass an `aria-label` that says what is progressing.
+
+<ComponentPreview name="progress-circle/1-default" />
+
+### Sizes
+
+`sm` (40 px), `md` (60 px, the default) and `lg` (80 px), or any size in pixels. `sm` leaves out the centre percentage unless you set `showLabel`; `strokeWidth` sets the ring's thickness.
+
+<ComponentPreview name="progress-circle/2-sizes" />
+
+### Custom label
+
+`label` replaces the centre percentage with your own content, such as a count or an icon.
+
+<ComponentPreview name="progress-circle/3-custom-label" />
+
 ## Usage
 
 ### Import

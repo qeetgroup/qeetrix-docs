@@ -1,5 +1,6 @@
 ---
 title: "Table"
+description: "The parts of a semantic table (header, body, rows and cells) in Qeetrix styling, with a scrolling container and an optional sticky header."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
@@ -7,6 +8,26 @@ title: "Table"
 <Callout title="Beta">
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
+
+## Examples
+
+### Default
+
+The styled parts of a native table: header, body, footer and caption. Figures use tabular numerals, so right-aligned amounts line up. For sorting, search and pagination, use `DataTable`.
+
+<ComponentPreview name="table/1-default" />
+
+### Sticky header
+
+Give the container a height cap with `containerClassName` and make the `TableHeader` `sticky`, and the header stays in view while the rows scroll.
+
+<ComponentPreview name="table/2-sticky-header" />
+
+### Empty
+
+`TableEmpty` is a full-width body row for "nothing to show". Set `colSpan` to the number of visible columns. It never takes the row hover, because it isn't data.
+
+<ComponentPreview name="table/3-empty" />
 
 ## Usage
 

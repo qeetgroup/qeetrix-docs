@@ -9,6 +9,20 @@ description: "Scroll-spy table of contents (navigation landmark)."
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+Pass the article's headings as `items`. The built-in scroll-spy marks the first heading in the top 30% of the viewport as current (`aria-current="location"`), so scroll this page to see the highlight follow the article.
+
+<ComponentPreview name="table-of-contents/1-default" />
+
+### Scroll container
+
+The built-in scroll-spy measures against the viewport, not a scroll container. For an article that scrolls inside a panel of its own, work out the current section from the panel and pass it as `activeId`. `depth` indents sub-sections; the indicator stays on the track at every depth.
+
+<ComponentPreview name="table-of-contents/2-scroll-container" />
+
 ## Usage
 
 ### Import

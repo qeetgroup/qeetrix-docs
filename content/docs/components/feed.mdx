@@ -9,6 +9,20 @@ description: "APG Feed pattern: an `aria-live` scrollable list of articles (acti
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+A stream of articles, each its own card by default. Every article is focusable and gets its position in the set; `PageDown` and `PageUp` move between them. Name each article with `FeedItem`'s `aria-labelledby`.
+
+<ComponentPreview name="feed/1-default" />
+
+### List
+
+`variant="list"` sets the articles as rows in one bordered surface, for long, scannable streams such as an audit log.
+
+<ComponentPreview name="feed/2-list" />
+
 ## Usage
 
 ### Import

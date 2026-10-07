@@ -5,6 +5,20 @@ description: "Wraps matched substrings of `children` in `<mark>` — for search-
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+Wraps each match in `<mark>`, case-insensitively by default. The match is set in medium weight as well as tinted, and the tint adds no width, so results don't shift as you type.
+
+<ComponentPreview name="highlight/1-default" />
+
+### Multiple terms
+
+`query` also takes several terms. They are matched longest first, so `["pay", "payroll"]` marks all of "Payroll" rather than stopping at "Pay".
+
+<ComponentPreview name="highlight/2-multiple-terms" />
+
 ## Usage
 
 ### Import

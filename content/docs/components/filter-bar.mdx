@@ -9,6 +9,20 @@ description: "The filter bar above a table or list: search, saved views, active 
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+Active filters are chips: the body reopens the builder to edit one, and × removes it. "Add filter" walks through field, operator and value: a field with `options` offers a picker, one without takes free text. Filters are controlled through `value` and `onValueChange`; giving `search` or `onSearchChange` adds the search field.
+
+<ComponentPreview name="filter-bar/1-default" />
+
+### Saved views
+
+`views` adds a saved-views menu; choosing one applies its filters, and the view's name is marked modified once the filters drift from it. `onSaveView` adds "Save current view…" to the menu; you name and store the view (here straight into the list, in an app usually through a dialog). `actions` holds trailing table controls.
+
+<ComponentPreview name="filter-bar/2-saved-views" />
+
 ## Usage
 
 ### Import

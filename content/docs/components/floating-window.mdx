@@ -9,6 +9,20 @@ description: "A draggable, non-modal floating panel (`role=dialog`, `aria-modal=
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+A non-modal panel that floats over the page and doesn't trap focus. Drag it by its title bar, or focus the move handle and use the arrow keys; Escape or the close button calls `onClose`. The window is fixed to the viewport in an app; here the frame's `transform` makes it the window's containing block.
+
+<ComponentPreview name="floating-window/1-default" />
+
+### Resizable
+
+`resizable` adds a grip in the corner for resizing the window. The grip is pointer-only, so the default size, set with `width`, has to work on its own.
+
+<ComponentPreview name="floating-window/2-resizable" />
+
 ## Usage
 
 ### Import

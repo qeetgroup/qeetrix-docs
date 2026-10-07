@@ -5,6 +5,20 @@ description: "Step indicator for multi-step flows (onboarding, checkout, provisi
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+Steps before `activeStep` show as complete, the active step is marked `aria-current="step"`, and later steps are upcoming. Drive `activeStep` from your own wizard state; at the number of steps, every step is complete.
+
+<ComponentPreview name="stepper/1-default" />
+
+### Vertical
+
+`orientation="vertical"` stacks the steps, for side panels and narrow flows. `invalid` draws a step in the destructive treatment with "!" and announces "Has errors"; put the reason in its `description`.
+
+<ComponentPreview name="stepper/2-vertical" />
+
 ## Usage
 
 ### Import

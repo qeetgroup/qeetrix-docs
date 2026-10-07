@@ -5,6 +5,26 @@ description: "A 1px rule with `role=\"separator\"` and `aria-orientation`."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+A 1px rule between the sections of a settings panel. It is horizontal and full width by default, and carries `role="separator"`.
+
+<ComponentPreview name="separator/1-default" />
+
+### Vertical
+
+`orientation="vertical"` stretches to the height of a flex row, here between a tenant's metadata. Inside a block or grid parent, give it a height (`h-4`) yourself.
+
+<ComponentPreview name="separator/2-vertical" />
+
+### Muted
+
+`variant="muted"` is one step quieter: it divides items inside a section, while the default rule divides the sections themselves.
+
+<ComponentPreview name="separator/3-muted" />
+
 ## Usage
 
 ### Import

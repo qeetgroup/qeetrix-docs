@@ -1,8 +1,23 @@
 ---
 title: "Number Field"
+description: "A numeric input with stepper buttons, scrubbing and locale-aware formatting, such as currency."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Examples
+
+### Default
+
+A number with stepper buttons, kept between `min` and `max`. The arrow keys step it too.
+
+<ComponentPreview name="number-field/1-default" />
+
+### Format
+
+`format` takes `Intl.NumberFormat` options — a currency with a step of 500, or a percentage.
+
+<ComponentPreview name="number-field/2-format" />
 
 ## Usage
 

@@ -5,6 +5,20 @@ description: "DataState collapses the four common render branches of a query-bac
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+Pass the loading, error and empty flags from your query; the children render only when all three are false. Without overrides you get skeleton rows, an error state showing the error's `message`, and an empty state built from the `empty*` props. Switch states to compare.
+
+<ComponentPreview name="data-state/1-default" />
+
+### Custom slots
+
+`loading` and `errorFallback` replace the default skeleton rows and error state: here a skeleton shaped like the rows it stands in for, and an error state with a retry. Press Retry to load the list.
+
+<ComponentPreview name="data-state/2-custom-slots" />
+
 ## Usage
 
 ### Import

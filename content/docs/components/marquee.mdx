@@ -9,6 +9,20 @@ description: "Continuous scrolling ticker — logo walls, status tickers."
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+A continuous ticker for logo walls. It pauses while the pointer is over it or focus is inside it, and under reduced motion it stops and wraps its items instead. The loop's second copy is hidden from screen readers and from Tab.
+
+<ComponentPreview name="marquee/1-default" />
+
+### Pause control
+
+A ticker that runs beside other content for more than five seconds needs a visible way to stop it (WCAG 2.2.2). `paused` is controlled, so wire it to a button.
+
+<ComponentPreview name="marquee/2-pause-control" />
+
 ## Usage
 
 ### Import

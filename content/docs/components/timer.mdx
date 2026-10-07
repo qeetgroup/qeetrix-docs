@@ -9,6 +9,26 @@ description: "A countdown or stopwatch readout with optional Start/Pause/Resume 
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Countdown
+
+A countdown with Start/Pause and Reset — 30 seconds, as a TOTP code lasts.
+
+<ComponentPreview name="timer/1-countdown" />
+
+### Stopwatch
+
+`mode="stopwatch"` counts up; `format="hh:mm:ss"` always shows the hours.
+
+<ComponentPreview name="timer/2-stopwatch" />
+
+### Use timer
+
+`useTimer` is the logic without the readout — here, a "Resend code" button that waits out its cooldown.
+
+<ComponentPreview name="timer/3-use-timer" />
+
 ## Usage
 
 ### Import

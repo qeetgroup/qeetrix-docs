@@ -1,8 +1,23 @@
 ---
 title: "Collapsible"
+description: "A single section that shows and hides its content."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Examples
+
+### Default
+
+A disclosure for secondary content: the recovery codes stay hidden until asked for. The trigger is unstyled, so here it renders as a `Button` (`render={<Button />}`), and its `data-panel-open` attribute swaps the label and turns the chevron.
+
+<ComponentPreview name="collapsible/1-default" />
+
+### Advanced options
+
+Rarely changed fields fold away under a text trigger, below the fields everyone needs. The panel starts closed; pass `defaultOpen` to start it open.
+
+<ComponentPreview name="collapsible/2-advanced-options" />
 
 ## Usage
 

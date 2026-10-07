@@ -1,5 +1,6 @@
 ---
 title: "Portal"
+description: "Renders its children into `document.body` or another container, mounting on the client only, so overlays escape clipping and stacking contexts."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
@@ -7,6 +8,20 @@ title: "Portal"
 <Callout title="Beta">
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
+
+## Examples
+
+### Default
+
+With no `container`, `Portal` renders its children into `document.body`. The notice is `position: fixed`: through the portal it pins to the corner of the window, while rendered in place it is caught by the frame's `transform` and pins to the frame instead.
+
+<ComponentPreview name="portal/1-default" />
+
+### Container
+
+`container` renders the children into an element of your choosing instead of `document.body`. The review card is declared in the request panel but lands in the review queue. `container` takes the element itself, so keep it in state with a callback ref rather than in `useRef`.
+
+<ComponentPreview name="portal/2-container" />
 
 ## Usage
 

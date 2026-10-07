@@ -1,8 +1,23 @@
 ---
 title: "Accordion"
+description: "A stack of sections whose headers show and hide their panels."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Examples
+
+### Default
+
+One panel open at a time: opening another question closes the first. `defaultValue` takes an array of item values, here opening the first answer on load.
+
+<ComponentPreview name="accordion/1-default" />
+
+### Multiple
+
+`multiple` lets several panels stay open side by side, for a reviewer comparing policy sections. An item can also be `disabled` on its own, such as a feature the plan doesn't include.
+
+<ComponentPreview name="accordion/2-multiple" />
 
 ## Usage
 

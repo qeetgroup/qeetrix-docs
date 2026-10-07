@@ -5,6 +5,20 @@ description: "Monochrome file-type icon (Drive, Mail attachments, Tasks, Chat)."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+Pass a filename or extension. Every type shares one page silhouette with a glyph inside for its category, deliberately not colour-coded, and an unknown type gets a plain page. The icon is decorative; the file name beside it is the accessible text.
+
+<ComponentPreview name="file-type-icon/1-default" />
+
+### Mime types
+
+`type` also takes a MIME type, including Office types whose subtype spells no extension. The category it resolves to is on `data-file-type`, for styling one kind differently.
+
+<ComponentPreview name="file-type-icon/2-mime-types" />
+
 ## Usage
 
 ### Import

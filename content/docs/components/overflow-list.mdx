@@ -9,6 +9,26 @@ description: "Renders as many items as fit on one line and collapses the rest in
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+As many scopes as fit stay on one line, and the rest fold into a "+N" pill whose popover lists them. Drag the frame's corner: the list re-measures whenever its container resizes.
+
+<ComponentPreview name="overflow-list/1-default" />
+
+### Collapse from start
+
+`collapseFrom="start"` hides the leading items and keeps the last ones visible, so a long path still ends on the current page.
+
+<ComponentPreview name="overflow-list/2-collapse-from-start" />
+
+### Custom overflow
+
+`renderOverflow` replaces the "+N" pill. It receives the hidden items and their count, here for an "and N more" link that opens a titled popover.
+
+<ComponentPreview name="overflow-list/3-custom-overflow" />
+
 ## Usage
 
 ### Import

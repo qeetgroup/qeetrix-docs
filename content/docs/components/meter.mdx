@@ -5,6 +5,26 @@ description: "A quota / usage gauge — like Progress, but semantically a measur
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+A reading within a known range, such as seats or storage used. With no `format`, the value beside the label is the percentage of the way from `min` to `max`.
+
+<ComponentPreview name="meter/1-default" />
+
+### Intent
+
+`intent` colours the fill for thresholds you decide: `success`, `warning` or `danger`. The value stays beside the label, so colour is never the only signal.
+
+<ComponentPreview name="meter/2-intent" />
+
+### Units
+
+`format` takes `Intl.NumberFormat` options and shows the value itself in those units rather than as a percentage. `locale` sets the formatting locale, here Indian digit grouping.
+
+<ComponentPreview name="meter/3-units" />
+
 ## Usage
 
 ### Import

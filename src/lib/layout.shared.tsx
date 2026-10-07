@@ -1,14 +1,21 @@
+import { BookOpenIcon } from "@qeetrix/icons";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
-import { BrandMark } from "@/components/brand-mark";
-import { appName, gitConfig } from "./shared";
+import { gitConfig } from "./shared";
 
+/**
+ * Options for the docs layout. The brand lives in the site header above it, so the sidebar's
+ * title names the docs instead of repeating the logo.
+ */
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
       title: (
         <>
-          <BrandMark height={20} />
-          {appName}
+          <BookOpenIcon
+            aria-hidden
+            className="size-4 text-[var(--qx-color-text-brand)]"
+          />
+          Documentation
         </>
       ),
     },

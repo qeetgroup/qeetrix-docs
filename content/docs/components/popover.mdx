@@ -1,8 +1,23 @@
 ---
 title: "Popover"
+description: "A floating panel anchored to a trigger, for content or controls that don't need a full dialog."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Examples
+
+### Default
+
+A panel anchored to its trigger, for a quick setting that doesn't need a dialog. It isn't modal: Escape or a click outside closes it, and focus goes back to the trigger.
+
+<ComponentPreview name="popover/1-default" />
+
+### Placement
+
+`side` picks the edge of the trigger the panel opens from, and `align` lines it up along that edge. A trigger at the end of a header opens below with `align="end"`, so the panel stays under the header instead of hanging past it.
+
+<ComponentPreview name="popover/2-placement" />
 
 ## Usage
 

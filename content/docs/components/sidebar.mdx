@@ -9,6 +9,20 @@ description: "The navigation rail itself."
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+An app shell: `SidebarProvider` wraps the `Sidebar` and the page beside it, `SidebarInset`. With `collapsible="icon"`, the trigger or the rail collapse it to icons, and each item's `tooltip` names it while collapsed. In an app ⌘/Ctrl+B toggles it too, and the sidebar is fixed to the viewport; here the frame's transform contains it.
+
+<ComponentPreview name="sidebar/1-default" />
+
+### Nested
+
+`SidebarMenuSub` nests pages under a parent item. Mark only the current page `isActive`: its parent shows that it contains the current page on its own. `collapsible="none"` renders a static panel that never collapses.
+
+<ComponentPreview name="sidebar/2-nested" />
+
 ## Usage
 
 ### Import

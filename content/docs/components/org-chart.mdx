@@ -9,6 +9,26 @@ description: "Top-down organisation / hierarchy chart with collapsible branches 
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+A top-down hierarchy from nested `OrgNode`s, built from nested lists so a screen reader hears each level's size. Every branch has a toggle to collapse it. `highlightedId` gives one card the selected outline, such as the signed-in person; it is not a selection control.
+
+<ComponentPreview name="org-chart/1-default" />
+
+### Collapsed
+
+Large organisations read better a level at a time. `initialOpenDepth={1}` opens the root and its direct reports, and each collapsed branch shows how many people it holds.
+
+<ComponentPreview name="org-chart/2-collapsed" />
+
+### Custom node
+
+`renderNode` replaces the default card, here with an avatar beside the name (hidden from screen readers, since the name is visible). The connectors and collapse toggles stay the chart's.
+
+<ComponentPreview name="org-chart/3-custom-node" />
+
 ## Usage
 
 ### Import

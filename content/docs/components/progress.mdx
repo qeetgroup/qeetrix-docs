@@ -5,6 +5,26 @@ description: "Task progress (`role=\"progressbar\"`)."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+`label` captions the bar and gives it its accessible name; the value shows opposite, as a percentage by default. Without a label, name the bar with `aria-label`.
+
+<ComponentPreview name="progress/1-default" />
+
+### Indeterminate
+
+Pass `value={null}` while the total is unknown. A segment sweeps along the track; under reduced motion the track shows a still hatched fill, so it never looks complete.
+
+<ComponentPreview name="progress/2-indeterminate" />
+
+### Sizes
+
+`size` sets the track's thickness: `sm`, `md` (the default) or `lg`. Meter uses the same scale, so a bar and a gauge of one size line up.
+
+<ComponentPreview name="progress/3-sizes" />
+
 ## Usage
 
 ### Import

@@ -5,6 +5,20 @@ description: "StatusPill is a thin wrapper over Badge that centralises the statu
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+Pass the status string your API returns, in any case, and the pill picks the colour and the label: green for active, red for revoked, and so on. The label always names the state, so the colour is never the only cue.
+
+<ComponentPreview name="status-pill/1-default" />
+
+### Custom
+
+An unknown string falls back to neutral styling with a title-cased label (`past_due` → "Past due"). For a status the mapping doesn't know, set `kind` and the label yourself; `dot={false}` drops the leading dot.
+
+<ComponentPreview name="status-pill/2-custom" />
+
 ## Usage
 
 ### Import
