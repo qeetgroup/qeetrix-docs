@@ -6,6 +6,14 @@
 @import "fumadocs-ui/css/shadcn.css";
 @import "fumadocs-ui/css/preset.css";
 
+/* The docs site sets headings in Qeet Text, not the geometric Qeet Display. This remaps only the
+ * site's `font-display` / `font-heading` utilities (and the h1–h6 base rule built on them);
+ * @qeetrix/ui's tokens — and the typography specimens that read them — still say Qeet Display. */
+@theme inline {
+  --font-display: "Qeet Text", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Qeet Text", ui-sans-serif, system-ui, sans-serif;
+}
+
 html {
   scrollbar-gutter: stable;
 }
@@ -28,4 +36,91 @@ div:has(> #nd-sidebar) {
 
 #nd-page-panel {
   background-color: var(--card);
+}
+
+/* Fumadocs has one accent, --color-fd-primary, and uses it mostly as text and thin indicators
+ * (the active tab, table-of-contents link and sidebar line). The shadcn bridge points it at the
+ * button fill, Qeet Ember, which is too deep to read as text on dark surfaces. Qeetrix's colour
+ * for orange text is the brand text role: qeet.700 on light, qeet.400 on dark. */
+:root,
+.dark {
+  --color-fd-primary: var(--qx-color-text-brand);
+}
+
+/* Where Fumadocs fills with the accent and writes on it (its primary button, search tags), keep
+ * the button fill under the white label, as every filled Qeet control has. */
+.bg-fd-primary.text-fd-primary-foreground {
+  --color-fd-primary: var(--primary);
+}
+
+/* Tabs and the sidebar follow the library's own components rather than putting orange text on an
+ * orange tint: the active tab is normal text over a brand underline (Tabs, `line`), and the active
+ * page is a quiet selection with normal text and a brand indicator (Sidebar). */
+[role="tab"].data-\[active\]\:text-fd-primary[data-active] {
+  color: var(--color-fd-foreground);
+  /* The library's 2px indicator: the 1px border plus 1px inside it, so nothing shifts. */
+  border-bottom-color: var(--qx-color-border-brand);
+  box-shadow: inset 0 -1px 0 var(--qx-color-border-brand);
+}
+
+#nd-sidebar a[data-active="true"] {
+  background-color: var(--sidebar-selected);
+  color: var(--sidebar-selected-foreground);
+  font-weight: 500;
+}
+
+#nd-sidebar a[data-active="true"]::before {
+  content: "";
+  position: absolute;
+  inset-block: 25%;
+  inset-inline-start: 0;
+  width: var(--qx-component-sidebar-indicator-width);
+  border-radius: 9999px;
+  background-color: var(--sidebar-indicator);
+}
+
+/* Homepage ------------------------------------------------------------------------------------ */
+
+/* The hero headline is the display role at one and a half times its size — the one place the
+ * product type ramp is not meant to reach. The other landing sizes scale the title and body roles
+ * the same way. Derived from the tokens, so they move with them. */
+:root {
+  --home-hero-size: calc(var(--qx-typography-display-font-size) * 1.5);
+  --home-lead-size: calc(var(--qx-typography-body-font-size) * 1.4);
+  --home-section-title: calc(var(--qx-typography-title-font-size) * 1.1);
+  --home-section-lead: calc(var(--qx-typography-body-font-size) * 1.15);
+  --home-cta-size: calc(var(--qx-typography-title-font-size) * 1.3);
+}
+
+/* A faint dot grid at the edges of the hero and the closing call to action, fading out before
+ * the content. Drawn with the border and brand tokens, so it follows the theme. */
+.home-dots {
+  background-image:
+    radial-gradient(var(--qx-color-border-brand) 1px, transparent 1.5px),
+    radial-gradient(var(--qx-color-border-strong) 1px, transparent 1.5px);
+  background-size:
+    calc(var(--spacing) * 24) calc(var(--spacing) * 24),
+    calc(var(--spacing) * 6) calc(var(--spacing) * 6);
+  background-position:
+    calc(var(--spacing) * 3) calc(var(--spacing) * 3),
+    0 0;
+  mask-image: linear-gradient(
+    to right,
+    black,
+    transparent 22%,
+    transparent 78%,
+    black
+  );
+  opacity: 0.55;
+}
+
+/* The showcase's compact mode on wider screens: compact density sets the control heights, and the
+ * text sizes step down the ramp so a full row of tiles reads at a glance. Phones keep the library's
+ * sizes — a 16px input is what stops iOS zooming in on focus. */
+@media (min-width: 48rem) {
+  .home-compact-type {
+    --text-base: var(--qx-typography-label-font-size);
+    --text-sm: var(--qx-typography-caption-font-size);
+    --text-xs: var(--qx-typography-micro-font-size);
+  }
 }

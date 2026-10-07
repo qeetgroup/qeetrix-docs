@@ -1,5 +1,5 @@
-import { QeetLogo } from "@qeetrix/ui/brand";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
+import { BrandMark } from "@/components/brand-mark";
 import { appName, gitConfig } from "./shared";
 
 export function baseOptions(): BaseLayoutProps {
@@ -7,7 +7,7 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: (
         <>
-          <QeetLogo size={20} />
+          <BrandMark height={20} />
           {appName}
         </>
       ),

@@ -1,0 +1,40 @@
+---
+title: Patterns
+description: Blocks and patterns — compositions of Qeetrix components you copy into your app, rather than import.
+icon: LayoutTemplate
+---
+
+`@qeetrix/ui` is a component library: reusable, product-neutral pieces that each solve one interface problem. **Blocks** and **patterns** are built from those components and live beside the library as source code you copy:
+
+- A **block** is a ready-made section of a product screen, with a product idea baked in — an access review, an audit record, a notification inbox.
+- A **pattern** is a proven arrangement of components for a recurring layout or flow, such as a list beside the selected item's detail.
+
+Each one imports only the public `@qeetrix/ui` and `@qeetrix/icons` APIs, so a copied file works in any app that has the package. Strings travel with the file, with a `messages` prop to override them.
+
+<Callout title="Moving in @qeetrix/ui 3.0">
+  In the 2.x releases these modules are still exported by the package, and each has a component page. From 3.0 they leave the package for the `src/blocks/` and `src/patterns/` folders of the [qeetrix-ui repository](https://github.com/qeetgroup/qeetrix-ui/tree/develop/src), where they are today on the `develop` branch.
+</Callout>
+
+## Blocks
+
+| Block | What it is | Source |
+| --- | --- | --- |
+| AccessReview | Access assignment and certification table with a bulk-review bar | [access-review.tsx](https://github.com/qeetgroup/qeetrix-ui/blob/develop/src/blocks/access-review/access-review.tsx) |
+| AuditEvent | One audit record, and a feed of them (`AuditLog`) | [audit-event.tsx](https://github.com/qeetgroup/qeetrix-ui/blob/develop/src/blocks/audit-event/audit-event.tsx) |
+| CommentThread | Threaded comments with replies, reactions, edit and delete | [comment-thread.tsx](https://github.com/qeetgroup/qeetrix-ui/blob/develop/src/blocks/comment-thread/comment-thread.tsx) |
+| LogoUploader | Brand-logo picker: drop zone, preview and URL fallback | [logo-uploader.tsx](https://github.com/qeetgroup/qeetrix-ui/blob/develop/src/blocks/logo-uploader/logo-uploader.tsx) |
+| NotificationCenter | A bell with an unread count, opening a notification inbox | [notification-center.tsx](https://github.com/qeetgroup/qeetrix-ui/blob/develop/src/blocks/notification-center/notification-center.tsx) |
+| NotificationPreferenceMatrix | Channel × category notification preferences | [notification-preference-matrix.tsx](https://github.com/qeetgroup/qeetrix-ui/blob/develop/src/blocks/notification-preference-matrix/notification-preference-matrix.tsx) |
+| SecurityItem | One row of a security settings page: a session, device, passkey or key | [security-item.tsx](https://github.com/qeetgroup/qeetrix-ui/blob/develop/src/blocks/security-item/security-item.tsx) |
+
+## Patterns
+
+| Pattern | What it is | Source |
+| --- | --- | --- |
+| MasterDetail | A list beside the selected item's detail: two resizable panes on wide screens, the detail in a sheet on narrow ones | [master-detail.tsx](https://github.com/qeetgroup/qeetrix-ui/blob/develop/src/patterns/master-detail/master-detail.tsx) |
+
+## Using one
+
+1. Copy the `.tsx` file into your app — for example `src/components/blocks/`.
+2. Install `@qeetrix/ui` and `@qeetrix/icons` if you have not ([Installation](/docs/installation)).
+3. Import it from where you put it, and adapt it: it is your code now.

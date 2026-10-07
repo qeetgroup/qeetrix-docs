@@ -4,8 +4,9 @@
  * pages match the library they document. Runs before `dev` and `build`.
  *
  * A component with examples in src/examples/<slug>/<n>-<name>.tsx gets an Examples section: each
- * file is rendered with its source, titled from its name and described by its doc comment, and
- * src/examples/registry.ts (generated, not committed) maps them for <ComponentPreview />.
+ * file is rendered with its source, titled from its name (or a `@title` tag in its doc comment)
+ * and described by its doc comment, and src/examples/registry.ts (generated, not committed) maps
+ * them for <ComponentPreview />. `@layout wide` in the doc comment fills the preview's width.
  *
  * Each page's frontmatter and everything between the generated markers are rewritten on every
  * run. Anything written below the end marker (examples, guidance) is kept. A page whose component
@@ -39,7 +40,8 @@ const END = "{/* qeetrix:generated:end */}";
 const startMarker = `${START} — rewritten from @qeetrix/ui's component manifest by \`bun run generate:components\`. Write your own sections below the end marker. */}`;
 
 // ---------------------------------------------------------------------------------------------
-// Descriptions: the first sentence of each component's doc comment in the published types.
+// Descriptions: the manifest's `description` where the installed @qeetrix/ui has one; for older
+// releases, the first sentence of each component's doc comment in the published types.
 
 function listFiles(dir, suffix) {
   const files = [];
@@ -218,7 +220,21 @@ function table(head, rows) {
 
 const examplesDir = join(root, "src/examples");
 const EXAMPLE_FILE = /^(\d+)-([a-z0-9-]+)\.tsx$/;
+// The doc comment directly above `export default`. Its body may not contain `*/`, so a helper's
+// doc comment earlier in the file can't open the match.
+const DOC = /\/\*\*((?:(?!\*\/)[\s\S])*)\*\/\s*(?=export default)/;
 const allExamples = [];
+
+// Examples whose output differs between the build-time render and the browser's mount them after
+// hydration instead: a client example that reads the clock, and any example of a component that
+// renders the runtime's locale data, which differs between Node and browsers.
+const CLOCK = /\bDate\.now\b|\bnew Date\b/;
+const LOCALE_DATA = /<CountryPicker\b/;
+
+function rendersDifferently(source) {
+  if (LOCALE_DATA.test(source)) return true;
+  return /^["']use client["']/.test(source) && CLOCK.test(source);
+}
 
 function examplesFor(slug) {
   const dir = join(examplesDir, slug);
@@ -229,23 +245,32 @@ function examplesFor(slug) {
     .sort((a, b) => Number(a[1]) - Number(b[1]))
     .map(([file, , name]) => {
       const source = readFileSync(join(dir, file), "utf8");
-      const doc = /\/\*\*([\s\S]*?)\*\/\s*export default/.exec(source)?.[1];
+      const doc = DOC.exec(source)?.[1];
+      const lines = (doc ?? "")
+        .split("\n")
+        .map((line) => line.replace(/^\s*\*\s?/, "").trim());
+      // `@title` for a title the file name can't spell, such as "useTour + TourStep";
+      // `@layout wide` for an example that should fill the preview's width (tables, charts…)
+      // rather than sit centred at its own size.
+      const title = lines
+        .find((line) => line.startsWith("@title "))
+        ?.slice("@title ".length);
+      const wide = lines.includes("@layout wide");
+      const description = lines
+        .filter((line) => !line.startsWith("@"))
+        .join(" ")
+        .replace(/\s+/g, " ")
+        .trim();
       return {
         key: `${slug}/${file.slice(0, -".tsx".length)}`,
-        title: (name.charAt(0).toUpperCase() + name.slice(1)).replaceAll(
-          "-",
-          " ",
-        ),
-        description: doc
-          ? doc
-              .split("\n")
-              .map((line) => line.replace(/^\s*\*\s?/, "").trim())
-              .join(" ")
-              .replace(/\s+/g, " ")
-              .trim()
-          : null,
+        title:
+          title ??
+          (name.charAt(0).toUpperCase() + name.slice(1)).replaceAll("-", " "),
+        description: description || null,
         // The page prints the doc comment as prose, so the code tab leaves it out.
-        code: `${source.replace(/\/\*\*[\s\S]*?\*\/\n(?=export default)/, "").trimEnd()}\n`,
+        code: `${source.replace(DOC, "").trimEnd()}\n`,
+        clientOnly: rendersDifferently(source),
+        wide,
       };
     });
 }
@@ -475,7 +500,11 @@ for (const c of manifest.components) {
   writeFileSync(
     file,
     render(
-      { title: displayName(c.name), description: description(c.name) },
+      {
+        title: displayName(c.name),
+        // The manifest's own description (from @qeetrix/ui 2.2), else the doc comment in the types.
+        description: c.description ?? description(c.name),
+      },
       componentPage(c),
       tailOf(file),
     ),
@@ -505,10 +534,13 @@ writeFileSync(
       (example, index) => `import Example${index} from "./${example.key}";`,
     ),
     "",
-    "export const examples: Record<string, { component: ComponentType; code: string }> = {",
+    "export const examples: Record<",
+    "  string,",
+    "  { component: ComponentType; code: string; clientOnly?: true; wide?: true }",
+    "> = {",
     ...allExamples.map(
       (example, index) =>
-        `  ${JSON.stringify(example.key)}: { component: Example${index}, code: ${JSON.stringify(example.code)} },`,
+        `  ${JSON.stringify(example.key)}: { component: Example${index}, code: ${JSON.stringify(example.code)}${example.clientOnly ? ", clientOnly: true" : ""}${example.wide ? ", wide: true" : ""} },`,
     ),
     "};",
     "",
@@ -523,7 +555,7 @@ for (const name of readdirSync(outDir)) {
   else if (readFileSync(file, "utf8").includes(START)) rmSync(file);
 }
 console.log(
-  `✔ ${manifest.components.length} component pages + overview from @qeetrix/ui ${pkg.version}, ${allExamples.length} examples`,
+  `✔ ${manifest.components.length} component pages + overview from @qeetrix/ui ${pkg.version}, ${allExamples.length} examples (${allExamples.filter((example) => example.clientOnly).length} client-only)`,
 );
 if (orphans.length) {
   console.warn(
