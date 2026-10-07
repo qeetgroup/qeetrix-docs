@@ -7,7 +7,9 @@ import { ShapesIcon } from "@qeetrix/icons/icons/shapes";
 import { createElement } from "react";
 
 // Icons available to `icon:` in page frontmatter and meta.json. Each is imported from its own
-// subpath: the `@qeetrix/icons` root also pulls in every brand logo, which is far too heavy.
+// subpath. Next's bundler tree-shakes a root import just as well, but anything that runs this
+// file unbundled (a script, a test) would load all 1,863 icons and 7,431 brand logos from the
+// root — over a minute in plain Node.
 const icons = {
   BookOpen: BookOpenIcon,
   Component: ComponentIcon,
