@@ -1,0 +1,62 @@
+---
+title: "Select"
+description: "Wraps Base UI's `Select.Root`, auto-deriving the `items` label map from the declared `<SelectItem>`s so the closed trigger shows the option's label rather than its raw value."
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Import
+
+```tsx
+import { Select } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/select`.
+
+## Controlled and uncontrolled
+
+Pass the value prop to control it, or the default prop to let the component own it.
+
+| Value | Default | Change |
+| --- | --- | --- |
+| `value` | `defaultValue` | `onValueChange` |
+
+## States
+
+`hover` · `focus-visible` · `disabled` · `read-only` · `invalid` · `selected` · `open`
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Supported |
+| Dark mode | Supported |
+| Density | Supported |
+| Server rendering | Client component |
+| Reduced motion | Supported |
+
+## Accessibility
+
+Follows the WAI-ARIA `combobox` pattern. Audited.
+
+| Check | Result |
+| --- | --- |
+| Semantics | Pass |
+| Accessible name | Pass |
+| Keyboard | Pass |
+| Focus | Pass |
+| Screen reader | Pass |
+| Right-to-left | Not applicable |
+| Reduced motion | Pass |
+| Forced colours | Pass |
+| Contrast | Pass |
+
+**Keyboard:** <kbd>Tab</kbd> <kbd>Enter</kbd> <kbd>Space</kbd> <kbd>Escape</kbd> <kbd>ArrowUp</kbd> <kbd>ArrowDown</kbd> <kbd>Home</kbd> <kbd>End</kbd> <kbd>TypeAhead</kbd>
+
+**Focus:** One Tab stop for the group; arrow keys move between items (roving tab stop). While open, focus is contained and focus returns on close.
+
+## Tests
+
+Covered by unit, accessibility (axe) and visual tests.
+
+{/* qeetrix:generated:end */}

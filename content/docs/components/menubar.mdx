@@ -1,0 +1,44 @@
+---
+title: "Menubar"
+description: "App menu bar: a horizontal row of menus (File, Edit, View, …)."
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Import
+
+```tsx
+import { Menubar } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/menubar`.
+
+## States
+
+`hover` · `focus-visible` · `disabled` · `checked` · `open`
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Supported |
+| Dark mode | Supported |
+| Density | Supported |
+| Server rendering | Client component |
+| Reduced motion | Supported |
+
+## Accessibility
+
+Follows the WAI-ARIA `menubar` pattern. Not yet audited.
+
+**Keyboard:** <kbd>Enter</kbd> <kbd>Space</kbd> <kbd>Escape</kbd> <kbd>ArrowUp</kbd> <kbd>ArrowDown</kbd> <kbd>ArrowLeft</kbd> <kbd>ArrowRight</kbd> <kbd>Home</kbd> <kbd>End</kbd>
+
+**Focus:** One Tab stop for the group; arrow keys move between items (roving tab stop). While open, focus is contained and focus returns on close.
+
+**Known limitation (semantics):** Base UI renders an aria-owns bridge span as a direct child of the role=menubar element while a menu is open, so the menubar owns a generic child and axe's aria-required-children fails. No supported workaround in @base-ui/react 1.7.0: Menu.Positioner throws without Menu.Portal, the bridge is only emitted for non-modal focus managers and Menu.Popup hard-codes modal: isContextMenu, and a role="none" wrapper does not help because axe recurses through presentational wrappers. Asserted in composites.test.tsx and subtracted from a whole-widget axe run in menubar.test.tsx, so a Base UI fix surfaces as a failure.
+
+## Tests
+
+Covered by unit, accessibility (axe), interaction and visual tests.
+
+{/* qeetrix:generated:end */}

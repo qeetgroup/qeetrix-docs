@@ -1,0 +1,54 @@
+---
+title: "TreeView"
+description: "Hierarchical disclosure tree (file trees, nested log scopes, org units)."
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Import
+
+```tsx
+import { TreeView } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/tree-view`.
+
+## States
+
+`hover` · `focus-visible` · `disabled` · `selected` · `expanded` · `open`
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Supported |
+| Dark mode | Supported |
+| Density | Supported |
+| Server rendering | Client component |
+| Reduced motion | Supported |
+
+## Accessibility
+
+Follows the WAI-ARIA `treeview` pattern. Audited.
+
+| Check | Result |
+| --- | --- |
+| Semantics | Pass |
+| Accessible name | Pass |
+| Keyboard | Pass |
+| Focus | Pass |
+| Screen reader | Pass |
+| Right-to-left | Pass |
+| Reduced motion | Pass |
+| Forced colours | Pass |
+| Contrast | Pass |
+
+**Keyboard:** <kbd>Tab</kbd> <kbd>Enter</kbd> <kbd>ArrowUp</kbd> <kbd>ArrowDown</kbd> <kbd>ArrowLeft</kbd> <kbd>ArrowRight</kbd> <kbd>Home</kbd> <kbd>End</kbd> <kbd>Asterisk</kbd> <kbd>TypeAhead</kbd>
+
+**Focus:** One Tab stop for the group; arrow keys move between items (roving tab stop).
+
+## Tests
+
+Covered by unit, accessibility (axe), interaction and visual tests.
+
+{/* qeetrix:generated:end */}

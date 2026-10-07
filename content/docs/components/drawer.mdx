@@ -1,0 +1,56 @@
+---
+title: "Drawer"
+description: "Drawer is the mobile bottom sheet: anchored to the bottom edge, rounded on top, and dismissed by swiping it down as well as by Escape, the close button or the backdrop."
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+<Callout title="Beta">
+  Ready to use, but its API may still change before it is marked stable.
+</Callout>
+
+## Import
+
+```tsx
+import { Drawer } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/drawer`.
+
+## Controlled and uncontrolled
+
+Pass the value prop to control it, or the default prop to let the component own it.
+
+| Value | Default | Change |
+| --- | --- | --- |
+| `open` | `defaultOpen` | `onOpenChange` |
+
+## States
+
+`open`
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Supported |
+| Dark mode | Supported |
+| Density | Not supported |
+| Server rendering | Client component |
+| Reduced motion | Supported |
+
+## Accessibility
+
+Follows the WAI-ARIA `dialog` pattern. Not yet audited.
+
+**Keyboard:** <kbd>Tab</kbd> <kbd>Shift+tab</kbd> <kbd>Escape</kbd>
+
+**Focus:** Each control is a Tab stop, in order. While open, focus is contained and focus returns on close.
+
+**Known limitation (focus):** Focus containment is enforced with `inert`, which jsdom does not implement, so the tests assert the mechanism is installed rather than observing containment. Browser-level verification is on the manual checklist.
+
+## Tests
+
+Covered by unit, accessibility (axe), interaction and visual tests.
+
+{/* qeetrix:generated:end */}

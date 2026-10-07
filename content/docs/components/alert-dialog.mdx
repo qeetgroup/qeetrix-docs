@@ -1,0 +1,52 @@
+---
+title: "AlertDialog"
+description: "An alert dialog interrupts to ask for a decision, so it is dismissed by a decision."
+---
+
+{/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Import
+
+```tsx
+import { AlertDialog } from "@qeetrix/ui";
+```
+
+It can also be imported on its own from `@qeetrix/ui/components/alert-dialog`.
+
+## Controlled and uncontrolled
+
+Pass the value prop to control it, or the default prop to let the component own it.
+
+| Value | Default | Change |
+| --- | --- | --- |
+| `open` | `defaultOpen` | `onOpenChange` |
+
+## States
+
+`open`
+
+## Support
+
+| Feature | Status |
+| --- | --- |
+| Right-to-left | Supported |
+| Dark mode | Supported |
+| Density | Not supported |
+| Server rendering | Client component |
+| Reduced motion | Supported |
+
+## Accessibility
+
+Follows the WAI-ARIA `alertdialog` pattern. Not yet audited.
+
+**Keyboard:** <kbd>Tab</kbd> <kbd>Shift+tab</kbd> <kbd>Escape</kbd>
+
+**Focus:** Each control is a Tab stop, in order. While open, focus is contained and focus returns on close.
+
+**Known limitation (focus):** Same `inert` limitation as Dialog.
+
+## Tests
+
+Covered by unit, accessibility (axe), interaction and visual tests.
+
+{/* qeetrix:generated:end */}
