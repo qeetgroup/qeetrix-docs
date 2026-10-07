@@ -1,13 +1,14 @@
 ---
 title: Icons
-description: Use icons and brand logos from @qeetrix/icons.
+description: Use icons and the Qeet logos from @qeetrix/icons.
 icon: Shapes
 ---
 
+import { QeetLogo, QeetWordmarkLogo } from "@qeetrix/icons";
 import { StarIcon } from "@qeetrix/icons/icons/star";
 
-`@qeetrix/icons` has 1,863 icons, each drawn in a round and a sharp shape, plus a library of brand
-logos.
+`@qeetrix/icons` has 1,863 icons, each drawn in a round and a sharp shape, plus Qeet's own logo and
+wordmark.
 
 ## Import an icon
 
@@ -22,8 +23,8 @@ export function Favourite() {
 ```
 
 <Callout>
-  Importing from the package root also works, but it loads every icon and every brand logo unless
-  your bundler tree-shakes it. Per-icon paths are the safer default.
+  Importing from the package root also works, but it loads the whole package unless your bundler
+  tree-shakes it. Per-icon paths are the safer default.
 </Callout>
 
 ## Shape, variant and size
@@ -53,16 +54,47 @@ export function Favourite() {
 Every icon has both shapes. `variant` is typed per icon, so asking for a drawing that an icon doesn't
 have is a type error. Icons also accept any `<svg>` prop, such as `className` or `aria-label`.
 
-## Brand logos
+## Qeet logos
 
-Brand logos are named exports ending in `Logo`, such as `GithubLogo` or `FigmaLogo`. Each renders the
-brand's published SVG, unmodified, as an `<img>`; its `variant` prop picks one of that logo's files.
-Logos are only exported from the package root:
+`QeetLogo` is the "q" mark and `QeetWordmarkLogo` is **Qeet.** in a tile. Each renders its SVG file,
+unmodified, as an `<img>`, so the page can't recolour it. Logos are only exported from the package
+root.
+
+<div className="not-prose flex flex-wrap items-center gap-6 rounded-xl border p-6">
+  <QeetLogo height={32} className="inline-block dark:hidden" />
+  <QeetLogo height={32} variant="dark" className="hidden dark:inline-block" />
+  <QeetWordmarkLogo height={32} className="inline-block dark:hidden" />
+  <QeetWordmarkLogo height={32} variant="dark" className="hidden dark:inline-block" />
+  <QeetWordmarkLogo height={24} variant="plain" className="inline-block dark:hidden" />
+  <QeetWordmarkLogo height={24} variant="plain-dark" className="hidden dark:inline-block" />
+</div>
+
+| Logo               | Variants                                                                    |
+| ------------------ | --------------------------------------------------------------------------- |
+| `QeetLogo`         | `"default"` (light surfaces) · `"dark"` (dark surfaces)                     |
+| `QeetWordmarkLogo` | `"default"` · `"dark"` (in a tile), `"plain"` · `"plain-dark"` (without it) |
+
+An image can't see your app's theme, so render both files and let your theme show one. With
+Qeetrix's `.dark` class, that's the `dark:` variant:
 
 ```tsx
-import { GithubLogo } from "@qeetrix/icons";
+import { QeetLogo } from "@qeetrix/icons";
 
-export function Footer() {
-  return <GithubLogo />;
+export function Brand() {
+  return (
+    <>
+      <QeetLogo aria-label="Qeet" className="inline-block dark:hidden" />
+      <QeetLogo aria-label="Qeet" variant="dark" className="hidden dark:inline-block" />
+    </>
+  );
 }
 ```
+
+Logos are decorative by default. Pass `aria-label` or `alt` to name one, and `height` (default 24)
+to size it; the width follows the logo's own aspect ratio.
+
+<Callout>
+  Third-party brand logos (GitHub, Google, Slack, …) aren't part of `@qeetrix/icons`; 2.0 removes
+  the 7,429 that 1.0.x bundled. Use [theSVG](https://thesvg.org) directly, for example
+  `@thesvg/react`, importing one logo at a time.
+</Callout>
