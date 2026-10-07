@@ -5,7 +5,9 @@ description: "Standalone listbox primitive (APG Listbox) — single or multi-sel
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
-## Import
+## Usage
+
+### Import
 
 ```tsx
 import { Listbox } from "@qeetrix/ui";
@@ -13,7 +15,7 @@ import { Listbox } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/listbox`.
 
-## Controlled and uncontrolled
+### Controlled and uncontrolled
 
 Pass the value prop to control it, or the default prop to let the component own it.
 
@@ -21,7 +23,7 @@ Pass the value prop to control it, or the default prop to let the component own 
 | --- | --- | --- |
 | `value` | `defaultValue` | `onValueChange` |
 
-## States
+### States
 
 `hover` · `focus-visible` · `active` · `disabled` · `read-only` · `invalid` · `selected`
 
@@ -51,9 +53,13 @@ Follows the WAI-ARIA `listbox` pattern. Audited.
 | Forced colours | Pass |
 | Contrast | Pass |
 
-**Keyboard:** <kbd>Tab</kbd> <kbd>ArrowUp</kbd> <kbd>ArrowDown</kbd> <kbd>Home</kbd> <kbd>End</kbd> <kbd>Enter</kbd> <kbd>TypeAhead</kbd>
+### Keyboard
 
-**Focus:** Focus stays on the input; arrow keys move the active option (`aria-activedescendant`).
+<kbd>Tab</kbd> <kbd>ArrowUp</kbd> <kbd>ArrowDown</kbd> <kbd>Home</kbd> <kbd>End</kbd> <kbd>Enter</kbd> <kbd>TypeAhead</kbd>
+
+### Focus
+
+Focus stays on the input; arrow keys move the active option (`aria-activedescendant`).
 
 ## Tests
 

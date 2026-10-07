@@ -1,5 +1,7 @@
 /* Qeetrix brings Tailwind itself, plus tokens, fonts and component class scanning. */
 @import "@qeetrix/ui/styles.css";
+/* The Spacious docs layout's styles, which the preset does not bundle. */
+@import "fumadocs-ui/css/generated/spacious.css";
 /* Point Fumadocs' --color-fd-* palette at the shadcn variables Qeetrix tokens define. */
 @import "fumadocs-ui/css/shadcn.css";
 @import "fumadocs-ui/css/preset.css";
@@ -11,4 +13,19 @@ html {
 html > body[data-scroll-locked] {
   margin-right: 0px !important;
   --removed-body-scroll-bar-size: 0px !important;
+}
+
+/* Spacious docs layout: the sidebar sits on the frame and the page panel is the raised surface.
+ * The layout paints the frame with --color-fd-card and the panel with --color-fd-background, which
+ * in Qeetrix's ladder puts the panel below a white frame; these restore frame → panel order. */
+div:has(> #nd-sidebar) {
+  background-color: var(--sidebar);
+}
+
+#nd-sidebar {
+  background-color: transparent;
+}
+
+#nd-page-panel {
+  background-color: var(--card);
 }

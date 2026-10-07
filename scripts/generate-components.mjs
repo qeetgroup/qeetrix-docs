@@ -199,8 +199,11 @@ function componentPage(c) {
     );
   }
 
+  // Usage sections nest under one heading, so the table of contents shows the page's shape.
   out.push(
-    "## Import",
+    "## Usage",
+    "",
+    "### Import",
     "",
     "```tsx",
     `import { ${c.name} } from "${c.import}";`,
@@ -215,11 +218,11 @@ function componentPage(c) {
     props.push([code("variant"), list(c.api.variants)]);
   if (c.api.sizes?.length) props.push([code("size"), list(c.api.sizes)]);
   if (props.length)
-    out.push("## Variants", "", table(["Prop", "Values"], props), "");
+    out.push("### Variants", "", table(["Prop", "Values"], props), "");
 
   if (c.api.controlled?.length) {
     out.push(
-      "## Controlled and uncontrolled",
+      "### Controlled and uncontrolled",
       "",
       "Pass the value prop to control it, or the default prop to let the component own it.",
       "",
@@ -235,7 +238,7 @@ function componentPage(c) {
     );
   }
 
-  if (c.states?.length) out.push("## States", "", list(c.states), "");
+  if (c.states?.length) out.push("### States", "", list(c.states), "");
 
   out.push(
     "## Support",
@@ -274,29 +277,35 @@ function componentPage(c) {
     );
   }
   if (a.keyboard?.length)
-    out.push(`**Keyboard:** ${a.keyboard.map(kbd).join(" ")}`, "");
-  if (a.focus) {
-    const extras = [
-      a.focus.contained && "focus is contained",
-      a.focus.restored && "focus returns on close",
-    ].filter(Boolean);
+    out.push("### Keyboard", "", a.keyboard.map(kbd).join(" "), "");
+  const focusExtras = [
+    a.focus?.contained && "focus is contained",
+    a.focus?.restored && "focus returns on close",
+  ].filter(Boolean);
+  if (a.focus && (a.focus.model !== "none" || focusExtras.length)) {
     out.push(
-      `**Focus:** ${FOCUS[a.focus.model] ?? a.focus.model}${extras.length ? ` While open, ${extras.join(" and ")}.` : ""}`,
+      "### Focus",
+      "",
+      `${FOCUS[a.focus.model] ?? a.focus.model}${focusExtras.length ? ` While open, ${focusExtras.join(" and ")}.` : ""}`,
       "",
     );
   }
-  if (a.liveRegion)
+  if (a.liveRegion) {
     out.push(
-      `**Live region:** announced ${a.liveRegion === "assertive" ? "assertively" : "politely"}.`,
+      "### Announcements",
+      "",
+      a.liveRegion === "assertive"
+        ? "Announced assertively: screen readers interrupt to read it."
+        : "Announced politely: screen readers read it when the user is idle.",
       "",
     );
+  }
   if (a.exceptions) {
+    out.push("### Known limitations", "");
     for (const [key, text] of Object.entries(a.exceptions)) {
-      out.push(
-        `**Known limitation (${(DIMENSIONS[key] ?? key).toLowerCase()}):** ${mdx(text)}`,
-        "",
-      );
+      out.push(`- **${DIMENSIONS[key] ?? key}:** ${mdx(text)}`);
     }
+    out.push("");
   }
 
   const tests = Object.entries(c.testing ?? {})

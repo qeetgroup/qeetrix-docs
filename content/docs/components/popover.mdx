@@ -4,7 +4,9 @@ title: "Popover"
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
-## Import
+## Usage
+
+### Import
 
 ```tsx
 import { Popover } from "@qeetrix/ui";
@@ -12,7 +14,7 @@ import { Popover } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/popover`.
 
-## Controlled and uncontrolled
+### Controlled and uncontrolled
 
 Pass the value prop to control it, or the default prop to let the component own it.
 
@@ -20,7 +22,7 @@ Pass the value prop to control it, or the default prop to let the component own 
 | --- | --- | --- |
 | `open` | `defaultOpen` | `onOpenChange` |
 
-## States
+### States
 
 `open`
 
@@ -50,9 +52,13 @@ No ARIA widget pattern. Audited.
 | Forced colours | Pass |
 | Contrast | Pass |
 
-**Keyboard:** <kbd>Tab</kbd> <kbd>Escape</kbd>
+### Keyboard
 
-**Focus:** Each control is a Tab stop, in order. While open, focus returns on close.
+<kbd>Tab</kbd> <kbd>Escape</kbd>
+
+### Focus
+
+Each control is a Tab stop, in order. While open, focus returns on close.
 
 ## Tests
 

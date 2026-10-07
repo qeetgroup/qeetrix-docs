@@ -5,7 +5,9 @@ description: "Pagination is the cursor-based pagination footer used by every ind
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
-## Import
+## Usage
+
+### Import
 
 ```tsx
 import { Pagination } from "@qeetrix/ui";
@@ -13,7 +15,7 @@ import { Pagination } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/pagination`.
 
-## States
+### States
 
 `loading` · `busy`
 
@@ -31,11 +33,17 @@ It can also be imported on its own from `@qeetrix/ui/components/pagination`.
 
 No ARIA widget pattern. Not yet audited.
 
-**Keyboard:** <kbd>Tab</kbd> <kbd>Enter</kbd> <kbd>Space</kbd>
+### Keyboard
 
-**Focus:** Each control is a Tab stop, in order.
+<kbd>Tab</kbd> <kbd>Enter</kbd> <kbd>Space</kbd>
 
-**Live region:** announced politely.
+### Focus
+
+Each control is a Tab stop, in order.
+
+### Announcements
+
+Announced politely: screen readers read it when the user is idle.
 
 ## Tests
 

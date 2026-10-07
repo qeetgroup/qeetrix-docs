@@ -9,7 +9,9 @@ description: "Free-form chips input: type and press Enter (or comma) to add a ta
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
-## Import
+## Usage
+
+### Import
 
 ```tsx
 import { TagInput } from "@qeetrix/ui";
@@ -17,7 +19,7 @@ import { TagInput } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/tag-input`.
 
-## States
+### States
 
 `hover` · `focus-visible` · `disabled` · `read-only` · `invalid`
 
@@ -35,9 +37,13 @@ It can also be imported on its own from `@qeetrix/ui/components/tag-input`.
 
 No ARIA widget pattern. Not yet audited.
 
-**Keyboard:** <kbd>Tab</kbd> <kbd>Enter</kbd> <kbd>Backspace</kbd> <kbd>Delete</kbd> <kbd>ArrowLeft</kbd> <kbd>ArrowRight</kbd> <kbd>Home</kbd> <kbd>End</kbd> <kbd>Escape</kbd>
+### Keyboard
 
-**Live region:** announced politely.
+<kbd>Tab</kbd> <kbd>Enter</kbd> <kbd>Backspace</kbd> <kbd>Delete</kbd> <kbd>ArrowLeft</kbd> <kbd>ArrowRight</kbd> <kbd>Home</kbd> <kbd>End</kbd> <kbd>Escape</kbd>
+
+### Announcements
+
+Announced politely: screen readers read it when the user is idle.
 
 ## Tests
 

@@ -9,7 +9,9 @@ description: "Step-by-step guided product onboarding overlay."
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
-## Import
+## Usage
+
+### Import
 
 ```tsx
 import { Tour } from "@qeetrix/ui";
@@ -17,7 +19,7 @@ import { Tour } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/tour`.
 
-## Controlled and uncontrolled
+### Controlled and uncontrolled
 
 Pass the value prop to control it, or the default prop to let the component own it.
 
@@ -25,7 +27,7 @@ Pass the value prop to control it, or the default prop to let the component own 
 | --- | --- | --- |
 | `open` | `defaultOpen` | `onOpenChange` |
 
-## States
+### States
 
 `hover` · `open`
 
@@ -43,9 +45,13 @@ Pass the value prop to control it, or the default prop to let the component own 
 
 Follows the WAI-ARIA `dialog` pattern. Not yet audited.
 
-**Keyboard:** <kbd>Tab</kbd> <kbd>Shift+tab</kbd> <kbd>Escape</kbd> <kbd>ArrowLeft</kbd> <kbd>ArrowRight</kbd>
+### Keyboard
 
-**Focus:** Each control is a Tab stop, in order. While open, focus is contained and focus returns on close.
+<kbd>Tab</kbd> <kbd>Shift+tab</kbd> <kbd>Escape</kbd> <kbd>ArrowLeft</kbd> <kbd>ArrowRight</kbd>
+
+### Focus
+
+Each control is a Tab stop, in order. While open, focus is contained and focus returns on close.
 
 ## Tests
 

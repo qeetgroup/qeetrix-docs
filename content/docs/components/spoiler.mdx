@@ -5,7 +5,9 @@ description: "Truncates content to `maxLines` with an inline show-more/less togg
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
-## Import
+## Usage
+
+### Import
 
 ```tsx
 import { Spoiler } from "@qeetrix/ui";
@@ -13,7 +15,7 @@ import { Spoiler } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/spoiler`.
 
-## Controlled and uncontrolled
+### Controlled and uncontrolled
 
 Pass the value prop to control it, or the default prop to let the component own it.
 
@@ -21,7 +23,7 @@ Pass the value prop to control it, or the default prop to let the component own 
 | --- | --- | --- |
 | `expanded` | `defaultExpanded` | `onExpandedChange` |
 
-## States
+### States
 
 `hover` · `focus-visible` · `expanded`
 
@@ -51,9 +53,13 @@ Follows the WAI-ARIA `disclosure` pattern. Audited.
 | Forced colours | Pass |
 | Contrast | Pass |
 
-**Keyboard:** <kbd>Tab</kbd> <kbd>Enter</kbd> <kbd>Space</kbd>
+### Keyboard
 
-**Focus:** Each control is a Tab stop, in order.
+<kbd>Tab</kbd> <kbd>Enter</kbd> <kbd>Space</kbd>
+
+### Focus
+
+Each control is a Tab stop, in order.
 
 ## Tests
 

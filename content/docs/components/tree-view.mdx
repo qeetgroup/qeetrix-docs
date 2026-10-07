@@ -5,7 +5,9 @@ description: "Hierarchical disclosure tree (file trees, nested log scopes, org u
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
-## Import
+## Usage
+
+### Import
 
 ```tsx
 import { TreeView } from "@qeetrix/ui";
@@ -13,7 +15,7 @@ import { TreeView } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/tree-view`.
 
-## States
+### States
 
 `hover` · `focus-visible` · `disabled` · `selected` · `expanded` · `open`
 
@@ -43,9 +45,13 @@ Follows the WAI-ARIA `treeview` pattern. Audited.
 | Forced colours | Pass |
 | Contrast | Pass |
 
-**Keyboard:** <kbd>Tab</kbd> <kbd>Enter</kbd> <kbd>ArrowUp</kbd> <kbd>ArrowDown</kbd> <kbd>ArrowLeft</kbd> <kbd>ArrowRight</kbd> <kbd>Home</kbd> <kbd>End</kbd> <kbd>Asterisk</kbd> <kbd>TypeAhead</kbd>
+### Keyboard
 
-**Focus:** One Tab stop for the group; arrow keys move between items (roving tab stop).
+<kbd>Tab</kbd> <kbd>Enter</kbd> <kbd>ArrowUp</kbd> <kbd>ArrowDown</kbd> <kbd>ArrowLeft</kbd> <kbd>ArrowRight</kbd> <kbd>Home</kbd> <kbd>End</kbd> <kbd>Asterisk</kbd> <kbd>TypeAhead</kbd>
+
+### Focus
+
+One Tab stop for the group; arrow keys move between items (roving tab stop).
 
 ## Tests
 

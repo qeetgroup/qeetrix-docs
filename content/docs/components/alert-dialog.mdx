@@ -5,7 +5,9 @@ description: "An alert dialog interrupts to ask for a decision, so it is dismiss
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
-## Import
+## Usage
+
+### Import
 
 ```tsx
 import { AlertDialog } from "@qeetrix/ui";
@@ -13,7 +15,7 @@ import { AlertDialog } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/alert-dialog`.
 
-## Controlled and uncontrolled
+### Controlled and uncontrolled
 
 Pass the value prop to control it, or the default prop to let the component own it.
 
@@ -21,7 +23,7 @@ Pass the value prop to control it, or the default prop to let the component own 
 | --- | --- | --- |
 | `open` | `defaultOpen` | `onOpenChange` |
 
-## States
+### States
 
 `open`
 
@@ -39,11 +41,17 @@ Pass the value prop to control it, or the default prop to let the component own 
 
 Follows the WAI-ARIA `alertdialog` pattern. Not yet audited.
 
-**Keyboard:** <kbd>Tab</kbd> <kbd>Shift+tab</kbd> <kbd>Escape</kbd>
+### Keyboard
 
-**Focus:** Each control is a Tab stop, in order. While open, focus is contained and focus returns on close.
+<kbd>Tab</kbd> <kbd>Shift+tab</kbd> <kbd>Escape</kbd>
 
-**Known limitation (focus):** Same `inert` limitation as Dialog.
+### Focus
+
+Each control is a Tab stop, in order. While open, focus is contained and focus returns on close.
+
+### Known limitations
+
+- **Focus:** Same `inert` limitation as Dialog.
 
 ## Tests
 

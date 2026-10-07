@@ -5,7 +5,9 @@ description: "Rich preview shown on hover/focus of a trigger (user cards, entity
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
-## Import
+## Usage
+
+### Import
 
 ```tsx
 import { HoverCard } from "@qeetrix/ui";
@@ -13,7 +15,7 @@ import { HoverCard } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/hover-card`.
 
-## Controlled and uncontrolled
+### Controlled and uncontrolled
 
 Pass the value prop to control it, or the default prop to let the component own it.
 
@@ -21,7 +23,7 @@ Pass the value prop to control it, or the default prop to let the component own 
 | --- | --- | --- |
 | `open` | `defaultOpen` | `onOpenChange` |
 
-## States
+### States
 
 `open`
 
@@ -39,9 +41,13 @@ Pass the value prop to control it, or the default prop to let the component own 
 
 No ARIA widget pattern. Not yet audited.
 
-**Keyboard:** <kbd>Tab</kbd> <kbd>Escape</kbd>
+### Keyboard
 
-**Focus:** Each control is a Tab stop, in order. While open, focus returns on close.
+<kbd>Tab</kbd> <kbd>Escape</kbd>
+
+### Focus
+
+Each control is a Tab stop, in order. While open, focus returns on close.
 
 ## Tests
 

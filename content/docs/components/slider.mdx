@@ -5,7 +5,9 @@ description: "Qeet slider."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
-## Import
+## Usage
+
+### Import
 
 ```tsx
 import { Slider } from "@qeetrix/ui";
@@ -13,7 +15,7 @@ import { Slider } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/slider`.
 
-## States
+### States
 
 `hover` · `focus-visible` · `disabled` · `dragging`
 
@@ -31,11 +33,13 @@ It can also be imported on its own from `@qeetrix/ui/components/slider`.
 
 Follows the WAI-ARIA `slider` pattern. Not yet audited.
 
-**Keyboard:** <kbd>Tab</kbd> <kbd>ArrowUp</kbd> <kbd>ArrowDown</kbd> <kbd>ArrowLeft</kbd> <kbd>ArrowRight</kbd> <kbd>Home</kbd> <kbd>End</kbd>
+### Keyboard
 
-**Focus:** No focus management of its own.
+<kbd>Tab</kbd> <kbd>ArrowUp</kbd> <kbd>ArrowDown</kbd> <kbd>ArrowLeft</kbd> <kbd>ArrowRight</kbd> <kbd>Home</kbd> <kbd>End</kbd>
 
-**Known limitation (focus):** Base UI hides the thumb until it has measured the track; jsdom has no layout, so the thumb's range input stays out of the computed accessibility tree and focus cannot be observed. Verified structurally instead; browser-level check is on the manual checklist.
+### Known limitations
+
+- **Focus:** Base UI hides the thumb until it has measured the track; jsdom has no layout, so the thumb's range input stays out of the computed accessibility tree and focus cannot be observed. Verified structurally instead; browser-level check is on the manual checklist.
 
 ## Tests
 

@@ -9,7 +9,9 @@ description: "Drawer is the mobile bottom sheet: anchored to the bottom edge, ro
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
-## Import
+## Usage
+
+### Import
 
 ```tsx
 import { Drawer } from "@qeetrix/ui";
@@ -17,7 +19,7 @@ import { Drawer } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/drawer`.
 
-## Controlled and uncontrolled
+### Controlled and uncontrolled
 
 Pass the value prop to control it, or the default prop to let the component own it.
 
@@ -25,7 +27,7 @@ Pass the value prop to control it, or the default prop to let the component own 
 | --- | --- | --- |
 | `open` | `defaultOpen` | `onOpenChange` |
 
-## States
+### States
 
 `open`
 
@@ -43,11 +45,17 @@ Pass the value prop to control it, or the default prop to let the component own 
 
 Follows the WAI-ARIA `dialog` pattern. Not yet audited.
 
-**Keyboard:** <kbd>Tab</kbd> <kbd>Shift+tab</kbd> <kbd>Escape</kbd>
+### Keyboard
 
-**Focus:** Each control is a Tab stop, in order. While open, focus is contained and focus returns on close.
+<kbd>Tab</kbd> <kbd>Shift+tab</kbd> <kbd>Escape</kbd>
 
-**Known limitation (focus):** Focus containment is enforced with `inert`, which jsdom does not implement, so the tests assert the mechanism is installed rather than observing containment. Browser-level verification is on the manual checklist.
+### Focus
+
+Each control is a Tab stop, in order. While open, focus is contained and focus returns on close.
+
+### Known limitations
+
+- **Focus:** Focus containment is enforced with `inert`, which jsdom does not implement, so the tests assert the mechanism is installed rather than observing containment. Browser-level verification is on the manual checklist.
 
 ## Tests
 

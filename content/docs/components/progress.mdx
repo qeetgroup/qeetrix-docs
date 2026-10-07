@@ -5,7 +5,9 @@ description: "Task progress (`role=\"progressbar\"`)."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
-## Import
+## Usage
+
+### Import
 
 ```tsx
 import { Progress } from "@qeetrix/ui";
@@ -13,13 +15,13 @@ import { Progress } from "@qeetrix/ui";
 
 It can also be imported on its own from `@qeetrix/ui/components/progress`.
 
-## Variants
+### Variants
 
 | Prop | Values |
 | --- | --- |
 | `size` | `sm` · `md` · `lg` |
 
-## States
+### States
 
 `indeterminate`
 
@@ -49,7 +51,9 @@ No ARIA widget pattern. Audited.
 | Forced colours | Pass |
 | Contrast | Pass |
 
-**Live region:** announced politely.
+### Announcements
+
+Announced politely: screen readers read it when the user is idle.
 
 ## Tests
 
