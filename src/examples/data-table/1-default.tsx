@@ -67,7 +67,11 @@ const columns: ColumnDef<Member>[] = [
   },
 ];
 
-/** Sorting, search, row selection and pagination out of the box. */
+/**
+ * Sorting, search, row selection and pagination out of the box.
+ *
+ * @layout wide
+ */
 export default function DataTableDefault() {
   return (
     <DataTable
