@@ -25,6 +25,18 @@ export const tone = {
   neutral: "text-muted-foreground",
 } as const;
 
+export function BrandTitle({ children }: { children: string }) {
+  return Array.from(children.matchAll(/[^.]+|\./g), (part) =>
+    part[0] === "." ? (
+      <span key={part.index} className="text-brand">
+        .
+      </span>
+    ) : (
+      part[0]
+    ),
+  );
+}
+
 /** Eyebrow, heading and one line of supporting copy above a section. */
 export function SectionHeader({
   id,
@@ -35,26 +47,27 @@ export function SectionHeader({
 }: {
   /** Labels the section: pass the same id to the `<section aria-labelledby>`. */
   id: string;
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   description?: ReactNode;
   align?: "center" | "start";
 }) {
   return (
     <div
+      data-home-reveal
       className={cn(
         "flex flex-col gap-2",
         align === "center" && "items-center text-center",
       )}
     >
-      <p className="text-caption font-semibold uppercase tracking-wide text-brand">
-        {eyebrow}
-      </p>
+      {eyebrow && (
+        <p className="text-caption font-semibold text-brand">{eyebrow}</p>
+      )}
       <h2
         id={id}
-        className="font-display text-title font-bold text-balance text-foreground md:text-(length:--home-section-title)"
+        className="font-display text-title font-semibold leading-tight text-balance text-foreground md:text-(length:--home-section-title)"
       >
-        {title}
+        <BrandTitle>{title}</BrandTitle>
       </h2>
       {description && (
         <p className="max-w-3xl text-(length:--home-section-lead) text-pretty text-muted-foreground">

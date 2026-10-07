@@ -3,8 +3,11 @@
 import {
   ArrowLeftRightIcon,
   ChevronRightIcon,
+  CodeIcon,
+  MonitorIcon,
   MoonIcon,
   Rows3Icon,
+  SunIcon,
 } from "@qeetrix/icons";
 import {
   DensityProvider,
@@ -16,16 +19,14 @@ import {
   TabsList,
   TabsTrigger,
   Toggle,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
 } from "@qeetrix/ui";
 import { type ReactNode, useState } from "react";
 import { cn } from "@/lib/cn";
 import { type ShowcaseGroupId, showcaseGroups } from "./showcase-panels";
 
-/**
- * Unset density is the library's default size. `DensityProvider density="comfortable"` is not
- * that default — it opts into the roomier comfortable scale — so the provider wraps only when
- * compact is on.
- */
 function Density({
   compact,
   children,
@@ -33,10 +34,10 @@ function Density({
   compact: boolean;
   children: ReactNode;
 }) {
-  return compact ? (
-    <DensityProvider density="compact">{children}</DensityProvider>
-  ) : (
-    children
+  return (
+    <DensityProvider density={compact ? "compact" : "comfortable"}>
+      {children}
+    </DensityProvider>
   );
 }
 
@@ -47,49 +48,97 @@ function Density({
  */
 export function LiveShowcase({
   code,
+  version,
 }: {
   code: Record<ShowcaseGroupId, ReactNode>;
+  version: string;
 }) {
   const [view, setView] = useState("preview");
-  const [dark, setDark] = useState(false);
-  // Compact by default: a workbench shows more at once. The toggle returns to the default size.
+  const [theme, setTheme] = useState("page");
   const [compact, setCompact] = useState(true);
   const [rtl, setRtl] = useState(false);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-card shadow-rest">
-      <div className="flex flex-wrap items-center gap-3 border-b border-border-subtle px-4 py-2.5">
-        <span aria-hidden className="flex gap-2">
-          <span className="size-3 rounded-full bg-destructive" />
-          <span className="size-3 rounded-full bg-rating-filled" />
-          <span className="size-3 rounded-full bg-success" />
-        </span>
-        <div className="ms-auto flex flex-wrap items-center gap-1">
-          <Toggle
+    <section
+      aria-label="Component workbench"
+      className="home-workbench overflow-hidden rounded-lg border border-border bg-card shadow-rest"
+    >
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-3 border-b border-border-subtle bg-surface-sunken/30 px-4 py-3">
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <CodeIcon aria-hidden className="size-4 text-brand" />
+          <span className="font-mono text-caption text-foreground">
+            @qeetrix/ui
+          </span>
+          <span className="text-caption">v{version}</span>
+        </div>
+        <div className="flex w-full flex-wrap items-center gap-1 sm:ms-auto sm:w-auto">
+          <SegmentedControl
             size="sm"
-            pressed={dark}
-            onPressedChange={setDark}
-            aria-label="Dark theme"
+            value={theme}
+            onValueChange={setTheme}
+            aria-label="Preview theme"
           >
-            <MoonIcon aria-hidden />
-          </Toggle>
-          <Toggle
-            size="sm"
-            pressed={compact}
-            onPressedChange={setCompact}
-            aria-label="Compact density"
-          >
-            <Rows3Icon aria-hidden />
-          </Toggle>
-          <Toggle
-            size="sm"
-            pressed={rtl}
-            onPressedChange={setRtl}
-            aria-label="Right-to-left"
-          >
-            <ArrowLeftRightIcon aria-hidden />
-          </Toggle>
-          <span aria-hidden className="mx-2 h-5 w-px bg-border-subtle" />
+            <SegmentedControlItem
+              value="page"
+              title="Match page theme"
+              className="min-h-9 min-w-9 px-2"
+            >
+              <MonitorIcon aria-hidden />
+              <span className="sr-only">Page theme</span>
+            </SegmentedControlItem>
+            <SegmentedControlItem
+              value="light"
+              title="Light preview"
+              className="min-h-9 min-w-9 px-2"
+            >
+              <SunIcon aria-hidden />
+              <span className="sr-only">Light preview</span>
+            </SegmentedControlItem>
+            <SegmentedControlItem
+              value="dark"
+              title="Dark preview"
+              className="min-h-9 min-w-9 px-2"
+            >
+              <MoonIcon aria-hidden />
+              <span className="sr-only">Dark preview</span>
+            </SegmentedControlItem>
+          </SegmentedControl>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Toggle
+                  size="sm"
+                  className="min-h-9 min-w-9"
+                  pressed={compact}
+                  onPressedChange={setCompact}
+                  aria-label="Compact density"
+                />
+              }
+            >
+              <Rows3Icon aria-hidden />
+            </TooltipTrigger>
+            <TooltipContent>Compact density</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Toggle
+                  size="sm"
+                  className="min-h-9 min-w-9"
+                  pressed={rtl}
+                  onPressedChange={setRtl}
+                  aria-label="Right-to-left"
+                />
+              }
+            >
+              <ArrowLeftRightIcon aria-hidden />
+            </TooltipTrigger>
+            <TooltipContent>Right-to-left layout</TooltipContent>
+          </Tooltip>
+          <span
+            aria-hidden
+            className="mx-1 hidden h-5 w-px bg-border-subtle sm:block"
+          />
           <SegmentedControl
             size="sm"
             value={view}
@@ -116,7 +165,7 @@ export function LiveShowcase({
             <TabsTrigger
               key={id}
               value={id}
-              className="gap-2.5 pe-2 font-normal after:hidden hover:bg-surface-interactive data-[orientation=vertical]:h-9 data-[active]:bg-brand-subtle data-[active]:font-medium data-[active]:text-brand"
+              className="gap-2.5 pe-2 font-normal after:hidden transition-colors duration-normal hover:bg-surface-interactive data-[orientation=vertical]:h-11 data-[active]:bg-brand-subtle data-[active]:font-medium data-[active]:text-brand md:data-[orientation=vertical]:h-9"
             >
               <Icon aria-hidden />
               {label}
@@ -129,16 +178,21 @@ export function LiveShowcase({
         </TabsList>
 
         {showcaseGroups.map(({ id, panel: Panel }) => (
-          <TabsContent key={id} value={id} className="min-w-0 flex-1">
+          <TabsContent
+            key={id}
+            value={id}
+            className="home-state-enter min-w-0 flex-1"
+          >
             {view === "code" ? (
               <div className="p-4">{code[id]}</div>
             ) : (
               <DirectionProvider direction={rtl ? "rtl" : "ltr"}>
                 <Density compact={compact}>
                   <div
+                    data-home-theme={theme === "page" ? undefined : theme}
                     className={cn(
-                      "h-full bg-canvas p-4 text-foreground transition-colors duration-normal",
-                      dark && "dark",
+                      "home-workbench-stage h-full min-h-80 bg-canvas p-4 text-foreground transition-colors duration-normal",
+                      theme === "dark" && "dark",
                       compact && "home-compact-type",
                     )}
                   >
@@ -150,6 +204,6 @@ export function LiveShowcase({
           </TabsContent>
         ))}
       </Tabs>
-    </div>
+    </section>
   );
 }

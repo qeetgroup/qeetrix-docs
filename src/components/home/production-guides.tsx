@@ -1,6 +1,7 @@
 import {
   AccessibilityIcon,
   ArrowLeftRightIcon,
+  ArrowRightIcon,
   LayersIcon,
   PaletteIcon,
 } from "@qeetrix/icons";
@@ -10,9 +11,9 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { links } from "@/lib/site-links";
-import { container, SectionHeader, tone } from "./section";
+import { BrandTitle, container, SectionHeader, tone } from "./section";
 
-const icon = "size-9 shrink-0";
+const icon = "size-7 shrink-0";
 
 type Guide = {
   /** Brand marks come from thesvg; concepts from @qeetrix/icons. */
@@ -66,37 +67,98 @@ export function ProductionGuides() {
   return (
     <section
       aria-labelledby="setup-title"
-      className={`${container} flex flex-col gap-8 py-14`}
+      className={`${container} flex flex-col gap-10 py-16 md:py-20`}
     >
       <SectionHeader
         id="setup-title"
-        eyebrow="From install to production"
-        title="Get up and running in minutes."
-        description="Integrate Qeetrix into your stack and follow best practices for a production-ready setup."
+        title="A short path from install to interface."
+        description="Use your framework. Keep your workflow. Start with the pieces you need."
+        align="start"
       />
-      <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-        {guides.map(({ icon, title, description, href }) => (
+      <ol className="grid gap-8 border-y border-border-subtle py-8 md:grid-cols-3 md:gap-6">
+        {[
+          { title: "Install", code: "bun add @qeetrix/ui @qeetrix/icons" },
+          { title: "Add styles", code: '@import "@qeetrix/ui/styles.css";' },
+          { title: "Build", code: "<Button>Get started</Button>" },
+        ].map(({ title, code }, index) => (
           <li
             key={title}
-            className="relative flex items-start gap-3.5 rounded-xl border border-border-subtle bg-card p-4 transition-[box-shadow,border-color] duration-fast hover:border-border hover:shadow-hover"
+            data-home-reveal
+            data-home-delay={index * 70}
+            className="flex min-w-0 flex-col gap-4"
           >
-            {icon}
-            <div className="flex min-w-0 flex-col gap-0.5">
-              <h3 className="text-label font-semibold text-foreground">
-                <Link
-                  href={href}
-                  className="rounded-sm after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:focus-ring"
-                >
-                  {title}
-                </Link>
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-caption text-brand">
+                0{index + 1}
+              </span>
+              <h3 className="text-body font-semibold text-foreground">
+                <BrandTitle>{title}</BrandTitle>
               </h3>
-              <p className="text-caption text-muted-foreground">
-                {description}
-              </p>
+              {index < 2 && (
+                <ArrowRightIcon
+                  aria-hidden
+                  className="ms-auto hidden size-4 text-muted-foreground md:block rtl:rotate-180"
+                />
+              )}
             </div>
+            <code className="font-mono text-caption leading-relaxed wrap-anywhere text-muted-foreground">
+              {code}
+            </code>
           </li>
         ))}
-      </ul>
+      </ol>
+      <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <nav aria-label="Framework guides">
+          <ul className="flex flex-col gap-3">
+            {guides.slice(0, 2).map(({ icon, title, description, href }) => (
+              <li key={title} data-home-reveal>
+                <Link
+                  href={href}
+                  className="home-framework group flex items-center gap-5 rounded-lg border border-border-subtle bg-card px-5 py-6 transition-colors duration-normal hover:border-border-strong focus-visible:focus-ring"
+                >
+                  {icon}
+                  <div className="flex min-w-0 flex-col gap-1">
+                    <h3 className="text-heading font-semibold text-foreground">
+                      <BrandTitle>{title}</BrandTitle>
+                    </h3>
+                    <p className="text-label text-muted-foreground">
+                      {description}
+                    </p>
+                  </div>
+                  <ArrowRightIcon
+                    aria-hidden
+                    className="ms-auto size-5 shrink-0 text-brand transition-transform duration-normal group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <nav aria-label="Production guides">
+          <ul className="grid gap-x-8 gap-y-1 sm:grid-cols-2">
+            {guides.slice(2).map(({ icon, title, description, href }) => (
+              <li key={title} data-home-reveal>
+                <Link
+                  href={href}
+                  className="group flex h-full flex-col items-start gap-3 rounded-md py-4 focus-visible:focus-ring"
+                >
+                  {icon}
+                  <h3 className="flex items-center gap-2 text-body font-semibold text-foreground">
+                    <BrandTitle>{title}</BrandTitle>
+                    <ArrowRightIcon
+                      aria-hidden
+                      className="size-3.5 text-muted-foreground transition-transform duration-fast group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
+                    />
+                  </h3>
+                  <p className="text-label text-muted-foreground">
+                    {description}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
     </section>
   );
 }

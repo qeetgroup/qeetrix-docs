@@ -1,7 +1,5 @@
 import {
-  ArrowDownIcon,
   ArrowRightIcon,
-  type IconProps,
   Layers2Icon,
   PaletteIcon,
   RulerIcon,
@@ -9,207 +7,105 @@ import {
   SquareRoundCornerIcon,
   TypeIcon,
 } from "@qeetrix/icons";
-import { Button } from "@qeetrix/ui";
+import {
+  Badge,
+  buttonVariants,
+  Checkbox,
+  Input,
+  Label,
+  SegmentedControl,
+  SegmentedControlItem,
+  Switch,
+} from "@qeetrix/ui";
 import tokens from "@qeetrix/ui/tokens.json";
 import Link from "next/link";
-import { type ComponentType, Fragment, type ReactNode } from "react";
 import { links } from "@/lib/site-links";
 import { container, SectionHeader } from "./section";
-import { TokenThemeScope } from "./token-theme-scope";
+import { type TokenAccent, TokenThemeScope } from "./token-theme-scope";
 
-/**
- * Section 5: primitive → semantic → component, with real token names and values.
- *
- * Values come from `@qeetrix/ui/tokens.json` (resolved per theme). The semantic → primitive arrows
- * are derived from it too: a semantic token's reference is the primitive whose resolved value it
- * equals, in that theme — so the diagram cannot drift from what the library ships. The semantic
- * and component swatches paint with the live CSS variables, which the local theme switch
- * re-resolves; primitives are not published as variables, so they paint with their values.
- */
-
-type Tree = { [key: string]: string | Tree };
-const themes = tokens as unknown as { light: Tree; dark: Tree };
-
-function at(tree: Tree, path: string): string {
-  return path
-    .split(".")
-    .reduce<Tree | string>(
-      (node, key) => (typeof node === "string" ? node : node[key]),
-      tree,
-    ) as string;
-}
-
-const RAMPS = ["qeet", "graphite"] as const;
-
-/** The primitive a resolved value comes from, as `color.<ramp>.<step>`. */
-function primitiveFor(theme: Tree, value: string): string | null {
-  const color = theme.color as Tree;
-  for (const ramp of RAMPS) {
-    for (const [step, candidate] of Object.entries(color[ramp] as Tree)) {
-      if (candidate === value) return `color.${ramp}.${step}`;
-    }
-  }
-  return null;
-}
-
-/** The ramp, sampled from the brand orange through to the neutral ink. */
-const primitiveSwatches = [
-  "color.qeet.600",
-  "color.qeet.400",
-  "color.qeet.150",
-  "color.graphite.100",
-  "color.graphite.400",
-  "color.graphite.900",
-].map((path) => ({ path, value: at(themes.light, path) }));
-const primitiveExample = primitiveSwatches[0];
-
-/** Roles, each painted through its runtime variable. */
-const semanticSwatches = [
-  "action.primary",
-  "action.primary-hover",
-  "surface.brand-subtle",
-  "surface.sunken",
-  "border.strong",
-  "text.primary",
-].map((role) => `--qx-color-${role.replace(".", "-")}`);
-const semanticExample = {
-  path: "color.action.primary",
-  variable: "--qx-color-action-primary",
-  light: primitiveFor(themes.light, at(themes.light, "color.action.primary")),
-  dark: primitiveFor(themes.dark, at(themes.dark, "color.action.primary")),
-};
-
-const componentTokens = [
+const color = tokens.light.color;
+const accents: TokenAccent[] = [
   {
-    path: "component.button.primary.background",
-    reads: "--qx-color-action-primary",
+    id: "qeet",
+    label: "Qeet orange",
+    path: "color.qeet.600",
+    value: color.qeet[600],
+    hover: color.qeet[700],
+    bright: color.qeet[400],
+    ramp: [
+      color.qeet[100],
+      color.qeet[200],
+      color.qeet[400],
+      color.qeet[600],
+      color.qeet[700],
+    ],
   },
   {
-    path: "component.button.primary.foreground",
-    reads: "--qx-color-text-on-brand",
+    id: "blue",
+    label: "Blue",
+    path: "color.info.700",
+    value: color.info[700],
+    hover: color.info[800],
+    bright: color.info[400],
+    ramp: [
+      color.info[100],
+      color.info[200],
+      color.info[400],
+      color.info[700],
+      color.info[800],
+    ],
   },
   {
-    path: "component.button.primary.background-hover",
-    reads: "--qx-color-action-primary-hover",
+    id: "green",
+    label: "Green",
+    path: "color.success.700",
+    value: color.success[700],
+    hover: color.success[800],
+    bright: color.success[400],
+    ramp: [
+      color.success[100],
+      color.success[200],
+      color.success[400],
+      color.success[700],
+      color.success[800],
+    ],
   },
 ];
 
-const foundations: {
-  label: string;
-  href: string;
-  icon: ComponentType<IconProps<"outline">>;
-}[] = [
+const foundations = [
   { label: "Colour", href: links.colors, icon: PaletteIcon },
   { label: "Typography", href: links.typography, icon: TypeIcon },
   { label: "Spacing", href: links.spacing, icon: RulerIcon },
-  {
-    label: "Corners",
-    href: `${links.theming}#corners`,
-    icon: SquareRoundCornerIcon,
-  },
+  { label: "Corners", href: links.theming, icon: SquareRoundCornerIcon },
   { label: "Elevation", href: links.elevation, icon: Layers2Icon },
   { label: "Motion", href: links.motion, icon: SparklesIcon },
 ];
-
-function Stage({
-  step,
-  title,
-  description,
-  children,
-}: {
-  step: number;
-  title: string;
-  description: string;
-  children: ReactNode;
-}) {
-  return (
-    <li className="flex min-w-0 flex-col gap-4 rounded-xl border border-border-subtle bg-card p-5 transition-colors duration-normal">
-      <div className="flex items-start gap-3">
-        <span className="flex size-7 shrink-0 items-center justify-center rounded-full border border-border text-caption font-semibold text-foreground">
-          {step}
-        </span>
-        <div>
-          <h3 className="text-body font-semibold text-foreground">{title}</h3>
-          <p className="text-caption text-muted-foreground">{description}</p>
-        </div>
-      </div>
-      {children}
-    </li>
-  );
-}
-
-function Arrow() {
-  return (
-    <li
-      aria-hidden
-      className="flex items-center justify-center text-muted-foreground"
-    >
-      <ArrowRightIcon className="hidden size-4 lg:block rtl:rotate-180" />
-      <ArrowDownIcon className="size-4 lg:hidden" />
-    </li>
-  );
-}
-
-function Swatch({ background }: { background: string }) {
-  return (
-    <span
-      className="h-8 min-w-0 flex-1 rounded-md border border-border-subtle transition-colors duration-normal"
-      style={{ background }}
-    />
-  );
-}
-
-/** A token path that wraps only at its dots, never mid-segment. */
-function TokenName({ children }: { children: string }) {
-  const segments = children.split(".");
-  return (
-    <code className="font-mono text-caption text-foreground">
-      {segments.map((segment, index) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: segments repeat (`qeet.600.600`) and never reorder
-        <Fragment key={index}>
-          {segment}
-          {index < segments.length - 1 && (
-            <>
-              .<wbr />
-            </>
-          )}
-        </Fragment>
-      ))}
-    </code>
-  );
-}
-
-function Detail({ children }: { children: ReactNode }) {
-  return (
-    <span className="block font-mono text-micro wrap-break-word text-muted-foreground">
-      {children}
-    </span>
-  );
-}
 
 export function TokenArchitecture() {
   return (
     <section
       aria-labelledby="tokens-title"
-      className={`${container} flex flex-col py-14`}
+      className={`${container} flex flex-col py-16 md:py-20`}
     >
       <TokenThemeScope
+        accents={accents}
         header={
           <SectionHeader
             id="tokens-title"
             eyebrow="Foundations, connected"
-            title="A token architecture that scales."
-            description="From primitive values to component-level tokens, Qeetrix keeps design and code in sync."
+            title="One change. Every component."
+            description="A single source of truth, from the first color decision to the last interaction."
+            align="start"
           />
         }
         aside={
-          <nav aria-label="Foundations" className="lg:pt-2">
-            <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3 lg:grid-cols-1">
+          <nav aria-label="Foundations">
+            <ul className="flex flex-wrap gap-x-4 gap-y-1">
               {foundations.map(({ label, href, icon: Icon }) => (
                 <li key={label}>
                   <Link
                     href={href}
-                    className="flex items-center gap-2.5 rounded-md px-2 py-1.5 text-label text-muted-foreground transition-colors duration-fast hover:bg-surface-interactive hover:text-foreground focus-visible:focus-ring"
+                    className="group flex min-h-11 items-center gap-2.5 rounded-md px-2 py-2 text-label text-muted-foreground transition-colors duration-fast hover:bg-surface-interactive hover:text-foreground focus-visible:focus-ring"
                   >
                     <Icon aria-hidden className="size-4 shrink-0" />
                     {label}
@@ -220,76 +116,73 @@ export function TokenArchitecture() {
           </nav>
         }
       >
-        <ol className="grid items-stretch gap-3 lg:grid-cols-[1fr_auto_1fr_auto_1.3fr]">
-          <Stage
-            step={1}
-            title="Primitive tokens"
-            description="Core, brand-agnostic values."
-          >
-            <div aria-hidden className="flex gap-2">
-              {primitiveSwatches.map((swatch) => (
-                <Swatch key={swatch.path} background={swatch.value} />
-              ))}
-            </div>
-            <div>
-              <TokenName>{primitiveExample.path}</TokenName>
-              <Detail>{primitiveExample.value}</Detail>
-            </div>
-          </Stage>
-          <Arrow />
-          <Stage
-            step={2}
-            title="Semantic tokens"
-            description="Meaningful values for design decisions."
-          >
-            <div aria-hidden className="flex gap-2">
-              {semanticSwatches.map((variable) => (
-                <Swatch key={variable} background={`var(${variable})`} />
-              ))}
-            </div>
-            <div>
-              <TokenName>{semanticExample.path}</TokenName>
-              <Detail>var({semanticExample.variable})</Detail>
-              <Detail>
-                →{" "}
-                <span className="dark:hidden">
-                  {semanticExample.light ?? "a literal"}
-                </span>
-                <span className="hidden dark:inline">
-                  {semanticExample.dark ?? "a literal"}
-                </span>
-              </Detail>
-            </div>
-          </Stage>
-          <Arrow />
-          <Stage
-            step={3}
-            title="Component tokens"
-            description="Applied to components across the system."
-          >
-            <div aria-hidden className="flex items-center gap-2" inert>
-              <Button size="sm">Button</Button>
-              <span
-                className="flex h-8 flex-1 items-center justify-center rounded-md text-caption font-medium transition-colors duration-normal"
-                style={{
-                  background: "var(--qx-component-button-primary-background)",
-                  color: "var(--qx-component-button-primary-foreground)",
-                }}
-              >
-                Button text
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="flex size-10 items-center justify-center rounded-lg bg-brand-subtle text-brand">
+                <Layers2Icon aria-hidden className="size-5" />
               </span>
-              <Swatch background="var(--qx-component-button-primary-background-hover)" />
+              <div>
+                <p className="text-body font-semibold">Qeet Platform</p>
+                <p className="text-caption text-muted-foreground">
+                  Team workspace
+                </p>
+              </div>
             </div>
-            <ul className="flex flex-col gap-1.5">
-              {componentTokens.map((token) => (
-                <li key={token.path}>
-                  <TokenName>{token.path}</TokenName>
-                  <Detail>→ var({token.reads})</Detail>
-                </li>
-              ))}
-            </ul>
-          </Stage>
-        </ol>
+            <Badge>Shared</Badge>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div className="flex flex-col gap-2.5">
+              <Label htmlFor="token-project">Project name</Label>
+              <Input
+                id="token-project"
+                defaultValue="Qeet workspace"
+                className="min-h-10"
+              />
+            </div>
+            <div className="flex flex-col gap-2.5">
+              <p id="token-access-label" className="text-label font-medium">
+                Access
+              </p>
+              <SegmentedControl
+                defaultValue="team"
+                aria-labelledby="token-access-label"
+                className="min-h-10"
+              >
+                <SegmentedControlItem value="team">Team</SegmentedControlItem>
+                <SegmentedControlItem value="private">
+                  Private
+                </SegmentedControlItem>
+              </SegmentedControl>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 border-y border-border-subtle py-3">
+            <Label className="min-h-11 justify-between font-normal">
+              Team notifications
+              <Switch defaultChecked />
+            </Label>
+            <Label className="min-h-11 gap-3 font-normal">
+              <Checkbox defaultChecked />
+              Weekly activity summary
+            </Label>
+          </div>
+          <div className="flex flex-wrap items-center justify-end gap-3">
+            <Link
+              href={links.foundations}
+              className={buttonVariants({ variant: "outline" })}
+            >
+              Foundations
+            </Link>
+            <Link href={links.theming} className={buttonVariants()}>
+              View theming
+              <ArrowRightIcon
+                aria-hidden
+                data-icon="inline-end"
+                className="rtl:rotate-180"
+              />
+            </Link>
+          </div>
+        </div>
       </TokenThemeScope>
     </section>
   );

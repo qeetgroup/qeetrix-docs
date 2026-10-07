@@ -12,7 +12,9 @@ bun run dev
 ```
 
 Open http://localhost:3006. `dev` and `build` first generate the component and token data from the
-installed `@qeetrix/ui` (`scripts/generate-components.mjs`, `scripts/generate-tokens.mjs`).
+installed `@qeetrix/ui` (`scripts/generate-components.mjs`, `scripts/generate-tokens.mjs`), and the
+icon browser's data from the installed `@qeetrix/icons` (`scripts/generate-icons.mjs`, written to
+`public/icon-data/`).
 
 The checks CI runs on every pull request:
 
@@ -54,13 +56,19 @@ creates no tag.
 ## Explore
 
 - `content/docs` — the MDX pages. Collections are defined with the
-  [Macro API](https://fumadocs.dev/docs/mdx/macro) in `src/lib/source.ts`.
-- `src/lib/layout.shared.tsx` — options shared by the home and docs layouts.
+  [Macro API](https://fumadocs.dev/docs/mdx/macro) in `src/lib/source.ts`, which also sets the code
+  theme (`src/lib/code-theme.ts`) and the package-manager tabs for ```` ```npm ```` blocks.
+- `src/components/site-header.tsx` — the header of the homepage, the docs and the icon browser.
+- `src/lib/layout.shared.tsx` — options for the docs layout.
+- `src/lib/component-groups.json` — the sidebar groups of the component pages.
+- `src/components/docs` — the docs page header, code blocks, example previews and callouts.
+- `src/components/icons` — the icon browser.
 - `src/components/home` — the landing page's sections.
 
 | Route                         | Description                         |
 | ----------------------------- | ----------------------------------- |
 | `src/app/(home)`              | The landing page.                   |
 | `src/app/docs`                | The documentation layout and pages. |
+| `src/app/icons`               | The icon browser.                   |
 | `src/app/api/search/route.ts` | The route handler for search.       |
 | `src/app/llms.txt`            | The docs index for LLMs.            |

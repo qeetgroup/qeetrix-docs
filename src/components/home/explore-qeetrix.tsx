@@ -2,133 +2,185 @@ import {
   ArrowRightIcon,
   BookOpenIcon,
   BoxIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
   FileTextIcon,
   type IconProps,
   LayersIcon,
   WorkflowIcon,
 } from "@qeetrix/icons";
-import { Button, Switch } from "@qeetrix/ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  Badge,
+  Button,
+  Input,
+  Label,
+  SegmentedControl,
+  SegmentedControlItem,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Switch,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@qeetrix/ui";
 import Link from "next/link";
 import type { ComponentType, ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { library } from "@/lib/library";
 import { links } from "@/lib/site-links";
 import { container, SectionHeader, tone } from "./section";
 
-/** Miniature previews — real components and semantic tokens, drawn small and inert. */
-
-/** A placeholder bar: the previews sketch structure, not content. */
-function Bar({ className }: { className?: string }) {
-  return (
-    <span className={cn("block h-1.5 rounded-full bg-muted", className)} />
-  );
-}
-
 function ComponentsPreview() {
   return (
-    <div className="flex flex-col gap-2.5" inert>
-      <div className="flex items-center gap-2">
-        <Button size="sm">Button</Button>
-        <span className="flex h-7 flex-1 items-center justify-between rounded-md border border-border-subtle px-2">
-          <Bar className="w-3/5" />
-          <ChevronDownIcon className="size-3.5 text-muted-foreground" />
-        </span>
+    <div className="home-component-shelf relative flex min-h-72 flex-col justify-center gap-6 px-5 py-6 sm:px-8">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <AvatarGroup>
+            {["QT", "DS", "UI"].map((initials) => (
+              <Avatar key={initials} size="sm">
+                <AvatarFallback>{initials}</AvatarFallback>
+              </Avatar>
+            ))}
+          </AvatarGroup>
+          <span className="text-caption font-medium text-muted-foreground">
+            Qeet workspace
+          </span>
+        </div>
+        <Badge variant="success">Active</Badge>
       </div>
-      <div className="flex items-center gap-2">
-        <span className="flex h-7 flex-1 items-center rounded-md border border-border-subtle px-2">
-          <Bar className="w-2/3" />
-        </span>
-        <span className="size-7 rounded-md border border-border-subtle" />
-        <Switch defaultChecked aria-label="Preview switch" />
+      <div className="grid gap-5 sm:grid-cols-[1.2fr_1fr]">
+        <div className="flex flex-col gap-2.5">
+          <Label htmlFor="explore-workspace">Workspace</Label>
+          <Input
+            id="explore-workspace"
+            defaultValue="Qeet Platform"
+            className="min-h-10 bg-card"
+          />
+        </div>
+        <div className="flex flex-col gap-2.5">
+          <Label htmlFor="explore-access">Default access</Label>
+          <Select defaultValue="member">
+            <SelectTrigger
+              id="explore-access"
+              className="min-h-10 w-full bg-card"
+            >
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="member">Member</SelectItem>
+              <SelectItem value="editor">Editor</SelectItem>
+              <SelectItem value="viewer">Viewer</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <Label className="min-h-11 gap-3 font-normal">
+          <Switch defaultChecked />
+          Notifications
+        </Label>
+        <SegmentedControl
+          defaultValue="team"
+          size="sm"
+          aria-label="Workspace visibility"
+        >
+          <SegmentedControlItem value="team">Team</SegmentedControlItem>
+          <SegmentedControlItem value="private">Private</SegmentedControlItem>
+        </SegmentedControl>
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border-subtle pt-4">
+        <code className="font-mono text-caption text-muted-foreground">
+          @qeetrix/ui
+        </code>
+        <Button
+          nativeButton={false}
+          render={<Link href={`${links.components}/button`} />}
+        >
+          View Button
+          <ArrowRightIcon aria-hidden data-icon="inline-end" />
+        </Button>
       </div>
     </div>
   );
 }
 
 const swatches = [
-  "bg-primary",
-  "bg-(--qx-color-border-brand)",
-  "bg-brand-subtle",
-  "bg-muted",
-  "bg-foreground",
+  { label: "Action", role: "primary", color: "bg-primary" },
+  { label: "Brand", role: "subtle", color: "bg-brand-subtle" },
+  { label: "Surface", role: "sunken", color: "bg-surface-sunken" },
+  { label: "Border", role: "strong", color: "bg-border-strong" },
+  { label: "Text", role: "primary", color: "bg-foreground" },
 ];
 
 function FoundationsPreview() {
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex gap-2">
-        {swatches.map((swatch) => (
-          <span
-            key={swatch}
-            className={`size-7 rounded-full border border-border-subtle ${swatch}`}
-          />
-        ))}
-      </div>
-      <div className="flex items-baseline gap-5 font-display text-heading">
-        <span className="font-bold text-foreground">Aa</span>
-        <span className="text-muted-foreground">Aa</span>
-        <span className="font-light text-muted-foreground/70">Aa</span>
-      </div>
-    </div>
-  );
-}
-
-function PatternsPreview() {
-  return (
-    <div className="grid h-20 grid-cols-[1.25rem_1fr] gap-2 rounded-md border border-border-subtle bg-canvas p-2">
-      <div className="flex flex-col items-center gap-1.5 pt-1">
-        {[0, 1, 2, 3].map((dot) => (
-          <span key={dot} className="size-1.5 rounded-full bg-border-strong" />
-        ))}
-      </div>
-      <div className="flex flex-col gap-1.5">
-        <Bar className="h-2 w-1/3" />
-        <div className="grid flex-1 grid-cols-3 gap-1.5">
-          <span className="col-span-2 rounded-sm bg-muted" />
-          <span className="rounded-sm bg-muted" />
-          <span className="rounded-sm bg-muted" />
-          <span className="col-span-2 rounded-sm bg-muted" />
+    <Tabs defaultValue="color" className="min-h-72 gap-5 px-5 py-6 sm:px-8">
+      <TabsList variant="line" aria-label="Foundation samples">
+        <TabsTrigger value="color">Color</TabsTrigger>
+        <TabsTrigger value="type">Type</TabsTrigger>
+        <TabsTrigger value="space">Spacing</TabsTrigger>
+      </TabsList>
+      <TabsContent value="color" className="home-state-enter">
+        <ul className="grid grid-cols-5 gap-1.5">
+          {swatches.map(({ label, role, color }, index) => (
+            <li
+              key={label}
+              className="group/swatch flex min-w-0 flex-col gap-3"
+            >
+              <span
+                aria-hidden
+                className={cn(
+                  "home-palette-sample block h-24 rounded-md border border-border-subtle sm:h-28",
+                  color,
+                )}
+                style={{ animationDelay: `${index * 45}ms` }}
+              />
+              <span className="flex flex-col gap-1 text-caption font-medium text-foreground">
+                {label}
+                <span className="font-mono text-micro font-normal text-muted-foreground">
+                  {role}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </TabsContent>
+      <TabsContent value="type" className="home-state-enter">
+        <div className="flex min-h-40 flex-col justify-between gap-3">
+          <div className="flex items-end justify-between gap-3">
+            <span className="font-display text-display font-semibold">Aa</span>
+            <span className="text-label text-muted-foreground">Qeet Text</span>
+          </div>
+          <p className="font-display text-heading font-medium text-foreground">
+            A familiar voice. At every scale.
+          </p>
+          <code className="font-mono text-caption text-muted-foreground">
+            const interface = &quot;Qeetrix&quot;;
+          </code>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function GuidesPreview() {
-  return (
-    <ol className="flex flex-col gap-2 rounded-md border border-border-subtle p-2.5 text-caption text-foreground">
-      {["Install", "Configure", "Build"].map((step, index) => (
-        <li key={step} className="flex items-center gap-2">
-          <span
-            className={cn(
-              "flex size-5 shrink-0 items-center justify-center rounded-full text-micro font-semibold",
-              index === 0
-                ? "bg-info-subtle text-info"
-                : "bg-muted text-muted-foreground",
-            )}
-          >
-            {index + 1}
-          </span>
-          {step}
-          <Bar className="ms-auto w-2/5" />
-        </li>
-      ))}
-    </ol>
-  );
-}
-
-function ResourcesPreview() {
-  return (
-    <ul className="flex flex-col gap-2 text-muted-foreground">
-      {["w-3/4", "w-1/2", "w-2/3", "w-2/5"].map((width) => (
-        <li key={width} className="flex items-center gap-2">
-          <FileTextIcon className="size-3.5 shrink-0" />
-          <Bar className={width} />
-          <ChevronRightIcon className="ms-auto size-3.5 shrink-0 rtl:rotate-180" />
-        </li>
-      ))}
-    </ul>
+      </TabsContent>
+      <TabsContent value="space" className="home-state-enter">
+        <ul className="grid min-h-40 grid-cols-4 items-end gap-3">
+          {[2, 4, 6, 8].map((step) => (
+            <li key={step} className="flex flex-col items-start gap-3">
+              <span
+                aria-hidden
+                className="home-palette-sample block w-full rounded-t-md border-t-2 border-border-brand bg-brand-subtle"
+                style={{ height: `calc(var(--spacing) * ${step} * 3)` }}
+              />
+              <code className="text-caption text-muted-foreground">
+                {step * 4}px
+              </code>
+            </li>
+          ))}
+        </ul>
+      </TabsContent>
+    </Tabs>
   );
 }
 
@@ -139,7 +191,7 @@ type Entry = {
   description: string;
   cta: string;
   href: string;
-  preview: ReactNode;
+  preview?: ReactNode;
 };
 
 const entries: Entry[] = [
@@ -147,8 +199,7 @@ const entries: Entry[] = [
     icon: BoxIcon,
     tone: tone.brand,
     title: "Components",
-    description:
-      "Production-ready React components with built-in accessibility and variants.",
+    description: `${library.componentCount} React modules. Accessible controls, considered variants, and the freedom to compose.`,
     cta: "Browse components",
     href: links.components,
     preview: <ComponentsPreview />,
@@ -158,7 +209,7 @@ const entries: Entry[] = [
     tone: tone.sky,
     title: "Foundations",
     description:
-      "Design tokens, theming and core primitives for consistent design and development.",
+      "Color, type, and space with a shared vocabulary. The same tokens in every product.",
     cta: "Explore foundations",
     href: links.foundations,
     preview: <FoundationsPreview />,
@@ -167,31 +218,25 @@ const entries: Entry[] = [
     icon: WorkflowIcon,
     tone: tone.violet,
     title: "Patterns",
-    description:
-      "Common layout and interaction patterns for real product experiences.",
+    description: "Layouts and interactions for real product workflows.",
     cta: "View patterns",
     href: links.patterns,
-    preview: <PatternsPreview />,
   },
   {
     icon: BookOpenIcon,
     tone: tone.gold,
     title: "Guides",
-    description:
-      "Step-by-step tutorials and best practices for building with Qeetrix.",
+    description: "From your first import to a production-ready setup.",
     cta: "Read guides",
     href: links.guides,
-    preview: <GuidesPreview />,
   },
   {
     icon: FileTextIcon,
     tone: tone.green,
     title: "Resources",
-    description:
-      "Changelog, releases and additional resources to keep you up to date.",
+    description: "Releases, changelog, and ways to contribute.",
     cta: "View resources",
     href: links.resources,
-    preview: <ResourcesPreview />,
   },
 ];
 
@@ -199,46 +244,91 @@ export function ExploreQeetrix() {
   return (
     <section
       aria-labelledby="explore-title"
-      className={`${container} flex flex-col gap-8 py-14`}
+      className={`${container} flex flex-col gap-8 py-16 md:py-20`}
     >
       <SectionHeader
         id="explore-title"
         eyebrow="Explore Qeetrix"
-        title="Everything you need to build with confidence."
-        description="From ready-to-use components to in-depth guides, explore everything the Qeetrix design system has to offer."
+        title="Everything you need. One shared language."
+        description="Start with a component. Build on the foundations. Bring the whole system into your product."
       />
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        {entries.map(
-          ({ icon: Icon, tone, title, description, cta, href, preview }) => (
-            <li
-              key={title}
-              className="group relative flex flex-col gap-4 rounded-xl border border-border-subtle bg-card p-6 transition-[box-shadow,border-color] duration-fast hover:border-border hover:shadow-hover"
-            >
-              <Icon aria-hidden className={cn("size-8", tone)} />
-              <div className="flex flex-col gap-1.5">
-                <h3 className="font-heading text-heading font-bold text-foreground">
+      <div className="grid gap-5 lg:grid-cols-[1.1fr_1fr]">
+        {entries
+          .slice(0, 2)
+          .map(
+            (
+              { icon: Icon, tone, title, description, cta, href, preview },
+              index,
+            ) => (
+              <article
+                key={title}
+                data-home-reveal
+                data-home-delay={index * 70}
+                className={cn(
+                  "home-feature home-collection group flex min-w-0 flex-col overflow-hidden rounded-lg border border-border-subtle bg-card",
+                )}
+              >
+                <div className="home-collection-preview border-b border-border-subtle">
+                  {preview}
+                </div>
+                <div className="flex flex-1 flex-col gap-5 p-6 sm:p-8">
+                  <div className="flex items-start gap-4">
+                    <Icon
+                      aria-hidden
+                      className={cn("mt-0.5 size-6 shrink-0", tone)}
+                    />
+                    <div className="flex min-w-0 flex-col gap-2">
+                      <h3 className="font-heading text-heading font-semibold text-foreground">
+                        {title}
+                      </h3>
+                      <p className="max-w-lg text-body text-muted-foreground">
+                        {description}
+                      </p>
+                    </div>
+                  </div>
                   <Link
                     href={href}
-                    className="rounded-sm after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:focus-ring"
+                    className="group/link mt-auto flex min-h-11 items-center gap-2 self-start rounded-md text-label font-medium text-brand focus-visible:focus-ring"
                   >
-                    {title}
+                    {cta}
+                    <ArrowRightIcon
+                      aria-hidden
+                      className="size-4 transition-transform duration-fast group-hover/link:translate-x-1 rtl:rotate-180 rtl:group-hover/link:-translate-x-1"
+                    />
                   </Link>
-                </h3>
-                <p className="text-body text-muted-foreground">{description}</p>
-              </div>
-              <div aria-hidden className="mt-auto pt-1">
-                {preview}
-              </div>
-              <p
-                aria-hidden
-                className="flex items-center gap-1.5 text-label font-medium text-brand"
+                </div>
+              </article>
+            ),
+          )}
+      </div>
+      <ul className="grid gap-2 border-y border-border-subtle py-2 md:grid-cols-3 md:gap-6">
+        {entries
+          .slice(2)
+          .map(({ icon: Icon, tone, title, description, href }) => (
+            <li key={title} data-home-reveal>
+              <Link
+                href={href}
+                className="group flex h-full items-start gap-4 rounded-md px-3 py-5 transition-colors duration-normal hover:bg-surface-interactive focus-visible:focus-ring"
               >
-                {cta}
-                <ArrowRightIcon className="size-3.5 transition-transform duration-fast group-hover:translate-x-0.5 rtl:rotate-180" />
-              </p>
+                <Icon
+                  aria-hidden
+                  className={cn("mt-0.5 size-5 shrink-0", tone)}
+                />
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-body font-semibold text-foreground">
+                    {title}
+                  </h3>
+                  <p className="text-label text-muted-foreground">
+                    {description}
+                  </p>
+                </div>
+                <ArrowRightIcon
+                  aria-hidden
+                  className="ms-auto mt-1 size-4 shrink-0 text-muted-foreground transition-transform duration-fast group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
+                />
+              </Link>
             </li>
-          ),
-        )}
+          ))}
       </ul>
     </section>
   );

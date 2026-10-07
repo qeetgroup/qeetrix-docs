@@ -1,0 +1,206 @@
+{
+  "$comment": "Sidebar groups for the component pages, in sidebar order. scripts/generate-components.mjs writes them into content/docs/components/meta.json as separators and warns about any component not listed here; the docs page header reads them for its eyebrow. `icon` names an entry in src/lib/icons.ts.",
+  "groups": [
+    {
+      "name": "Actions",
+      "icon": "MousePointerClick",
+      "components": [
+        "action-bar",
+        "button",
+        "button-group",
+        "clipboard",
+        "close-button",
+        "copyable-secret",
+        "icon-button",
+        "segmented-control",
+        "toggle",
+        "toolbar"
+      ]
+    },
+    {
+      "name": "Forms & inputs",
+      "icon": "TextCursorInput",
+      "components": [
+        "angle-slider",
+        "autocomplete",
+        "checkbox",
+        "checkbox-card",
+        "color-picker",
+        "color-swatch",
+        "combobox",
+        "country-picker",
+        "currency-input",
+        "editable",
+        "field",
+        "file-upload",
+        "form",
+        "input",
+        "input-group",
+        "label",
+        "listbox",
+        "logo-uploader",
+        "mask-input",
+        "mention-input",
+        "native-select",
+        "number-field",
+        "otp-input",
+        "password-input",
+        "password-strength-meter",
+        "radio-card",
+        "radio-group",
+        "rating",
+        "rich-text-editor",
+        "select",
+        "slider",
+        "switch",
+        "tag-input",
+        "textarea",
+        "timezone-picker"
+      ]
+    },
+    {
+      "name": "Date & time",
+      "icon": "CalendarClock",
+      "components": [
+        "availability-grid",
+        "calendar",
+        "date-picker",
+        "date-time-picker",
+        "schedule-calendar",
+        "time-picker",
+        "time-range-picker",
+        "time-since",
+        "timer"
+      ]
+    },
+    {
+      "name": "Data display",
+      "icon": "Table",
+      "components": [
+        "avatar",
+        "badge",
+        "blockquote",
+        "chart",
+        "chart-presets",
+        "chip",
+        "code-block",
+        "data-table",
+        "description-list",
+        "diff-viewer",
+        "feed",
+        "file-card",
+        "file-type-icon",
+        "filter-bar",
+        "highlight",
+        "icon",
+        "json-tree",
+        "kbd",
+        "marquee",
+        "number-formatter",
+        "org-chart",
+        "presence-indicator",
+        "qr-code",
+        "rolling-number",
+        "stat",
+        "status-pill",
+        "table",
+        "timeline",
+        "tree-view",
+        "typography"
+      ]
+    },
+    {
+      "name": "Feedback",
+      "icon": "BellRing",
+      "components": [
+        "alert",
+        "banner",
+        "callout",
+        "data-state",
+        "empty-state",
+        "meter",
+        "notification",
+        "notification-center",
+        "progress",
+        "progress-circle",
+        "skeleton",
+        "spinner",
+        "toast"
+      ]
+    },
+    {
+      "name": "Overlays",
+      "icon": "Layers",
+      "components": [
+        "alert-dialog",
+        "command-palette",
+        "context-menu",
+        "dialog",
+        "drawer",
+        "dropdown-menu",
+        "floating-window",
+        "hover-card",
+        "popover",
+        "preview-card",
+        "sheet",
+        "toggle-tip",
+        "tooltip",
+        "tour"
+      ]
+    },
+    {
+      "name": "Navigation",
+      "icon": "Compass",
+      "components": [
+        "breadcrumb",
+        "link",
+        "menubar",
+        "navigation-menu",
+        "pagination",
+        "pagination-bar",
+        "sidebar",
+        "skip-nav",
+        "stepper",
+        "table-of-contents",
+        "tabs"
+      ]
+    },
+    {
+      "name": "Layout",
+      "icon": "LayoutDashboard",
+      "components": [
+        "accordion",
+        "app-shell",
+        "aspect-ratio",
+        "card",
+        "carousel",
+        "collapsible",
+        "container",
+        "master-detail",
+        "overflow-list",
+        "page-header",
+        "resizable",
+        "scroll-area",
+        "separator",
+        "spoiler"
+      ]
+    },
+    {
+      "name": "Workflows",
+      "icon": "Workflow",
+      "components": [
+        "access-review",
+        "audit-event",
+        "comment-thread",
+        "notification-preference-matrix",
+        "reaction-bar",
+        "security-item"
+      ]
+    },
+    {
+      "name": "Utilities",
+      "icon": "Wrench",
+      "components": ["focus-trap", "portal", "visually-hidden"]
+    }
+  ]
+}

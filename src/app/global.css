@@ -23,6 +23,14 @@ html > body[data-scroll-locked] {
   --removed-body-scroll-bar-size: 0px !important;
 }
 
+/* Site header & docs shell ------------------------------------------------------------------- */
+
+/* The site header (src/components/site-header.tsx): a 4rem bar and its 1px rule. The docs layout
+ * and the icon browser offset their sticky parts by it. */
+:root {
+  --site-header-height: calc(4rem + 1px);
+}
+
 /* Spacious docs layout: the sidebar sits on the frame and the page panel is the raised surface.
  * The layout paints the frame with --color-fd-card and the panel with --color-fd-background, which
  * in Qeetrix's ladder puts the panel below a white frame; these restore frame → panel order. */
@@ -36,6 +44,21 @@ div:has(> #nd-sidebar) {
 
 #nd-page-panel {
   background-color: var(--card);
+}
+
+/* Group headings in the sidebar (the `---[Icon]Name---` separators in meta.json): small capitals
+ * with the group's icon, so the long component list reads in sections. */
+#nd-sidebar p.inline-flex {
+  margin-top: calc(var(--spacing) * 6);
+  font-size: var(--qx-typography-micro-font-size);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+#nd-sidebar p.inline-flex svg {
+  opacity: 0.8;
 }
 
 /* Fumadocs has one accent, --color-fd-primary, and uses it mostly as text and thin indicators
@@ -63,10 +86,30 @@ div:has(> #nd-sidebar) {
   box-shadow: inset 0 -1px 0 var(--qx-color-border-brand);
 }
 
+/* Sidebar entries: a compact row in secondary text (Spacious draws the hover block), and for the
+ * current page the library's Sidebar selection — normal text on the selected fill, with the brand
+ * indicator. */
+#nd-sidebar a[data-active] {
+  min-height: calc(var(--spacing) * 8);
+  padding-block: calc(var(--spacing) * 1.25);
+  border-radius: var(--radius-md);
+  color: var(--muted-foreground);
+  font-size: var(--qx-typography-label-font-size);
+}
+
+#nd-sidebar a[data-active] svg {
+  opacity: 0.8;
+}
+
 #nd-sidebar a[data-active="true"] {
   background-color: var(--sidebar-selected);
   color: var(--sidebar-selected-foreground);
   font-weight: 500;
+}
+
+#nd-sidebar a[data-active="true"] svg {
+  opacity: 1;
+  color: var(--qx-color-text-brand);
 }
 
 #nd-sidebar a[data-active="true"]::before {
@@ -77,6 +120,91 @@ div:has(> #nd-sidebar) {
   width: var(--qx-component-sidebar-indicator-width);
   border-radius: 9999px;
   background-color: var(--sidebar-indicator);
+}
+
+/* Docs content -------------------------------------------------------------------------------- */
+
+/* Highlighted code (src/lib/code-theme.ts) in Qeetrix's syntax roles, which follow the theme. */
+:root {
+  --code-foreground: var(--foreground);
+  --code-keyword: var(--qx-color-syntax-literal);
+  --code-function: var(--qx-color-syntax-key);
+  --code-attribute: var(--qx-color-syntax-number);
+  --code-constant: var(--qx-color-syntax-number);
+  --code-string: var(--qx-color-syntax-string);
+  --code-comment: var(--qx-color-syntax-comment);
+  --code-punctuation: var(--qx-color-syntax-punctuation);
+}
+
+/* The example canvas: a faint dot grid in the strong border colour, so the component sits on a
+ * surface that reads as a stage, in either theme. */
+.preview-canvas {
+  background-color: var(--card);
+  background-image: radial-gradient(
+    color-mix(in oklch, var(--qx-color-border-strong) 75%, transparent) 0.8px,
+    transparent 0.8px
+  );
+  background-size: calc(var(--spacing) * 4) calc(var(--spacing) * 4);
+  background-position: calc(var(--spacing) * -2) calc(var(--spacing) * -2);
+}
+
+/* Folded example code: the first lines, under the fade the frame draws. */
+.preview-code[data-folded] .fd-scroll-container {
+  max-height: calc(var(--spacing) * 56);
+  overflow: hidden;
+}
+
+/* Reading text: headings with room above them, inline code as a quiet chip, keys as key caps. */
+#nd-page .prose {
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  line-height: 1.75;
+}
+
+#nd-page .prose :where(h2) {
+  margin-top: 3rem;
+  font-size: calc(var(--qx-typography-heading-font-size) * 1.2);
+  letter-spacing: -0.012em;
+}
+
+#nd-page .prose > :where(h2:first-child) {
+  margin-top: 1.75rem;
+}
+
+#nd-page .prose :where(h3) {
+  margin-top: 2.25rem;
+  font-size: calc(var(--qx-typography-heading-font-size) * 0.95);
+  letter-spacing: -0.006em;
+}
+
+#nd-page .prose :where(:not(pre, [data-code-block] *) > code) {
+  border: 1px solid var(--qx-color-border-subtle);
+  border-radius: var(--radius-sm);
+  background-color: var(--qx-color-surface-subtle, var(--muted));
+  padding: 0.1em 0.38em;
+  font-size: 0.86em;
+  font-weight: 450;
+  color: var(--foreground);
+}
+
+#nd-page .prose :where(kbd) {
+  display: inline-flex;
+  min-width: 1.6em;
+  justify-content: center;
+  border: 1px solid var(--qx-color-border-subtle);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-sm);
+  background-color: var(--card);
+  padding: 0.05em 0.4em;
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  color: var(--foreground);
+  box-shadow: none;
+}
+
+#nd-page .prose :where(a:not([data-card])) {
+  text-decoration-color: color-mix(in oklch, currentColor 35%, transparent);
+  text-underline-offset: 3px;
 }
 
 /* Homepage ------------------------------------------------------------------------------------ */
@@ -122,5 +250,207 @@ div:has(> #nd-sidebar) {
     --text-base: var(--qx-typography-label-font-size);
     --text-sm: var(--qx-typography-caption-font-size);
     --text-xs: var(--qx-typography-micro-font-size);
+  }
+}
+
+.home-page {
+  --home-motion-duration: calc(var(--qx-motion-duration-normal) * 2);
+  letter-spacing: 0;
+}
+
+.home-page :is(h1, h2, h3) {
+  letter-spacing: 0;
+}
+
+.home-feature {
+  box-shadow: var(--qx-shadow-rest);
+  transition:
+    border-color var(--qx-motion-duration-normal)
+    var(--qx-motion-easing-standard),
+    box-shadow var(--qx-motion-duration-normal) var(--qx-motion-easing-standard);
+}
+
+.home-feature:hover,
+.home-feature:focus-within {
+  border-color: var(--qx-color-border-strong);
+  box-shadow: var(--qx-shadow-hover);
+}
+
+.home-collection-preview {
+  background-color: var(--qx-color-surface-subtle);
+  background-image: radial-gradient(
+    var(--qx-color-border-subtle) 1px,
+    transparent 1px
+  );
+  background-size: calc(var(--spacing) * 4) calc(var(--spacing) * 4);
+}
+
+.home-collection {
+  box-shadow:
+    inset 0 1px 0 var(--qx-color-surface-elevated),
+    var(--qx-shadow-rest);
+}
+
+.home-collection-preview > * {
+  height: 100%;
+}
+
+[data-home-theme="light"] .home-dark-value,
+[data-home-theme="dark"] .home-light-value {
+  display: none;
+}
+
+.home-token-pulse {
+  opacity: 0;
+}
+
+.home-workbench {
+  box-shadow: var(--qx-shadow-hover);
+}
+
+@media (min-width: 40rem) {
+  .home-ecosystem-hub::after {
+    content: "";
+    position: absolute;
+    inset-inline-start: 100%;
+    top: 50%;
+    width: calc(var(--spacing) * 8);
+    height: 1px;
+    background: var(--qx-color-border-strong);
+  }
+
+  .home-ecosystem-link::before {
+    content: "";
+    position: absolute;
+    inset-inline-end: 100%;
+    top: 50%;
+    width: calc(var(--spacing) * 6);
+    height: 1px;
+    background: var(--qx-color-border-strong);
+    transition: background-color var(--qx-motion-duration-normal)
+      var(--qx-motion-easing-standard);
+  }
+
+  .home-ecosystem-link:has(a:hover)::before,
+  .home-ecosystem-link:has(a:focus-visible)::before {
+    background: var(--qx-color-border-brand);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page *,
+  .home-page *::before,
+  .home-page *::after {
+    transition-duration: 0s;
+    animation-duration: 0s;
+    animation-iteration-count: 1;
+    scroll-behavior: auto;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .home-header {
+    background: var(--background);
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-palette-sample {
+    transform-origin: bottom;
+    animation: home-palette-enter var(--home-motion-duration)
+      var(--qx-motion-easing-standard) both;
+    transition: transform var(--qx-motion-duration-normal)
+      var(--qx-motion-easing-standard);
+  }
+
+  .group\/swatch:hover .home-palette-sample {
+    transform: translateY(-4px);
+  }
+
+  .home-action {
+    transition:
+      transform var(--qx-motion-duration-normal)
+      var(--qx-motion-easing-standard),
+      background-color var(--qx-motion-duration-normal)
+      var(--qx-motion-easing-standard),
+      box-shadow var(--qx-motion-duration-normal)
+      var(--qx-motion-easing-standard);
+  }
+
+  .home-action:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--qx-shadow-hover);
+  }
+
+  .home-action:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .home-state-enter {
+    animation: home-state-enter var(--qx-motion-duration-slow)
+      var(--qx-motion-easing-standard) both;
+  }
+
+  .home-token-flow [data-token-stage] {
+    animation: home-state-enter var(--home-motion-duration)
+      var(--qx-motion-easing-standard) both;
+  }
+
+  .home-token-flow [data-token-stage="2"] {
+    animation-delay: var(--qx-motion-duration-fast);
+  }
+
+  .home-token-flow [data-token-stage="3"] {
+    animation-delay: var(--qx-motion-duration-slow);
+  }
+
+  .home-token-pulse {
+    animation: home-token-flow calc(var(--home-motion-duration) * 2)
+      var(--qx-motion-easing-standard) both;
+  }
+
+  .home-token-connector:nth-child(4) .home-token-pulse {
+    animation-delay: var(--qx-motion-duration-normal);
+  }
+}
+
+@keyframes home-state-enter {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--spacing) * 2));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes home-palette-enter {
+  from {
+    opacity: 0;
+    transform: scaleY(0.8) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1) translateY(0);
+  }
+}
+
+@keyframes home-token-flow {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  45% {
+    opacity: 1;
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+    transform-origin: left;
   }
 }

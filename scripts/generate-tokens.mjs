@@ -14,6 +14,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import postcss from "postcss";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const require = createRequire(import.meta.url);
@@ -38,9 +39,42 @@ for (const [, name, value] of theme.matchAll(
   }
 }
 
+const source = postcss.parse(
+  readFileSync(join(pkgDir, "dist/styles/tokens.css"), "utf8"),
+);
+const light = new Map();
+const dark = new Map();
+source.walkRules((rule) => {
+  if (rule.selector !== ":root" && rule.selector !== ".dark") return;
+  const declarations = rule.selector === ":root" ? light : dark;
+  rule.walkDecls((declaration) => {
+    if (
+      !declaration.prop.startsWith("--qx-") ||
+      declaration.prop.startsWith("--qx-color-") ||
+      declaration.value.includes("--qx-color-")
+    ) {
+      declarations.set(declaration.prop, declaration.value);
+    }
+  });
+});
+const stylesheet = postcss.root();
+for (const [themeName, declarations] of [
+  ["light", light],
+  ["dark", new Map([...light, ...dark])],
+]) {
+  const rule = postcss.rule({
+    selector: `.home-page [data-home-theme="${themeName}"]`,
+  });
+  for (const [prop, value] of declarations) {
+    rule.append(postcss.decl({ prop, value }));
+  }
+  rule.append(postcss.decl({ prop: "color-scheme", value: themeName }));
+  stylesheet.append(rule);
+}
+
 writeFileSync(
   join(root, "src/lib/token-utilities.json"),
-  `${JSON.stringify({ utilities, theme: [...names].sort() }, null, 2)}\n`,
+  `${JSON.stringify({ utilities, theme: [...names].sort(), homeThemes: stylesheet.toString() }, null, 2)}\n`,
 );
 console.log(
   `✔ ${Object.keys(utilities).length} token → utility mappings from @qeetrix/ui's theme`,

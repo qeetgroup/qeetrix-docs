@@ -510,10 +510,45 @@ for (const c of manifest.components) {
     ),
   );
 }
-// Formatted the way Biome formats it, so generated files pass `bun run lint`.
+// The sidebar: the overview, then each group from src/lib/component-groups.json as a separator
+// followed by its components in name order. A component no group lists still gets a page, under
+// a closing "More" separator, and is reported so it can be filed.
+const { groups } = JSON.parse(
+  readFileSync(join(root, "src/lib/component-groups.json"), "utf8"),
+);
+const grouped = new Set(groups.flatMap((group) => group.components));
+const byName = (x, y) => displayName(x.name).localeCompare(displayName(y.name));
+const ungrouped = manifest.components
+  .filter((c) => !grouped.has(c.slug))
+  .sort(byName);
+const pages = ["index"];
+for (const group of groups) {
+  const members = manifest.components
+    .filter((c) => group.components.includes(c.slug))
+    .sort(byName);
+  if (members.length === 0) continue;
+  pages.push(
+    `---[${group.icon}]${group.name}---`,
+    ...members.map((c) => c.slug),
+  );
+}
+if (ungrouped.length > 0) {
+  pages.push("---More---", ...ungrouped.map((c) => c.slug));
+}
+// JSON.stringify's layout is the one Biome gives an array this long, so the file passes lint.
 writeFileSync(
   join(outDir, "meta.json"),
-  '{\n  "title": "Components",\n  "description": "Every @qeetrix/ui component.",\n  "icon": "Component",\n  "root": true,\n  "pages": ["index", "..."]\n}\n',
+  `${JSON.stringify(
+    {
+      title: "Components",
+      description: "Every @qeetrix/ui component.",
+      icon: "Component",
+      root: true,
+      pages,
+    },
+    null,
+    2,
+  )}\n`,
 );
 
 // The examples registry: every example's component and its source, for <ComponentPreview />.
@@ -557,6 +592,11 @@ for (const name of readdirSync(outDir)) {
 console.log(
   `✔ ${manifest.components.length} component pages + overview from @qeetrix/ui ${pkg.version}, ${allExamples.length} examples (${allExamples.filter((example) => example.clientOnly).length} client-only)`,
 );
+if (ungrouped.length) {
+  console.warn(
+    `⚠ not in any group in src/lib/component-groups.json, listed under "More": ${ungrouped.map((c) => c.slug).join(", ")}`,
+  );
+}
 if (orphans.length) {
   console.warn(
     `⚠ src/examples has folders for components not in the manifest: ${orphans.join(", ")}`,

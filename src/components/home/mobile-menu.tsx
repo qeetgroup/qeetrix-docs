@@ -18,7 +18,7 @@ import Link from "next/link";
 import { links, primaryNav } from "@/lib/site-links";
 
 /**
- * The primary navigation below the `lg` breakpoint: a sheet that closes when a link is chosen. Its
+ * The primary navigation below the `xl` breakpoint: a sheet that closes when a link is chosen. Its
  * footer carries the theme switch, which the header drops on phones to make room for search.
  */
 export function MobileMenu() {
@@ -30,7 +30,7 @@ export function MobileMenu() {
             icon={MenuIcon}
             aria-label="Open menu"
             variant="ghost"
-            className="lg:hidden"
+            className="xl:hidden"
           />
         }
       />
@@ -44,6 +44,7 @@ export function MobileMenu() {
               {primaryNav.map((item) => (
                 <li key={item.href}>
                   <SheetClose
+                    nativeButton={false}
                     render={
                       <Link
                         href={item.href}

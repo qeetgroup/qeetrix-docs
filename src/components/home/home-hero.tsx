@@ -5,7 +5,7 @@ import { cn } from "@/lib/cn";
 import { library } from "@/lib/library";
 import { links } from "@/lib/site-links";
 import { InstallCommand } from "./install-command";
-import { container } from "./section";
+import { BrandTitle, container } from "./section";
 
 /** The packages the hero's install bar adds; the bar supplies each package manager's verb. */
 const installPackages = "@qeetrix/ui @qeetrix/icons";
@@ -18,18 +18,22 @@ export function HomeHero() {
         className="home-dots pointer-events-none absolute inset-0"
       />
       <div
-        className={`${container} relative flex flex-col items-center pt-14 pb-12 text-center md:pt-20 md:pb-16`}
+        className={`${container} relative flex flex-col items-center pt-10 pb-10 text-center md:pt-16 md:pb-12`}
       >
         <a
+          data-home-reveal
           href={links.releases}
-          className="group inline-flex items-center gap-2 rounded-full border border-border-brand/40 bg-brand-subtle px-3.5 py-1.5 text-label text-brand transition-colors duration-fast hover:bg-brand-subtle-hover focus-visible:focus-ring"
+          className="group inline-flex min-h-9 items-center gap-2 rounded-full border border-border-brand/40 bg-brand-subtle px-3.5 py-1.5 text-label text-brand transition-colors duration-fast hover:bg-brand-subtle-hover focus-visible:focus-ring"
         >
           <span aria-hidden className="size-1.5 rounded-full bg-primary" />
           <span>
             {library.name} v{library.version}
             <span aria-hidden> · </span>
             <span className="sr-only">, </span>
-            Built for the Qeet ecosystem
+            <span className="sm:hidden">Latest release</span>
+            <span className="hidden sm:inline">
+              Built for the Qeet ecosystem
+            </span>
           </span>
           <ChevronRightIcon
             aria-hidden
@@ -39,21 +43,36 @@ export function HomeHero() {
 
         <h1
           id="hero-title"
-          className="mt-7 max-w-4xl font-display text-display font-bold text-balance text-foreground tracking-(--qx-typography-display-letter-spacing) md:text-(length:--home-hero-size) md:leading-[1.02]"
+          data-home-reveal
+          data-home-delay="60"
+          className="mt-6 w-full max-w-5xl font-display text-display font-bold text-balance text-foreground md:text-(length:--home-hero-size) md:leading-[1.08]"
         >
-          The design system for every Qeet interface
-          <span className="text-primary">.</span>
+          <span className="block">
+            <BrandTitle>Qeetrix.</BrandTitle>
+          </span>
+          <BrandTitle>One system. Every interface.</BrandTitle>
         </h1>
 
-        <p className="mt-5 max-w-2xl text-(length:--home-lead-size) leading-snug text-pretty text-muted-foreground">
-          Accessible React components, tokens, foundations and patterns for
-          building consistent products across the Qeet ecosystem.
+        <p
+          data-home-reveal
+          data-home-delay="120"
+          className="mt-5 max-w-2xl text-body leading-relaxed text-pretty text-muted-foreground sm:text-(length:--home-lead-size) sm:leading-snug"
+        >
+          Accessible React components, connected tokens, and production patterns
+          for the products your team ships.
         </p>
 
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <div
+          data-home-reveal
+          data-home-delay="180"
+          className="mt-8 flex flex-wrap justify-center gap-3"
+        >
           <Link
             href={links.docs}
-            className={cn(buttonVariants({ size: "lg" }), "px-6")}
+            className={cn(
+              buttonVariants({ size: "lg" }),
+              "home-action min-h-11 px-6",
+            )}
           >
             Get started
             <ArrowRightIcon
@@ -66,14 +85,18 @@ export function HomeHero() {
             href={links.components}
             className={cn(
               buttonVariants({ variant: "outline", size: "lg" }),
-              "px-6",
+              "home-action min-h-11 px-6",
             )}
           >
             Browse components
           </Link>
         </div>
 
-        <div className="mt-8 flex w-full justify-center">
+        <div
+          data-home-reveal
+          data-home-delay="220"
+          className="mt-8 flex w-full justify-center"
+        >
           <InstallCommand packages={installPackages} />
         </div>
       </div>

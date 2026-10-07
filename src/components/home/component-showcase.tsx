@@ -1,4 +1,5 @@
 import { ServerCodeBlock } from "fumadocs-ui/components/codeblock.rsc";
+import { library } from "@/lib/library";
 import { LiveShowcase } from "./live-showcase";
 import { container, SectionHeader } from "./section";
 import { showcaseCode } from "./showcase-code";
@@ -20,11 +21,12 @@ export function ComponentShowcase() {
     >
       <SectionHeader
         id="showcase-title"
-        eyebrow="Qeetrix in action"
-        title="Explore components in a live environment."
-        description="Try, tweak and copy production-ready components built for the Qeet ecosystem."
+        title="Not a screenshot. Your next interface."
+        description="Real Qeetrix components, from everyday inputs to complete product patterns."
       />
-      <LiveShowcase code={code} />
+      <div data-home-reveal data-home-delay="80">
+        <LiveShowcase code={code} version={library.version} />
+      </div>
     </section>
   );
 }
