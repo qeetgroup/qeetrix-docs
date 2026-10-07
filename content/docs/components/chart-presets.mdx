@@ -1,5 +1,6 @@
 ---
 title: "Chart Presets"
+description: "Ready-made area, bar, line and donut charts with Qeetrix defaults."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
@@ -8,12 +9,39 @@ title: "Chart Presets"
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+A complete chart from data and keys: grid, axis, tooltip, and a legend once there are two or more series. `BarChart` and `LineChart` take the same props. `valueFormatter` formats the tooltip and the value axis.
+
+<ComponentPreview name="chart-presets/1-default" />
+
+### Donut chart
+
+`DonutChart` takes a `dataKey` for each slice's value and a `nameKey` whose values match the `config` keys. The hole is half the radius by default; `innerRadius={0}` makes a solid pie.
+
+<ComponentPreview name="chart-presets/2-donut-chart" />
+
+### Sparkline
+
+A tiny trend line for KPI tiles and table cells, with no axes, grid or tooltip. `tone` says what the trend means: more failed sign-ins is bad news, so that line is `negative`. Give it a `label` to make it an image; without one it is decorative.
+
+<ComponentPreview name="chart-presets/3-sparkline" />
+
 ## Usage
 
 ### Import
 
 ```tsx
-import { ChartPresets } from "@qeetrix/ui";
+import {
+  AreaChart,
+  BarChart,
+  DonutChart,
+  LineChart,
+  RadialChart,
+  Sparkline,
+} from "@qeetrix/ui";
 ```
 
 It can also be imported on its own from `@qeetrix/ui/components/chart-presets`.

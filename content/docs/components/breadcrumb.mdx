@@ -5,6 +5,26 @@ description: "The breadcrumb landmark."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+A link for each level above the page, then the page itself as `BreadcrumbPage`, which is marked `aria-current="page"`. `BreadcrumbSeparator` draws a chevron and is hidden from assistive technology.
+
+<ComponentPreview name="breadcrumb/1-default" />
+
+### Collapsed
+
+A long path keeps its first and last levels and folds the middle into `BreadcrumbEllipsis`. Wrapped in a menu trigger, it reveals the hidden levels; its visually hidden "More" text names the trigger for screen readers.
+
+<ComponentPreview name="breadcrumb/2-collapsed" />
+
+### Custom separator
+
+Children of `BreadcrumbSeparator` replace the chevron. An icon-only crumb, like the home link here, needs an `aria-label`.
+
+<ComponentPreview name="breadcrumb/3-custom-separator" />
+
 ## Usage
 
 ### Import

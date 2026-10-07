@@ -1,8 +1,23 @@
 ---
 title: "Context Menu"
+description: "A menu that opens at the pointer on right-click or long-press, with the same item types as `DropdownMenu`."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Examples
+
+### Default
+
+Right-clicking the trigger area, or long-pressing it on touch, opens the menu at the pointer. The items are Dropdown Menu's: icons, shortcuts, separators and a destructive variant.
+
+<ComponentPreview name="context-menu/1-default" />
+
+### Checkbox items
+
+Checkbox items toggle a setting and leave the menu open. `ContextMenuLabel` names a group and has to sit inside a `ContextMenuGroup` or `ContextMenuRadioGroup`. Here a log viewer offers copy and filter actions, plus view options.
+
+<ComponentPreview name="context-menu/2-checkbox-items" />
 
 ## Usage
 

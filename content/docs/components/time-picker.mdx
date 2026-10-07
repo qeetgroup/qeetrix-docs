@@ -9,6 +9,20 @@ description: "Time-of-day picker built from `Select` columns (hours / minutes / 
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+A time of day from hour and minute columns, as `"HH:mm"`. `minuteStep` sets the minute choices.
+
+<ComponentPreview name="time-picker/1-default" />
+
+### 12 hour
+
+`hourCycle={12}` adds an AM/PM column; `withSeconds` adds seconds. The value stays 24-hour.
+
+<ComponentPreview name="time-picker/2-12-hour" />
+
 ## Usage
 
 ### Import

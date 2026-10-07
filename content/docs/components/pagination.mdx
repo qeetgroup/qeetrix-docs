@@ -5,6 +5,20 @@ description: "Pagination is the cursor-based pagination footer used by every ind
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+The footer of a list screen: First, Prev and Next, and a label that is announced politely when the page changes. With a `total`, the label reads "Showing 4 of 14".
+
+<ComponentPreview name="pagination/1-default" />
+
+### Cursor
+
+For an API that only returns a next cursor: pass `pageSize` instead of `total`, and leave out `onPrev`, so Prev falls back to `onFirst`. `loading` disables the controls and shows a spinner while the next page is fetched.
+
+<ComponentPreview name="pagination/2-cursor" />
+
 ## Usage
 
 ### Import

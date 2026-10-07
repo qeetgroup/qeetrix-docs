@@ -5,6 +5,26 @@ description: "Key-value detail view for entity/settings pages."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+Term and value pairs for a detail page, as direct children. They stack on a narrow screen and line up in two columns from the `sm` breakpoint.
+
+<ComponentPreview name="description-list/1-default" />
+
+### Divided
+
+`divided` rules a hairline between pairs, for longer lists where the rows need help to scan.
+
+<ComponentPreview name="description-list/2-divided" />
+
+### Grid
+
+`layout="grid"` flows the pairs into as many columns as fit, for a summary above a record. In a grid each pair must be wrapped in a `DescriptionItem`.
+
+<ComponentPreview name="description-list/3-grid" />
+
 ## Usage
 
 ### Import

@@ -5,6 +5,20 @@ description: "Display-only, locale-aware number formatter (wraps `Intl.NumberFor
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+A display-only wrapper over `Intl.NumberFormat`. Pass a `locale` (`en-IN` groups by lakh and crore) and any other format option through `options`; `decimals` fixes the fraction digits. Tabular numerals keep a column of figures aligned.
+
+<ComponentPreview name="number-formatter/1-default" />
+
+### Compact
+
+`notation="compact"` shortens large figures for tiles and charts, in the locale's own units: crore and lakh in `en-IN`, millions in `en-US`. `prefix` and `suffix` add text around the number.
+
+<ComponentPreview name="number-formatter/2-compact" />
+
 ## Usage
 
 ### Import

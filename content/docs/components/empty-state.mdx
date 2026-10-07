@@ -5,6 +5,26 @@ description: "EmptyState is the icon + title + description + action zero-state u
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+Icon, title and description for an empty collection, on a neutral tile. `icon` takes the icon component itself (`icon={ReceiptIcon}`), not an element.
+
+<ComponentPreview name="empty-state/1-default" />
+
+### Variants
+
+The variant says why there is nothing to show. It sets the icon tile's tone and gives `no-results`, `no-permission` and `error` a default glyph. Only `first-use` takes the Qeet tint; pair it with a primary button. The copy and the actions are yours.
+
+<ComponentPreview name="empty-state/2-variants" />
+
+### Small
+
+`size="sm"` tightens the spacing and the icon tile to fit a table body or a side panel. Here it sits in a `TableEmpty` row.
+
+<ComponentPreview name="empty-state/3-small" />
+
 ## Usage
 
 ### Import

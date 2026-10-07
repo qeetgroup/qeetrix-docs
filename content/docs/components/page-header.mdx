@@ -5,6 +5,26 @@ description: "The standard top-of-page title block: optional breadcrumb eyebrow,
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+A breadcrumb eyebrow, the title, a description and trailing actions. The title renders as the page's `<h1>`.
+
+<ComponentPreview name="page-header/1-default" />
+
+### Metadata
+
+`metadata` lays facts about the page's subject (a status, dates, an amount) out as a wrapping row beneath the description.
+
+<ComponentPreview name="page-header/2-metadata" />
+
+### Narrow panel
+
+The header responds to the width it is given, not to the viewport. The text claims at least 20rem before it shares a line with the actions, so in a narrow detail pane the actions wrap beneath the title instead of squeezing it.
+
+<ComponentPreview name="page-header/3-narrow-panel" />
+
 ## Usage
 
 ### Import

@@ -9,6 +9,20 @@ description: "Top navigation / mega-menu."
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+Site navigation. Each trigger opens its content in one shared popup that morphs between items; a plain link styled with `navigationMenuTriggerStyle()` sits in line with the triggers.
+
+<ComponentPreview name="navigation-menu/1-default" />
+
+### Current page
+
+Navigation inside an app. `active` on a `NavigationMenuLink` marks the current page: it sets `aria-current="page"` and takes the same Qeet tint as the selected item in a sidebar.
+
+<ComponentPreview name="navigation-menu/2-current-page" />
+
 ## Usage
 
 ### Import

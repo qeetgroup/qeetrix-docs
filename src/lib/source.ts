@@ -1,5 +1,6 @@
 import { rehypeCodeDefaultOptions } from "fumadocs-core/mdx-plugins";
-import { llms, loader } from "fumadocs-core/source";
+import type * as PageTree from "fumadocs-core/page-tree";
+import { type LoaderPlugin, llms, loader } from "fumadocs-core/source";
 import { metaSchema, pageSchema } from "fumadocs-core/source/schema";
 import { applyMdxPreset } from "fumadocs-mdx/config";
 import { defineDocs } from "fumadocs-mdx/macro";
@@ -59,11 +60,53 @@ const docs = defineDocs({
   },
 });
 
+/**
+ * Turns each `---[Icon]Name---` separator in a folder's meta.json, with the pages after it, into a
+ * collapsible folder of the same name and icon — the component groups that
+ * scripts/generate-components.mjs writes from src/lib/component-groups.json. Groups start closed;
+ * the sidebar opens the one holding the current page. The pages stay where they are, so their
+ * URLs don't change.
+ */
+function collapsibleGroups(): LoaderPlugin {
+  return {
+    name: "qeetrix:collapsible-groups",
+    transformPageTree: {
+      folder(node) {
+        if (!node.children.some((child) => child.type === "separator")) {
+          return node;
+        }
+        const children: PageTree.Node[] = [];
+        let group: PageTree.Folder | undefined;
+        for (const child of node.children) {
+          if (child.type === "separator") {
+            group = {
+              type: "folder",
+              $id: `${node.$id ?? "folder"}/group:${String(child.name)}`,
+              name: child.name,
+              icon: child.icon,
+              collapsible: true,
+              defaultOpen: false,
+              children: [],
+            };
+            children.push(group);
+          } else if (group) {
+            group.children.push(child);
+          } else {
+            children.push(child);
+          }
+        }
+        return { ...node, children };
+      },
+    },
+  };
+}
+
 // See https://fumadocs.dev/docs/headless/source-api for more info
 export const source = loader({
   baseUrl: docsRoute,
   source: docs.toFumadocsSource(),
   icon: resolveIcon,
+  plugins: [collapsibleGroups()],
 });
 
 export const docsLlms = llms(source, {

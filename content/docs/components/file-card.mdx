@@ -5,6 +5,26 @@ description: "Compact file presentation for grids and lists (Drive, Mail attachm
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+Tiles for a file grid: a preview above the name, with size and metadata on one muted line. A long name truncates with the full name in a tooltip, and the extension is shown on its own so the type stays visible. `selected` adds the brand tint and a 2px outline.
+
+<ComponentPreview name="file-card/1-default" />
+
+### Row
+
+`layout="row"` is a compact row for attachment lists and narrow panels, with the extension in the metadata line. `actions` are always visible, never revealed only on hover.
+
+<ComponentPreview name="file-card/2-row" />
+
+### Transfer states
+
+`status` shows a transfer: `uploading` or `downloading` adds a progress bar named for the file (indeterminate without `progress`), and `error` shows and announces the `error` text with a danger outline.
+
+<ComponentPreview name="file-card/3-transfer-states" />
+
 ## Usage
 
 ### Import

@@ -5,6 +5,20 @@ description: "App menu bar: a horizontal row of menus (File, Edit, View, …)."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+A row of menus for an app's commands. Click a menu to open it; while one is open, hovering another trigger or pressing ← and → moves along the bar. `MenubarShortcut` only displays a key hint, `MenubarSub` nests a menu, and `variant="destructive"` marks a dangerous item.
+
+<ComponentPreview name="menubar/1-default" />
+
+### Checkbox and radio
+
+Settings live in `MenubarCheckboxItem` and `MenubarRadioItem`, controlled like any checkbox or radio group. They keep the menu open when chosen, so several can be changed in one visit.
+
+<ComponentPreview name="menubar/2-checkbox-and-radio" />
+
 ## Usage
 
 ### Import

@@ -9,6 +9,20 @@ description: "Component wrapper around `useFocusTrap`."
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+Switch the trap on and focus moves to the panel's first control; Tab and Shift+Tab then cycle inside it, and switching it off returns focus to where it was. It only contains focus — the page behind is not inert — so use `AlertDialog` for a confirmation that must be modal.
+
+<ComponentPreview name="focus-trap/1-default" />
+
+### useFocusTrap
+
+`useFocusTrap` is the hook behind `FocusTrap`, for a container you render yourself: attach the `containerRef` it returns. `initialFocusRef` sends focus to the name field instead of the first control (Close), and closing the editor returns focus to Rename.
+
+<ComponentPreview name="focus-trap/2-use-focus-trap" />
+
 ## Usage
 
 ### Import

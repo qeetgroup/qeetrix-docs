@@ -8,6 +8,8 @@ import { type ReactNode, useId, useState } from "react";
 /**
  * The client half of <ComponentPreview />: the canvas above, the example's code below. Long code
  * starts folded to a few lines under a fade, with a button to unfold it; short code shows whole.
+ * The canvas caps an example at its width with a zero-specificity rule, so an example's own
+ * `max-w-*` still applies.
  */
 export function PreviewFrame({
   preview,
@@ -37,7 +39,7 @@ export function PreviewFrame({
         ) : null}
         <div
           className={cn(
-            "flex min-h-56 w-full justify-center overflow-x-auto px-6 py-12 *:max-w-full md:px-10",
+            "flex min-h-56 w-full justify-center overflow-x-auto px-6 py-12 md:px-10 [:where(&>*)]:max-w-full",
             wide ? "flex-col" : "items-center",
           )}
         >

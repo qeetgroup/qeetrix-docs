@@ -9,6 +9,20 @@ description: "CountryPicker: ISO 3166-1 alpha-2 codes with localised names from 
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+Every country by its ISO code, named in the reader's language. By default it is the native list — best on mobile and for autofill. `priority` puts the likeliest first.
+
+<ComponentPreview name="country-picker/1-default" />
+
+### Searchable
+
+`searchable` swaps the native list for type-to-filter. Search matches the local name, the English name and the code, ignoring accents.
+
+<ComponentPreview name="country-picker/2-searchable" />
+
 ## Usage
 
 ### Import

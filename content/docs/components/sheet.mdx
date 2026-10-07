@@ -1,5 +1,6 @@
 ---
 title: "Sheet"
+description: "A panel that slides in from an edge of the screen, a physical side or the reading direction's start or end, for details, filters or forms."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
@@ -7,6 +8,20 @@ title: "Sheet"
 <Callout title="Beta">
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
+
+## Examples
+
+### Default
+
+A side panel built on Dialog, so focus stays inside it while it is open. It opens from the right by default, and Escape, the close button or a click on the backdrop closes it.
+
+<ComponentPreview name="sheet/1-default" />
+
+### Side
+
+`side` picks the edge the sheet is attached to. `top`, `right`, `bottom` and `left` are physical; `inline-start` and `inline-end` follow the reading direction, so an `inline-end` panel is on the right in English and on the left in Arabic.
+
+<ComponentPreview name="sheet/2-side" />
 
 ## Usage
 

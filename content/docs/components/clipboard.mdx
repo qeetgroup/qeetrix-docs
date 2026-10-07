@@ -1,15 +1,30 @@
 ---
 title: "Clipboard"
+description: "Copy to the clipboard: `CopyButton`, which confirms the copy, and the `useCopyToClipboard` hook."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Examples
+
+### Copy button
+
+`CopyButton` copies its `value` and confirms in place. It only shows "Copied!" once the browser has confirmed the write, and keeps its width so nothing beside it moves.
+
+<ComponentPreview name="clipboard/1-copy-button" />
+
+### Use copy to clipboard
+
+`useCopyToClipboard` is the hook behind `CopyButton`, for a trigger of your own. `copy` resolves `true` once the write is confirmed, and `copied` stays true for the timeout.
+
+<ComponentPreview name="clipboard/2-use-copy-to-clipboard" />
 
 ## Usage
 
 ### Import
 
 ```tsx
-import { Clipboard } from "@qeetrix/ui";
+import { CopyButton } from "@qeetrix/ui";
 ```
 
 It can also be imported on its own from `@qeetrix/ui/components/clipboard`.

@@ -1,6 +1,7 @@
 import manifest from "@qeetrix/ui/manifest.json";
 import uiPackage from "@qeetrix/ui/package.json";
 import componentGroups from "./component-groups.json";
+import componentImports from "./component-imports.json";
 import { libraryRepo } from "./site-links";
 
 type ManifestComponent = (typeof manifest.components)[number];
@@ -42,7 +43,13 @@ export function getComponentMeta(slug: string): ComponentMeta | null {
     status: (component.deprecated
       ? "deprecated"
       : component.status) as ComponentStatus,
-    importLine: `import { ${component.name} } from "${component.import}";`,
+    // The module's real exports (scripts/generate-components.mjs): `Chart`, `Toast` and a few
+    // other module names are not themselves exports.
+    importLine: `import { ${(
+      componentImports[slug as keyof typeof componentImports] ?? [
+        component.name,
+      ]
+    ).join(", ")} } from "${component.import}";`,
     deepImport: component.deepImport,
     sourceUrl: `${libraryRepo}/blob/v${uiVersion}/${sourcePath}`,
     sourcePath,

@@ -5,6 +5,26 @@ description: "Stat (a.k.a. metric card) is the KPI tile for dashboards: a label,
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+A KPI tile: label, value, an optional `delta` arrowed by `trend`, a `hint` and an `icon`. `trend="neutral"` draws a level dash, so "no change" isn't told by colour alone. The tile is a group named by its label.
+
+<ComponentPreview name="stat/1-default" />
+
+### Tone
+
+`trend` is the direction of the arrow; `tone` is whether that is good news, which sets the colour. It defaults from the trend (up is positive), so set it when up is bad, as for error rate, or down is good, as for latency.
+
+<ComponentPreview name="stat/2-tone" />
+
+### With sparkline
+
+`children` is the tile's footer, for a `Sparkline` or a link. `size` is `sm`, `default` or `lg`, and `loading` keeps the label while the value and hint become placeholders.
+
+<ComponentPreview name="stat/3-with-sparkline" />
+
 ## Usage
 
 ### Import

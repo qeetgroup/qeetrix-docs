@@ -1,5 +1,5 @@
 {
-  "$comment": "Sidebar groups for the component pages, in sidebar order. scripts/generate-components.mjs writes them into content/docs/components/meta.json as separators and warns about any component not listed here; the docs page header reads them for its eyebrow. `icon` names an entry in src/lib/icons.ts.",
+  "$comment": "Sidebar groups for the component pages, in sidebar order. scripts/generate-components.mjs writes them into content/docs/components/meta.json as separators and warns about any component not listed here; src/lib/source.ts shows each as a collapsible group in the sidebar, and the docs page header reads them for its breadcrumb. `icon` names an entry in src/lib/icons.ts.",
   "groups": [
     {
       "name": "Actions",
@@ -12,6 +12,7 @@
         "close-button",
         "copyable-secret",
         "icon-button",
+        "reaction-bar",
         "segmented-control",
         "toggle",
         "toolbar"
@@ -38,7 +39,6 @@
         "input-group",
         "label",
         "listbox",
-        "logo-uploader",
         "mask-input",
         "mention-input",
         "native-select",
@@ -120,7 +120,6 @@
         "empty-state",
         "meter",
         "notification",
-        "notification-center",
         "progress",
         "progress-circle",
         "skeleton",
@@ -176,25 +175,12 @@
         "carousel",
         "collapsible",
         "container",
-        "master-detail",
         "overflow-list",
         "page-header",
         "resizable",
         "scroll-area",
         "separator",
         "spoiler"
-      ]
-    },
-    {
-      "name": "Workflows",
-      "icon": "Workflow",
-      "components": [
-        "access-review",
-        "audit-event",
-        "comment-thread",
-        "notification-preference-matrix",
-        "reaction-bar",
-        "security-item"
       ]
     },
     {

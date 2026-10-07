@@ -9,6 +9,26 @@ description: "Inline notification card (icon + title + description + close + act
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+An event card: the status sits in the icon tile, the time sits opposite the title, and an `action` goes below the description. `destructive` and `error` cards announce assertively (`role="alert"`); the other variants politely (`role="status"`).
+
+<ComponentPreview name="notification/1-default" />
+
+### Feed
+
+`size="sm"` cards make a feed. The card is stateless, so you own read and dismissed state: `unread` adds a dot and a heavier title, `onClose` a dismiss button. Each card is a live region by default; in a feed, override `role` and `aria-live` so they don't all announce.
+
+<ComponentPreview name="notification/2-feed" />
+
+### Loading
+
+`loading` swaps the icon for a spinner and marks the card busy. Children render below the description, which suits a progress bar for a long-running job.
+
+<ComponentPreview name="notification/3-loading" />
+
 ## Usage
 
 ### Import

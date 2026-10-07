@@ -5,6 +5,26 @@ description: "A person's picture, initials or a neutral icon."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+Give the avatar a `name` and the fallback shows the initials, announced as the name; without one it shows a neutral person icon. Sizes are fixed steps from `xs` (20px) to `xl` (48px), and `shape="square"` marks an organisation or app rather than a person.
+
+<ComponentPreview name="avatar/1-default" />
+
+### Group
+
+`AvatarGroup` overlaps its avatars and rings each one off from the next. Name every avatar, and give the overflow count a full sentence with `aria-label`.
+
+<ComponentPreview name="avatar/2-group" />
+
+### With badge
+
+`AvatarBadge` puts a mark on the avatar's bottom-end edge. Colour alone is not a status: here the row says it in words, so the avatar is hidden from screen readers; with no visible text, put the status inside the badge as `sr-only` text.
+
+<ComponentPreview name="avatar/3-with-badge" />
+
 ## Usage
 
 ### Import

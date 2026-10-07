@@ -9,6 +9,20 @@ description: "QRCode renders a QR code as an inline SVG, encoded synchronously f
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+An inline SVG, encoded synchronously so it renders on the server with no loading placeholder. It is always dark on a light tile with a four-module quiet zone, in the dark theme too. Name it for what scanning does, not what it contains, and tie a non-camera fallback to it with `aria-describedby`.
+
+<ComponentPreview name="qr-code/1-default" />
+
+### Payment
+
+A UPI payment code with its amount and payee in text beside it. `size` is the tile's edge in pixels, quiet zone included, and the tile shrinks to fit a narrower container.
+
+<ComponentPreview name="qr-code/2-payment" />
+
 ## Usage
 
 ### Import

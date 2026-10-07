@@ -9,6 +9,26 @@ description: "CodeBlock renders a copyable, optionally syntax-highlighted code b
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+JSON, shell and HTTP get light syntax highlighting; anything else is plain monospace. A `caption` or `showLanguage` adds a header, and the copy button then stays visible.
+
+<ComponentPreview name="code-block/1-default" />
+
+### Line numbers
+
+`lineNumbers` adds a gutter. The numbers are CSS counters, so they are neither copied with a selection nor read out line by line. Without a header, the copy button appears on hover or focus.
+
+<ComponentPreview name="code-block/2-line-numbers" />
+
+### Wrap
+
+Lines scroll sideways by default. `wrap` soft-wraps them instead, for long tokens, URLs and log lines in a narrow panel.
+
+<ComponentPreview name="code-block/3-wrap" />
+
 ## Usage
 
 ### Import

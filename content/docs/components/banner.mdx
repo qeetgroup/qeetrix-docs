@@ -9,6 +9,26 @@ description: "App-wide announcement bar (maintenance notices, plan limits, new f
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+A full-width bar across the top of the app for notices that last days, like maintenance or plan limits. Links inside are underlined for you. Give it an `aria-label` so screen-reader users can find the region.
+
+<ComponentPreview name="banner/1-default" />
+
+### Variants
+
+A subtle tint with the status hue on the icon only, so a bar that stays up for days stays calm. Status variants bring their own icon; the neutral `default` has none unless you pass `icon`, and `icon={null}` removes it.
+
+<ComponentPreview name="banner/2-variants" />
+
+### Dismissible
+
+`onDismiss` adds a trailing dismiss button and calls your handler; hiding the banner, and remembering that it was dismissed, is up to you.
+
+<ComponentPreview name="banner/3-dismissible" />
+
 ## Usage
 
 ### Import

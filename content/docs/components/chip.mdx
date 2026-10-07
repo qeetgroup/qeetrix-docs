@@ -1,5 +1,6 @@
 ---
 title: "Chip"
+description: "A selectable pill for filters and choices."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
@@ -7,6 +8,26 @@ title: "Chip"
 <Callout title="Beta">
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
+
+## Examples
+
+### Default
+
+A `ChipGroup` is single-select by default: a radio group with one tab stop, where the arrow keys move the selection. The selected chip shows a check mark, so selection never rests on colour alone.
+
+<ComponentPreview name="chip/1-default" />
+
+### Multiple
+
+`multiple` turns the chips into independent toggle buttons, each its own tab stop.
+
+<ComponentPreview name="chip/2-multiple" />
+
+### Removable
+
+`onRemove` adds a × button for applied values such as these office locations. Its accessible name is "Remove" by default; override it per chip through `messages` so each button says what it removes.
+
+<ComponentPreview name="chip/3-removable" />
 
 ## Usage
 

@@ -1,5 +1,6 @@
 ---
 title: "Resizable"
+description: "Panels separated by draggable handles, built from `ResizablePanelGroup`, `ResizablePanel` and `ResizableHandle`."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
@@ -8,12 +9,36 @@ title: "Resizable"
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+Two panels with a draggable divider; drag the grip, or focus it and use the arrow keys. Sizes are percentages only when written as strings (`defaultSize="60%"`); a bare number is pixels.
+
+<ComponentPreview name="resizable/1-default" />
+
+### Vertical
+
+`orientation="vertical"` stacks the panels, here a Qeet Logs query editor above its results. The divider then moves up and down, with the arrow keys as well as the pointer.
+
+<ComponentPreview name="resizable/2-vertical" />
+
+### Collapsible
+
+Three panels and handles without a grip. The tenant list is `collapsible`: drag its divider far enough below `minSize` and it collapses to `collapsedSize`; drag it back out to restore it.
+
+<ComponentPreview name="resizable/3-collapsible" />
+
 ## Usage
 
 ### Import
 
 ```tsx
-import { Resizable } from "@qeetrix/ui";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@qeetrix/ui";
 ```
 
 It can also be imported on its own from `@qeetrix/ui/components/resizable`.

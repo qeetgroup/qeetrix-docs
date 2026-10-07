@@ -5,6 +5,26 @@ description: "Accessible carousel built on Embla."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+One slide at a time, with Previous and Next floating outside the slides' edges, so leave room for them on either side. While focus is inside the carousel, the arrow keys move between slides.
+
+<ComponentPreview name="carousel/1-default" />
+
+### Controls
+
+`CarouselControls` lays Previous, `CarouselIndicators` and Next out in a row beneath the slides, so the carousel fits a card or a drawer with no room for floating arrows. The indicators are a single Tab stop.
+
+<ComponentPreview name="carousel/2-controls" />
+
+### Several per view
+
+Several slides per view: give `CarouselItem` a `basis` narrower than the full width, and pass `opts={{ align: "start" }}` so the first card sits flush with the start edge.
+
+<ComponentPreview name="carousel/3-several-per-view" />
+
 ## Usage
 
 ### Import

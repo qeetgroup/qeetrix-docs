@@ -5,6 +5,20 @@ description: "Constrains its content to a fixed width-to-height ratio using the 
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+A 16:9 video thumbnail that keeps its shape at any width. The child fills the box with `size-full`; for an `<img>` or `<video>` add `object-cover`.
+
+<ComponentPreview name="aspect-ratio/1-default" />
+
+### Square
+
+Without `ratio` the box is square (the default is `1`), so a grid of tiles stays even however long each caption is.
+
+<ComponentPreview name="aspect-ratio/2-square" />
+
 ## Usage
 
 ### Import

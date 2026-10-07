@@ -9,6 +9,26 @@ description: "Icon standardises `@qeetrix/icons` (and brand) icons onto the Qeet
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+Puts any `@qeetrix/icons` icon on the Qeetrix size and stroke scale. `size` takes a token (`md`, 20px, by default) or a pixel number; the icon is decorative unless given a `title`.
+
+<ComponentPreview name="icon/1-default" />
+
+### Stroke and variant
+
+`stroke` is `regular` (2) or `thin` (1.5), `shape="sharp"` squares off caps and corners, and `variant="filled"` picks the filled drawing — typed, so it only compiles for icons that have one.
+
+<ComponentPreview name="icon/2-stroke-and-variant" />
+
+### Accessible name
+
+When an icon carries meaning on its own, as in this MFA column, give it a `title`. It then renders with `role="img"` and that name instead of being hidden.
+
+<ComponentPreview name="icon/3-accessible-name" />
+
 ## Usage
 
 ### Import

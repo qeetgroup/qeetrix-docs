@@ -15,6 +15,7 @@
       "!build",
       "!.source",
       "!src/examples/registry.ts",
+      "!src/lib/component-imports.json",
       "!src/lib/token-utilities.json"
     ]
   },

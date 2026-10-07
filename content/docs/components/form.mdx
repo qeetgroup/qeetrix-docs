@@ -9,6 +9,20 @@ description: "Form is a deliberately library-agnostic wrapper: a styled `<form>`
   Ready to use, but its API may still change before it is marked stable.
 </Callout>
 
+## Examples
+
+### Default
+
+A styled `<form>` with steady vertical rhythm. With `focusInvalidOnSubmit` it moves focus to the first invalid field on submit; `FormActions` is the button row.
+
+<ComponentPreview name="form/1-default" />
+
+### Error summary
+
+After a failed submit, `FormErrorSummary` lists every problem at the top; each entry moves focus to its field. It uses client hooks, so render it from a client component.
+
+<ComponentPreview name="form/2-error-summary" />
+
 ## Usage
 
 ### Import

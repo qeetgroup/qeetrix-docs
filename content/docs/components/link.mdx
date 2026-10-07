@@ -5,6 +5,26 @@ description: "A navigational text link."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+A standalone link, underlined on hover, with room for a leading or trailing icon. `variant` switches the colour to the muted or the destructive text role.
+
+<ComponentPreview name="link/1-default" />
+
+### Inline
+
+`inline` for a link inside running text: it wraps with the sentence, takes the surrounding size and is underlined at rest, so it never relies on colour alone. `external` opens a new tab, adds the ↗ glyph and tells screen readers that a new tab will open.
+
+<ComponentPreview name="link/2-inline" />
+
+### Disabled
+
+`disabled` removes the destination and the tab stop and dims the link, while screen readers still find it as an unavailable link. Prefer removing a link nobody can follow; use this when its absence would confuse more than its presence.
+
+<ComponentPreview name="link/3-disabled" />
+
 ## Usage
 
 ### Import

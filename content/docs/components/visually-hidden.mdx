@@ -1,8 +1,23 @@
 ---
 title: "Visually Hidden"
+description: "Hides content visually while keeping it available to screen readers."
 ---
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
+
+## Examples
+
+### Default
+
+An icon-only button still needs a name. `VisuallyHidden` puts it in the button as text that is hidden on screen but read by screen readers. Hover or focus a button to see the text it carries.
+
+<ComponentPreview name="visually-hidden/1-default" />
+
+### Extra context
+
+Three buttons that all read "Revoke" sound the same out of context. Hidden text names the session each one acts on, so every button has a distinct name. `className` is merged with the hidden class, so the switch adds `not-sr-only` to show what screen readers get.
+
+<ComponentPreview name="visually-hidden/2-extra-context" />
 
 ## Usage
 

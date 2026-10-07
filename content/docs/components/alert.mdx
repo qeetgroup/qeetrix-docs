@@ -5,6 +5,26 @@ description: "An inline, assertive status message (`role=\"alert\"`)."
 
 {/* qeetrix:generated:start — rewritten from @qeetrix/ui's component manifest by `bun run generate:components`. Write your own sections below the end marker. */}
 
+## Examples
+
+### Default
+
+A status icon first, then `AlertTitle` and `AlertDescription`. Alert is `role="alert"`, which interrupts a screen reader; a message that is already there when the page loads takes `role="status"` instead.
+
+<ComponentPreview name="alert/1-default" />
+
+### Variants
+
+Each status variant tints the surface and puts its hue on the accent rule, the icon and the title; the description stays neutral. `default` is a plain card with a muted icon.
+
+<ComponentPreview name="alert/2-variants" />
+
+### With actions
+
+`AlertAction` gives buttons their own column at the inline end, such as a fix or a dismiss button; you decide when the alert goes away. `emphasis="strong"` is a solid fill for a message that must not be missed, like a blocking error: use it sparingly.
+
+<ComponentPreview name="alert/3-with-actions" />
+
 ## Usage
 
 ### Import

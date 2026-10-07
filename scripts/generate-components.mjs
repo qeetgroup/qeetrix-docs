@@ -103,6 +103,49 @@ function mdx(text) {
     .join("");
 }
 
+// ---------------------------------------------------------------------------------------------
+// Import names. The manifest's `name` is the module's name, and for a few modules — `Chart`,
+// `Clipboard`, `Toast`, `Resizable` — that is not an export. Where it isn't, a page imports what
+// the module does export, read from its types: its components, and a function named after the
+// module (`toast`).
+
+function exportedNames(c) {
+  const file = join(pkgDir, "dist/components", c.category, `${c.slug}.d.ts`);
+  if (!existsSync(file)) return [c.name];
+  const source = readFileSync(file, "utf8");
+  const names = [];
+  for (const match of source.matchAll(/export\s*\{([^}]*)\}/g)) {
+    for (const part of match[1].split(",")) {
+      const name = part.trim();
+      if (name && !name.startsWith("type ")) {
+        names.push(name.split(/\s+as\s+/).pop());
+      }
+    }
+  }
+  for (const match of source.matchAll(
+    /export\s+declare\s+(?:function|const|class)\s+(\w+)/g,
+  )) {
+    names.push(match[1]);
+  }
+  return names;
+}
+
+function importNames(c) {
+  const names = exportedNames(c);
+  if (names.includes(c.name)) return [c.name];
+  const camel = c.slug.replace(/-(\w)/g, (_, ch) => ch.toUpperCase());
+  const picked = names.filter((name) => /^[A-Z]/.test(name) || name === camel);
+  return picked.length ? picked : [c.name];
+}
+
+/** The import statement, wrapped one name per line when it would pass 80 columns. */
+function importStatement(c) {
+  const names = importNames(c);
+  const line = `import { ${names.join(", ")} } from "${c.import}";`;
+  if (line.length <= 80) return line;
+  return `import {\n${names.map((name) => `  ${name},`).join("\n")}\n} from "${c.import}";`;
+}
+
 const code = (value) => `\`${value}\``;
 const list = (values) => values.map(code).join(" · ");
 const kbd = (key) =>
@@ -319,7 +362,7 @@ function componentPage(c) {
     "### Import",
     "",
     "```tsx",
-    `import { ${c.name} } from "${c.import}";`,
+    importStatement(c),
     "```",
     "",
     `It can also be imported on its own from ${code(c.deepImport)}.`,
@@ -511,7 +554,7 @@ for (const c of manifest.components) {
   );
 }
 // The sidebar: the overview, then each group from src/lib/component-groups.json as a separator
-// followed by its components in name order. A component no group lists still gets a page, under
+// followed by its components in name order (src/lib/source.ts turns each into a collapsible group). A component no group lists still gets a page, under
 // a closing "More" separator, and is reported so it can be filed.
 const { groups } = JSON.parse(
   readFileSync(join(root, "src/lib/component-groups.json"), "utf8"),
@@ -546,6 +589,18 @@ writeFileSync(
       root: true,
       pages,
     },
+    null,
+    2,
+  )}\n`,
+);
+
+// Each component's import names, for the page header (src/lib/components.ts).
+writeFileSync(
+  join(root, "src/lib/component-imports.json"),
+  `${JSON.stringify(
+    Object.fromEntries(
+      manifest.components.map((c) => [c.slug, importNames(c)]),
+    ),
     null,
     2,
   )}\n`,

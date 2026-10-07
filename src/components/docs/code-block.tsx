@@ -1,19 +1,8 @@
 "use client";
 
-import {
-  BracesIcon,
-  FileCodeIcon,
-  HashIcon,
-  TerminalIcon,
-} from "@qeetrix/icons";
+import { BracesIcon, FileCodeIcon, TerminalIcon } from "@qeetrix/icons";
 // @qeetrix/ui's cn knows the type-role sizes (text-label, text-body, …); the plain one drops them.
 import { cn } from "@qeetrix/ui";
-import BunLogo from "@thesvg/react/bun";
-import NpmLogo from "@thesvg/react/npm";
-import PnpmLogo from "@thesvg/react/pnpm";
-import ReactLogo from "@thesvg/react/react";
-import TypeScriptLogo from "@thesvg/react/typescript";
-import YarnLogo from "@thesvg/react/yarn";
 import { Pre } from "fumadocs-ui/components/codeblock";
 import {
   Tabs,
@@ -29,27 +18,22 @@ import {
   use,
   useRef,
 } from "react";
+import { BrandLogo } from "@/components/brand-logo";
 import { CopyButton } from "@/components/docs/copy-button";
 
 const LANGUAGES: Record<string, { label: string; icon: ReactNode }> = {
-  tsx: { label: "TSX", icon: <ReactLogo variant="mono" aria-hidden /> },
-  jsx: { label: "JSX", icon: <ReactLogo variant="mono" aria-hidden /> },
-  ts: {
-    label: "TypeScript",
-    icon: <TypeScriptLogo variant="mono" aria-hidden />,
-  },
-  typescript: {
-    label: "TypeScript",
-    icon: <TypeScriptLogo variant="mono" aria-hidden />,
-  },
-  js: { label: "JavaScript", icon: <FileCodeIcon aria-hidden /> },
-  javascript: { label: "JavaScript", icon: <FileCodeIcon aria-hidden /> },
-  css: { label: "CSS", icon: <HashIcon aria-hidden /> },
+  tsx: { label: "TSX", icon: <BrandLogo name="react" /> },
+  jsx: { label: "JSX", icon: <BrandLogo name="react" /> },
+  ts: { label: "TypeScript", icon: <BrandLogo name="typescript" /> },
+  typescript: { label: "TypeScript", icon: <BrandLogo name="typescript" /> },
+  js: { label: "JavaScript", icon: <BrandLogo name="javascript" /> },
+  javascript: { label: "JavaScript", icon: <BrandLogo name="javascript" /> },
+  css: { label: "CSS", icon: <BrandLogo name="css" /> },
+  html: { label: "HTML", icon: <BrandLogo name="html" /> },
   json: { label: "JSON", icon: <BracesIcon aria-hidden /> },
   bash: { label: "Terminal", icon: <TerminalIcon aria-hidden /> },
   sh: { label: "Terminal", icon: <TerminalIcon aria-hidden /> },
   shell: { label: "Terminal", icon: <TerminalIcon aria-hidden /> },
-  html: { label: "HTML", icon: <FileCodeIcon aria-hidden /> },
 };
 
 export function languageInfo(language: string | undefined): {
@@ -161,15 +145,15 @@ export function CodeBlock({
 const InTabs = createContext(false);
 
 const MANAGERS: Record<string, ReactNode> = {
-  bun: <BunLogo variant="mono" aria-hidden />,
-  npm: <NpmLogo variant="mono" aria-hidden />,
-  pnpm: <PnpmLogo variant="mono" aria-hidden />,
-  yarn: <YarnLogo variant="mono" aria-hidden />,
+  bun: <BrandLogo name="bun" />,
+  npm: <BrandLogo name="npm" />,
+  pnpm: <BrandLogo name="pnpm" />,
+  yarn: <BrandLogo name="yarn" />,
 };
 
 /**
  * Tabbed code — package-manager commands from ```npm blocks, and `tab="…"` groups. The tab bar is
- * the block's header; package managers get their marks.
+ * the block's header; package managers get their own logos, in their colours.
  */
 export function CodeTabs({ className, children, ...props }: TabsProps) {
   return (

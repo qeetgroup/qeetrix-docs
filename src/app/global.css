@@ -46,21 +46,6 @@ div:has(> #nd-sidebar) {
   background-color: var(--card);
 }
 
-/* Group headings in the sidebar (the `---[Icon]Name---` separators in meta.json): small capitals
- * with the group's icon, so the long component list reads in sections. */
-#nd-sidebar p.inline-flex {
-  margin-top: calc(var(--spacing) * 6);
-  font-size: var(--qx-typography-micro-font-size);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted-foreground);
-}
-
-#nd-sidebar p.inline-flex svg {
-  opacity: 0.8;
-}
-
 /* Fumadocs has one accent, --color-fd-primary, and uses it mostly as text and thin indicators
  * (the active tab, table-of-contents link and sidebar line). The shadcn bridge points it at the
  * button fill, Qeet Ember, which is too deep to read as text on dark surfaces. Qeetrix's colour
@@ -88,7 +73,7 @@ div:has(> #nd-sidebar) {
 
 /* Sidebar entries: a compact row in secondary text (Spacious draws the hover block), and for the
  * current page the library's Sidebar selection — normal text on the selected fill, with the brand
- * indicator. */
+ * indicator. Framework logos (`data-brand`) keep their own colours. */
 #nd-sidebar a[data-active] {
   min-height: calc(var(--spacing) * 8);
   padding-block: calc(var(--spacing) * 1.25);
@@ -97,7 +82,7 @@ div:has(> #nd-sidebar) {
   font-size: var(--qx-typography-label-font-size);
 }
 
-#nd-sidebar a[data-active] svg {
+#nd-sidebar a[data-active] svg:not([data-brand]) {
   opacity: 0.8;
 }
 
@@ -107,7 +92,7 @@ div:has(> #nd-sidebar) {
   font-weight: 500;
 }
 
-#nd-sidebar a[data-active="true"] svg {
+#nd-sidebar a[data-active="true"] svg:not([data-brand]) {
   opacity: 1;
   color: var(--qx-color-text-brand);
 }
@@ -154,14 +139,16 @@ div:has(> #nd-sidebar) {
   overflow: hidden;
 }
 
-/* Reading text: headings with room above them, inline code as a quiet chip, keys as key caps. */
+/* Reading text: headings with room above them, inline code as a quiet chip, keys as key caps.
+ * Like Tailwind Typography's own rules, these skip `.not-prose` — the example previews, code
+ * blocks and page header — so they never restyle a component inside a preview. */
 #nd-page .prose {
   --tw-prose-body: var(--foreground);
   --tw-prose-headings: var(--foreground);
   line-height: 1.75;
 }
 
-#nd-page .prose :where(h2) {
+#nd-page .prose :where(h2):not(:where(.not-prose, .not-prose *)) {
   margin-top: 3rem;
   font-size: calc(var(--qx-typography-heading-font-size) * 1.2);
   letter-spacing: -0.012em;
@@ -171,13 +158,17 @@ div:has(> #nd-sidebar) {
   margin-top: 1.75rem;
 }
 
-#nd-page .prose :where(h3) {
+#nd-page .prose :where(h3):not(:where(.not-prose, .not-prose *)) {
   margin-top: 2.25rem;
   font-size: calc(var(--qx-typography-heading-font-size) * 0.95);
   letter-spacing: -0.006em;
 }
 
-#nd-page .prose :where(:not(pre, [data-code-block] *) > code) {
+#nd-page
+  .prose
+  :where(:not(pre, [data-code-block] *) > code):not(
+    :where(.not-prose, .not-prose *)
+  ) {
   border: 1px solid var(--qx-color-border-subtle);
   border-radius: var(--radius-sm);
   background-color: var(--qx-color-surface-subtle, var(--muted));
@@ -187,7 +178,7 @@ div:has(> #nd-sidebar) {
   color: var(--foreground);
 }
 
-#nd-page .prose :where(kbd) {
+#nd-page .prose :where(kbd):not(:where(.not-prose, .not-prose *)) {
   display: inline-flex;
   min-width: 1.6em;
   justify-content: center;
@@ -202,7 +193,9 @@ div:has(> #nd-sidebar) {
   box-shadow: none;
 }
 
-#nd-page .prose :where(a:not([data-card])) {
+#nd-page
+  .prose
+  :where(a:not([data-card])):not(:where(.not-prose, .not-prose *)) {
   text-decoration-color: color-mix(in oklch, currentColor 35%, transparent);
   text-underline-offset: 3px;
 }
