@@ -4,28 +4,31 @@ description: Use icons and the Qeet logos from @qeetrix/icons.
 icon: Shapes
 ---
 
-import { QeetLogo, QeetWordmarkLogo } from "@qeetrix/icons";
-import { StarIcon } from "@qeetrix/icons/icons/star";
+import { QeetLogo, QeetWordmarkLogo, StarIcon } from "@qeetrix/icons";
 
 `@qeetrix/icons` has 1,863 icons, each drawn in a round and a sharp shape, plus Qeet's own logo and
 wordmark.
 
 ## Import an icon
 
-Import each icon from its own path:
+Import icons from the package root:
 
 ```tsx
-import { StarIcon } from "@qeetrix/icons/icons/star";
+import { StarIcon, TrashIcon } from "@qeetrix/icons";
 
 export function Favourite() {
   return <StarIcon />;
 }
 ```
 
-<Callout>
-  Importing from the package root also works, but it loads the whole package unless your bundler
-  tree-shakes it. Per-icon paths are the safer default.
-</Callout>
+Bundlers keep only the icons you import. Code that runs without a bundler — a test runner or a
+script — loads every icon from the root, about 1.6 s once per process in plain Node. A library
+that apps test against, like `@qeetrix/ui`, imports each icon from its own path instead, so its
+consumers never pay that:
+
+```tsx
+import { StarIcon } from "@qeetrix/icons/icons/star";
+```
 
 ## Shape, variant and size
 
@@ -94,7 +97,7 @@ Logos are decorative by default. Pass `aria-label` or `alt` to name one, and `he
 to size it; the width follows the logo's own aspect ratio.
 
 <Callout>
-  Third-party brand logos (GitHub, Google, Slack, …) aren't part of `@qeetrix/icons`; 2.0 removes
-  the 7,429 that 1.0.x bundled. Use [theSVG](https://thesvg.org) directly, for example
+  Third-party brand logos (GitHub, Google, Slack, …) aren't part of `@qeetrix/icons`; versions up
+  to 1.0.10 bundled 7,429 of them. Use [theSVG](https://thesvg.org) directly, for example
   `@thesvg/react`, importing one logo at a time.
 </Callout>
