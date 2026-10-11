@@ -1,13 +1,17 @@
 import { iconManifest } from "@qeetrix/icons/manifest";
 import iconsPackage from "@qeetrix/icons/package.json";
-import type { Metadata } from "next";
 import { IconBrowser } from "@/components/icons/icon-browser";
 import { SiteHeader } from "@/components/site-header";
+import { pageMetadata } from "@/lib/metadata";
+import { iconsDescription } from "@/lib/shared";
+import { links } from "@/lib/site-links";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Icons",
-  description: `Browse, customise and copy all ${iconManifest.icons.length.toLocaleString("en")} icons in @qeetrix/icons — round and sharp, outline and filled.`,
-};
+  description: iconsDescription(iconManifest.icons.length),
+  path: links.iconBrowser,
+  image: "/og/icons/image.png",
+});
 
 /**
  * The icon browser. The catalogue and drawings load from public/icon-data, written from the

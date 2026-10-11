@@ -1,13 +1,14 @@
 import { BookOpenIcon } from "@qeetrix/icons";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
-import { gitConfig } from "./shared";
 
 /**
- * Options for the docs layout. The brand lives in the site header above it, so the sidebar's
- * title names the docs instead of repeating the logo.
+ * Options for the docs layout. The brand, the theme switch and the GitHub link live in the site
+ * header above it, so the sidebar's title names the docs instead of repeating the logo, and the
+ * layout draws neither its own theme switch nor a GitHub icon link.
  */
 export function baseOptions(): BaseLayoutProps {
   return {
+    themeSwitch: { enabled: false },
     nav: {
       title: (
         <>
@@ -19,6 +20,5 @@ export function baseOptions(): BaseLayoutProps {
         </>
       ),
     },
-    githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
   };
 }

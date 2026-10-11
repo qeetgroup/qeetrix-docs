@@ -4,6 +4,11 @@ export const appName = "Qeetrix";
 export const appDescription =
   "The Qeetrix design system — components, tokens and icons for every Qeet product.";
 export const siteUrl = "https://ui.qeet.in";
+
+/** The icon browser's description, for its page and its share card. */
+export function iconsDescription(count: number) {
+  return `Browse, customise and copy all ${count.toLocaleString("en")} icons in @qeetrix/icons — round and sharp, outline and filled.`;
+}
 export const docsRoute = "/docs";
 export const docsImageRoute = "/og/docs";
 export const docsContentRoute = "/llms.mdx/docs";

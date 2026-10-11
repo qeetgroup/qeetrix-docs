@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getPageMarkdownUrl } from "@/lib/shared";
+import { getPageMarkdownUrl, siteUrl } from "@/lib/shared";
 import { docsLlms, source } from "@/lib/source";
 
 export const revalidate = false;
@@ -15,6 +15,8 @@ export async function GET(
   return new Response(await docsLlms.page(page), {
     headers: {
       "Content-Type": "text/markdown",
+      // The same content as the HTML page; search engines should credit that one.
+      Link: `<${new URL(page.url, siteUrl)}>; rel="canonical"`,
     },
   });
 }
