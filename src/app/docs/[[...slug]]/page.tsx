@@ -10,7 +10,13 @@ import { notFound } from "next/navigation";
 import { DocsPageHeader } from "@/components/docs/page-header";
 import { getMDXComponents } from "@/components/mdx";
 import { getComponentMeta, uiVersion } from "@/lib/components";
-import { getPageImageUrl, getPageMarkdownUrl, gitConfig } from "@/lib/shared";
+import { pageMetadata } from "@/lib/metadata";
+import {
+  appDescription,
+  getPageImageUrl,
+  getPageMarkdownUrl,
+  gitConfig,
+} from "@/lib/shared";
 import { links } from "@/lib/site-links";
 import { source } from "@/lib/source";
 
@@ -83,11 +89,10 @@ export async function generateMetadata(
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
-  return {
+  return pageMetadata({
     title: page.data.title,
-    description: page.data.description,
-    openGraph: {
-      images: getPageImageUrl(page).url,
-    },
-  };
+    description: page.data.description ?? appDescription,
+    path: page.url,
+    image: getPageImageUrl(page).url,
+  });
 }
