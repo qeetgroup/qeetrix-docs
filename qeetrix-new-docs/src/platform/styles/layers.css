@@ -1,0 +1,7 @@
+/* The cascade, lowest first: Qeetrix's base and components, the docs platform, then the product
+ * that uses the platform. Layers keep the platform's rules above Qeetrix's without !important. */
+@layer qx.base, qx.components, platform, product;
+
+/* The explicit path: Vite's CSS @import doesn't resolve the package's "style" export. */
+@import "@qeetrix/tokens/tokens.css";
+@import "@qeetrix/react/styles.css";

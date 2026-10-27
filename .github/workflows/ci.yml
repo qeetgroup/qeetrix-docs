@@ -28,3 +28,19 @@ jobs:
       # Generates the component and token data, then Next's route types, then runs tsc.
       - run: bun run types:check
       - run: bun run build
+
+  # The new site (qeetrix-new-docs/, Astro), built alongside the current one until it replaces it.
+  new-docs:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: qeetrix-new-docs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+      - run: bun install --frozen-lockfile
+      - run: bun run lint
+      - run: bun run types:check
+      - run: bun run build

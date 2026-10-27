@@ -1,0 +1,14 @@
+/* The document itself, in tokens only. The page chrome comes with the approved design. */
+@layer platform {
+  html {
+    background-color: var(--qx-color-surface-canvas);
+    color: var(--qx-color-text-default);
+    font: var(--qx-typography-body-md);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+  }
+}

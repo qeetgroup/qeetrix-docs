@@ -1,0 +1,22 @@
+---
+// A plain index while the site is rebuilt. The home page is redesigned last, after every other page.
+import { getCollection } from "astro:content";
+import { Heading, Link, Stack, Text } from "@qeetrix/react";
+import Document from "@/platform/layouts/Document.astro";
+
+const pages = (await getCollection("docs")).sort((a, b) => a.id.localeCompare(b.id));
+---
+
+<Document title="Qeetrix" description="The Qeetrix design system: React components, design tokens and icons for every Qeet product.">
+  <main id="main">
+    <Stack gap="md">
+      <Heading level={1}>Qeetrix</Heading>
+      <Text tone="subtle">The new ui.qeet.in, in progress.</Text>
+      <ul>
+        {pages.map((page) => (
+          <li><Link href={`/${page.id}`}>{page.data.title}</Link></li>
+        ))}
+      </ul>
+    </Stack>
+  </main>
+</Document>

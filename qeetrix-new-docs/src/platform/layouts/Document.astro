@@ -1,0 +1,38 @@
+---
+// The HTML document every page renders in: metadata, the colour scheme before paint, styles and
+// the skip link. The page chrome (header, sidebar, contents) comes with the approved design.
+import "../styles/layers.css";
+import "../styles/document.css";
+import { SkipLink } from "@qeetrix/react";
+import { colorSchemeScript } from "../theme";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const siteName = "Qeetrix";
+const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en-IN" data-qx-color-scheme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfaf9" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0e0d0d" />
+    <script is:inline set:html={colorSchemeScript} />
+  </head>
+  <body>
+    <SkipLink href="#main" />
+    <slot />
+  </body>
+</html>
