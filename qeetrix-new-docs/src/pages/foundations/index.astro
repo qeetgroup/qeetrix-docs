@@ -1,0 +1,132 @@
+---
+// Foundations: the decisions every component is built on, as cards with live previews drawn from
+// the tokens; how the tokens are layered and named; and the two modes they switch on. The pages
+// behind the cards are Storybook's Foundations pages (qeetrix-story); icons and the brand live under
+// Icons.
+import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { Logo } from "@/platform/components/Logo";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { counts } from "@/qeetrix/counts";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { FoundationSpecimen } from "@/qeetrix/foundations/OverviewSpecimens";
+import { tokens } from "@/qeetrix/foundations/tokens";
+import "@/qeetrix/foundations/overview.css";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const toc = [
+  { id: "foundations", label: "The foundations" },
+  { id: "tokens", label: "How tokens work" },
+  { id: "tiers", label: "Tiers", depth: 2 },
+  { id: "names", label: "Names", depth: 2 },
+  { id: "modes", label: "Modes" },
+] as const;
+const foundations = [
+  { name: "Colour", line: "Every role, light and dark", href: links.colour },
+  { name: "Typography", line: "Qeet Sans, Noto Sans, Fira Code", href: links.typography },
+  { name: "Spacing", line: "4px grid, corners, densities", href: links.spacing },
+  { name: "Elevation", line: "Shadows, borders and layers", href: links.elevation },
+  { name: "Motion", line: "Quick: nothing past 400ms", href: links.motion },
+];
+const tiers = [
+  { name: "Primitive", count: tokens.primitive, line: "Raw values: ramps and scales", example: "primitive.color.qeet.600" },
+  { name: "Semantic", count: tokens.semantic, line: "What a value is for", example: "--qx-color-bg-brand-bold" },
+  { name: "Component", count: tokens.component, line: "One component's own", example: "--qx-component-sidebar-width-expanded" },
+];
+const anatomy = [
+  ["--qx", "System"],
+  ["color", "Category"],
+  ["bg", "Property"],
+  ["brand", "Role"],
+  ["bold", "Emphasis"],
+];
+---
+
+<DocsPage title="Foundations" description="The decisions every Qeetrix component is built on, kept as design tokens." current="foundations" section={links.foundations} toc={[...toc]}>
+  <Masthead slot="masthead" title="Foundations" lede="The decisions every component is built on, kept as tokens." place={["Docs", "Foundations", "Updated 28 Oct 2026"]} source={docs.source("foundations/index.astro")}>
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        <div><dt><code>{packages.tokens.name}</code></dt><dd>{packages.tokens.version}</dd></div>
+      </dl>
+      <p class="doc-mast-links">
+        <a href={links.tokensRepo}><Logo name="github-mono" />GitHub<ArrowUpRightIcon size={14} /></a>
+        <a href={links.tokensNpm}><Logo name="npm" />npm<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Design tokens</dt><dd>{counts.tokens}<span>CSS variables, light and dark</span></dd></div>
+      <div><dt>Colour ramps</dt><dd>{tokens.ramps}<span>{tokens.steps} steps each</span></dd></div>
+      <div><dt>Schemes</dt><dd>2<span>Light and dark</span></dd></div>
+      <div><dt>Densities</dt><dd>{tokens.densities}<span>Compact to comfortable</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="foundations" class="doc-sec" aria-labelledby="foundations-title">
+    <p class="doc-eyebrow">01 — The foundations</p>
+    <h2 class="doc-h2" id="foundations-title">Five decisions, one system.</h2>
+    <ul class="doc-cards">
+      {
+        foundations.map((f) => (
+          <li class="doc-card">
+            <FoundationSpecimen name={f.name} />
+            <div class="doc-card-copy">
+              <span class="doc-card-title">
+                <a class="doc-card-link" href={f.href}>{f.name}</a>
+                <ArrowRightIcon size={16} className="doc-card-arrow" data-qx-mirror />
+              </span>
+              <span class="doc-card-meta"><span class="doc-card-line">{f.line}</span></span>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section id="tokens" class="doc-sec" aria-labelledby="tokens-title">
+    <p class="doc-eyebrow">02 — How tokens work</p>
+    <h2 class="doc-h2" id="tokens-title">Three tiers, one direction.</h2>
+    <h3 class="doc-h3" id="tiers">Tiers</h3>
+    <ol class="qf-tier">
+      {
+        tiers.map((t, i) => (
+          <li>
+            <span class="qf-tier-top">
+              <b>{t.name}</b>
+              <span class="qf-tier-count">{t.count}</span>
+            </span>
+            <span class="qf-tier-line">{t.line}</span>
+            <code>{t.example}</code>
+            {i < tiers.length - 1 && <ArrowRightIcon size={20} className="qf-tier-arrow" data-qx-mirror />}
+          </li>
+        ))
+      }
+    </ol>
+    <p class="qf-tier-note">Use semantic tokens. Primitives feed them; components refine them.</p>
+    <h3 class="doc-h3" id="names">Names</h3>
+    <ol class="qf-name" aria-label="--qx-color-bg-brand-bold, part by part">
+      {anatomy.map(([part, role]) => <li><code>{part}</code><span>{role}</span></li>)}
+    </ol>
+  </section>
+
+  <section id="modes" class="doc-sec" aria-labelledby="modes-title">
+    <p class="doc-eyebrow">03 — Modes</p>
+    <h2 class="doc-h2" id="modes-title">Set on any element.</h2>
+    <div class="qf-mode">
+      <div>
+        <b>Colour scheme</b>
+        <code>data-qx-color-scheme</code>
+        <span class="qf-mode-values"><span>light</span><span>dark</span></span>
+      </div>
+      <div>
+        <b>Density</b>
+        <code>data-qx-density</code>
+        <span class="qf-mode-values"><span>compact</span><span>default</span><span>comfortable</span></span>
+      </div>
+    </div>
+  </section>
+
+  <NextPage href={links.colour} label="Next — 01 of 05" title="Colour" />
+</DocsPage>

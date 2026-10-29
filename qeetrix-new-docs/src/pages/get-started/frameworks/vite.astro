@@ -1,0 +1,88 @@
+---
+// Get started › Frameworks › Vite: Qeetrix in a plain React app: the styles, the colour scheme
+// before paint in index.html, and the providers.
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { PmChoice, PmCommand } from "@/qeetrix/docs/PackageManager";
+import { install } from "@/qeetrix/install";
+import { links } from "@/qeetrix/site";
+
+const toc = [
+  { id: "install", label: "Install" },
+  { id: "styles", label: "Styles" },
+  { id: "config", label: "vite.config.ts" },
+  { id: "main", label: "The entry" },
+];
+const css = install.css.join("\n");
+const config = `import { colorSchemeScript } from "@qeetrix/react";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [
+    react(),
+    // The saved scheme, or the system's, on <html> before the first paint.
+    {
+      name: "qeetrix-color-scheme",
+      transformIndexHtml: () => [{ tag: "script", children: colorSchemeScript(), injectTo: "head-prepend" }],
+    },
+  ],
+});`;
+const main = `import { QeetrixProvider, ToastProvider } from "@qeetrix/react";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { App } from "./app";
+import "./index.css";
+
+createRoot(document.getElementById("root") as HTMLElement).render(
+  <StrictMode>
+    <QeetrixProvider locale="en-IN" defaultColorScheme="system" storageKey="qx-color-scheme">
+      <ToastProvider>
+        <App />
+      </ToastProvider>
+    </QeetrixProvider>
+  </StrictMode>,
+);`;
+---
+
+<DocsPage title="Vite" description="Set up Qeetrix in a plain React app on Vite: the styles, the colour scheme before paint and the providers." current="vite" section={links.docs} toc={toc}>
+  <Masthead slot="masthead" title="Vite" lede="Qeetrix in a plain React app: no server, no plugin." place={["Docs", "Get started", "Frameworks", "Vite"]} source={docs.source("get-started/frameworks/vite.astro")}>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Time</dt><dd>3 minutes<span>Three files</span></dd></div>
+      <div><dt>Requires</dt><dd>Vite 8<span>@vitejs/plugin-react, React 19.2</span></dd></div>
+      <div><dt>Package manager</dt><dd><PmChoice client:load /></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="install" class="doc-sec" aria-labelledby="install-title">
+    <p class="doc-eyebrow">01 — Install</p>
+    <h2 class="doc-h2" id="install-title">The packages.</h2>
+    <PmCommand client:load packages={install.packages} peer="@base-ui/react" />
+  </section>
+
+  <section id="styles" class="doc-sec" aria-labelledby="styles-title">
+    <p class="doc-eyebrow">02 — Styles</p>
+    <h2 class="doc-h2" id="styles-title">Plain CSS imports.</h2>
+    <p class="doc-p">Vite resolves them; the default React config needs nothing more.</p>
+    <CodeFrame file="src/index.css" lang="css" code={css} />
+  </section>
+
+  <section id="config" class="doc-sec" aria-labelledby="config-title">
+    <p class="doc-eyebrow">03 — vite.config.ts</p>
+    <h2 class="doc-h2" id="config-title">The scheme before the first paint.</h2>
+    <p class="doc-p">colorSchemeScript, inlined in the head: a dark-scheme reader never sees a flash of light.</p>
+    <CodeFrame file="vite.config.ts" lang="ts" code={config} />
+  </section>
+
+  <section id="main" class="doc-sec" aria-labelledby="main-title">
+    <p class="doc-eyebrow">04 — The entry</p>
+    <h2 class="doc-h2" id="main-title">The providers, around the app.</h2>
+    <p class="doc-p">storageKey saves the choice where the script reads it.</p>
+    <CodeFrame file="src/main.tsx" code={main} />
+  </section>
+
+  <NextPage href={links.aiTools} label="Next — Get started" title="AI tools" />
+</DocsPage>

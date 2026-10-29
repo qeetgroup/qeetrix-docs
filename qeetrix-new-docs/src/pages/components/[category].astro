@@ -1,0 +1,87 @@
+---
+// Components › a category (Layout, Actions, Forms…): what it covers, each component as a card with
+// a live preview, and which one to use. One page per category in components.ts.
+import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
+import { Badge, formatNumber } from "@qeetrix/react";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { ComponentSpecimen } from "@/qeetrix/docs/ComponentSpecimens";
+import { docs } from "@/qeetrix/docs/chrome";
+import { categories, componentHref } from "@/qeetrix/docs/components";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { categoryPages } from "@/qeetrix/docs/which";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+export function getStaticPaths() {
+  return categories.map((category) => ({ params: { category: category.id }, props: { category } }));
+}
+
+const { category } = Astro.props as { category: (typeof categories)[number] };
+const page = categoryPages[category.id];
+const experimental = category.items.filter((item) => item.exp).length;
+const stable = category.items.length - experimental;
+const first = category.items[0];
+const toc = [
+  { id: "components", label: "The components" },
+  { id: "which", label: "Which one" },
+];
+const tally = experimental === 0 ? "All stable" : stable === 0 ? "All experimental" : `${stable} stable, ${experimental} experimental`;
+---
+
+<DocsPage title={category.name} description={`Qeetrix's ${category.name.toLowerCase()} components: ${category.line.toLowerCase()}`} current={`components-${category.id}`} section={links.components} toc={toc}>
+  <Masthead slot="masthead" title={category.name} lede={category.line} place={["Docs", "Components", category.name]} source={docs.source("components/[category].astro")}>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Components</dt><dd>{formatNumber(category.items.length, "en-IN")}<span>{tally}</span></dd></div>
+      <div><dt>Package</dt><dd><code>{packages.react.name}</code><span>{packages.react.version}</span></dd></div>
+      <div><dt>Tested</dt><dd>WCAG 2.2 AA<span>axe on every pull request</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="components" class="doc-sec" aria-labelledby="components-title">
+    <p class="doc-eyebrow">01 — The components</p>
+    <h2 class="doc-h2" id="components-title">{page?.headline ?? category.line}</h2>
+    <ul class="doc-cards">
+      {
+        category.items.map((item) => (
+          <li class="doc-card">
+            <ComponentSpecimen name={item.name} />
+            <div class="doc-card-copy">
+              <span class="doc-card-title">
+                <a class="doc-card-link" href={componentHref(item.name)}>{item.name}</a>
+                <ArrowRightIcon size={16} className="doc-card-arrow" data-qx-mirror />
+              </span>
+              <span class="doc-card-meta">
+                <span class="doc-card-line">{item.line}</span>
+                {item.exp ? <Badge tone="warning" size="sm">Experimental</Badge> : <Badge tone="success" size="sm">Stable</Badge>}
+              </span>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  {
+    page && (
+      <section id="which" class="doc-sec" aria-labelledby="which-title">
+        <p class="doc-eyebrow">02 — Which one</p>
+        <h2 class="doc-h2" id="which-title">Pick by what you need.</h2>
+        <div class="doc-table-scroll">
+          <table class="doc-table">
+            <thead>
+              <tr><th scope="col">You need</th><th scope="col">Use</th></tr>
+            </thead>
+            <tbody>
+              {page.which.map(([need, use]) => (
+                <tr><td>{need}</td><th scope="row"><a href={componentHref(use)}>{use}</a></th></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )
+  }
+
+  {first && <NextPage href={componentHref(first.name)} label={`Next — ${category.name}`} title={first.name} />}
+</DocsPage>

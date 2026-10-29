@@ -1,0 +1,1109 @@
+/* The docs frame: the docs grid under the site header, the navigation rail (Qeetrix's Sidebar), the
+ * page's masthead card on the canvas, numbered sections, tiles and boxes joined by 1px rules, ruled
+ * tables, steps, the zigzag "On this page", code frames and the next page. Carbon's structure in
+ * Qeetrix's language; product-agnostic. Tokens only. */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer platform {
+  /* The rail's width; the header's brand block follows it, so their rules stay on one line. */
+  :root {
+    --doc-nav-width: 19rem;
+  }
+
+  /* The content blocks first; the frame's rules below refine them. ----------------------------- */
+
+  /* Copy page: two quiet buttons in one ruled group (only the page's actions are solid, §7). */
+  .doc-copy {
+    display: inline-flex;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-control);
+    background: var(--qx-color-surface-raised);
+
+    & > .qx-button + .qx-button,
+    & > .qx-button + * {
+      border-inline-start: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    }
+  }
+  .doc-copy :not([data-copied]) > [data-copy-icon="done"],
+  .doc-copy [data-copied] > [data-copy-icon="copy"] {
+    display: none;
+  }
+
+  /* Code, with its file name and Copy. */
+  .doc-code {
+    min-inline-size: 0;
+    margin: 0;
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-sunken);
+
+    /* The frame is the code block's frame: the code sits straight in it, and scrolls, not wraps. */
+    & .site-code {
+      border: 0;
+      border-radius: 0;
+      background: none;
+    }
+
+    & .site-code pre {
+      padding: var(--qx-space-inset-lg);
+      font: var(--qx-typography-code-sm);
+      white-space: pre;
+    }
+  }
+
+  .doc-code-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--qx-space-gap-md);
+    padding: var(--qx-space-gap-xs) var(--qx-space-gap-xs) var(--qx-space-gap-xs)
+      var(--qx-space-inset-md);
+    border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    background: var(--qx-color-surface-raised);
+
+    & > span {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--qx-space-gap-sm);
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  /* The frame -------------------------------------------------------------------------------- */
+
+  .doc {
+    --doc-top: 4rem;
+    --doc-ease: var(--qx-motion-duration-fast) var(--qx-motion-easing-standard);
+    display: grid;
+    grid-template-columns: var(--doc-nav-width) minmax(0, 1fr);
+    min-block-size: calc(100dvh - var(--doc-top));
+    background: var(--qx-color-surface-canvas);
+    color: var(--qx-color-text-default);
+  }
+
+  .doc :where(*, *::before, *::after) {
+    box-sizing: border-box;
+  }
+
+  .doc :where(p, ul, ol, dl, dd, h1, h2, h3, figure) {
+    margin: 0;
+  }
+
+  .doc :where(ul, ol) {
+    padding: 0;
+    list-style: none;
+  }
+
+  .doc :where(a):not(.qx-link, .qx-button) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .doc :is(a, button, summary):focus-visible {
+    outline: var(--qx-focus-ring-width) solid var(--qx-color-border-focus);
+    outline-offset: calc(-1 * var(--qx-focus-ring-width));
+  }
+
+  /* The navigation rail ----------------------------------------------------------------------- */
+
+  .doc-nav {
+    position: sticky;
+    inset-block-start: var(--doc-top);
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    block-size: calc(100dvh - var(--doc-top));
+    overflow-y: auto;
+    border-inline-end: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    background: var(--qx-color-surface-raised);
+    scrollbar-width: thin;
+  }
+
+  /* The masthead card --------------------------------------------------------------------------- */
+
+  .doc-main {
+    min-inline-size: 0;
+    padding: var(--qx-space-inset-lg);
+  }
+
+  .doc-mast {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    min-block-size: 30rem;
+    padding: 0 var(--qx-space-layout-lg);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-raised);
+    overflow: hidden;
+
+    /* Faint column guides, as qeet.in's heroes have, fading towards the foot. */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(90deg, var(--qx-color-border-subtle) 1px, transparent 1px)
+        var(--qx-space-layout-lg) 0 / calc((100% - 2 * var(--qx-space-layout-lg)) / 12) 100%;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+      opacity: 0.7;
+    }
+  }
+
+  /* The masthead line: a heavy rule, then where you are between hairline rules (qeet.in). */
+  .doc-mast-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--qx-space-gap-md);
+    margin-block-start: var(--qx-space-layout-sm);
+    padding-block: var(--qx-space-gap-sm);
+    border-block-start: 2px solid var(--qx-color-text-default);
+    border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+  }
+
+  .doc-mast-place {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    & li {
+      padding-inline: var(--qx-space-inset-md);
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-label-caps);
+      letter-spacing: var(--qx-typography-label-caps-letter-spacing);
+      text-transform: uppercase;
+    }
+
+    & li:first-child {
+      padding-inline-start: 0;
+      color: var(--qx-color-text-default);
+    }
+
+    & li + li {
+      border-inline-start: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    }
+  }
+
+  .doc-mast-title {
+    margin-block-start: var(--qx-space-layout-md);
+    font: var(--qx-typography-display-lg);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-display);
+    text-wrap: balance;
+  }
+
+  .doc-mast-foot {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    align-items: end;
+    gap: var(--qx-space-layout-lg);
+    padding-block: var(--qx-space-layout-lg) var(--qx-space-layout-md);
+  }
+
+  .doc-mast-lede {
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-heading-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-heading);
+    font-weight: 400;
+    text-wrap: pretty;
+  }
+
+  /* The page's facts, at the masthead's end (Carbon's library block). */
+  .doc-mast-aside {
+    display: grid;
+    gap: var(--qx-space-gap-md);
+  }
+
+  .doc-mast-pkgs {
+    display: grid;
+    border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-default);
+
+    & div {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--qx-space-gap-md);
+      padding-block: var(--qx-space-gap-sm);
+      border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+      font: var(--qx-typography-body-sm);
+    }
+
+    & dt code {
+      font: var(--qx-typography-code-sm);
+      font-weight: 600;
+    }
+
+    & dd {
+      color: var(--qx-color-text-subtle);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .doc-mast-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--qx-space-gap-lg);
+
+    & a {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--qx-space-gap-xs);
+      color: var(--qx-color-text-link);
+      font: var(--qx-typography-label-md);
+
+      &:hover {
+        color: var(--qx-color-text-link-hover);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  /* Key figures between column rules (qeet.in). */
+  .doc-mast-strip {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    margin-inline: calc(-1 * var(--qx-space-layout-lg));
+    border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-default);
+
+    & > div {
+      display: grid;
+      align-content: start;
+      gap: 2px;
+      padding: var(--qx-space-inset-lg) var(--qx-space-layout-lg);
+    }
+
+    & > div + div {
+      border-inline-start: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    }
+
+    & dt {
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-label-caps);
+      letter-spacing: var(--qx-typography-label-caps-letter-spacing);
+      text-transform: uppercase;
+    }
+
+    & dd {
+      font: var(--qx-typography-title-lg);
+      font-variation-settings: "GEOM" var(--qx-font-geometry-heading);
+      font-variant-numeric: tabular-nums;
+    }
+
+    & dd span {
+      display: block;
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-body-sm);
+    }
+  }
+
+  /* The body: content on the canvas, contents beside it ------------------------------------------- */
+
+  .doc-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 13rem;
+    gap: var(--qx-space-layout-lg);
+    padding: var(--qx-space-layout-lg) var(--qx-space-layout-lg) 0;
+  }
+
+  /* The content fills the width beside On this page, so no gap opens between them on a wide
+   * screen; running text keeps a reading measure. */
+  .doc-content {
+    container-type: inline-size;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--qx-space-layout-xl);
+    min-inline-size: 0;
+
+    & :where(p:not(.doc-eyebrow), .qx-accordion-panel) {
+      max-inline-size: 72ch;
+    }
+  }
+
+  .doc-toc {
+    position: sticky;
+    inset-block-start: calc(var(--doc-top) + var(--qx-space-layout-sm));
+    align-self: start;
+    display: grid;
+    gap: var(--qx-space-gap-md);
+
+    & p {
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-label-caps);
+      letter-spacing: var(--qx-typography-label-caps-letter-spacing);
+      text-transform: uppercase;
+    }
+
+    & ol {
+      border-inline-start: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    }
+
+    & a {
+      display: block;
+      margin-inline-start: -1px;
+      padding: var(--qx-space-gap-xs) var(--qx-space-inset-md);
+      border-inline-start: var(--qx-border-width-accent) solid transparent;
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-body-sm);
+
+      &:hover {
+        color: var(--qx-color-text-default);
+      }
+
+      &[aria-current] {
+        border-inline-start-color: var(--qx-color-border-brand);
+        color: var(--qx-color-text-default);
+        font-weight: 600;
+      }
+    }
+  }
+
+  /* A numbered section: "01 — Requirements", then a display heading (qeet.in). */
+  .doc-sec {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--qx-space-gap-lg);
+    scroll-margin-block-start: calc(var(--doc-top) + var(--qx-space-layout-sm));
+  }
+
+  .doc-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: var(--qx-space-gap-md);
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-label-caps);
+    letter-spacing: var(--qx-typography-label-caps-letter-spacing);
+    text-transform: uppercase;
+
+    &::after {
+      content: "";
+      flex: 1;
+      block-size: var(--qx-border-width-default);
+      background: var(--qx-color-border-default);
+    }
+  }
+
+  .doc-h2 {
+    font: var(--qx-typography-display-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-display);
+    text-wrap: balance;
+  }
+
+  .doc-p {
+    max-inline-size: 42rem;
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-lg);
+    text-wrap: pretty;
+
+    & code {
+      color: var(--qx-color-text-default);
+      font: var(--qx-typography-code-md);
+    }
+  }
+
+  /* Tiles joined by 1px rules (Carbon's resource tiles). */
+  .doc-tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-border-default);
+    overflow: hidden;
+
+    & a {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: var(--qx-space-gap-sm);
+      min-block-size: 12rem;
+      padding: var(--qx-space-inset-xl);
+      background: var(--qx-color-surface-raised);
+      transition: background-color var(--doc-ease);
+
+      &:hover {
+        background: var(--qx-color-surface-default);
+      }
+
+      &:hover .doc-tile-go {
+        translate: 3px 0;
+      }
+    }
+
+    & b {
+      font: var(--qx-typography-title-lg);
+      font-variation-settings: "GEOM" var(--qx-font-geometry-heading);
+    }
+
+    & a > span:nth-child(2) {
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-body-md);
+    }
+  }
+
+  .doc-tile-row {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    color: var(--qx-color-icon-default);
+  }
+
+  .doc-tile-go {
+    color: var(--qx-color-icon-brand);
+    transition: translate var(--doc-ease);
+  }
+
+  /* A ruled table on a raised panel; wider than the screen, it scrolls in its own box. */
+  .doc-table-scroll {
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .doc-table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    background: var(--qx-color-surface-raised);
+    font: var(--qx-typography-body-md);
+
+    & th,
+    & td {
+      padding: var(--qx-space-inset-md) var(--qx-space-inset-lg);
+      border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+      text-align: start;
+      vertical-align: top;
+    }
+
+    & thead th {
+      background: var(--qx-color-bg-neutral-subtle);
+      color: var(--qx-color-text-default);
+      font: var(--qx-typography-label-md);
+      font-weight: 600;
+    }
+
+    & tbody th {
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    & td {
+      color: var(--qx-color-text-subtle);
+    }
+
+    & code {
+      color: var(--qx-color-text-default);
+      font: var(--qx-typography-code-sm);
+      font-weight: 600;
+    }
+
+    & a {
+      color: var(--qx-color-text-link);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  /* The release track: two stages, the stable one in Ember (qeet.in's status track). */
+  .doc-track {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--qx-space-gap-md);
+
+    & li {
+      display: grid;
+      align-content: start;
+      gap: var(--qx-space-gap-sm);
+      padding-block-start: var(--qx-space-inset-md);
+      border-block-start: 3px solid var(--qx-color-border-default);
+    }
+
+    & li:last-child {
+      border-block-start-color: var(--qx-color-border-brand);
+    }
+
+    & b {
+      font: var(--qx-typography-title-md);
+    }
+
+    & span {
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-body-md);
+    }
+
+    & code {
+      color: var(--qx-color-text-default);
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  /* A numbered step: the number in the eyebrow, the work on raised panels. */
+  .doc-step-panel {
+    display: grid;
+    gap: var(--qx-space-gap-md);
+  }
+
+  /* The next page, as a band. */
+  .doc-next {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: var(--qx-space-gap-lg);
+    padding: var(--qx-space-layout-md) 0;
+    border-block: 2px solid var(--qx-color-text-default);
+
+    & span {
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-label-caps);
+      letter-spacing: var(--qx-typography-label-caps-letter-spacing);
+      text-transform: uppercase;
+    }
+
+    & b {
+      display: block;
+      margin-block-start: var(--qx-space-gap-sm);
+      font: var(--qx-typography-display-sm);
+      font-variation-settings: "GEOM" var(--qx-font-geometry-display);
+    }
+
+    & svg {
+      color: var(--qx-color-icon-brand);
+      transition: translate var(--doc-ease);
+    }
+
+    &:hover svg {
+      translate: 4px 0;
+    }
+  }
+
+  .doc-end {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--qx-space-gap-md);
+    padding-block: var(--qx-space-layout-sm) var(--qx-space-layout-lg);
+  }
+
+  /* Narrower screens. */
+  @media (width < 1280px) {
+    .doc-body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .doc-toc {
+      display: none;
+    }
+  }
+
+  @media (width < 1024px) {
+    .doc {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .doc-nav {
+      display: none;
+    }
+
+    .doc-mast-foot {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (width < 840px) {
+    .doc-main {
+      padding: 0;
+    }
+
+    .doc-mast {
+      min-block-size: 0;
+      padding-inline: var(--qx-space-inset-lg);
+      border-inline: 0;
+      border-radius: 0;
+    }
+
+    .doc-mast-title {
+      font: var(--qx-typography-display-sm);
+      font-variation-settings: "GEOM" var(--qx-font-geometry-display);
+    }
+
+    .doc-mast-strip {
+      grid-auto-flow: row;
+      margin-inline: calc(-1 * var(--qx-space-inset-lg));
+
+      & > div {
+        padding-inline: var(--qx-space-inset-lg);
+      }
+
+      & > div + div {
+        border-inline-start: 0;
+        border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+      }
+    }
+
+    .doc-body {
+      padding: var(--qx-space-layout-md) var(--qx-space-inset-lg) 0;
+    }
+
+    .doc-tiles,
+    .doc-track {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* What the navigation's script hides (folders, the filter's results) stays hidden, whatever
+   * display the platform's own rules give it; Qeetrix's parts are hidden by its qx.state layer. */
+  .doc-nav [hidden] {
+    display: none;
+  }
+
+  /* Qeetrix's Sidebar, outside an AppShell: the rail gives it the panel, it fills the height. */
+  .doc-nav .qx-sidebar {
+    min-block-size: 100%;
+  }
+
+  .doc-toc-track {
+    position: relative;
+
+    & ol {
+      border: 0;
+    }
+
+    & a {
+      margin: 0;
+      padding-block: var(--qx-space-gap-xs);
+      padding-inline: var(--qx-space-inset-md) 0;
+      border: 0;
+      transition: color var(--doc-ease);
+    }
+
+    & li[data-depth="2"] a {
+      padding-inline-start: calc(var(--qx-space-inset-md) + 0.75rem);
+    }
+
+    & a[aria-current] {
+      font-weight: 400;
+    }
+  }
+
+  .doc-toc-svg {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    overflow: visible;
+    pointer-events: none;
+
+    & path {
+      fill: none;
+      stroke: var(--qx-color-border-default);
+      stroke-width: 1;
+      stroke-linejoin: round;
+    }
+  }
+
+  .doc-toc-on {
+    transition: clip-path var(--qx-motion-duration-normal) var(--qx-motion-easing-standard);
+
+    & path {
+      stroke: var(--qx-color-border-brand);
+      stroke-width: var(--qx-border-width-accent);
+    }
+  }
+
+  [dir="rtl"] .doc-toc-svg {
+    transform: scaleX(-1);
+  }
+
+  /* Sub-headings. */
+  .doc-h3 {
+    display: flex;
+    align-items: center;
+    gap: var(--qx-space-gap-md);
+    font: var(--qx-typography-heading-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-heading);
+    scroll-margin-block-start: calc(var(--doc-top) + var(--qx-space-layout-sm));
+  }
+
+  /* The four steps: a ruled list, each step numbered in a square mark. */
+  .doc-steps {
+    display: grid;
+    gap: var(--qx-space-layout-md);
+  }
+
+  .doc-step {
+    display: grid;
+    gap: var(--qx-space-gap-lg);
+    padding-block-start: var(--qx-space-layout-sm);
+    border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    scroll-margin-block-start: calc(var(--doc-top) + var(--qx-space-layout-sm));
+
+    & .doc-h3 span {
+      display: inline-grid;
+      place-items: center;
+      inline-size: 2rem;
+      block-size: 2rem;
+      border: var(--qx-border-width-default) solid var(--qx-color-text-default);
+      border-radius: var(--qx-radius-control);
+      font: var(--qx-typography-label-md);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .doc-track .doc-h3 {
+    font: var(--qx-typography-title-md);
+  }
+
+  /* The package version and the theme menu at the very foot of the navigation. */
+  .doc-nav-end {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--qx-space-gap-sm);
+    padding: var(--qx-space-gap-xs) var(--qx-space-inset-sm) var(--qx-space-gap-xs)
+      var(--qx-space-inset-lg);
+    border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-sm);
+
+    & code {
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  /* Brand marks beside links and file names. */
+  .doc-mast-links a > svg:first-child,
+  .doc-code-bar > span > svg {
+    flex: none;
+    inline-size: 1rem;
+    block-size: 1rem;
+  }
+
+  .doc-mast-links a {
+    gap: var(--qx-space-gap-sm);
+    color: var(--qx-color-text-default);
+  }
+
+  .doc-mast-links a:hover {
+    color: var(--qx-color-text-link-hover);
+  }
+
+  .doc-code-bar > span {
+    color: var(--qx-color-text-default);
+  }
+
+  /* The header follows the docs grid: the brand over the navigation rail, its rule on the rail's
+   * edge; the menu starting on the masthead's text line; the tools ending on the masthead's edge. */
+  @media (width >= 1024px) {
+    .site-header[data-layout="docs"] > .site-header-inner {
+      max-inline-size: none;
+      gap: 0;
+      padding-inline: 0 var(--qx-space-inset-lg);
+    }
+
+    .site-header[data-layout="docs"] .site-header-brand {
+      align-self: stretch;
+      inline-size: var(--doc-nav-width);
+      padding-inline-start: var(--qx-space-inset-lg);
+      border-inline-end: var(--qx-border-width-default) solid var(--qx-color-border-default);
+      border-radius: 0;
+    }
+
+    .site-header[data-layout="docs"] .site-header-nav {
+      margin-inline: 0 auto;
+      padding-inline-start: calc(
+        var(--qx-space-inset-lg) +
+        var(--qx-space-layout-lg) -
+        var(--qx-space-gap-xs) *
+        3.5
+      );
+    }
+
+    .site-header[data-layout="docs"] .site-header-tools {
+      margin-inline-start: auto;
+    }
+  }
+
+  /* A framework's own mark, at the Sidebar's icon size. */
+  .doc-nav-brand {
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    inline-size: 1rem;
+    block-size: 1rem;
+
+    & svg {
+      inline-size: 1rem;
+      block-size: 1rem;
+    }
+  }
+
+  /* The docs footer: one line inside the content column, so the navigation stays put. */
+  .doc-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--qx-space-gap-md);
+    margin: var(--qx-space-layout-lg) var(--qx-space-layout-lg) 0;
+    padding-block: var(--qx-space-inset-lg);
+    border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-sm);
+
+    & nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--qx-space-gap-lg);
+    }
+
+    & a:hover {
+      color: var(--qx-color-text-default);
+      text-decoration: underline;
+    }
+  }
+
+  @media (width < 840px) {
+    .doc-foot {
+      margin-inline: var(--qx-space-inset-lg);
+    }
+  }
+
+  /* The next page's name is a title, not a label: no capitals, full ink. */
+  .doc-next b {
+    color: var(--qx-color-text-default);
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  /* A second level in Qeetrix's Sidebar (it documents one): one more step of indent, so a family
+   * sits under its category's label. */
+  .doc-nav .qx-sidebar-sublist .qx-sidebar-sublist .qx-sidebar-item {
+    padding-inline-start: calc(var(--qx-space-inset-lg) + 16px + 10px + var(--qx-space-inset-md));
+  }
+
+  /* The docs filter, in the Sidebar's heading slot. */
+  .doc-nav .doc-nav-find {
+    inline-size: 100%;
+    font: var(--qx-typography-body-md);
+  }
+
+  /* Where a match lives, beside it in the results. */
+  .doc-nav-path {
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-sm);
+  }
+
+  .doc-boxes-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--qx-space-gap-lg);
+  }
+
+  .doc-more {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: var(--qx-space-gap-xs);
+    color: var(--qx-color-text-link);
+    font: var(--qx-typography-label-md);
+
+    &:hover {
+      color: var(--qx-color-text-link-hover);
+      text-decoration: underline;
+    }
+  }
+
+  /* Cards: a live preview on a ruled panel, the name, a line and an arrow, as Storybook's welcome
+   * cards. Four across on a desktop; three, two, one as the page narrows. */
+  .doc-cards {
+    --doc-card-rule: color-mix(in oklab, var(--qx-color-border-subtle) 55%, transparent);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--qx-space-gap-lg);
+
+    @container (width >= 26rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @container (width >= 34rem) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @container (width >= 44rem) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .doc-card {
+    container-type: inline-size;
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-raised);
+    transition:
+      border-color var(--qx-motion-duration-fast) var(--qx-motion-easing-standard),
+      box-shadow var(--qx-motion-duration-normal) var(--qx-motion-easing-standard),
+      translate var(--qx-motion-duration-normal) var(--qx-motion-easing-standard);
+
+    &:has(.doc-card-link:hover) {
+      border-color: var(--qx-color-border-default);
+      box-shadow: var(--qx-shadow-raised-hover);
+      translate: 0 -2px;
+    }
+
+    &:has(.doc-card-link:focus-visible) {
+      outline: var(--qx-focus-ring-width) solid var(--qx-color-border-focus);
+      outline-offset: var(--qx-focus-ring-offset);
+    }
+  }
+
+  /* Its own stacking context: an overlay's preview (a palette at z-index 1400) stays under the
+   * sticky header as its card scrolls beneath it. */
+  .doc-card-art {
+    --doc-card-scale: 1;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    block-size: 11rem;
+    padding: var(--qx-space-inset-md);
+    overflow: hidden;
+    border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    background:
+      linear-gradient(var(--doc-card-rule) 1px, transparent 1px) 0 0 / 1.5rem 1.5rem,
+      linear-gradient(90deg, var(--doc-card-rule) 1px, transparent 1px) 0 0 / 1.5rem 1.5rem,
+      var(--qx-color-surface-canvas);
+
+    & > * {
+      max-inline-size: 100%;
+    }
+
+    & > * {
+      zoom: var(--doc-card-scale);
+    }
+  }
+
+  /* A narrow card (four across beside On this page): the preview a step smaller. */
+  @container (width < 14rem) {
+    .doc-card-art {
+      --doc-card-scale: 0.8;
+    }
+  }
+
+  /* The line, and Experimental at its end, so the name keeps its line. */
+  .doc-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--qx-space-gap-xs) var(--qx-space-gap-sm);
+  }
+
+  .doc-card-copy {
+    display: grid;
+    align-content: start;
+    gap: var(--qx-space-gap-xs);
+    padding: var(--qx-space-inset-md) var(--qx-space-inset-lg) var(--qx-space-inset-lg);
+  }
+
+  .doc-card-title {
+    display: flex;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+  }
+
+  /* The name's link covers the card; the focus ring goes on the card. */
+  .doc-card .doc-card-link {
+    font: var(--qx-typography-title-sm);
+    outline: none;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  .doc-card-arrow {
+    margin-inline-start: auto;
+    color: var(--qx-color-icon-subtle);
+    transition:
+      translate var(--qx-motion-duration-normal) var(--qx-motion-easing-standard),
+      color var(--qx-motion-duration-fast) var(--qx-motion-easing-standard);
+
+    .doc-card:has(.doc-card-link:hover) & {
+      color: var(--qx-color-icon-brand);
+      translate: 3px 0;
+    }
+
+    [dir="rtl"] .doc-card:has(.doc-card-link:hover) & {
+      translate: -3px 0;
+    }
+  }
+
+  .doc-card-line {
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-sm);
+  }
+
+  /* Framework tiles, three across, the mark large. */
+  .doc-tiles-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .doc-tile-logo {
+    display: inline-grid;
+    place-items: center start;
+    block-size: 2.5rem;
+    margin-block-end: var(--qx-space-gap-md);
+
+    & svg {
+      inline-size: 2.5rem;
+      block-size: 2.5rem;
+    }
+  }
+
+  .doc-table-compare {
+    & td,
+    & thead th:not(:first-child) {
+      text-align: start;
+    }
+  }
+
+  .doc-yes,
+  .doc-no {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+  }
+
+  .doc-yes {
+    color: var(--qx-color-text-default);
+
+    & svg {
+      color: var(--qx-color-icon-success);
+    }
+  }
+
+  .doc-no {
+    color: var(--qx-color-text-subtle);
+
+    & svg {
+      color: var(--qx-color-icon-subtle);
+    }
+  }
+
+  @media (width < 840px) {
+    .doc-tiles-3 {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

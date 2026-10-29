@@ -1,0 +1,121 @@
+---
+// The site header: the Qeet logo and product name, the primary navigation, search and the source
+// repository. The theme is chosen at the foot of the page, never here. Below 1280px the navigation
+// moves into a menu, a native <dialog> (focus held inside, Escape closes it), with the theme menu at
+// its end, so the header needs no React. On docs pages it follows the docs grid.
+import { QeetLogo } from "@qeetrix/icons";
+import { MenuIcon } from "@qeetrix/icons/icons/menu";
+import { SearchIcon } from "@qeetrix/icons/icons/search";
+import { XIcon } from "@qeetrix/icons/icons/x";
+import { IconButton } from "@qeetrix/react";
+import { Kbd } from "@qeetrix/react/experimental";
+import { Logo } from "../components/Logo";
+import type { SiteChrome } from "../site";
+import { ThemeMenu } from "./ThemeMenu";
+import "./chrome.css";
+
+interface Props {
+  site: SiteChrome;
+  /** The href of the navigation item for this page, marked current. */
+  current?: string;
+  /** "docs": the brand over the docs navigation rail, the menu on the page's text line. */
+  layout?: "docs";
+}
+
+const { site, current, layout } = Astro.props;
+---
+
+<header class="site-header" data-layout={layout}>
+  <div class="site-container site-header-inner">
+    <a href={site.home} class="site-header-brand">
+      <QeetLogo height={22} alt="" className="only-light" />
+      <QeetLogo height={22} alt="" variant="dark" className="only-dark" />
+      {site.name}
+    </a>
+    <nav aria-label="Primary" class="site-header-nav">
+      <ul>
+        {site.nav.map((item) => <li><a href={item.href} aria-current={item.href === current ? "page" : undefined}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="site-header-tools">
+      <button type="button" class="site-search" aria-label="Search the docs" aria-haspopup="dialog" aria-controls="site-search" data-site-search>
+        <SearchIcon size={16} aria-hidden="true" />
+        <span class="site-search-label">Search</span>
+        <span class="site-search-keys" aria-hidden="true"><Kbd keys="Mod+K" /></span>
+      </button>
+      <a href={site.github.href} aria-label={site.github.label} class="site-header-github"><Logo name="github-mono" /></a>
+      <IconButton
+        className="site-header-menu"
+        icon={MenuIcon}
+        aria-label="Open menu"
+        aria-haspopup="dialog"
+        aria-controls="site-menu"
+        variant="ghost"
+        tone="neutral"
+        tooltip={false}
+        data-menu-open
+      />
+    </div>
+  </div>
+</header>
+
+<!-- The docs search (search.ts): the product's /search-index.json, filtered as you type. -->
+<dialog id="site-search" class="site-search-dialog" aria-label="Search the docs">
+  <div class="site-search-panel">
+    <div class="site-search-field">
+      <SearchIcon size={16} aria-hidden="true" />
+      <input
+        type="search"
+        class="site-search-input"
+        placeholder="Search the docs"
+        aria-label="Search the docs"
+        role="combobox"
+        aria-expanded="false"
+        aria-controls="site-search-results"
+        aria-autocomplete="list"
+        autocomplete="off"
+        spellcheck="false"
+        data-search-input
+      />
+      <Kbd keys="Esc" size="sm" />
+    </div>
+    <div id="site-search-results" class="site-search-results" role="listbox" aria-label="Results" data-search-results></div>
+    <p class="site-search-note" data-search-note>Pages, guides and every component.</p>
+    <p class="site-search-status" role="status" data-search-status></p>
+  </div>
+</dialog>
+
+<dialog id="site-menu" class="site-menu" aria-label="Menu">
+  <div class="site-menu-panel">
+    <div class="site-menu-head">
+      <span class="site-menu-title">{site.name}</span>
+      <IconButton icon={XIcon} aria-label="Close menu" variant="ghost" tone="neutral" tooltip={false} data-menu-close />
+    </div>
+    <nav aria-label="Primary">
+      <ul class="site-menu-nav">
+        {site.nav.map((item) => <li><a href={item.href} aria-current={item.href === current ? "page" : undefined}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+    <a href={site.github.href} class="site-menu-github"><Logo name="github-mono" />GitHub</a>
+    <div class="site-menu-theme">
+      <span>Theme</span>
+      <ThemeMenu id="site-menu-theme-menu" side="bottom" />
+    </div>
+  </div>
+</dialog>
+
+<script>
+  import "./search";
+
+  const menu = document.querySelector<HTMLDialogElement>("#site-menu");
+  if (menu) {
+    document.querySelector("[data-menu-open]")?.addEventListener("click", () => menu.showModal());
+    menu.querySelector("[data-menu-close]")?.addEventListener("click", () => menu.close());
+    // A click on the backdrop lands on the dialog itself; the panel fills the rest.
+    menu.addEventListener("click", (event) => {
+      if (event.target === menu) menu.close();
+    });
+    // The menu is for narrow screens only: close it if the window grows past them.
+    matchMedia("(width >= 1280px)").addEventListener("change", (event) => event.matches && menu.close());
+  }
+</script>

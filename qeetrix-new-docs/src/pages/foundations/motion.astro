@@ -1,0 +1,85 @@
+---
+// Foundations › Motion: quick, productive motion — durations, easings, enter and exit, and springs,
+// ported from qeetrix-story. The three live demos are islands; Springs renders to HTML.
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { Logo } from "@/platform/components/Logo";
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { durationCheck, durationItems, easingItems, phases, sections } from "@/qeetrix/foundations/Motion";
+import { DurationDemo, EasingDemo, EnterExitDemo } from "@/qeetrix/foundations/MotionDemos";
+import MotionPreview from "@/qeetrix/foundations/MotionPreview";
+import Sections from "@/qeetrix/foundations/Sections.astro";
+import "@/qeetrix/foundations/motion.css";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const toc = [...sections.map((s) => ({ id: s.id, label: s.name })), { id: "in-code", label: "In code" }];
+const css = `/* A menu opens at normal and decelerates; it closes a step faster and accelerates. */
+.row-menu {
+  transition:
+    opacity var(--qx-motion-duration-normal) var(--qx-motion-easing-enter),
+    translate var(--qx-motion-duration-normal) var(--qx-motion-easing-enter);
+}
+
+.row-menu[data-closing] {
+  transition-duration: var(--qx-motion-duration-fast);
+  transition-timing-function: var(--qx-motion-easing-exit);
+}
+
+/* Nothing to add for reduced motion: the tokens are 0ms there already. */`;
+const ts = `import { DURATION, EASING } from "@qeetrix/tokens";
+
+// The exported numbers don't follow the system setting: check it yourself.
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+panel.animate([{ opacity: 0, translate: "0 4px" }, { opacity: 1, translate: "0 0" }], {
+  duration: reduced ? 0 : DURATION.normal,
+  easing: EASING.enter,
+});`;
+---
+
+<DocsPage title="Motion" description="Quick, productive motion: nothing runs past 400ms, and every duration is 0ms under reduced motion." current="foundations-motion" section={links.foundations} toc={toc}>
+  <Masthead slot="masthead" title="Motion" lede="Quick, productive motion: nothing runs past 400ms, and every duration is 0ms under reduced motion." place={["Docs", "Foundations", "05 of 05"]} source={docs.source("foundations/motion.astro")}>
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        <div><dt><code>{packages.tokens.name}</code></dt><dd>{packages.tokens.version}</dd></div>
+      </dl>
+      <p class="doc-mast-links">
+        <a href={links.tokensRepo}><Logo name="github-mono" />GitHub<ArrowUpRightIcon size={14} /></a>
+        <a href={links.tokensNpm}><Logo name="npm" />npm<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Durations</dt><dd>{durationItems.length}<span>0 to 400ms</span></dd></div>
+      <div><dt>Easings</dt><dd>{easingItems.length}<span>Standard, enter, exit and more</span></dd></div>
+      <div><dt>Longest</dt><dd>400ms<span>Nothing runs past it</span></dd></div>
+      <div><dt>Reduced motion</dt><dd>0ms<span>Every duration</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <MotionPreview />
+  <div class="qf-scope" data-qf-motion data-durations={JSON.stringify(durationItems.map((item) => item.cssVar))}>
+    <Sections sections={sections}>
+      <DurationDemo slot="duration" client:visible items={durationItems} check={durationCheck} />
+      <EasingDemo slot="easing" client:visible items={easingItems} />
+      <EnterExitDemo slot="enter-and-exit" client:visible phases={phases} />
+    </Sections>
+  </div>
+
+  <section id="in-code" class="doc-sec" aria-labelledby="in-code-title">
+    <p class="doc-eyebrow">{String(sections.length + 1).padStart(2, "0")}</p>
+    <h2 class="doc-h2" id="in-code-title">In code</h2>
+    <p class="qf-lede">In CSS the tokens already honour reduced motion; in JavaScript, check it yourself.</p>
+    <CodeFrame file="row-menu.css" lang="css" code={css} />
+    <CodeFrame file="panel.ts" lang="ts" code={ts} />
+  </section>
+
+  <NextPage href={links.icons} label="Next — Icons" title="Icons" />
+</DocsPage>
+
+<script>
+  import "@/qeetrix/foundations/motion-preview";
+</script>

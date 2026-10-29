@@ -1,0 +1,28 @@
+---
+// A Foundations page's sections, ported from qeetrix-story: each story a numbered section with its
+// name, its one line and its specimen. Copy works without React (copy.ts). A specimen that runs in
+// the browser comes from the page, as an island in the slot named for its section.
+import type { Section } from "./kit";
+import SectionBody from "./SectionBody";
+
+interface Props {
+  sections: Section[];
+}
+
+const { sections } = Astro.props;
+---
+
+{
+  sections.map((section, i) => (
+    <section id={section.id} class="doc-sec" aria-labelledby={`${section.id}-title`}>
+      <p class="doc-eyebrow">{String(i + 1).padStart(2, "0")}</p>
+      <h2 class="doc-h2" id={`${section.id}-title`}>{section.name}</h2>
+      <p class="qf-lede">{section.parameters.docs.description.story}</p>
+      {Astro.slots.has(section.id) ? <slot name={section.id} /> : <SectionBody section={section} />}
+    </section>
+  ))
+}
+
+<script>
+  import "./copy";
+</script>

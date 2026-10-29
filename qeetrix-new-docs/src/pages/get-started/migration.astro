@@ -1,0 +1,149 @@
+---
+// Get started › Migration: from @qeetrix/ui 2 to @qeetrix/react 0.2.2: the packages, the styles,
+// the providers, icons, and what replaces each of today's component pages (migration.ts).
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { install } from "@/qeetrix/install";
+import { MIGRATION } from "@/qeetrix/migration";
+import { links } from "@/qeetrix/site";
+
+const toc = [
+  { id: "changes", label: "What changes" },
+  { id: "steps", label: "The steps" },
+  { id: "components", label: "Component by component" },
+];
+const changes: Array<[string, string, string]> = [
+  ["Packages", "@qeetrix/ui", "@qeetrix/react, @qeetrix/tokens"],
+  ["Styles", "Tailwind source, through PostCSS or Vite", "Plain CSS: tokens, then components"],
+  ["Theme", "ThemeProvider, a class on <html>", 'QeetrixProvider colorScheme, data-qx-color-scheme'],
+  ["Toasts", "<Toaster /> and toast()", "<ToastProvider> and useToast().add()"],
+  ["Icons in buttons", '<PlusIcon data-icon="inline-start" /> as a child', "icon={PlusIcon}"],
+  ["Experimental", "Everything in one entry", "@qeetrix/react/experimental"],
+];
+const remove = "bun remove @qeetrix/ui tailwindcss @tailwindcss/postcss @tailwindcss/vite";
+const add = `bun add ${install.packages}`;
+const cssBefore = `@import "@qeetrix/ui/styles.css";`;
+const css = install.css.join("\n");
+const before = `import { ThemeProvider, Toaster, toast } from "@qeetrix/ui";
+
+<ThemeProvider defaultTheme="system" storageKey="theme">
+  {children}
+  <Toaster />
+</ThemeProvider>
+
+toast("Invitation sent");`;
+const after = `import { QeetrixProvider, ToastProvider, useToast } from "@qeetrix/react";
+
+<QeetrixProvider defaultColorScheme="system" onColorSchemeChange={save}>
+  <ToastProvider>{children}</ToastProvider>
+</QeetrixProvider>
+
+const toast = useToast();
+toast.add({ title: "Invitation sent", tone: "success" });`;
+const iconsBefore = `<Button>
+  <PlusIcon data-icon="inline-start" aria-hidden />
+  Invite member
+</Button>`;
+const iconsAfter = `<Button icon={PlusIcon}>Invite users</Button>`;
+const counts = {
+  linked: MIGRATION.filter(([, , , slug]) => slug).length,
+  none: MIGRATION.filter(([, , replacement]) => !replacement).length,
+};
+const groups = [...new Set(MIGRATION.map(([group]) => group))];
+---
+
+<DocsPage title="Migration" description="Move from @qeetrix/ui 2 to @qeetrix/react 0.2.2: the packages, the styles, the providers, icons, and what replaces each component." current="migration" section={links.docs} toc={toc}>
+  <Masthead slot="masthead" title="Migration" lede="From @qeetrix/ui to @qeetrix/react, one change at a time." place={["Docs", "Get started", "Migration"]} source={docs.source("get-started/migration.astro")}>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Pages today</dt><dd>{MIGRATION.length}<span>@qeetrix/ui 2.1</span></dd></div>
+      <div><dt>With a replacement</dt><dd>{MIGRATION.length - counts.none}<span>{counts.linked} with a page here</span></dd></div>
+      <div><dt>Not yet</dt><dd>{counts.none}<span>Keep @qeetrix/ui for these</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="changes" class="doc-sec" aria-labelledby="changes-title">
+    <p class="doc-eyebrow">01 — What changes</p>
+    <h2 class="doc-h2" id="changes-title">Six things.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table">
+        <thead><tr><th scope="col">What</th><th scope="col">@qeetrix/ui</th><th scope="col">@qeetrix/react</th></tr></thead>
+        <tbody>{changes.map(([what, before, after]) => <tr><th scope="row">{what}</th><td><code>{before}</code></td><td><code>{after}</code></td></tr>)}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="steps" class="doc-sec" aria-labelledby="steps-title">
+    <p class="doc-eyebrow">02 — The steps</p>
+    <h2 class="doc-h2" id="steps-title">Packages, styles, providers, icons.</h2>
+    <ol class="doc-steps">
+      <li class="doc-step">
+        <h3 class="doc-h3"><span>1</span>Swap the packages</h3>
+        <p class="doc-p">Both can sit side by side while you move, page by page: the Qeet consoles did.</p>
+        <div class="doc-step-panel">
+          <CodeFrame file="Remove" lang="bash" code={remove} />
+          <CodeFrame file="Add" lang="bash" code={add} />
+        </div>
+      </li>
+      <li class="doc-step">
+        <h3 class="doc-h3"><span>2</span>Replace the stylesheet</h3>
+        <div class="doc-step-panel">
+          <CodeFrame file="Before: app.css" lang="css" code={cssBefore} />
+          <CodeFrame file="After: app.css" lang="css" code={css} />
+        </div>
+      </li>
+      <li class="doc-step">
+        <h3 class="doc-h3"><span>3</span>Swap the providers</h3>
+        <div class="doc-step-panel">
+          <CodeFrame file="Before: root.tsx" code={before} />
+          <CodeFrame file="After: root.tsx" code={after} />
+        </div>
+      </li>
+      <li class="doc-step">
+        <h3 class="doc-h3"><span>4</span>Pass icons as props</h3>
+        <div class="doc-step-panel">
+          <CodeFrame file="Before" code={iconsBefore} />
+          <CodeFrame file="After" code={iconsAfter} />
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="components" class="doc-sec" aria-labelledby="components-title">
+    <p class="doc-eyebrow">03 — Component by component</p>
+    <h2 class="doc-h2" id="components-title">What replaces each page.</h2>
+    <p class="doc-p">From the content audit of 27 October 2026. Where a replacement takes another name or covers part of the job, check its page.</p>
+    <div class="doc-table-scroll">
+      <table class="doc-table">
+        <thead><tr><th scope="col">@qeetrix/ui page</th><th scope="col">Group</th><th scope="col">In @qeetrix/react</th></tr></thead>
+        <tbody>
+          {
+            groups.flatMap((group) =>
+              MIGRATION.filter(([g]) => g === group).map(([, old, replacement, slug]) => (
+                <tr>
+                  <th scope="row"><code>{old}</code></th>
+                  <td>{group}</td>
+                  <td>
+                    {slug ? (
+                      <a href={`${links.components}/${slug}/`}>{replacement}</a>
+                    ) : replacement.startsWith("@qeetrix/icons") ? (
+                      <a href={links.icons}>{replacement}</a>
+                    ) : replacement ? (
+                      replacement
+                    ) : (
+                      <span class="doc-no">Not yet</span>
+                    )}
+                  </td>
+                </tr>
+              )),
+            )
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <NextPage href={links.foundations} label="Next — Building blocks" title="Foundations" />
+</DocsPage>

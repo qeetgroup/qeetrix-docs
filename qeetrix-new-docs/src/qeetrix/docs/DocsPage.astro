@@ -1,0 +1,24 @@
+---
+// A Qeetrix docs page: the platform's docs frame with the Qeetrix chrome, and the styles of the
+// Qeetrix docs' own blocks.
+import DocsLayout from "@/platform/docs/DocsLayout.astro";
+import type { TocItem } from "@/platform/docs/Toc.astro";
+import { site } from "../site";
+import { docs } from "./chrome";
+import "./docs.css";
+
+interface Props {
+  title: string;
+  description: string;
+  /** The navigation id of this page. */
+  current: string;
+  /** The header link for this part of the docs. */
+  section: string;
+  toc: TocItem[];
+}
+---
+
+<DocsLayout site={site} docs={docs} {...Astro.props}>
+  <slot name="masthead" slot="masthead" />
+  <slot />
+</DocsLayout>

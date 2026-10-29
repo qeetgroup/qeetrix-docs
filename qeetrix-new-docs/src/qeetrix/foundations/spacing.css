@@ -1,0 +1,524 @@
+/* Foundations › Spacing (Spacing.tsx): space, radius, control sizes, density, breakpoints and component sizes. Ported from qeetrix-story; token values only. */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer product {
+  /* ── Space: two columns of groups, each row a bar on the grid ──────────────── */
+
+  .qf-spacing-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 2rem 3rem;
+  }
+
+  .qf-spacing-bar {
+    /* One cell of the 4px grid; component widths count in 1rem cells instead. */
+    --qx-spacing-cell: 0.25rem;
+    --qx-spacing-tick: color-mix(in oklab, var(--qx-color-border-brand) 40%, transparent);
+    --qx-spacing-to: to right;
+
+    display: block;
+    box-sizing: border-box;
+    block-size: 1.25rem;
+    max-inline-size: 100%;
+    border: 1px solid var(--qx-color-border-brand);
+    background-color: var(--qx-color-bg-brand-subtle);
+    background-image: repeating-linear-gradient(
+      var(--qx-spacing-to),
+      transparent 0 calc(var(--qx-spacing-cell) - 1px),
+      var(--qx-spacing-tick) calc(var(--qx-spacing-cell) - 1px) var(--qx-spacing-cell)
+    );
+    background-origin: border-box;
+  }
+
+  .qf-spacing-bar:dir(rtl) {
+    --qx-spacing-to: to left;
+  }
+
+  .qf-spacing-bar[data-cell="rem"] {
+    --qx-spacing-cell: 1rem;
+  }
+
+  /* ── Radius: one tile per corner value, with the roles that share it ───────── */
+
+  .qf-spacing-corners {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    align-items: start;
+    gap: 2rem 1.5rem;
+  }
+
+  .qf-spacing-corner {
+    display: grid;
+    gap: 1rem;
+    min-inline-size: 0;
+    margin: 0;
+  }
+
+  /* The corner at 4×, on a grid whose 1rem cells are 4px at 1×: a 4px corner turns in one cell. */
+  .qf-spacing-corner-frame {
+    --qx-spacing-grid: color-mix(in oklab, var(--qx-color-border-subtle) 70%, transparent);
+    --qx-spacing-across: to right;
+
+    position: relative;
+    block-size: 7rem;
+    overflow: hidden;
+    border: 1px solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background-color: var(--qx-color-surface-sunken);
+    background-image:
+      linear-gradient(var(--qx-spacing-across), var(--qx-spacing-grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--qx-spacing-grid) 1px, transparent 1px);
+    background-position: 1.5rem 1.5rem;
+    background-size: 1rem 1rem;
+  }
+
+  .qf-spacing-corner-frame:dir(rtl) {
+    --qx-spacing-across: to left;
+    background-position: right 1.5rem top 1.5rem;
+  }
+
+  .qf-spacing-corner-shape {
+    position: absolute;
+    inset-block: 1.5rem -3rem;
+    inset-inline: 1.5rem -3rem;
+    border: var(--qx-border-width-strong) solid var(--qx-color-border-brand);
+    background: var(--qx-color-bg-brand-subtle);
+  }
+
+  .qf-spacing-corner-zoom {
+    position: absolute;
+    inset-block-end: 0.5rem;
+    inset-inline-end: 0.625rem;
+    direction: ltr;
+    unicode-bidi: isolate;
+    font: var(--qx-typography-code-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    color: var(--qx-color-text-brand);
+  }
+
+  .qf-spacing-corner-caption {
+    display: grid;
+    gap: 0.625rem;
+    min-inline-size: 0;
+  }
+
+  .qf-spacing-corner-value {
+    font: var(--qx-typography-title-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-heading);
+    color: var(--qx-color-text-default);
+  }
+
+  .qf-spacing-corner-tokens {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .qf-spacing-corner-tokens > li {
+    display: grid;
+    justify-items: start;
+    gap: 0.25rem;
+    min-inline-size: 0;
+  }
+
+  .qf-spacing-note {
+    font: var(--qx-typography-body-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    color: var(--qx-color-text-subtle);
+  }
+
+  /* ── Control sizes: a dimension line, then the controls it measures ────────── */
+
+  .qf-spacing-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .qf-spacing-controls[data-align="end"] {
+    align-items: end;
+  }
+
+  .qf-spacing-gauge {
+    flex: none;
+    box-sizing: border-box;
+    inline-size: 0.5rem;
+    margin-inline-end: 0.25rem;
+    border-block: 1px solid var(--qx-color-border-brand);
+    background:
+      linear-gradient(var(--qx-color-border-brand), var(--qx-color-border-brand)) center / 1px 100%
+      no-repeat;
+  }
+
+  /* Fields grow to 11rem and give way before they wrap. */
+  .qf-spacing-field {
+    flex: 1 1 8rem;
+    max-inline-size: 11rem;
+  }
+
+  .qf-spacing-table {
+    inline-size: min(100%, 22rem);
+  }
+
+  .qf-spacing-target {
+    display: grid;
+    flex: none;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: var(--qx-size-target-min);
+    block-size: var(--qx-size-target-min);
+    border: 1px dashed var(--qx-color-border-brand);
+    background: var(--qx-color-bg-brand-subtle);
+    color: var(--qx-color-icon-default);
+  }
+
+  /* ── Density: the same form three times, each panel pinned to a density ────── */
+
+  .qf-spacing-densities {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: 2rem 1.5rem;
+  }
+
+  .qf-spacing-panel {
+    display: grid;
+    gap: var(--qx-space-form-gap);
+    padding: var(--qx-space-inset-lg);
+    border: 1px solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-canvas);
+  }
+
+  .qf-spacing-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--qx-space-gap-sm);
+  }
+
+  /* ── Breakpoints: the window size classes as bands on a ruler, to scale ────── */
+
+  .qf-spacing-ruler {
+    position: relative;
+    padding-block-start: 2.25rem;
+  }
+
+  .qf-spacing-bands {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    list-style: none;
+  }
+
+  .qf-spacing-band {
+    display: grid;
+    align-content: center;
+    gap: 0.125rem;
+    min-inline-size: 0;
+    block-size: 4.5rem;
+    padding-inline: 0.75rem;
+    background: var(--qx-color-surface-sunken);
+  }
+
+  .qf-spacing-band + .qf-spacing-band {
+    border-inline-start: 1px solid var(--qx-color-border-subtle);
+  }
+
+  .qf-spacing-band[data-current] {
+    background: var(--qx-color-bg-brand-subtle);
+    box-shadow: inset 0 0 0 1px var(--qx-color-border-brand);
+  }
+
+  .qf-spacing-band-name,
+  .qf-spacing-band-range {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .qf-spacing-band-name {
+    font: var(--qx-typography-label-md);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    color: var(--qx-color-text-default);
+  }
+
+  /* Numbers and code read left to right in either direction. */
+  .qf-spacing-band-range {
+    justify-self: start;
+    max-inline-size: 100%;
+    direction: ltr;
+    unicode-bidi: isolate;
+    font: var(--qx-typography-code-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    color: var(--qx-color-text-subtle);
+  }
+
+  .qf-spacing-scale {
+    position: relative;
+    block-size: 1.25rem;
+    margin-block-start: 0.375rem;
+  }
+
+  .qf-spacing-scale > span {
+    position: absolute;
+    inset-block-start: 0;
+    padding-inline-start: 0.25rem;
+    border-inline-start: 1px solid var(--qx-color-border-strong);
+    font: var(--qx-typography-code-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    color: var(--qx-color-text-subtlest);
+  }
+
+  .qf-spacing-marker {
+    position: absolute;
+    inset-block: 0.5rem 1.625rem;
+    inline-size: 0;
+    border-inline-start: var(--qx-border-width-strong) solid var(--qx-color-bg-brand-bold);
+  }
+
+  .qf-spacing-marker > span {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: calc(-1 * var(--qx-border-width-strong));
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--qx-radius-sm);
+    background: var(--qx-color-bg-brand-bold);
+    font: var(--qx-typography-label-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    color: var(--qx-color-text-on-brand);
+    white-space: nowrap;
+  }
+
+  .qf-spacing-marker[data-flip] > span {
+    inset-inline: auto 0;
+  }
+
+  /* ── Component sizes: the size and the COMPONENT name, one per line ────────── */
+
+  /* Component token names are long: a wider token column than the kit's. */
+  .qf-spacing-components .qf-specimen-row {
+    grid-template-columns: minmax(14rem, 21rem) minmax(0, 1fr);
+  }
+
+  .qf-spacing-meta {
+    display: grid;
+    gap: 0.125rem;
+  }
+
+  .qf-spacing-meta > :last-child:not(:first-child) {
+    color: var(--qx-color-text-subtlest);
+  }
+
+  /* ── Narrow cards: one column (the docs' content column keeps three side by side) ── */
+
+  @container (max-width: 36rem) {
+    .qf-spacing-densities {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @container (max-width: 46rem) {
+    .qf-spacing-columns {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @container (max-width: 40rem) {
+    .qf-spacing-components .qf-specimen-row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* ── Scale: each step and the tokens on it ─────────────────────────────────── */
+
+  .qf-scale td:nth-child(2) {
+    white-space: nowrap;
+  }
+
+  .qf-scale-users {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--qx-space-gap-xs);
+  }
+
+  /* ── In use: a form with its space drawn as tinted redlines ────────────────── */
+
+  .qf-use {
+    --qf-use-pad: color-mix(in oklab, var(--qx-color-bg-brand-bold) 30%, transparent);
+    --qf-use-form: color-mix(in oklab, var(--qx-color-bg-info-bold) 34%, transparent);
+    --qf-use-gap: color-mix(in oklab, var(--qx-color-bg-success-bold) 38%, transparent);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.75fr);
+    align-items: center;
+    gap: var(--qx-space-layout-md);
+  }
+
+  .qf-use-stage {
+    display: grid;
+    place-items: center;
+    padding: var(--qx-space-layout-sm);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background:
+      linear-gradient(
+        color-mix(in oklab, var(--qx-color-border-subtle) 55%, transparent) 1px,
+        transparent 1px
+      )
+      0 0 / 1.5rem 1.5rem,
+      linear-gradient(
+        90deg,
+        color-mix(in oklab, var(--qx-color-border-subtle) 55%, transparent) 1px,
+        transparent 1px
+      )
+      0 0 / 1.5rem 1.5rem,
+      var(--qx-color-surface-canvas);
+  }
+
+  /* The card's padding shows as a hatch; the content covers the rest, and its gaps show their own. */
+  .qf-use-card {
+    position: relative;
+    inline-size: min(100%, 20rem);
+    padding: var(--qx-space-inset-lg);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+    background:
+      repeating-linear-gradient(45deg, var(--qf-use-pad) 0 1px, transparent 1px 6px),
+      var(--qx-color-surface-raised);
+    box-shadow: var(--qx-shadow-raised);
+  }
+
+  .qf-use-content {
+    display: grid;
+    gap: var(--qx-space-form-gap);
+    background:
+      repeating-linear-gradient(-45deg, var(--qf-use-form) 0 1px, transparent 1px 6px),
+      var(--qx-color-surface-raised);
+
+    & > * {
+      background: var(--qx-color-surface-raised);
+    }
+
+    & > .qf-use-actions {
+      background:
+        repeating-linear-gradient(90deg, var(--qf-use-gap) 0 1px, transparent 1px 4px),
+        var(--qx-color-surface-raised);
+    }
+  }
+
+  .qf-use-field {
+    position: relative;
+  }
+
+  .qf-use-actions {
+    display: flex;
+    justify-self: start;
+    gap: var(--qx-space-gap-sm);
+  }
+
+  /* The mark between the buttons takes no room of its own: its margins cancel the extra gap. */
+  .qf-use-gapmark {
+    position: relative;
+    inline-size: 0;
+    margin-inline: calc(var(--qx-space-gap-sm) / -2);
+  }
+
+  .qf-use-mark {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+    border-radius: var(--qx-radius-full);
+    color: var(--qx-color-text-on-brand);
+    font: var(--qx-typography-label-sm);
+    font-variant-numeric: tabular-nums;
+
+    &[data-tint="pad"] {
+      background: var(--qx-color-bg-brand-bold);
+    }
+
+    &[data-tint="form"] {
+      background: var(--qx-color-bg-info-bold);
+      color: var(--qx-color-text-on-bold);
+    }
+
+    &[data-tint="gap"] {
+      background: var(--qx-color-bg-success-bold);
+      color: var(--qx-color-text-on-bold);
+    }
+  }
+
+  /* Each mark sits in the space it names. */
+  .qf-use-card > .qf-use-mark {
+    position: absolute;
+    inset-block-start: calc(var(--qx-space-inset-lg) / 2);
+    inset-inline-start: calc(var(--qx-space-inset-lg) / 2);
+    translate: -50% -50%;
+  }
+
+  .qf-use-field > .qf-use-mark {
+    position: absolute;
+    inset-block-start: calc(var(--qx-space-form-gap) / -2);
+    inset-inline-end: 0;
+    translate: 0 -50%;
+  }
+
+  .qf-use-gapmark > .qf-use-mark {
+    position: absolute;
+    inset-block-end: calc(100% + var(--qx-space-gap-xs));
+    inset-inline-start: 0;
+    translate: -50% 0;
+  }
+
+  .qf-use-key {
+    display: grid;
+    gap: var(--qx-space-gap-lg);
+
+    & li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--qx-space-gap-sm);
+    }
+  }
+
+  .qf-use-key-text {
+    display: grid;
+    gap: var(--qx-space-gap-xs);
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-sm);
+  }
+
+  @container (max-width: 40rem) {
+    .qf-use {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* ── Radius at real size, under each 4× corner ─────────────────────────────── */
+
+  .qf-spacing-corner-use {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qx-space-gap-md);
+    min-block-size: var(--qx-size-control-md);
+  }
+
+  .qf-use-card-chip {
+    display: inline-grid;
+    place-items: center;
+    padding: var(--qx-space-gap-sm) var(--qx-space-inset-md);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-raised);
+    box-shadow: var(--qx-shadow-raised);
+    font: var(--qx-typography-label-sm);
+  }
+}

@@ -1,0 +1,85 @@
+---
+// A component's API tab: its import, its props, its parts (data-slot) and a few recipes.
+import react from "@qeetrix/react/package.json" with { type: "json" };
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Sec from "../Sec.astro";
+import { idOf, moduleOf, numberOf, sectionsOf } from "../sections";
+import type { ComponentDoc } from "../types";
+
+interface Props {
+  doc: ComponentDoc;
+}
+
+const { doc } = Astro.props;
+const sections = sectionsOf(doc, "api");
+const n = (id: string) => numberOf(sections, id);
+const names = doc.exports.join(", ");
+const module = moduleOf(doc);
+// The component's own path, where the package exports one: ./button holds Button and IconButton.
+const own = doc.status === "stable" && `./${doc.source}` in react.exports ? `${react.name}/${doc.source}` : undefined;
+const imports = own
+  ? `// From the package: a build keeps only what it uses.
+import { ${names} } from "${module}";
+
+// Or from its own path.
+import { ${names} } from "${own}";`
+  : doc.status === "experimental"
+    ? `// Experimental: from the package's experimental entry, until it's stable.
+import { ${names} } from "${module}";`
+    : `import { ${names} } from "${module}";`;
+---
+
+<Sec id="import" n={n("import")} title="Import">
+  <CodeFrame file={`${doc.slug}.tsx`} code={imports} />
+</Sec>
+
+<Sec id="props" n={n("props")} title="Props" line="And every native attribute of the element it renders.">
+  <div class="doc-table-scroll">
+    <table class="doc-table qc-props">
+      <thead>
+        <tr><th scope="col">Prop</th><th scope="col">Type</th><th scope="col">Default</th><th scope="col">What it does</th></tr>
+      </thead>
+      <tbody>
+        {
+          doc.api.props.map((prop) => (
+            <tr>
+              <th scope="row"><code>{prop.name}</code></th>
+              <td><code class="qc-type">{prop.type}</code></td>
+              <td><code>{prop.default}</code></td>
+              <td>{prop.note}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</Sec>
+
+<Sec id="parts" n={n("parts")} title="Parts" line="Each part carries a data-slot, for tests and placement.">
+  <div class="doc-table-scroll">
+    <table class="doc-table">
+      <thead>
+        <tr><th scope="col">data-slot</th><th scope="col">Element</th><th scope="col">What it is</th></tr>
+      </thead>
+      <tbody>
+        {
+          doc.api.parts.map((part) => (
+            <tr>
+              <th scope="row"><code>{part.slot}</code></th>
+              <td><code>{part.element}</code></td>
+              <td>{part.note}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</Sec>
+
+{
+  doc.api.recipes.map((recipe) => (
+    <Sec id={idOf(recipe.title)} n={n(idOf(recipe.title))} title={recipe.title} line={recipe.line}>
+      <CodeFrame file={recipe.file} code={recipe.code} />
+    </Sec>
+  ))
+}

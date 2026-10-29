@@ -1,0 +1,44 @@
+---
+// Patterns › Sign-in: a passkey first, a password second, on one card.
+import PatternPage from "@/qeetrix/docs/PatternPage.astro";
+import { links } from "@/qeetrix/site";
+
+const code = `<main>
+  <Stack gap="xl" align="center">
+    <QeetLogo height={32} />
+    <Card>
+      <Stack gap="lg">
+        <Heading level={1} size="heading-sm">Sign in to Acme Pvt Ltd</Heading>
+        <TextField label="Work email" type="email" autoComplete="username webauthn" />
+        <Button icon={FingerprintPatternIcon} fullWidth>Continue with a passkey</Button>
+        <Button variant="soft" icon={KeyRoundIcon} fullWidth>Use a password</Button>
+      </Stack>
+    </Card>
+    <Text size="sm" tone="subtle">Can't sign in? <Link href="/help">Get help</Link></Text>
+  </Stack>
+</main>`;
+---
+
+<PatternPage
+  title="Sign-in"
+  slug="sign-in"
+  lede="A passkey first, a password second, on one card. Qeet ID's hosted sign-in."
+  frame={{ id: "pattern-sign-in", height: "40rem" }}
+  parts={[
+    ["Card", "card", "The one surface, centred"],
+    ["Heading", "heading", "The page's h1: where you're signing in"],
+    ["Text field", "text-field", "The email, with webauthn autofill"],
+    ["Button", "button", "The passkey solid; the password soft"],
+    ["Separator", "separator", "The or, decorative"],
+    ["Link", "link", "The way out"],
+  ]}
+  file="sign-in.tsx"
+  code={code}
+  rules={[
+    "One solid button: the passkey.",
+    "autoComplete=\"username webauthn\", so the browser offers the passkey in the field.",
+    "Say whose sign-in it is: the tenant's name in the heading.",
+    "No password field until it's asked for.",
+  ]}
+  next={{ href: `${links.patterns}/dashboard-header`, title: "Dashboard header" }}
+/>

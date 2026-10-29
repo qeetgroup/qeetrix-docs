@@ -1,0 +1,68 @@
+---
+// Resources › Release phases: experimental and stable, what each promises, the 0.x versioning
+// rules, and every documented component by phase.
+import Masthead from "@/platform/docs/Masthead.astro";
+import { DOCS } from "@/qeetrix/components/registry";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const toc = [
+  { id: "phases", label: "The two phases" },
+  { id: "versions", label: "Versions" },
+  { id: "components", label: "By phase" },
+];
+const stable = DOCS.filter((doc) => doc.status === "stable");
+const experimental = DOCS.filter((doc) => doc.status === "experimental");
+const phases: Array<[string, string, string, string]> = [
+  ["Experimental", "@qeetrix/react/experimental", "In its first product: it may change in a patch release, always with a changelog note.", "Use it, and pin the version."],
+  ["Stable", "@qeetrix/react", "Proven in the products: a change that breaks it waits for a minor release, with a migration note.", "Use it freely."],
+];
+const versions: Array<[string, string]> = [
+  ["A patch", "Adds a component, a prop, a value or a fix."],
+  ["A minor", "Removes or renames an export, prop, variant, slot or CSS class, changes what one means, or changes a public type."],
+  ["Experimental", "May change in a patch, always with a changelog note."],
+];
+---
+
+<DocsPage title="Release phases" description="Experimental and stable: what each promises, how versions change while Qeetrix is 0.x, and every component by phase." current="release-phases" section={links.docs} toc={toc}>
+  <Masthead slot="masthead" title="Release phases" lede="Experimental in its first product; stable once proven." place={["Docs", "Resources", "Release phases"]} source={docs.source("resources/release-phases.astro")}>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Stable</dt><dd>{stable.length}<span>@qeetrix/react</span></dd></div>
+      <div><dt>Experimental</dt><dd>{experimental.length}<span>@qeetrix/react/experimental</span></dd></div>
+      <div><dt>Version</dt><dd>{packages.react.version}<span>0.x rules</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="phases" class="doc-sec" aria-labelledby="phases-title">
+    <p class="doc-eyebrow">01 — The two phases</p>
+    <h2 class="doc-h2" id="phases-title">What each promises.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table">
+        <thead><tr><th scope="col">Phase</th><th scope="col">Import from</th><th scope="col">Promise</th><th scope="col">You</th></tr></thead>
+        <tbody>{phases.map(([phase, from, promise, you]) => <tr><th scope="row">{phase}</th><td><code>{from}</code></td><td>{promise}</td><td>{you}</td></tr>)}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="versions" class="doc-sec" aria-labelledby="versions-title">
+    <p class="doc-eyebrow">02 — Versions</p>
+    <h2 class="doc-h2" id="versions-title">While it's 0.x.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table"><tbody>{versions.map(([what, means]) => <tr><th scope="row">{what}</th><td>{means}</td></tr>)}</tbody></table>
+    </div>
+    <p class="doc-p">Every change is in the <a href={links.changelog.react}>release notes</a>.</p>
+  </section>
+
+  <section id="components" class="doc-sec" aria-labelledby="components-title">
+    <p class="doc-eyebrow">03 — By phase</p>
+    <h2 class="doc-h2" id="components-title">Every component documented here.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table">
+        <thead><tr><th scope="col">Component</th><th scope="col">Phase</th><th scope="col">Since</th></tr></thead>
+        <tbody>{[...stable, ...experimental].map((doc) => <tr><th scope="row"><a href={`${links.components}/${doc.slug}/`}>{doc.name}</a></th><td>{doc.status === "stable" ? "Stable" : "Experimental"}</td><td>{doc.since}</td></tr>)}</tbody>
+      </table>
+    </div>
+  </section>
+</DocsPage>

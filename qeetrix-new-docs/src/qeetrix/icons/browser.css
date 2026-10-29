@@ -1,0 +1,331 @@
+/* The Icon browser (IconBrowser.tsx): the bar held under the header, the categories, the grid, and the
+ * details beside it. Tokens only. */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer product {
+  .qf-browser {
+    display: grid;
+    gap: var(--qx-space-gap-lg);
+  }
+
+  /* The bar: two rows, each on one line at the reading width: search, count and colour over shape,
+   * drawing and size, the slider taking the rest of its row. */
+  .qf-browser-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--qx-space-gap-sm);
+  }
+
+  /* On a narrow page the bar wraps to five lines: held, it would cover a quarter of a phone. */
+  @container (max-width: 40rem) {
+    .qf-browser-bar {
+      position: static;
+    }
+  }
+
+  .qf-browser-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qx-space-gap-sm) var(--qx-space-gap-lg);
+  }
+
+  .qf-browser-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+  }
+
+  .qf-browser-search {
+    flex: 1 1 12rem;
+    max-inline-size: 22rem;
+  }
+
+  .qf-browser-colour {
+    margin-inline-start: auto;
+  }
+
+  /* Size: the slider, with the size it holds. */
+  .qf-browser-size {
+    display: inline-flex;
+    flex: 1 1 14rem;
+    align-items: center;
+    gap: var(--qx-space-gap-md);
+  }
+
+  .qf-browser-size-slider {
+    flex: 1 1 8rem;
+    min-inline-size: 6rem;
+  }
+
+  .qf-browser-size-value {
+    min-inline-size: 4ch;
+    font: var(--qx-typography-code-sm);
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+  }
+
+  /* Your own colour: a hex field, as tall as the search beside it, its swatch the system's picker. */
+  .qf-browser-own {
+    inline-size: 11rem;
+  }
+
+  .qf-browser-count {
+    font: var(--qx-typography-label-md);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Categories: one row of chips that scrolls sideways. */
+  .qf-browser-cats {
+    display: flex;
+    min-inline-size: 0;
+    margin: 0;
+    border: 0;
+    gap: var(--qx-space-gap-sm);
+    overflow-x: auto;
+    padding: 0 0 var(--qx-space-gap-xs);
+    scrollbar-width: thin;
+  }
+
+  .qf-browser-cat {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+    padding: var(--qx-space-gap-xs) var(--qx-space-inset-sm) var(--qx-space-gap-xs)
+      var(--qx-space-inset-md);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-full);
+    background: var(--qx-color-surface-raised);
+    color: var(--qx-color-text-default);
+    font: var(--qx-typography-label-md);
+    cursor: pointer;
+
+    & span {
+      padding: 0 var(--qx-space-inset-xs);
+      border-radius: var(--qx-radius-full);
+      background: var(--qx-color-bg-neutral-subtle);
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-code-sm);
+    }
+
+    &:hover {
+      border-color: var(--qx-color-border-default);
+    }
+
+    &[aria-pressed="true"] {
+      border-color: var(--qx-color-bg-neutral-bold);
+      background: var(--qx-color-bg-neutral-bold);
+      color: var(--qx-color-text-inverse);
+
+      & span {
+        background: color-mix(in oklab, var(--qx-color-text-inverse) 18%, transparent);
+        color: var(--qx-color-text-inverse);
+      }
+    }
+
+    &:focus-visible {
+      outline: var(--qx-focus-ring-width) solid var(--qx-color-border-focus);
+      outline-offset: var(--qx-focus-ring-offset);
+    }
+  }
+
+  /* The grid: tiles joined by 1px rules; a tile off screen skips its layout until it's near. */
+  .qf-browser-grid {
+    --qf-icon-size: 24px;
+    display: grid;
+    /* A tile grows with the icon: room for it twice over across, and for its name below. */
+    --qf-tile: max(6.5rem, calc(var(--qf-icon-size) * 2));
+    grid-template-columns: repeat(auto-fill, minmax(var(--qf-tile), 1fr));
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-border-subtle);
+    list-style: none;
+
+    & li {
+      content-visibility: auto;
+      contain-intrinsic-size: auto max(6.5rem, calc(var(--qf-icon-size) + 4rem));
+    }
+
+    & li[hidden] {
+      display: none;
+    }
+  }
+
+  .qf-browser-icon {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    justify-items: center;
+    inline-size: 100%;
+    block-size: max(6.5rem, calc(var(--qf-icon-size) + 4rem));
+    padding: var(--qx-space-inset-md) var(--qx-space-inset-xs) var(--qx-space-inset-sm);
+    border: 0;
+    background: var(--qx-color-surface-raised);
+    color: var(--qf-icon-color, var(--qx-color-icon-default));
+    cursor: pointer;
+    transition: background-color var(--qx-motion-duration-fast) var(--qx-motion-easing-standard);
+
+    & svg {
+      align-self: center;
+      inline-size: var(--qf-icon-size);
+      block-size: var(--qf-icon-size);
+    }
+
+    & span {
+      max-inline-size: 100%;
+      overflow: hidden;
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-code-sm);
+      font-size: 0.6875rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &:hover {
+      background: var(--qx-color-surface-default);
+      color: var(--qf-icon-color, var(--qx-color-icon-brand));
+    }
+
+    &:focus-visible {
+      z-index: 1;
+      outline: var(--qx-focus-ring-width) solid var(--qx-color-border-focus);
+      outline-offset: calc(-1 * var(--qx-focus-ring-width));
+    }
+
+    /* The one whose details are open: Ember along its foot, as the current item reads. */
+    &[data-selected] {
+      background: var(--qx-color-bg-brand-subtle);
+      box-shadow: inset 0 calc(-1 * var(--qx-border-width-accent)) 0 var(--qx-color-border-brand);
+      color: var(--qf-icon-color, var(--qx-color-icon-brand));
+    }
+  }
+
+  .qf-browser-empty {
+    display: grid;
+    justify-items: center;
+    gap: var(--qx-space-gap-xs);
+    padding: var(--qx-space-layout-md);
+    border: var(--qx-border-width-default) dashed var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+    color: var(--qx-color-text-subtle);
+    text-align: center;
+
+    & b {
+      color: var(--qx-color-text-default);
+      font: var(--qx-typography-title-md);
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  /* Details: in Qeetrix's FloatingPanel (IconDetail.tsx), which places, moves and sizes it. */
+  .qf-detail-body {
+    display: grid;
+    align-content: start;
+    container-type: inline-size;
+  }
+
+  .qf-detail-stage {
+    display: grid;
+    place-items: center;
+    padding: var(--qx-space-layout-sm);
+    background:
+      linear-gradient(
+        color-mix(in oklab, var(--qx-color-border-subtle) 55%, transparent) 1px,
+        transparent 1px
+      )
+      0 0 / 1.5rem 1.5rem,
+      linear-gradient(
+        90deg,
+        color-mix(in oklab, var(--qx-color-border-subtle) 55%, transparent) 1px,
+        transparent 1px
+      )
+      0 0 / 1.5rem 1.5rem,
+      var(--qx-color-surface-canvas);
+    color: var(--qf-icon-color, var(--qx-color-icon-default));
+  }
+
+  /* A wider panel draws the icon larger. */
+  .qf-detail-stage svg {
+    inline-size: clamp(6rem, 36cqi, 16rem);
+    block-size: clamp(6rem, 36cqi, 16rem);
+  }
+
+  .qf-detail-sizes {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: var(--qx-space-inset-md) var(--qx-space-inset-lg);
+    border-block: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    color: var(--qf-icon-color, var(--qx-color-icon-default));
+
+    & span {
+      display: grid;
+      justify-items: center;
+      gap: var(--qx-space-gap-xs);
+    }
+
+    & code {
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  .qf-detail-facts {
+    display: grid;
+    margin: 0;
+    padding: var(--qx-space-gap-sm) var(--qx-space-inset-lg);
+
+    & div {
+      display: grid;
+      grid-template-columns: 6.5rem minmax(0, 1fr);
+      gap: var(--qx-space-gap-sm);
+      padding-block: var(--qx-space-gap-sm);
+      border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    }
+
+    & dt {
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-label-sm);
+    }
+
+    & dd {
+      margin: 0;
+      font: var(--qx-typography-body-sm);
+      overflow-wrap: anywhere;
+    }
+
+    & code {
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  .qf-detail-code {
+    margin: var(--qx-space-gap-sm) var(--qx-space-inset-lg) 0;
+    padding: var(--qx-space-inset-sm) var(--qx-space-inset-md);
+    overflow-x: auto;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-control);
+    background: var(--qx-color-surface-sunken);
+    font: var(--qx-typography-code-sm);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  /* Clear of the corner's handle. */
+  .qf-detail-copy {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--qx-space-gap-sm);
+    padding: var(--qx-space-inset-md) var(--qx-space-inset-lg) var(--qx-space-inset-lg);
+    padding-inline-end: calc(var(--qx-size-control-sm) + var(--qx-space-gap-sm));
+  }
+}

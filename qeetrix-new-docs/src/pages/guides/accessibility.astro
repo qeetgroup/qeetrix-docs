@@ -1,0 +1,68 @@
+---
+// Guides › Accessibility: what Qeetrix does for WCAG 2.2 AA, what's left to you, and how it's tested.
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { links } from "@/qeetrix/site";
+
+const toc = [
+  { id: "built-in", label: "Built in" },
+  { id: "yours", label: "Yours to do" },
+  { id: "tested", label: "Tested" },
+];
+const builtIn: Array<[string, string]> = [
+  ["Keyboard", "Every control works by keyboard, with the WAI-ARIA keys: each component's Accessibility tab lists them."],
+  ["Focus", "A 2px ring on every focusable part; dialogs move focus in, keep it there and give it back."],
+  ["Roles and states", "Base UI's roles, names and states: aria-expanded, aria-selected, aria-current and the rest."],
+  ["Colour", "Status never rests on colour alone: an icon, a word, or a hidden word for screen readers carries it."],
+  ["Motion", "Under reduced motion every duration drops to 0: what moves fades or holds still."],
+  ["Forced colours", "Borders and indicators are drawn in system colours, so nothing disappears."],
+  ["Disabled", "Disabled buttons stay focusable, so the reason can be read."],
+];
+const yours: Array<[string, string]> = [
+  ["Names", "An aria-label on every icon-only control; a label on every field; a label on every Table, Tabs list and ScrollArea."],
+  ["Headings", "One <h1> a page (PageHeader's title), then levels in order."],
+  ["Language", 'lang on <html>, and on any passage in another language: <div lang="hi">.'],
+  ["Words", "Status in words: a Badge says Blocked; an Alert says what to do."],
+  ["Announcements", 'Alert\'s announce, only for an alert that appears; a role="status" for a change shown elsewhere.'],
+];
+const label = `<IconButton icon={DownloadIcon} aria-label="Download invoice" />
+<Table label="Users" … />
+<TabsList aria-label="Priya Sharma">…</TabsList>`;
+---
+
+<DocsPage title="Accessibility" description="What Qeetrix does for WCAG 2.2 AA, what's left to you, and how it's tested." current="guides-accessibility" section={links.guides} toc={toc}>
+  <Masthead slot="masthead" title="Accessibility" lede="WCAG 2.2 AA is built in. Names, headings and words are yours." place={["Docs", "Guides", "Accessibility"]} source={docs.source("guides/accessibility.astro")}>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Target</dt><dd>WCAG 2.2 AA<span>Every component</span></dd></div>
+      <div><dt>Checked</dt><dd>axe<span>On every pull request</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="built-in" class="doc-sec" aria-labelledby="built-in-title">
+    <p class="doc-eyebrow">01 — Built in</p>
+    <h2 class="doc-h2" id="built-in-title">What every component does.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table"><tbody>{builtIn.map(([what, how]) => <tr><th scope="row">{what}</th><td>{how}</td></tr>)}</tbody></table>
+    </div>
+  </section>
+
+  <section id="yours" class="doc-sec" aria-labelledby="yours-title">
+    <p class="doc-eyebrow">02 — Yours to do</p>
+    <h2 class="doc-h2" id="yours-title">What only your page knows.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table"><tbody>{yours.map(([what, how]) => <tr><th scope="row">{what}</th><td>{how}</td></tr>)}</tbody></table>
+    </div>
+    <CodeFrame file="names.tsx" code={label} />
+  </section>
+
+  <section id="tested" class="doc-sec" aria-labelledby="tested-title">
+    <p class="doc-eyebrow">03 — Tested</p>
+    <h2 class="doc-h2" id="tested-title">How it's checked.</h2>
+    <p class="doc-p">axe, WCAG 2.2 A and AA, in Chromium on every pull request; Firefox and WebKit every night; the keys in each component's table, in a test; forced colours, reduced motion and right to left. Each component's Accessibility tab says what's tested for it.</p>
+  </section>
+
+  <NextPage href={`${links.guides}/right-to-left`} label="Next — Guides" title="Right to left" />
+</DocsPage>

@@ -1,0 +1,79 @@
+---
+// Icons › Icon browser: every icon, found by name, tag, alias or category, in either shape and
+// drawing, at any size to 64 and in any colour, each with its details and its import, JSX and SVG.
+// The size, the colour and the details are its islands.
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { iconManifest } from "@qeetrix/icons/manifest";
+import { formatNumber } from "@qeetrix/react";
+import { Logo } from "@/platform/components/Logo";
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import "@/qeetrix/foundations/kit.css";
+import IconBrowser from "@/qeetrix/icons/IconBrowser";
+import IconColour from "@/qeetrix/icons/IconColour";
+import IconDetail from "@/qeetrix/icons/IconDetail";
+import IconSizeSlider from "@/qeetrix/icons/IconSizeSlider";
+import "@/qeetrix/icons/browser.css";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const icons = iconManifest.icons;
+const tags = new Set(icons.flatMap((icon) => icon.tags ?? [])).size;
+const categories = new Set(icons.flatMap((icon) => icon.categories ?? [])).size;
+const toc = [
+  { id: "browse", label: "Browse" },
+  { id: "in-code", label: "In code" },
+];
+const tsx = `// By name, from the package: a build ships only the icons it imports.
+import { HouseIcon } from "@qeetrix/icons";
+
+<HouseIcon size={16} />                    // round, outline: the defaults
+<HouseIcon shape="sharp" size={20} />      // as components draw them
+<HouseIcon variant="filled" size={24} />   // the selected item`;
+---
+
+<DocsPage title="Icon browser" description={`Search ${formatNumber(icons.length, "en-IN")} Qeetrix icons by name, tag or category, and copy an icon's import, JSX or SVG.`} current="icons-browser" section={links.icons} toc={toc}>
+  <Masthead slot="masthead" title="Icon browser" lede="Every icon, by name, tag or category. Pick one for its details and its import." place={["Docs", "Icons", "Icon browser"]} source={docs.source("icons/browser.astro")}>
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        <div><dt><code>{packages.icons.name}</code></dt><dd>{packages.icons.version}</dd></div>
+      </dl>
+      <p class="doc-mast-links">
+        <a href={links.iconsRepo}><Logo name="github-mono" />GitHub<ArrowUpRightIcon size={14} /></a>
+        <a href={links.iconsNpm}><Logo name="npm" />npm<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Icons</dt><dd>{formatNumber(icons.length, "en-IN")}<span>Round and sharp</span></dd></div>
+      <div><dt>Categories</dt><dd>{categories}<span>From text to weather</span></dd></div>
+      <div><dt>Tags</dt><dd>{formatNumber(tags, "en-IN")}<span>To search by meaning</span></dd></div>
+      <div><dt>Copy</dt><dd>3 ways<span>Import, JSX or SVG</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="browse" class="doc-sec" aria-labelledby="browse-title">
+    <p class="doc-eyebrow">01</p>
+    <h2 class="doc-h2" id="browse-title">Browse</h2>
+    <IconBrowser>
+      <IconSizeSlider slot="size" client:idle min={12} max={64} value={24} />
+      <IconColour slot="colour" client:idle />
+      <IconDetail slot="detail" client:load />
+    </IconBrowser>
+  </section>
+
+  <section id="in-code" class="doc-sec" aria-labelledby="in-code-title">
+    <p class="doc-eyebrow">02</p>
+    <h2 class="doc-h2" id="in-code-title">In code</h2>
+    <p class="qf-lede">Import an icon by name; pass it to a component, or draw it with its shape, drawing and size.</p>
+    <CodeFrame file="house.tsx" code={tsx} />
+  </section>
+
+  <NextPage href={links.brand} label="Next — Icons" title="Brand" />
+</DocsPage>
+
+<script>
+  import "@/qeetrix/icons/browser";
+</script>

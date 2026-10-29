@@ -1,22 +1,322 @@
 ---
-// A plain index while the site is rebuilt. The home page is redesigned last, after every other page.
-import { getCollection } from "astro:content";
-import { Heading, Link, Stack, Text } from "@qeetrix/react";
+// The Qeetrix home page: what the system is, live; how to start; what it promises; what's new; and
+// the Qeet products built with it. The hero story, the showcase and the theme engine are islands;
+// everything else renders to HTML at build time.
+
+import { QeetLogo } from "@qeetrix/icons";
+import { AccessibilityIcon } from "@qeetrix/icons/icons/accessibility";
+import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
+import { BellIcon } from "@qeetrix/icons/icons/bell";
+import { BotIcon } from "@qeetrix/icons/icons/bot";
+import { BrainIcon } from "@qeetrix/icons/icons/brain";
+import { ChevronRightIcon } from "@qeetrix/icons/icons/chevron-right";
+import { CircleCheckIcon } from "@qeetrix/icons/icons/circle-check";
+import { FileTextIcon } from "@qeetrix/icons/icons/file-text";
+import { KeyRoundIcon } from "@qeetrix/icons/icons/key-round";
+import { LanguagesIcon } from "@qeetrix/icons/icons/languages";
+import { LayersIcon } from "@qeetrix/icons/icons/layers";
+import { PaletteIcon } from "@qeetrix/icons/icons/palette";
+import { PlusIcon } from "@qeetrix/icons/icons/plus";
+import { ScrollTextIcon } from "@qeetrix/icons/icons/scroll-text";
+import { ServerIcon } from "@qeetrix/icons/icons/server";
+import { ShapesIcon } from "@qeetrix/icons/icons/shapes";
+import { ShieldCheckIcon } from "@qeetrix/icons/icons/shield-check";
+import { SunMoonIcon } from "@qeetrix/icons/icons/sun-moon";
+import { UsersIcon } from "@qeetrix/icons/icons/users";
+import { WalletIcon } from "@qeetrix/icons/icons/wallet";
+import { ZapIcon } from "@qeetrix/icons/icons/zap";
+import { Badge, formatNumber, LinkButton, mirrorInRtl, Spinner } from "@qeetrix/react";
+import SiteFooter from "@/platform/chrome/SiteFooter.astro";
+import SiteHeader from "@/platform/chrome/SiteHeader.astro";
+import Code from "@/platform/components/Code.astro";
+import { Logo } from "@/platform/components/Logo";
 import Document from "@/platform/layouts/Document.astro";
+import Reveal from "@/platform/motion/Reveal.astro";
+import { counts } from "@/qeetrix/counts";
+import { CardGrid, explore, whatsNew } from "@/qeetrix/home/Cards";
+import HeroStory from "@/qeetrix/home/HeroStory";
+import InstallCommand from "@/qeetrix/home/InstallCommand";
+import Showcase from "@/qeetrix/home/Showcase";
+import ThemeEngine from "@/qeetrix/home/ThemeEngine";
+import "@/qeetrix/home/home.css";
+import "@/qeetrix/home/home-sections.css";
+import { install } from "@/qeetrix/install";
+import { packages } from "@/qeetrix/packages";
+import { links, site } from "@/qeetrix/site";
 
-const pages = (await getCollection("docs")).sort((a, b) => a.id.localeCompare(b.id));
+/** Forward, in either reading direction. */
+const forward = mirrorInRtl(ArrowRightIcon);
+const iconCount = formatNumber(counts.icons, "en-IN");
+const stats = [
+  [String(counts.components), `components, ${counts.stable} stable and ${counts.experimental} experimental`],
+  [iconCount, "icons, in round and sharp"],
+  ["AA", "WCAG 2.2, tested on every pull request"],
+  ["2", "languages built in: English and Hindi"],
+];
+const principles = [
+  { icon: AccessibilityIcon, t: "Accessible by default", d: "WAI-ARIA patterns, tested with axe.", proof: "WCAG 2.2 AA" },
+  { icon: PaletteIcon, t: "Tokens, never raw values", d: "Colour, space, type and motion as tokens.", proof: "Checked in CI" },
+  { icon: LanguagesIcon, t: "Made for India", d: "Hindi, rupees and Indian dates built in.", proof: "en-IN · hi-IN" },
+  { icon: SunMoonIcon, t: "Every mode", d: "Light and dark, three densities, RTL.", proof: "Forced colours" },
+  { icon: ZapIcon, t: "Light to load", d: "One stylesheet per component, budgeted.", proof: "35 kB CSS" },
+  { icon: ServerIcon, t: "Server-friendly", d: "Display components render on the server.", proof: "RSC" },
+  { icon: ShieldCheckIcon, t: "Built to be trusted", d: "Built in CI, scanned by CodeQL.", proof: "npm provenance" },
+  { icon: LayersIcon, t: "One console frame", d: "AppShell, TopBar, Sidebar and PageHeader.", proof: "6 products" },
+];
+// The CI gate, as qeetrix-react/.github/workflows/ci.yml and codeql.yml run it.
+const gates = [
+  { t: "Build", d: "tsdown, a stylesheet per component", cmd: "build" },
+  { t: "Types and lint", d: "TypeScript, Biome, React Compiler rules", cmd: "typecheck · lint" },
+  { t: "Source check", d: "Tokens only, no raw values", cmd: "check:source" },
+  { t: "Dist check", d: "Server-safe output, within size budgets", cmd: "check:dist" },
+  { t: "API report", d: "A changed API needs a new version", cmd: "check:api" },
+  { t: "Package", d: "publint and Are the Types Wrong", cmd: "check:package" },
+  { t: "Tests in real browsers", d: "Vitest in Chromium, with axe and screenshots", cmd: "test:coverage" },
+  { t: "Security", d: "CodeQL and OpenSSF Scorecard", cmd: "codeql" },
+];
+const products = [
+  { icon: KeyRoundIcon, tone: "home-tone-blue", name: "Qeet ID", line: "Authentication and user management", href: links.products.id },
+  { icon: WalletIcon, tone: "home-tone-green", name: "Qeet Pay", line: "Payments and billing infrastructure", href: links.products.pay },
+  { icon: UsersIcon, tone: "home-tone-pink", name: "Qeet People", line: "HR, payroll and attendance", href: links.products.people },
+  { icon: BellIcon, tone: "home-tone-brand", name: "Qeet Notify", line: "Multi-channel notifications", href: links.products.notify },
+  { icon: ScrollTextIcon, tone: "home-tone-violet", name: "Qeet Logs", line: "Observability and audit logs", href: links.products.logs },
+  { icon: BrainIcon, tone: "home-tone-teal", name: "Qeet AI", line: "Identity, memory and knowledge for agents", href: links.products.ai },
+  { icon: PlusIcon, tone: "home-tone-neutral", name: "Future products", line: "More products, one design system", href: links.qeetEcosystem },
+];
+const ai = [
+  { icon: FileTextIcon, t: "llms.txt", d: "An index of every page, for language models." },
+  { icon: ScrollTextIcon, t: "llms-full.txt", d: "The whole documentation as one text file." },
+  { icon: BotIcon, t: "Markdown for every page", d: "Copy a page as Markdown into any AI tool." },
+];
 ---
+<Document title="Qeetrix" description="The Qeet design system: accessible React components, design tokens and icons for every Qeet product.">
+  <Reveal />
+  <SiteHeader site={site} />
+  <main id="main" class="home">
+    <!-- Hero: the copy and the install on the start side; a live Qeet ID console on the end side. -->
+    <section class="home-hero" aria-labelledby="hero-title">
+      <div class="site-container home-hero-grid">
+        <div class="home-hero-copy">
+          <a class="home-release" href={links.releases} data-reveal>
+            <Badge tone="brand" size="sm">New</Badge>
+            <span>{packages.react.name} {packages.react.version} is out</span>
+            <ChevronRightIcon size={16} data-qx-mirror />
+          </a>
+          <h1 id="hero-title" class="home-title" data-reveal data-reveal-delay="60">One system.<br />Every interface.</h1>
+          <p class="home-lede" data-reveal data-reveal-delay="120">Accessible React components, design tokens and icons for every Qeet product.</p>
+          <div class="home-actions" data-reveal data-reveal-delay="180">
+            <LinkButton href={links.docs} size="lg" icon={forward}>Get started</LinkButton>
+            <LinkButton href={links.components} size="lg" variant="soft">Browse components</LinkButton>
+          </div>
+          <div class="home-hero-install" data-reveal data-reveal-delay="240"><InstallCommand client:load /></div>
+        </div>
+        <HeroStory client:load />
+      </div>
+    </section>
 
-<Document title="Qeetrix" description="The Qeetrix design system: React components, design tokens and icons for every Qeet product.">
-  <main id="main">
-    <Stack gap="md">
-      <Heading level={1}>Qeetrix</Heading>
-      <Text tone="subtle">The new ui.qeet.in, in progress.</Text>
-      <ul>
-        {pages.map((page) => (
-          <li><Link href={`/${page.id}`}>{page.data.title}</Link></li>
+    <!-- By the numbers, read from the packages. -->
+    <section class="site-container" aria-label="Qeetrix in numbers">
+      <dl class="home-stats">
+        {stats.map(([n, label], i) => (
+          <div data-reveal data-reveal-delay={i * 60}><dt>{label}</dt><dd>{n}</dd></div>
         ))}
+      </dl>
+    </section>
+
+    <!-- Platforms: the web today; Android and iOS on their way to the same language. -->
+    <section class="site-container home-sec home-sec-tight" aria-labelledby="platforms-title">
+      <div class="home-head home-head-row" data-reveal>
+        <h2 id="platforms-title" class="home-h2 home-h2-sm">One design language. Every platform.</h2>
+      </div>
+      <ul class="home-platforms">
+        <li data-reveal>
+          <div class="home-platform-top"><span class="home-tile"><Logo name="react-light" className="only-light" /><Logo name="react-dark" className="only-dark" /></span><Badge tone="success">Stable</Badge></div>
+          <b>Web</b>
+          <span>{packages.react.name} {packages.react.version}, {counts.components} React components.</span>
+          <a class="home-more" href={links.docs}>Get started<ArrowRightIcon size={16} data-qx-mirror /></a>
+        </li>
+        <li data-reveal data-reveal-delay="60">
+          <div class="home-platform-top"><span class="home-tile"><Logo name="android" /></span><Badge tone="info">Release candidate</Badge></div>
+          <b>Android</b>
+          <span>Jetpack Compose, 0.1.0-rc.1, not yet published.</span>
+          <a class="home-more" href={links.android}>View on GitHub<ArrowRightIcon size={16} data-qx-mirror /></a>
+        </li>
+        <li data-reveal data-reveal-delay="120">
+          <div class="home-platform-top"><span class="home-tile"><Logo name="apple-mono" /></span><Badge tone="neutral">In development</Badge></div>
+          <b>iOS</b>
+          <span>SwiftUI, through Swift Package Manager.</span>
+          <a class="home-more" href={links.ios}>View on GitHub<ArrowRightIcon size={16} data-qx-mirror /></a>
+        </li>
       </ul>
-    </Stack>
+    </section>
+
+    <!-- The live showcase: three Qeet consoles in the C1 frame. -->
+    <section class="site-container home-sec" aria-labelledby="showcase-title">
+      <div class="home-head home-head-row" data-reveal>
+        <div class="home-head-stack">
+          <p class="home-group">Live, not a picture</p>
+          <h2 id="showcase-title" class="home-h2">Not a screenshot. Your next interface.</h2>
+          <p class="home-sub">Three Qeet consoles built from @qeetrix/react. Change anything.</p>
+        </div>
+        <a class="home-more" href={links.components}>Browse components<ArrowRightIcon size={16} data-qx-mirror /></a>
+      </div>
+      <div data-reveal><Showcase client:visible /></div>
+    </section>
+
+    <!-- Explore. -->
+    <section class="site-container home-sec" aria-labelledby="explore-title">
+      <div class="home-head" data-reveal>
+        <p class="home-group">Explore Qeetrix</p>
+        <h2 id="explore-title" class="home-h2">Everything you need. One shared language.</h2>
+      </div>
+      <CardGrid items={explore} />
+      <ul class="home-links" data-reveal>
+        <li><a href={links.icons}><ShapesIcon size={20} /><span><b>Icons</b><span>{iconCount} icons in round and sharp, and the Qeet logos.</span></span><ArrowRightIcon size={16} data-qx-mirror /></a></li>
+        <li><a href={links.guides}><FileTextIcon size={20} /><span><b>Guides</b><span>From your first import to a production-ready setup.</span></span><ArrowRightIcon size={16} data-qx-mirror /></a></li>
+        <li><a href={links.resources}><LayersIcon size={20} /><span><b>Resources</b><span>Release notes, release phases and contributing.</span></span><ArrowRightIcon size={16} data-qx-mirror /></a></li>
+      </ul>
+    </section>
+
+    <!-- Tokens: one colour, the brand tokens, every component. -->
+    <section class="site-container home-sec" aria-labelledby="tokens-title">
+      <div class="home-head home-head-row" data-reveal>
+        <div class="home-head-stack">
+          <p class="home-group">Theming</p>
+          <h2 id="tokens-title" class="home-h2">One change. Every component.</h2>
+          <p class="home-sub">A customer's colour becomes 18 brand tokens, checked for contrast.</p>
+        </div>
+        <a class="home-more" href={links.theming}>How theming works<ArrowRightIcon size={16} data-qx-mirror /></a>
+      </div>
+      <div data-reveal><ThemeEngine client:visible /></div>
+    </section>
+
+    <!-- Install in three steps. -->
+    <section class="site-container home-sec" aria-labelledby="start-title">
+      <div class="home-head" data-reveal>
+        <h2 id="start-title" class="home-h2">A short path from install to interface.</h2>
+        <p class="home-sub">Use your framework. Keep your workflow.</p>
+      </div>
+      <ol class="home-steps" data-reveal>
+        <li><span class="home-step">01</span><b>Install</b><Code lang="bash" code={`bun add ${install.packages}`} /></li>
+        <li><span class="home-step">02</span><b>Add the styles</b><Code lang="css" code={install.css.join("\n")} /></li>
+        <li><span class="home-step">03</span><b>Build</b><Code code={install.usage.join("\n")} /></li>
+      </ol>
+      <ul class="home-guides" data-reveal>
+        <li><a href={links.nextjs}><span class="home-tile"><Logo name="nextdotjs" className="only-light" /><Logo name="nextdotjs-dark" className="only-dark" /></span><span><b>Next.js</b><span>App Router and server components.</span></span><ArrowRightIcon size={16} data-qx-mirror /></a></li>
+        <li><a href={links.tanstackStart}><span class="home-tile"><Logo name="tanstack" /></span><span><b>TanStack Start</b><span>The console setup, with SSR.</span></span><ArrowRightIcon size={16} data-qx-mirror /></a></li>
+        <li><a href={links.vite}><span class="home-tile"><Logo name="vite" className="home-logo-wide" /></span><span><b>Vite</b><span>A plain React app in two imports.</span></span><ArrowRightIcon size={16} data-qx-mirror /></a></li>
+      </ul>
+    </section>
+
+    <!-- Enterprise by construction: the principles, and the gate that holds them. -->
+    <section class="site-container home-sec" aria-labelledby="enterprise-title">
+      <div class="home-head home-head-row" data-reveal>
+        <div class="home-head-stack">
+          <p class="home-group">Under the surface</p>
+          <h2 id="enterprise-title" class="home-h2">Enterprise by construction.</h2>
+          <p class="home-sub">The details nobody sees, checked on every change.</p>
+        </div>
+        <a class="home-more" href={links.releasePhases}>Release phases<ArrowRightIcon size={16} data-qx-mirror /></a>
+      </div>
+      <div class="home-ent">
+        <ul class="home-spec">
+          {principles.map((p, i) => (
+            <li data-reveal data-reveal-delay={(i % 2) * 60 + Math.floor(i / 2) * 40}>
+              <span class="home-spec-top"><span class="home-principle-icon"><p.icon size={20} /></span><code class="home-spec-proof">{p.proof}</code></span>
+              <b>{p.t}</b>
+              <span class="home-spec-line">{p.d}</span>
+            </li>
+          ))}
+        </ul>
+        <aside class="home-ci" aria-labelledby="ci-title" data-reveal>
+          <header class="home-ci-head">
+            <span class="home-tile"><Logo name="github-mono" /></span>
+            <span class="home-ci-title"><b id="ci-title">Checks on every pull request</b><code>qeetgroup/qeetrix-react</code></span>
+            <span class="home-ci-state" style={`--i:${gates.length}`}>
+              <span class="home-ci-run"><Badge tone="info">Running</Badge></span>
+              <span class="home-ci-ok"><Badge tone="success">All {gates.length} passed</Badge></span>
+            </span>
+          </header>
+          <ol class="home-ci-list">
+            {gates.map((g, i) => (
+              <li style={`--i:${i}`}>
+                <span class="home-ci-mark" aria-hidden="true">
+                  <span class="home-ci-run"><Spinner size="sm" tone="neutral" decorative /></span>
+                  <span class="home-ci-ok"><CircleCheckIcon size={16} /></span>
+                </span>
+                <span class="home-ci-text"><b>{g.t}</b><span>{g.d}</span></span>
+                <code>{g.cmd}</code>
+              </li>
+            ))}
+          </ol>
+          <footer class="home-ci-foot">
+            <b>Nothing merges red.</b>
+            <dl>
+              <div><dt>{packages.react.name}</dt><dd>{packages.react.version}</dd></div>
+              <div><dt>{packages.tokens.name}</dt><dd>{packages.tokens.version}</dd></div>
+              <div><dt>{packages.icons.name}</dt><dd>{packages.icons.version}</dd></div>
+            </dl>
+          </footer>
+        </aside>
+      </div>
+    </section>
+
+    <!-- For AI tools (landing spec band 6). -->
+    <section class="site-container home-sec" aria-labelledby="ai-title">
+      <div class="home-ai" data-reveal>
+        <div class="home-head">
+          <p class="home-group">For AI tools</p>
+          <h2 id="ai-title" class="home-h2 home-h2-sm">Docs that machines can read.</h2>
+        </div>
+        <ul class="home-ai-list">
+          {ai.map((a) => <li><span class="home-tile"><a.icon size={20} /></span><span><b><code>{a.t}</code></b><span>{a.d}</span></span></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <!-- What's new, from the changelogs. -->
+    <section class="site-container home-sec" aria-labelledby="new-title">
+      <div class="home-head home-head-row" data-reveal>
+        <h2 id="new-title" class="home-h2">What's new.</h2>
+        <a class="home-more" href={links.changelog.react}>Changelog<ArrowRightIcon size={16} data-qx-mirror /></a>
+      </div>
+      <CardGrid items={whatsNew} />
+    </section>
+
+    <!-- The ecosystem: Qeetrix as the hub, a branch to every product. -->
+    <section class="site-container home-sec home-eco" aria-labelledby="eco-title">
+      <div class="home-eco-grid">
+        <div class="home-head" data-reveal>
+          <p class="home-group">One design system</p>
+          <h2 id="eco-title" class="home-h2">Built for the Qeet ecosystem.</h2>
+          <p class="home-sub">Different products. Familiar interactions. One set of foundations.</p>
+        </div>
+        <div class="home-eco-map" data-reveal>
+          <div class="home-eco-hub">
+            <QeetLogo className="only-light" height={40} alt="" />
+            <QeetLogo className="only-dark" variant="dark" height={40} alt="" />
+            <b>Qeetrix</b>
+            <span>Shared foundations</span>
+          </div>
+          <ul class="home-eco-list">
+            {products.map((p, i) => <li style={`--i:${i}`}><a href={p.href}><span class={`home-tile home-tile-tone ${p.tone}`}><p.icon size={20} /></span><span><b>{p.name}</b><span>{p.line}</span></span><ArrowRightIcon size={16} data-qx-mirror /></a></li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing call, on the dark scheme. -->
+    <section class="home-final" data-qx-color-scheme="dark" aria-labelledby="final-title">
+      <div class="site-container home-final-inner" data-reveal>
+        <h2 id="final-title" class="home-final-title">Start building with Qeetrix.</h2>
+        <p class="home-sub">Install the packages, load two stylesheets, ship your first screen.</p>
+        <div class="home-actions">
+          <LinkButton href={links.docs} size="lg" icon={forward}>Get started</LinkButton>
+          <LinkButton href={links.components} size="lg" variant="soft">Browse components</LinkButton>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <SiteFooter site={site} />
 </Document>

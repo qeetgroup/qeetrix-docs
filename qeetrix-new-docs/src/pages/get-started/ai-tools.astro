@@ -1,0 +1,77 @@
+---
+// Get started › AI tools: what these docs and the packages give a coding assistant: the docs as
+// text, the token and icon data, Copy page, and rules to paste into a project.
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { links } from "@/qeetrix/site";
+
+const toc = [
+  { id: "text", label: "The docs as text" },
+  { id: "data", label: "Data in the packages" },
+  { id: "rules", label: "Rules for your project" },
+];
+const rules = `# Qeetrix
+
+- UI comes from @qeetrix/react; experimental components from @qeetrix/react/experimental.
+- Icons import from the package root: import { PlusIcon } from "@qeetrix/icons".
+- Wrap the app in <QeetrixProvider locale="en-IN">, with <ToastProvider> inside it.
+- Styles: @qeetrix/tokens/tokens.css, then @qeetrix/react/styles.css. No Tailwind.
+- Space with Stack, Inline and Grid gaps; surfaces with Box and Card. No margins, no raw values.
+- One solid Button per region, the primary last. Links go; Buttons do.
+- Every icon-only control has an aria-label. Every Table, Tabs list and ScrollArea is named.
+- Before using a component, read its page: https://ui.qeet.in/components/<name>/api
+- The full reference: https://ui.qeet.in/llms-full.txt`;
+const data = [
+  ["Tokens, light and dark", "@qeetrix/tokens/dtcg/light.tokens.json", "Every token, resolved, in the W3C design tokens format"],
+  ["Tokens, how they resolve", "@qeetrix/tokens/dtcg/qeetrix.resolver.json", "Which set applies in which scheme"],
+  ["Icons and logos", "import { iconManifest, logoManifest } from \"@qeetrix/icons/manifest\"", "Every icon: its component, categories, drawings, shapes, direction and tags"],
+  ["Components", "import { manifest } from \"@qeetrix/react/manifest\"", "Every family: its status, its entry point, its parts and the version it arrived in"],
+];
+---
+
+<DocsPage title="AI tools" description="What these docs and the Qeetrix packages give a coding assistant: the docs as text, token and icon data, and rules for your project." current="ai-tools" section={links.docs} toc={toc}>
+  <Masthead slot="masthead" title="AI tools" lede="Point your assistant at the same facts these pages show." place={["Docs", "Get started", "AI tools"]} source={docs.source("get-started/ai-tools.astro")}>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>As text</dt><dd>2 files<span>/llms.txt, /llms-full.txt</span></dd></div>
+      <div><dt>On every page</dt><dd>Copy page<span>The page, as Markdown</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="text" class="doc-sec" aria-labelledby="text-title">
+    <p class="doc-eyebrow">01 — The docs as text</p>
+    <h2 class="doc-h2" id="text-title">Two files, written from the pages.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table">
+        <thead><tr><th scope="col">File</th><th scope="col">What's in it</th></tr></thead>
+        <tbody>
+          <tr><th scope="row"><a href="/llms.txt"><code>/llms.txt</code></a></th><td>Every page and every component, with a line each.</td></tr>
+          <tr><th scope="row"><a href="/llms-full.txt"><code>/llms-full.txt</code></a></th><td>Every component's import, props, parts, examples and keys, as Markdown.</td></tr>
+          <tr><th scope="row">Copy page</th><td>At the top of every page: the page as Markdown, for a chat.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="data" class="doc-sec" aria-labelledby="data-title">
+    <p class="doc-eyebrow">02 — Data in the packages</p>
+    <h2 class="doc-h2" id="data-title">For tools that read JSON.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table">
+        <thead><tr><th scope="col">What</th><th scope="col">Import</th><th scope="col">Notes</th></tr></thead>
+        <tbody>{data.map(([what, path, note]) => <tr><th scope="row">{what}</th><td><code>{path}</code></td><td>{note}</td></tr>)}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="rules" class="doc-sec" aria-labelledby="rules-title">
+    <p class="doc-eyebrow">03 — Rules for your project</p>
+    <h2 class="doc-h2" id="rules-title">Paste them into AGENTS.md.</h2>
+    <p class="doc-p">The rules an assistant gets wrong most, in a few lines. Keep them beside your own.</p>
+    <CodeFrame file="AGENTS.md" lang="bash" code={rules} />
+  </section>
+
+  <NextPage href={links.migration} label="Next — Get started" title="Migration" />
+</DocsPage>

@@ -15,15 +15,16 @@
     "preview": "astro preview --port 3007",
     "types:check": "astro sync && tsc --noEmit",
     "lint": "biome check",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "components": "bun scripts/components.ts && biome check --write src/qeetrix/components/registry.ts \"src/pages/components/[component]/[...tab].astro\""
   },
   "dependencies": {
     "@astrojs/mdx": "8.1.1",
     "@astrojs/react": "7.1.1",
     "@base-ui/react": "^1.9.0",
-    "@qeetrix/icons": "^1.0.12",
-    "@qeetrix/react": "0.1.1",
-    "@qeetrix/tokens": "^0.0.9",
+    "@qeetrix/icons": "^2.0.0",
+    "@qeetrix/react": "0.2.2",
+    "@qeetrix/tokens": "^0.0.10",
     "astro": "7.4.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"

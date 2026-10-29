@@ -1,0 +1,18 @@
+---
+// The next page, as a wide band at the foot of the content: where it sits, its name, an arrow.
+import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
+
+interface Props {
+  href: string;
+  title: string;
+  /** Where it sits: "Next — 02 of 07". */
+  label: string;
+}
+
+const { href, title, label } = Astro.props;
+---
+
+<a class="doc-next" href={href}>
+  <span>{label}<b>{title}</b></span>
+  <ArrowRightIcon size={40} data-qx-mirror />
+</a>

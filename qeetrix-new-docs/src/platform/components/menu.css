@@ -1,0 +1,10 @@
+/* Menus drawn to HTML (StaticMenu.tsx): the separator is an <hr>, without the browser's rule. */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer platform {
+  hr.qx-menu-separator {
+    margin-inline: 0;
+    border: 0;
+  }
+}

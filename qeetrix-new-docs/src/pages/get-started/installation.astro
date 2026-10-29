@@ -1,0 +1,143 @@
+---
+// Get started › Installation: what it needs, the four steps, and the problems people hit.
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { Logo } from "@/platform/components/Logo";
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import FirstScreen from "@/qeetrix/docs/FirstScreen";
+import { PmChoice, PmCommand } from "@/qeetrix/docs/PackageManager";
+import Troubleshooting from "@/qeetrix/docs/Troubleshooting";
+import { install } from "@/qeetrix/install";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const toc = [
+  { id: "requirements", label: "Requirements" },
+  { id: "setup", label: "Setup" },
+  { id: "install", label: "Install the packages", depth: 2 },
+  { id: "styles", label: "Add the styles", depth: 2 },
+  { id: "provider", label: "Wrap your app", depth: 2 },
+  { id: "first", label: "Use a component", depth: 2 },
+  { id: "troubleshooting", label: "Troubleshooting" },
+] as const;
+const requirements = [
+  ["React and React DOM", "19.2 or later", "Server rendering supported"],
+  [packages.tokens.name, packages.tokens.version, `Pairs with ${packages.react.name} ${packages.react.version}`],
+  ["@base-ui/react", "1.9 or later", "Added for you, except by Yarn"],
+];
+// The browsers by their own marks, each with the version it needs.
+const browsers = [
+  { logo: "chrome", name: "Chrome", version: "111+" },
+  { logo: "edge", name: "Edge", version: "111+" },
+  { logo: "firefox", name: "Firefox", version: "128+" },
+  { logo: "safari", name: "Safari", version: "16.4+" },
+] as const;
+const css = install.css.join("\n");
+const provider = `import { QeetrixProvider, ToastProvider } from "@qeetrix/react";
+import "./app.css";
+
+export function Root({ children }) {
+  return (
+    <QeetrixProvider locale="en-IN" defaultColorScheme="system">
+      <ToastProvider>{children}</ToastProvider>
+    </QeetrixProvider>
+  );
+}`;
+const first = `import { PlusIcon } from "@qeetrix/icons";
+import { Button, Stack, TextField } from "@qeetrix/react";
+
+export function Invite() {
+  return (
+    <Stack gap="lg">
+      <TextField label="Work email" name="email" type="email" required />
+      <Button icon={PlusIcon}>Invite users</Button>
+    </Stack>
+  );
+}`;
+---
+
+<DocsPage
+  title="Installation"
+  description="Add Qeetrix to a React app in four steps: install the packages, add the styles, wrap your app, use a component."
+  current="installation"
+  section={links.docs}
+  toc={[...toc]}
+>
+  <Masthead
+    slot="masthead"
+    title="Installation"
+    lede="Add Qeetrix to a React app in four steps."
+    place={["Docs", "Get started", "02 of 07", "Updated 28 Oct 2026"]}
+    source={docs.source("get-started/installation.astro")}
+  >
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        {[packages.react, packages.tokens].map((p) => <div><dt><code>{p.name}</code></dt><dd>{p.version}</dd></div>)}
+      </dl>
+      <p class="doc-mast-links">
+        <a href={links.github}><Logo name="github-mono" />GitHub<ArrowUpRightIcon size={14} /></a>
+        <a href={links.npm}><Logo name="npm" />npm<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Time</dt><dd>4 minutes<span>Four steps</span></dd></div>
+      <div><dt>Requires</dt><dd>React 19.2<span>And a bundler that keeps layers</span></dd></div>
+      <div><dt>Package manager</dt><dd><PmChoice client:load /></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="requirements" class="doc-sec" aria-labelledby="requirements-title">
+    <p class="doc-eyebrow">01 — Requirements</p>
+    <h2 class="doc-h2" id="requirements-title">Before you start.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table">
+        <thead><tr><th scope="col">What</th><th scope="col">Supported</th><th scope="col">Notes</th></tr></thead>
+        <tbody>
+          {requirements.map(([what, v, note]) => <tr><th scope="row">{what}</th><td>{v}</td><td>{note}</td></tr>)}
+          <tr>
+            <th scope="row">Browsers</th>
+            <td><span class="qd-browsers">{browsers.map((b) => <span class="qd-browser"><Logo name={b.logo} aria-label={b.name} />{b.version}</span>)}</span></td>
+            <td><span class="qd-browsers"><span class="qd-browser"><Logo name="safari" aria-label="Safari" />iOS 16.4+</span></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="setup" class="doc-sec" aria-labelledby="setup-title">
+    <p class="doc-eyebrow">02 — Setup</p>
+    <h2 class="doc-h2" id="setup-title">Four steps.</h2>
+    <ol class="doc-steps">
+      <li id="install" class="doc-step">
+        <h3 class="doc-h3"><span>1</span>Install the packages</h3>
+        <PmCommand client:load packages={install.packages} peer="@base-ui/react" />
+      </li>
+      <li id="styles" class="doc-step">
+        <h3 class="doc-h3"><span>2</span>Add the styles</h3>
+        <CodeFrame file="app.css" lang="css" code={css} />
+      </li>
+      <li id="provider" class="doc-step">
+        <h3 class="doc-h3"><span>3</span>Wrap your app</h3>
+        <CodeFrame file="root.tsx" code={provider} />
+      </li>
+      <li id="first" class="doc-step">
+        <h3 class="doc-h3"><span>4</span>Use a component</h3>
+        <div class="doc-step-panel">
+          <CodeFrame file="invite.tsx" code={first} />
+          <FirstScreen client:visible />
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="troubleshooting" class="doc-sec" aria-labelledby="troubleshooting-title">
+    <p class="doc-eyebrow">03 — Troubleshooting</p>
+    <h2 class="doc-h2" id="troubleshooting-title">If something looks wrong.</h2>
+    <Troubleshooting client:visible />
+  </section>
+
+  <NextPage href={links.nextjs} label="Next — 03 of 07" title="Next.js" />
+</DocsPage>

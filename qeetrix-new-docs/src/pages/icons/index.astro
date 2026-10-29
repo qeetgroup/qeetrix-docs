@@ -1,0 +1,83 @@
+---
+// Icons: the set, its sizes and shapes, filled when selected, icons in components, the common icons
+// and right to left, ported from qeetrix-story's Iconography and extended. The Icon browser and the
+// brand logos are the next pages.
+
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { iconManifest } from "@qeetrix/icons/manifest";
+import { formatNumber } from "@qeetrix/react";
+import { Logo } from "@/platform/components/Logo";
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import Sections from "@/qeetrix/foundations/Sections.astro";
+import { sections } from "@/qeetrix/icons/Iconography";
+import "@/qeetrix/icons/iconography.css";
+import "@/qeetrix/icons/rules.css";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const icons = iconManifest.icons;
+const categories = new Set(icons.flatMap((icon) => icon.categories ?? [])).size;
+const filled = icons.filter((icon) => icon.variants.includes("filled")).length;
+const mirrored = icons.filter((icon) => icon.directionality === "mirror").length;
+const toc = [...sections.map((s) => ({ id: s.id, label: s.name })), { id: "in-code", label: "In code" }];
+const tsx = `import { ArrowRightIcon, PlusIcon } from "@qeetrix/icons";
+import { Button, IconButton, mirrorInRtl } from "@qeetrix/react";
+
+// It points a direction: flip it in right-to-left.
+const Next = mirrorInRtl(ArrowRightIcon);
+
+export function Actions() {
+  return (
+    <>
+      {/* A component takes the icon and sizes it; beside a label it's decorative. */}
+      <Button icon={PlusIcon}>Invite users</Button>
+      {/* Alone, an icon needs a name. */}
+      <IconButton icon={PlusIcon} aria-label="Invite users" />
+      <Button icon={Next}>Continue</Button>
+      {/* Drawn yourself: its shape, size and drawing. */}
+      <PlusIcon shape="sharp" size={20} variant="outline" />
+    </>
+  );
+}`;
+---
+
+<DocsPage title="Icons" description={`${formatNumber(icons.length, "en-IN")} icons on a 24-unit grid, in round and sharp, from @qeetrix/icons.`} current="icons" section={links.icons} toc={toc}>
+  <Masthead slot="masthead" title="Icons" lede="Every icon on a 24-unit grid, in round and sharp, sized for you by each component." place={["Docs", "Icons"]} source={docs.source("icons/index.astro")}>
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        <div><dt><code>{packages.icons.name}</code></dt><dd>{packages.icons.version}</dd></div>
+      </dl>
+      <p class="doc-mast-links">
+        <a href={links.iconsRepo}><Logo name="github-mono" />GitHub<ArrowUpRightIcon size={14} /></a>
+        <a href={links.iconsNpm}><Logo name="npm" />npm<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Icons</dt><dd>{formatNumber(icons.length, "en-IN")}<span>In {categories} categories</span></dd></div>
+      <div><dt>Shapes</dt><dd>2<span>Round and sharp, every icon</span></dd></div>
+      <div><dt>Filled</dt><dd>{formatNumber(filled, "en-IN")}<span>A drawing for selected</span></dd></div>
+      <div><dt>Mirror</dt><dd>{mirrored}<span>Flip in right to left</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <Sections sections={sections} />
+
+  <section id="in-code" class="doc-sec" aria-labelledby="in-code-title">
+    <p class="doc-eyebrow">{String(sections.length + 1).padStart(2, "0")}</p>
+    <h2 class="doc-h2" id="in-code-title">In code</h2>
+    <p class="qf-lede">Import icons by name from the package; a build ships only the icons it uses.</p>
+    <CodeFrame file="actions.tsx" code={tsx} />
+  </section>
+
+  <NextPage href={`${links.icons}/browser`} label="Next — Icons" title="Icon browser" />
+</DocsPage>
+
+<script>
+  import "@/qeetrix/icons/icon-sizes";
+  import "@/qeetrix/icons/wall";
+  import "@/qeetrix/foundations/copy";
+</script>

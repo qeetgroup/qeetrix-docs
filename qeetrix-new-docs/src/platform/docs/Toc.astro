@@ -1,0 +1,90 @@
+---
+// On this page: a line that steps in for each sub-section, and an Ember stretch of the same line
+// that glides to the section being read (at the normal motion duration; instant with reduced
+// motion), as Fumadocs' "clerk" contents do, drawn in Qeetrix's ink.
+export interface TocItem {
+  id: string;
+  label: string;
+  /** 1 for a section, 2 for a sub-section. */
+  depth?: 1 | 2;
+}
+
+interface Props {
+  items: TocItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="doc-toc" aria-label="On this page">
+  <p>On this page</p>
+  <div class="doc-toc-track">
+    <svg class="doc-toc-svg" aria-hidden="true"><path></path></svg>
+    <svg class="doc-toc-svg doc-toc-on" aria-hidden="true"><path></path></svg>
+    <ol>
+      {
+        items.map((t) => (
+          <li data-depth={t.depth ?? 1}>
+            <a href={`#${t.id}`}>{t.label}</a>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</nav>
+
+<script>
+  const track = document.querySelector<HTMLElement>(".doc-toc-track");
+  if (track) {
+    const items = [...track.querySelectorAll<HTMLLIElement>("li")];
+    const links = items.map((li) => li.querySelector("a") as HTMLAnchorElement);
+    const targets = links.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))));
+    const svgs = [...track.querySelectorAll<SVGSVGElement>(".doc-toc-svg")];
+    const on = track.querySelector<SVGSVGElement>(".doc-toc-on");
+    let spans: { top: number; bottom: number }[] = [];
+
+    // The line: down each item at its depth's offset, stepping across between depths.
+    const draw = () => {
+      const origin = track.getBoundingClientRect().top;
+      let d = "";
+      let previous = 0;
+      spans = items.map((li, i) => {
+        const rect = li.getBoundingClientRect();
+        const x = li.dataset.depth === "2" ? 13 : 1;
+        const top = rect.top - origin;
+        const bottom = rect.bottom - origin;
+        if (i === 0) d += `M${x} ${top}`;
+        else if (x !== previous) d += ` L${x} ${top + 8}`;
+        d += ` L${x} ${bottom}`;
+        previous = x;
+        return { top, bottom };
+      });
+      const height = spans.at(-1)?.bottom ?? 0;
+      for (const svg of svgs) {
+        svg.setAttribute("width", "16");
+        svg.setAttribute("height", String(height));
+        svg.querySelector("path")?.setAttribute("d", d);
+      }
+      mark();
+    };
+
+    // The section being read: the last one whose top has passed under the header.
+    const mark = () => {
+      let current = 0;
+      targets.forEach((target, i) => {
+        if (target && target.getBoundingClientRect().top < 180) current = i;
+      });
+      links.forEach((a, i) => {
+        if (i === current) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+      const span = spans[current];
+      const height = spans.at(-1)?.bottom ?? 0;
+      if (on && span) on.style.clipPath = `inset(${span.top}px -4px ${height - span.bottom}px -4px)`;
+    };
+
+    new ResizeObserver(draw).observe(track);
+    addEventListener("scroll", mark, { passive: true });
+    draw();
+  }
+</script>

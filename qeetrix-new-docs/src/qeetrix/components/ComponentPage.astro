@@ -1,0 +1,88 @@
+---
+// A component's page, on one of its tabs: the masthead (its line, its package, its links and its
+// facts), the tabs along its edge, each its own address, then the tab's sections and what's next.
+// The tabs are a TabNav: each tab is a page of its own, so they're links, not Tabs.
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { Badge, TabNav, TabNavLink } from "@qeetrix/react";
+import { Logo } from "@/platform/components/Logo";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import { categories } from "@/qeetrix/docs/components";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { CopyToken } from "@/qeetrix/foundations/kit";
+import "@/qeetrix/foundations/kit.css";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+import "./component.css";
+import { moduleOf, nextOf, sectionsOf, tabHref } from "./sections";
+import { type ComponentDoc, TABS, type Tab } from "./types";
+
+interface Props {
+  doc: ComponentDoc;
+  tab: Tab;
+  /** A playground leads the Examples tab. */
+  playground?: boolean;
+}
+
+const { doc, tab, playground = false } = Astro.props;
+const here = TABS.find((entry) => entry.id === tab);
+const category = categories.find((entry) => entry.id === doc.category);
+const toc = sectionsOf(doc, tab, playground);
+const next = nextOf(doc, tab);
+const module = moduleOf(doc);
+const importLine = `import { ${doc.exports.join(", ")} } from "${module}";`;
+const source = `${links.github}/tree/main/packages/react/src/${doc.source}`;
+const story = doc.story && `${links.storybook}/blob/main/stories/${doc.story}`;
+const title = tab === "examples" ? doc.name : `${doc.name}: ${here?.label}`;
+---
+
+<DocsPage title={title} description={doc.lede} current={`component-${doc.slug}`} section={links.components} toc={toc}>
+  <Masthead slot="masthead" title={doc.name} lede={doc.lede} place={["Docs", "Components", category?.name ?? ""]} source={docs.source("components/[component]/[...tab].astro")}>
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        <div><dt><code>{packages.react.name}</code></dt><dd>{packages.react.version}</dd></div>
+      </dl>
+      <p class="doc-mast-links">
+        <a href={source}><Logo name="github-mono" />Source<ArrowUpRightIcon size={14} /></a>
+        {story && <a href={story}><Logo name="storybook" />Story<ArrowUpRightIcon size={14} /></a>}
+        <a href={links.npm}><Logo name="npm" />npm<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div>
+        <dt>Import</dt>
+        <dd><CopyToken value={importLine} label={`{ ${doc.exports.join(", ")} }`} /><span>{module}</span></dd>
+      </div>
+      <div>
+        <dt>Status</dt>
+        <dd>
+          <Badge tone={doc.status === "stable" ? "success" : "warning"}>{doc.status === "stable" ? "Stable" : "Experimental"}</Badge>
+          <span>Since {doc.since}</span>
+        </dd>
+      </div>
+      <div><dt>Renders</dt><dd><code class="qc-mast-code">{doc.renders}</code><span>Server-rendered</span></dd></div>
+      <div><dt>Tested</dt><dd>WCAG 2.2 AA<span>axe on every pull request</span></dd></div>
+    </dl>
+    <div slot="tabs" class="qc-tabs">
+      <TabNav aria-label={`${doc.name}: pages`}>
+        {
+          TABS.map((entry) => (
+            <TabNavLink href={tabHref(doc, entry.id)} current={entry.id === tab}>
+              {entry.label}
+            </TabNavLink>
+          ))
+        }
+      </TabNav>
+    </div>
+  </Masthead>
+
+  <slot />
+
+  {next && <NextPage href={next.href} label={next.label} title={next.title} />}
+</DocsPage>
+
+<script>
+  import "@/qeetrix/foundations/copy";
+  import "@/qeetrix/components/frame-fit";
+</script>

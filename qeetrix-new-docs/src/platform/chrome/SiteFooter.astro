@@ -1,0 +1,53 @@
+---
+// The site footer: the Qeet logo and product name, social links, link columns, and a base line
+// ending with the theme menu.
+import { QeetLogo } from "@qeetrix/icons";
+import { Logo } from "../components/Logo";
+import type { SiteChrome } from "../site";
+import { ThemeMenu } from "./ThemeMenu";
+import "./chrome.css";
+
+interface Props {
+  site: SiteChrome;
+}
+
+const { site } = Astro.props;
+const { footer } = site;
+---
+
+<footer class="site-footer">
+  <div class="site-container site-footer-grid">
+    <div class="site-footer-brand">
+      <a class="site-footer-logo" href={site.home}>
+        <QeetLogo className="only-light" height={24} alt="" />
+        <QeetLogo className="only-dark" variant="dark" height={24} alt="" />
+        {site.name}
+      </a>
+      <p>{footer.tagline}</p>
+      <p class="site-footer-social">
+        {footer.social.map((link) => <a href={link.href} aria-label={link.label}><Logo name={link.logo} /></a>)}
+      </p>
+    </div>
+    {
+      footer.columns.map((column) => (
+        <nav aria-label={column.title}>
+          <p class="site-footer-title">{column.title}</p>
+          <ul>
+            {column.links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))
+    }
+  </div>
+  <div class="site-container site-footer-base">
+    <span>{footer.legal}</span>
+    <span class="site-footer-end">
+      {footer.meta}
+      <ThemeMenu id="site-footer-theme-menu" />
+    </span>
+  </div>
+</footer>

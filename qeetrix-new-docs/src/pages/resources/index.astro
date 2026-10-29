@@ -1,0 +1,38 @@
+---
+// Resources: where Qeetrix is released, recorded and developed, and the docs as text.
+import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import Masthead from "@/platform/docs/Masthead.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const tiles: Array<[string, string, string, boolean]> = [
+  ["Release notes", links.changelog.react, `Every change to ${packages.react.name}`, true],
+  ["Release phases", links.releasePhases, "Experimental and stable, and the 0.x rules", false],
+  ["npm", links.npm, `${packages.react.name} ${packages.react.version}`, true],
+  ["Source", links.github, "qeetrix-react, its tests and changelog", true],
+  ["The docs as text", "/llms.txt", "For AI tools: llms.txt and llms-full.txt", false],
+  ["Feedback", links.feedback, "A wrong page, a missing example", true],
+];
+---
+
+<DocsPage title="Resources" description="Where Qeetrix is released, recorded and developed, and these docs as text." current="resources" section={links.docs} toc={[{ id: "resources", label: "Resources" }]}>
+  <Masthead slot="masthead" title="Resources" lede="Where Qeetrix is released, recorded and developed." place={["Docs", "Resources"]} source={docs.source("resources/index.astro")} />
+  <section id="resources" class="doc-sec" aria-labelledby="resources-title">
+    <p class="doc-eyebrow">01 — Resources</p>
+    <h2 class="doc-h2" id="resources-title">Six places.</h2>
+    <div class="doc-tiles doc-tiles-3">
+      {
+        tiles.map(([title, href, line, away]) => (
+          <a href={href}>
+            <b>{title}</b>
+            <span>{line}</span>
+            <span class="doc-tile-row"><span />{away ? <ArrowUpRightIcon size={20} className="doc-tile-go" /> : <ArrowRightIcon size={20} className="doc-tile-go" data-qx-mirror />}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</DocsPage>

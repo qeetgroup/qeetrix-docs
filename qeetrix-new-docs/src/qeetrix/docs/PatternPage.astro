@@ -1,0 +1,75 @@
+---
+// A pattern's page: the page itself in a frame, the components it's built from, its code and its
+// rules. Each pattern in pages/patterns/ gives its facts; this lays them out.
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { FrameOf } from "@/qeetrix/components/FrameOf";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { links } from "@/qeetrix/site";
+
+interface Props {
+  title: string;
+  slug: string;
+  lede: string;
+  frame: { id: string; query?: string; height: string; window?: number };
+  /** The components, each [name, slug, its job here]. */
+  parts: Array<[string, string, string]>;
+  file: string;
+  code: string;
+  rules: string[];
+  next?: { href: string; title: string };
+}
+
+const { title, slug, lede, frame, parts, file, code, rules, next } = Astro.props;
+const toc = [
+  { id: "pattern", label: "The pattern" },
+  { id: "parts", label: "Built from" },
+  { id: "code", label: "The code" },
+  { id: "rules", label: "Rules" },
+];
+---
+
+<DocsPage title={title} description={lede} current={`patterns-${slug}`} section={links.patterns} toc={toc}>
+  <Masthead slot="masthead" title={title} lede={lede} place={["Docs", "Patterns", title]} source={docs.source(`patterns/${slug}.astro`)}>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Built from</dt><dd>{parts.length} components<span>{parts.slice(0, 3).map(([name]) => name).join(", ")}</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="pattern" class="doc-sec" aria-labelledby="pattern-title">
+    <p class="doc-eyebrow">01 — The pattern</p>
+    <h2 class="doc-h2" id="pattern-title">The page, live.</h2>
+    <FrameOf id={frame.id} query={frame.query} height={frame.height} window={frame.window} title={`Example: ${title}`} />
+  </section>
+
+  <section id="parts" class="doc-sec" aria-labelledby="parts-title">
+    <p class="doc-eyebrow">02 — Built from</p>
+    <h2 class="doc-h2" id="parts-title">The components, and their jobs here.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table">
+        <thead><tr><th scope="col">Component</th><th scope="col">Here</th></tr></thead>
+        <tbody>{parts.map(([name, part, job]) => <tr><th scope="row"><a href={`${links.components}/${part}/`}>{name}</a></th><td>{job}</td></tr>)}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="code" class="doc-sec" aria-labelledby="code-title">
+    <p class="doc-eyebrow">03 — The code</p>
+    <h2 class="doc-h2" id="code-title">Its skeleton.</h2>
+    <CodeFrame file={file} code={code} />
+  </section>
+
+  <section id="rules" class="doc-sec" aria-labelledby="rules-title">
+    <p class="doc-eyebrow">04 — Rules</p>
+    <h2 class="doc-h2" id="rules-title">What makes it work.</h2>
+    <ul class="doc-p">{rules.map((rule) => <li>{rule}</li>)}</ul>
+  </section>
+
+  {next && <NextPage href={next.href} label="Next — Patterns" title={next.title} />}
+</DocsPage>
+
+<script>
+  import "@/qeetrix/components/frame-fit";
+</script>

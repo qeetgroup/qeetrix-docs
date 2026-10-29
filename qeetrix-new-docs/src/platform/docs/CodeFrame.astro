@@ -1,0 +1,56 @@
+---
+// A code block with its file name and Copy: highlighted at build time, copied without React. The
+// file's language shows as its brand mark, drawn for each scheme where the mark needs it.
+import { CopyIcon } from "@qeetrix/icons/icons/copy";
+import { FileCodeIcon } from "@qeetrix/icons/icons/file-code";
+import { Button } from "@qeetrix/react";
+import Code from "../components/Code.astro";
+import { Logo } from "../components/Logo";
+
+interface Props {
+  code: string;
+  lang?: "tsx" | "ts" | "css" | "bash" | "json" | "html";
+  file: string;
+}
+
+const { code, lang = "tsx", file } = Astro.props;
+const ext = file.split(".").pop();
+---
+
+<figure class="doc-code">
+  <figcaption class="doc-code-bar">
+    <span>
+      {
+        ext === "css" ? (
+          <Logo name="css" />
+        ) : ext === "tsx" ? (
+          <>
+            <Logo name="react-light" className="only-light" />
+            <Logo name="react-dark" className="only-dark" />
+          </>
+        ) : ext === "ts" ? (
+          <Logo name="typescript" />
+        ) : (
+          <FileCodeIcon size={16} />
+        )
+      }
+      {file}
+    </span>
+    <Button size="sm" variant="ghost" tone="neutral" icon={CopyIcon} data-copy={code}>Copy</Button>
+  </figcaption>
+  <Code code={code} lang={lang} />
+</figure>
+
+<script>
+  document.addEventListener("click", async (event) => {
+    const button = (event.target as Element).closest<HTMLElement>(".doc-code [data-copy]");
+    if (!button) return;
+    await navigator.clipboard?.writeText(button.dataset.copy ?? "");
+    const label = button.querySelector('[data-slot="button-label"]');
+    if (!label) return;
+    label.textContent = "Copied";
+    setTimeout(() => {
+      label.textContent = "Copy";
+    }, 1600);
+  });
+</script>

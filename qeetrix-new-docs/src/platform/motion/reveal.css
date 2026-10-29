@@ -1,0 +1,21 @@
+/* Blocks rise 16px in once, only when the reader allows motion (Reveal.astro). */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer platform {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-motion] [data-reveal] {
+      opacity: 0;
+      translate: 0 1rem;
+      transition:
+        opacity calc(var(--qx-motion-duration-normal) * 2) var(--qx-motion-easing-standard),
+        translate calc(var(--qx-motion-duration-normal) * 2) var(--qx-motion-easing-standard);
+      transition-delay: calc(var(--reveal-delay, 0) * 1ms);
+    }
+
+    [data-motion] [data-reveal].is-in {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 ---
-// The HTML document every page renders in: metadata, the colour scheme before paint, styles and
-// the skip link. The page chrome (header, sidebar, contents) comes with the approved design.
+// The HTML document every page renders in: metadata, the colour scheme before paint, styles, the
+// skip link, and the scripts behind the server-rendered menus (the theme menu, Copy page).
 import "../styles/layers.css";
 import "../styles/document.css";
 import { SkipLink } from "@qeetrix/react";
@@ -36,3 +36,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <slot />
   </body>
 </html>
+
+<script>
+  import "../components/menu";
+  import "../chrome/theme-menu";
+</script>

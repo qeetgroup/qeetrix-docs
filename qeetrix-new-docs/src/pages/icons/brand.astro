@@ -1,0 +1,69 @@
+---
+// Icons › Brand: the Qeet logo and its files, its do and don't, the brand orange and its roles, a
+// tenant's colour through brandTheme(), and the identity icons, ported from qeetrix-story's Brand
+// page and extended. The tenant theme is the page's one island.
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { logoManifest } from "@qeetrix/icons/manifest";
+import { TENANT_TOKENS } from "@qeetrix/tokens";
+import { Logo } from "@/platform/components/Logo";
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import Sections from "@/qeetrix/foundations/Sections.astro";
+import { brandRoles, qeetTheme, sections, surfaces } from "@/qeetrix/icons/Brand";
+import { LOGO_FILES } from "@/qeetrix/icons/logo-files";
+import TenantTheme from "@/qeetrix/icons/TenantTheme";
+import "@/qeetrix/icons/brand.css";
+import "@/qeetrix/icons/rules.css";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const toc = [...sections.map((s) => ({ id: s.id, label: s.name })), { id: "in-code", label: "In code" }];
+const orange = `#${logoManifest.logos[0]?.hex ?? "F26D0E"}`;
+const tsx = `import { QeetLogo, QeetWordmarkLogo } from "@qeetrix/icons";
+
+// Each logo renders its published file; pick the one drawn for the background.
+<QeetLogo height={24} alt="Qeet" />
+<QeetWordmarkLogo variant="plain-dark" height={20} />`;
+const theme = `import { brandTheme } from "@qeetrix/tokens";
+
+// One colour in, the 18 brand tokens out, for light and dark: render them after tokens.css.
+const theme = brandTheme(tenant.brandColour);`;
+---
+
+<DocsPage title="Brand" description="The Qeet logo and its files, the brand orange and the roles it feeds, a tenant's own colour through brandTheme(), and the identity icons." current="icons-brand" section={links.icons} toc={toc}>
+  <Masthead slot="masthead" title="Brand" lede="The Qeet logo, its orange, and a tenant's own colour in its place." place={["Docs", "Icons", "Brand"]} source={docs.source("icons/brand.astro")}>
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        <div><dt><code>{packages.icons.name}</code></dt><dd>{packages.icons.version}</dd></div>
+        <div><dt><code>{packages.tokens.name}</code></dt><dd>{packages.tokens.version}</dd></div>
+      </dl>
+      <p class="doc-mast-links">
+        <a href={links.iconsRepo}><Logo name="github-mono" />GitHub<ArrowUpRightIcon size={14} /></a>
+        <a href={links.iconsNpm}><Logo name="npm" />npm<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Logos</dt><dd>{logoManifest.logos.length}<span>Mark and wordmark</span></dd></div>
+      <div><dt>Files</dt><dd>{LOGO_FILES.length}<span>To copy or download</span></dd></div>
+      <div><dt>Qeet orange</dt><dd>{orange}<span>The logo's colour</span></dd></div>
+      <div><dt>Brand roles</dt><dd>{TENANT_TOKENS.length}<span>One colour feeds them all</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <Sections sections={sections}>
+    <TenantTheme slot="tenant-theme" client:visible roles={brandRoles} qeet={qeetTheme} surfaces={surfaces} />
+  </Sections>
+
+  <section id="in-code" class="doc-sec" aria-labelledby="in-code-title">
+    <p class="doc-eyebrow">{String(sections.length + 1).padStart(2, "0")}</p>
+    <h2 class="doc-h2" id="in-code-title">In code</h2>
+    <p class="qf-lede">The logos ship with the icons; a tenant's colour comes from the tokens.</p>
+    <CodeFrame file="header.tsx" code={tsx} />
+    <CodeFrame file="tenant-theme.ts" code={theme} />
+  </section>
+
+  <NextPage href={links.theming} label="Next — Guides" title="Theming" />
+</DocsPage>

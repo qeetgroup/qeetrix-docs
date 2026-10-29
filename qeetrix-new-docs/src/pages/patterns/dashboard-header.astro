@@ -1,0 +1,51 @@
+---
+// Patterns › Dashboard header: a list page's head: where it sits, its title and count, actions,
+// key numbers and tabs, above its table.
+import PatternPage from "@/qeetrix/docs/PatternPage.astro";
+import { links } from "@/qeetrix/site";
+
+const code = `<Tabs defaultValue="all">
+  <PageHeader
+    breadcrumb={<Breadcrumb>…</Breadcrumb>}
+    title="Users"
+    count={1284}
+    description="People who can sign in to Acme Pvt Ltd's applications."
+    actions={
+      <>
+        <Button variant="soft" icon={DownloadIcon}>Export</Button>
+        <Button icon={PlusIcon}>Invite users</Button>
+      </>
+    }
+    summary={<StatGroup aria-label="Users at a glance">…</StatGroup>}
+    tabs={<TabsList aria-label="Users">…</TabsList>}
+  />
+  <PageContent>
+    <Card footer={<Pagination … />}>
+      <Table label="Users" selectable … />
+    </Card>
+  </PageContent>
+</Tabs>`;
+---
+
+<PatternPage
+  title="Dashboard header"
+  slug="dashboard-header"
+  lede="A list page's head: where it sits, its title and count, actions, key numbers and tabs."
+  frame={{ id: "app-shell", height: "720px", window: 1280 }}
+  parts={[
+    ["Page header", "page-header", "The band: title, count, actions"],
+    ["Breadcrumb", "breadcrumb", "Where the page sits"],
+    ["Stat", "stat", "The key numbers, in summary"],
+    ["Tabs", "tabs", "The views, at the header's foot"],
+    ["Table", "table", "The records, in a Card"],
+    ["Pagination", "pagination", "In the Card's footer"],
+  ]}
+  file="users-page.tsx"
+  code={code}
+  rules={[
+    "Four numbers at most, each with a note that says which way.",
+    "One solid action: the primary, last.",
+    "Tabs for views of the same list; the count in the title is the whole list's.",
+  ]}
+  next={{ href: `${links.patterns}/user-detail`, title: "User detail" }}
+/>

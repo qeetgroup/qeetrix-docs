@@ -1,0 +1,344 @@
+/* Foundations › Motion (Motion.tsx): durations, easings, enter and exit, and springs. Ported from qeetrix-story; token values only. */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer product {
+  /* ── Controls: Play, Slow motion, the reduced-motion badge ─────────────────── */
+
+  .qf-specimen-group-head:has(.qf-motion-controls) {
+    align-items: center;
+  }
+
+  .qf-motion-controls {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--qx-space-gap-lg);
+  }
+
+  .qf-motion-note {
+    font: var(--qx-typography-body-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    color: var(--qx-color-text-subtle);
+  }
+
+  /* ── Duration: a dot crosses its rail, a trail filling in behind ──────────── */
+
+  .qf-motion-lane {
+    display: grid;
+    gap: var(--qx-space-gap-sm);
+  }
+
+  .qf-motion-track {
+    position: relative;
+    display: block;
+    block-size: 1rem;
+  }
+
+  .qf-motion-track::before,
+  .qf-motion-trail {
+    position: absolute;
+    inset-block-start: 50%;
+    block-size: 0.25rem;
+    border-radius: var(--qx-radius-sm);
+    translate: 0 -50%;
+  }
+
+  .qf-motion-track::before {
+    content: "";
+    inset-inline: 0;
+    background: var(--qx-color-border-default);
+  }
+
+  .qf-motion-trail {
+    inset-inline-start: 0;
+    inline-size: 0;
+    background: var(--qx-color-bg-brand-bold);
+  }
+
+  .qf-motion-dot {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 1rem;
+    block-size: 1rem;
+    border-radius: var(--qx-radius-sm);
+    background: var(--qx-color-bg-brand-bold);
+    box-shadow: 0 0 0 var(--qx-border-width-strong) var(--qx-color-surface-default);
+  }
+
+  .qf-motion-track[data-run] .qf-motion-trail {
+    animation: qx-motion-fill var(--motion-duration) var(--qx-motion-easing-standard) both;
+  }
+
+  .qf-motion-track[data-run] .qf-motion-dot {
+    animation: qx-motion-cross var(--motion-duration) var(--qx-motion-easing-standard) both;
+  }
+
+  @keyframes qx-motion-fill {
+    to {
+      inline-size: calc(100% - 0.5rem);
+    }
+  }
+
+  @keyframes qx-motion-cross {
+    to {
+      inset-inline-start: calc(100% - 1rem);
+    }
+  }
+
+  /* ── Easing: a card per curve, its plot traced on Play ─────────────────────── */
+
+  .qf-motion-curves {
+    --motion-duration: calc(var(--qx-motion-duration-slower) * var(--motion-slow, 1));
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: var(--qx-space-gap-lg);
+  }
+
+  .qf-motion-curve {
+    display: grid;
+    align-content: start;
+    gap: var(--qx-space-gap-lg);
+    min-inline-size: 0;
+    padding: var(--qx-space-inset-lg);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+  }
+
+  .qf-motion-plot-frame {
+    padding: var(--qx-space-inset-md);
+    border-radius: var(--qx-radius-sm);
+    background: var(--qx-color-surface-canvas);
+  }
+
+  /* Capped, so a card alone on its row in a narrow container doesn't grow a poster-sized plot. */
+  .qf-motion-plot {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: 16rem;
+    block-size: auto;
+    margin-inline: auto;
+    overflow: visible;
+  }
+
+  .qf-motion-plot :is(line, rect, path, circle) {
+    vector-effect: non-scaling-stroke;
+  }
+
+  .qf-motion-plot-grid {
+    fill: none;
+    stroke: var(--qx-color-border-subtle);
+    stroke-width: 1;
+  }
+
+  .qf-motion-plot-diagonal {
+    stroke: var(--qx-color-border-default);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+  }
+
+  .qf-motion-plot-handles {
+    fill: var(--qx-color-surface-default);
+    stroke: var(--qx-color-border-strong);
+    stroke-width: 1;
+  }
+
+  .qf-motion-plot-curve {
+    fill: none;
+    stroke: var(--qx-color-icon-brand);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .qf-motion-plot-rail {
+    stroke: var(--qx-color-border-default);
+    stroke-width: 4;
+  }
+
+  .qf-motion-plot-dot {
+    fill: var(--qx-color-bg-brand-bold);
+    stroke: var(--qx-color-surface-canvas);
+    stroke-width: 2;
+  }
+
+  /* In an SVG, a CSS length in a transform is in user units: 100px is the plot's full side. */
+  .qf-motion-plot[data-run] .qf-motion-plot-time {
+    animation: qx-motion-time var(--motion-duration) linear both;
+  }
+
+  .qf-motion-plot[data-run] .qf-motion-plot-dot {
+    animation: qx-motion-rise var(--motion-duration) var(--motion-easing) both;
+  }
+
+  @keyframes qx-motion-time {
+    to {
+      transform: translateX(100px);
+    }
+  }
+
+  @keyframes qx-motion-rise {
+    to {
+      transform: translateY(-100px);
+    }
+  }
+
+  .qf-motion-curve-meta {
+    display: grid;
+    justify-items: start;
+    gap: var(--qx-space-gap-xs);
+    min-inline-size: 0;
+  }
+
+  .qf-motion-curve-name {
+    font: var(--qx-typography-label-md);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+  }
+
+  .qf-motion-curve-value {
+    font: var(--qx-typography-code-sm);
+    color: var(--qx-color-text-subtle);
+  }
+
+  .qf-motion-curve-meta .qf-motion-note {
+    margin-block-start: var(--qx-space-gap-xs);
+  }
+
+  /* ── Enter and exit: the toast on a page, the two phases beside it ──────────── */
+
+  .qf-motion-enter {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 18rem);
+    gap: var(--qx-space-layout-sm);
+  }
+
+  .qf-motion-stage {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--qx-space-layout-sm);
+    min-block-size: 13rem;
+    padding: var(--qx-space-inset-lg);
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-canvas);
+  }
+
+  .qf-motion-stage-page {
+    display: grid;
+    gap: var(--qx-space-gap-sm);
+  }
+
+  .qf-motion-stage-page > span {
+    block-size: 0.5rem;
+    border-radius: var(--qx-radius-sm);
+    background: var(--qx-color-bg-neutral-subtle);
+  }
+
+  .qf-motion-stage-page > span:nth-child(1) {
+    inline-size: 35%;
+  }
+
+  .qf-motion-stage-page > span:nth-child(2) {
+    inline-size: 70%;
+  }
+
+  .qf-motion-stage-page > span:nth-child(3) {
+    inline-size: 55%;
+  }
+
+  /* Where the toast viewport would put it: the bottom end of the page. */
+  .qf-motion-toast {
+    align-self: flex-end;
+    inline-size: min(22.5rem, 100%);
+  }
+
+  /* Slow motion stretches the toast's own durations by the same multiple. */
+  .qf-motion-stage[data-slow] .qx-toast {
+    transition-duration: calc(var(--qx-motion-duration-normal) * var(--motion-slow, 1));
+  }
+
+  .qf-motion-stage[data-slow] .qx-toast[data-ending-style] {
+    transition-duration: calc(var(--qx-motion-duration-fast) * var(--motion-slow, 1));
+  }
+
+  .qf-motion-phases {
+    display: grid;
+    align-content: center;
+    gap: var(--qx-space-layout-sm);
+  }
+
+  .qf-motion-phase {
+    display: grid;
+    justify-items: start;
+    gap: var(--qx-space-gap-xs);
+    padding-inline-start: var(--qx-space-inset-lg);
+    border-inline-start: var(--qx-border-width-accent) solid var(--qx-color-border-subtle);
+    transition: border-color var(--qx-motion-duration-fast) var(--qx-motion-easing-standard);
+  }
+
+  .qf-motion-phase[data-active] {
+    border-inline-start-color: var(--qx-color-border-brand);
+  }
+
+  .qf-motion-phase-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--qx-space-gap-md);
+    inline-size: 100%;
+    margin-block-end: var(--qx-space-gap-xs);
+  }
+
+  .qf-motion-phase[data-active] .qf-specimen-label {
+    color: var(--qx-color-text-brand);
+  }
+
+  .qf-motion-phase-head code {
+    font: var(--qx-typography-code-sm);
+    color: var(--qx-color-text-subtle);
+  }
+
+  .qf-motion-phase .qf-motion-note {
+    margin-block-start: var(--qx-space-gap-xs);
+  }
+
+  @container (max-width: 40rem) {
+    .qf-motion-enter {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* An easing's token in full: it wraps rather than cuts. */
+  .qf-motion-curve .qf-copy-token code {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: start;
+  }
+
+  /* Which to use: the change in reading type, its tokens beside it. */
+  .qf-recipes tbody th {
+    color: var(--qx-color-text-default);
+    font: var(--qx-typography-body-md);
+    white-space: normal;
+  }
+
+  .qf-recipe {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-code-sm);
+  }
+
+  .qf-recipe-note {
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-sm);
+  }
+}
