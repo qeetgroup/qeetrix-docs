@@ -1,0 +1,26 @@
+---
+// Patterns: whole pages built from the components, a line each.
+import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
+import Masthead from "@/platform/docs/Masthead.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { links } from "@/qeetrix/site";
+
+const patterns: Array<[string, string, string]> = [
+  ["Sign-in", "sign-in", "A passkey first, on one card"],
+  ["Dashboard header", "dashboard-header", "A list page's head and its table"],
+  ["User detail", "user-detail", "A record, its facts and its activity"],
+  ["Account settings", "account-settings", "Cards of settings, a danger zone last"],
+];
+---
+
+<DocsPage title="Patterns" description="Whole pages built from the components: sign-in, a dashboard header, a user's page, account settings." current="patterns" section={links.patterns} toc={[{ id: "patterns", label: "The patterns" }]}>
+  <Masthead slot="masthead" title="Patterns" lede="Whole pages, from the components, as the Qeet consoles build them." place={["Docs", "Patterns"]} source={docs.source("patterns/index.astro")} />
+  <section id="patterns" class="doc-sec" aria-labelledby="patterns-title">
+    <p class="doc-eyebrow">01 — The patterns</p>
+    <h2 class="doc-h2" id="patterns-title">Four pages.</h2>
+    <div class="doc-tiles doc-tiles-3">
+      {patterns.map(([title, slug, line]) => <a href={`${links.patterns}/${slug}`}><b>{title}</b><span>{line}</span><span class="doc-tile-row"><span /><ArrowRightIcon size={20} className="doc-tile-go" data-qx-mirror /></span></a>)}
+    </div>
+  </section>
+</DocsPage>

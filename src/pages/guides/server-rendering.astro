@@ -1,0 +1,57 @@
+---
+// Guides › Server rendering: what renders with no JavaScript, what hydrates, and how the server's
+// HTML and the browser's stay the same.
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { SERVER_SAFE } from "@/qeetrix/guides";
+import { links } from "@/qeetrix/site";
+
+const toc = [
+  { id: "server-safe", label: "Server-safe" },
+  { id: "same-html", label: "The same HTML" },
+  { id: "scheme", label: "The scheme before paint" },
+];
+const now = `import { formatRelativeTime } from "@qeetrix/react";
+
+// The server and the browser render at different moments: pass now, so both write "2 minutes ago".
+formatRelativeTime(user.lastSignIn, "en-IN", requestTime);`;
+const today = `// A calendar's today, from the request, so the server's month is the browser's.
+<Calendar today={today} … />`;
+---
+
+<DocsPage title="Server rendering" description="What renders with no JavaScript, what hydrates, and how the server's HTML and the browser's stay the same." current="guides-server-rendering" section={links.guides} toc={toc}>
+  <Masthead slot="masthead" title="Server rendering" lede="Every component renders on the server. These need no JavaScript at all." place={["Docs", "Guides", "Server rendering"]} source={docs.source("guides/server-rendering.astro")}>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Server-safe</dt><dd>{SERVER_SAFE.length}<span>No client code</span></dd></div>
+      <div><dt>The rest</dt><dd>"use client"<span>Carried by the library</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="server-safe" class="doc-sec" aria-labelledby="server-safe-title">
+    <p class="doc-eyebrow">01 — Server-safe</p>
+    <h2 class="doc-h2" id="server-safe-title">No JavaScript at all.</h2>
+    <p class="doc-p">{SERVER_SAFE.map((name, i) => <Fragment>{i > 0 && ", "}<code>{name}</code></Fragment>)}.</p>
+    <p class="doc-p">The rest carry their own <code>"use client"</code>: a Server Component renders them, and they hydrate. Server-safe components can't read QeetrixProvider's strings: Breadcrumb and Link take theirs through props.</p>
+  </section>
+
+  <section id="same-html" class="doc-sec" aria-labelledby="same-html-title">
+    <p class="doc-eyebrow">02 — The same HTML</p>
+    <h2 class="doc-h2" id="same-html-title">Time, from the request.</h2>
+    <p class="doc-p">What changes with the clock renders differently on the server and in the browser, and React warns. Pass the moment in.</p>
+    <div class="doc-step-panel">
+      <CodeFrame file="last-sign-in.tsx" code={now} />
+      <CodeFrame file="leave.tsx" code={today} />
+    </div>
+  </section>
+
+  <section id="scheme" class="doc-sec" aria-labelledby="scheme-title">
+    <p class="doc-eyebrow">03 — The scheme before paint</p>
+    <h2 class="doc-h2" id="scheme-title">One script, from Qeetrix.</h2>
+    <p class="doc-p"><code>colorSchemeScript()</code> in the head sets the saved scheme before the first paint; QeetrixProvider's <code>storageKey</code> saves the choice under the same key. Each framework guide puts it in place: <a href={links.nextjs}>Next.js</a>, <a href={links.tanstackStart}>TanStack Start</a>, <a href={links.vite}>Vite</a>.</p>
+  </section>
+
+  <NextPage href={links.patterns} label="Next — Building blocks" title="Patterns" />
+</DocsPage>

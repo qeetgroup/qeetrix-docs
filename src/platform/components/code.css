@@ -1,0 +1,20 @@
+/* Code blocks: Qeetrix's highlighter colours each token (Code.astro); a sunken frame. */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer platform {
+  .site-code {
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-sunken);
+
+    & pre {
+      margin: 0;
+      color: var(--qx-color-text-default);
+      padding: var(--qx-space-inset-lg);
+      overflow-x: auto;
+      font: var(--qx-typography-code-sm);
+      white-space: pre-wrap;
+    }
+  }
+}

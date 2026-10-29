@@ -1,0 +1,155 @@
+---
+// A component's Usage tab: when to use it and what instead, its anatomy (the real component, its
+// parts numbered by anatomy.ts), its do-and-don'ts drawn with the real components, its sizes,
+// its words, and the components near it.
+import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
+import { CircleCheckIcon } from "@qeetrix/icons/icons/circle-check";
+import { CircleXIcon } from "@qeetrix/icons/icons/circle-x";
+import { Badge } from "@qeetrix/react";
+import { ComponentSpecimen } from "@/qeetrix/docs/ComponentSpecimens";
+import { categories, componentHref } from "@/qeetrix/docs/components";
+import "@/qeetrix/icons/rules.css";
+import Node from "../Node";
+import Sec from "../Sec.astro";
+import { numberOf, sectionsOf } from "../sections";
+import type { ComponentDoc } from "../types";
+
+interface Props {
+  doc: ComponentDoc;
+}
+
+const { doc } = Astro.props;
+const { usage } = doc;
+const sections = sectionsOf(doc, "usage");
+const n = (id: string) => numberOf(sections, id);
+const entry = (name: string) => categories.flatMap((category) => category.items).find((item) => item.name === name);
+---
+
+<Sec id="when-to-use" n={n("when-to-use")} title="When to use">
+  <div class="qc-fit">
+    <div class="qc-fit-col" data-kind="do">
+      <b class="qc-fit-head"><CircleCheckIcon size={16} aria-hidden />Use it for</b>
+      <ul>{usage.useFor.map((line) => <li>{line}</li>)}</ul>
+    </div>
+    <div class="qc-fit-col" data-kind="dont">
+      <b class="qc-fit-head"><CircleXIcon size={16} aria-hidden />Not for</b>
+      <ul>
+        {
+          usage.notFor.map((item) => (
+            <li>
+              {item.text}
+              <a class="qc-fit-use" href={componentHref(item.use)}>
+                {item.use}
+                <ArrowRightIcon size={14} data-qx-mirror aria-hidden />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</Sec>
+
+<Sec id="anatomy" n={n("anatomy")} title="Anatomy">
+  <div class="qc-anat" data-qc-anat={JSON.stringify(usage.anatomy.map((part) => part.select ?? `[data-slot="${part.slot}"]`))}>
+    <div class="qc-anat-stage">
+      <div class="qc-anat-figure" aria-hidden="true" inert><Node node={usage.anatomyFigure} /></div>
+      <ol class="qc-anat-marks" aria-hidden="true" data-qc-anat-marks></ol>
+    </div>
+    <ol class="qc-anat-key">
+      {
+        usage.anatomy.map((part, index) => (
+          <li>
+            <span class="qc-anat-n">{index + 1}</span>
+            <code>{part.slot}</code>
+            <span class="qc-anat-element">{part.element}</span>
+            <span class="qc-anat-note">{part.note}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</Sec>
+
+<Sec id="do-and-dont" n={n("do-and-dont")} title="Do and don't">
+  <div class="qf-rules">
+    {
+      usage.rules.map((rule) => (
+        <div class="qf-rule">
+          <b class="qf-rule-title">{rule.title}</b>
+          <div class="qf-rule-pair">
+            {(["do", "dont"] as const).map((kind) => (
+              <figure class="qf-rule-case" data-kind={kind}>
+                <div class="qf-rule-stage" aria-hidden="true" inert>
+                  <Node node={kind === "do" ? rule.doIt : rule.dontIt} />
+                </div>
+                <figcaption>
+                  <span class="qf-rule-verdict">
+                    {kind === "do" ? <CircleCheckIcon size={16} aria-hidden /> : <CircleXIcon size={16} aria-hidden />}
+                    {kind === "do" ? "Do" : "Don't"}
+                  </span>
+                  <span>{kind === "do" ? rule.doLine : rule.dontLine}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</Sec>
+
+{
+  usage.sizes && (
+    <Sec id="sizes" n={n("sizes")} title="Sizes" line={usage.sizes.line ?? "Each height follows the region's density."}>
+      <div class="qc-sizes-stage" aria-hidden="true" inert>
+        <Node node={usage.sizes.specimen} />
+      </div>
+      <div class="doc-table-scroll">
+        <table class="doc-table">
+          <thead>
+            <tr>{usage.sizes.columns.map((column) => <th scope="col">{column}</th>)}</tr>
+          </thead>
+          <tbody>
+            {usage.sizes.rows.map(([size, ...cells]) => (
+              <tr><th scope="row"><code>{size}</code></th>{cells.map((cell) => <td>{/^[a-z]+\.[a-z]+$/.test(cell) ? <code>{cell}</code> : cell}</td>)}</tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Sec>
+  )
+}
+
+<Sec id="content" n={n("content")} title="Content">
+  <ul class="qc-list">{usage.content.map((line) => <li>{line}</li>)}</ul>
+</Sec>
+
+<Sec id="related" n={n("related")} title="Related">
+  <ul class="doc-cards">
+    {
+      doc.related.map((item) => {
+        const known = entry(item.name);
+        return (
+          <li class="doc-card">
+            <ComponentSpecimen name={item.name} />
+            <div class="doc-card-copy">
+              <span class="doc-card-title">
+                <a class="doc-card-link" href={componentHref(item.name)}>{item.name}</a>
+                <ArrowRightIcon size={16} className="doc-card-arrow" data-qx-mirror />
+              </span>
+              <span class="doc-card-meta">
+                <span class="doc-card-line">{item.when}</span>
+                {known?.exp ? <Badge tone="warning" size="sm">Experimental</Badge> : <Badge tone="success" size="sm">Stable</Badge>}
+              </span>
+            </div>
+          </li>
+        );
+      })
+    }
+  </ul>
+</Sec>
+
+<script>
+  import "../anatomy";
+</script>

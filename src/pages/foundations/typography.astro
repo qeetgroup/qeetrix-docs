@@ -1,0 +1,69 @@
+---
+// Foundations › Typography: the three faces, Qeet Sans's GEOM axis and every type role, ported from
+// qeetrix-story. The GEOM slider is an island; the rest renders to HTML.
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { Logo } from "@/platform/components/Logo";
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import Sections from "@/qeetrix/foundations/Sections.astro";
+import { geometryStops, sections } from "@/qeetrix/foundations/Typography";
+import TypographyGeometry from "@/qeetrix/foundations/TypographyGeometry";
+import { tokens } from "@/qeetrix/foundations/tokens";
+import "@/qeetrix/foundations/typography.css";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const toc = [...sections.map((s) => ({ id: s.id, label: s.name })), { id: "in-code", label: "In code" }];
+const css = `.panel-title {
+  font: var(--qx-typography-title-md);
+  /* The font shorthand can't carry GEOM: set it beside the role. */
+  font-variation-settings: "GEOM" var(--qx-font-geometry-heading);
+}`;
+const tsx = `import { Heading, Text } from "@qeetrix/react";
+
+export function UsersHeader() {
+  return (
+    <>
+      <Heading level={1} size="heading-lg">Users and groups</Heading>
+      <Text size="sm" tone="subtle">Everyone at Acme.</Text>
+    </>
+  );
+}`;
+---
+
+<DocsPage title="Typography" description="Qeet Sans for interface text, Noto Sans for Indic scripts, Fira Code for code, and every type role." current="foundations-typography" section={links.foundations} toc={toc}>
+  <Masthead slot="masthead" title="Typography" lede="Qeet Sans for interface text, Noto Sans for Indic scripts, Fira Code for code." place={["Docs", "Foundations", "02 of 05"]} source={docs.source("foundations/typography.astro")}>
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        <div><dt><code>{packages.tokens.name}</code></dt><dd>{packages.tokens.version}</dd></div>
+      </dl>
+      <p class="doc-mast-links">
+        <a href={links.tokensRepo}><Logo name="github-mono" />GitHub<ArrowUpRightIcon size={14} /></a>
+        <a href={links.tokensNpm}><Logo name="npm" />npm<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Faces</dt><dd>3<span>Qeet Sans, Noto Sans, Fira Code</span></dd></div>
+      <div><dt>Type roles</dt><dd>{tokens.typeRoles}<span>Display to code</span></dd></div>
+      <div><dt>GEOM axis</dt><dd>0–100<span>Legible to geometric</span></dd></div>
+      <div><dt>Line heights</dt><dd>4px<span>Every one on the grid</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <Sections sections={sections}>
+    <TypographyGeometry slot="geometry" client:visible stops={geometryStops} />
+  </Sections>
+
+  <section id="in-code" class="doc-sec" aria-labelledby="in-code-title">
+    <p class="doc-eyebrow">{String(sections.length + 1).padStart(2, "0")}</p>
+    <h2 class="doc-h2" id="in-code-title">In code</h2>
+    <p class="qf-lede">A role is one font shorthand, with its GEOM beside it; components set both for you.</p>
+    <CodeFrame file="panel.css" lang="css" code={css} />
+    <CodeFrame file="users-header.tsx" code={tsx} />
+  </section>
+
+  <NextPage href={links.spacing} label="Next — 03 of 05" title="Spacing" />
+</DocsPage>

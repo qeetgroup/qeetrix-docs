@@ -1,0 +1,78 @@
+---
+// Foundations › Elevation: shadows for floating layers, ruled borders, the stacking order, opacity
+// and the focus ring, ported from qeetrix-story. The Layers view switch runs on layers.ts.
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { Logo } from "@/platform/components/Logo";
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { sections } from "@/qeetrix/foundations/Elevation";
+import Sections from "@/qeetrix/foundations/Sections.astro";
+import { tokens } from "@/qeetrix/foundations/tokens";
+import "@/qeetrix/foundations/elevation.css";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const toc = [...sections.map((s) => ({ id: s.id, label: s.name })), { id: "in-code", label: "In code" }];
+const css = `/* A card: ruled, no shadow until it lifts. */
+.member-card {
+  border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+  border-radius: var(--qx-radius-surface);
+  background: var(--qx-color-surface-raised);
+}
+
+.member-card:hover {
+  box-shadow: var(--qx-shadow-raised-hover);
+}
+
+/* A menu floats: its own layer, its own shadow. */
+.row-menu {
+  position: absolute;
+  z-index: var(--qx-z-popover);
+  border-radius: var(--qx-radius-overlay);
+  background: var(--qx-color-surface-overlay);
+  box-shadow: var(--qx-shadow-overlay);
+}
+
+.row-menu-item:focus-visible {
+  outline: var(--qx-focus-ring-width) solid var(--qx-color-border-focus);
+  outline-offset: calc(-1 * var(--qx-focus-ring-width));
+}`;
+---
+
+<DocsPage title="Elevation" description="Shadows for floating layers, ruled borders, the stacking order, opacity and the focus ring." current="foundations-elevation" section={links.foundations} toc={toc}>
+  <Masthead slot="masthead" title="Elevation" lede="Shadows for floating layers, ruled borders, the stacking order, opacity and the focus ring." place={["Docs", "Foundations", "04 of 05"]} source={docs.source("foundations/elevation.astro")}>
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        <div><dt><code>{packages.tokens.name}</code></dt><dd>{packages.tokens.version}</dd></div>
+      </dl>
+      <p class="doc-mast-links">
+        <a href={links.tokensRepo}><Logo name="github-mono" />GitHub<ArrowUpRightIcon size={14} /></a>
+        <a href={links.tokensNpm}><Logo name="npm" />npm<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Shadows</dt><dd>{tokens.shadows}<span>For floating layers only</span></dd></div>
+      <div><dt>Border widths</dt><dd>{tokens.borderWidths}<span>Rules, not shadows</span></dd></div>
+      <div><dt>Layers</dt><dd>{tokens.layers}<span>One stacking order</span></dd></div>
+      <div><dt>Focus ring</dt><dd>{tokens.focusRing}px<span>On every control</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <Sections sections={sections} />
+
+  <section id="in-code" class="doc-sec" aria-labelledby="in-code-title">
+    <p class="doc-eyebrow">{String(sections.length + 1).padStart(2, "0")}</p>
+    <h2 class="doc-h2" id="in-code-title">In code</h2>
+    <p class="qf-lede">Rules first; a shadow only when something floats. Qeetrix's components set all of this for you.</p>
+    <CodeFrame file="members.css" lang="css" code={css} />
+  </section>
+
+  <NextPage href={links.motion} label="Next — 05 of 05" title="Motion" />
+</DocsPage>
+
+<script>
+  import "@/qeetrix/foundations/layers";
+</script>

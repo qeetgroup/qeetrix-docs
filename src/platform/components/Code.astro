@@ -1,0 +1,26 @@
+---
+// A code block highlighted at build time by Qeetrix's own highlighter (highlightHtml), each token in
+// its code colour: the same colours as CodeBlock, and no highlighter reaches the browser.
+import { type CodeLanguage, highlightHtml } from "@qeetrix/react/experimental";
+import "./code.css";
+
+type Lang = "tsx" | "ts" | "css" | "bash" | "json" | "html";
+
+interface Props {
+  code: string;
+  lang?: Lang;
+}
+
+const LANGUAGE: Record<Lang, CodeLanguage> = {
+  tsx: "tsx",
+  ts: "typescript",
+  css: "css",
+  bash: "shell",
+  json: "json",
+  html: "html",
+};
+
+const { code, lang = "tsx" } = Astro.props;
+---
+
+<div class="site-code"><pre data-language={lang}><code set:html={highlightHtml(code, LANGUAGE[lang])} /></pre></div>

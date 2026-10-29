@@ -1,7 +1,0 @@
-{
-  "title": "Getting Started",
-  "description": "What Qeetrix is and how to install it.",
-  "icon": "Rocket",
-  "root": true,
-  "pages": ["index", "installation"]
-}

@@ -1,0 +1,64 @@
+---
+// A console example on a page of its own, for an iframe on a component page: the frame fills the
+// window, brings its own landmarks, and lays out by the window's width (frames.tsx). Not for
+// search engines. Rendered only in the browser, so the address's options (?collapsed) apply.
+import "@/platform/styles/layers.css";
+import "@/platform/styles/document.css";
+import { colorSchemeScript } from "@/platform/theme";
+import Frame from "@/qeetrix/components/Frame";
+import { FRAMES } from "@/qeetrix/components/frames";
+
+export function getStaticPaths() {
+  return Object.keys(FRAMES).map((frame) => ({ params: { frame } }));
+}
+
+const { frame } = Astro.params;
+---
+
+<!doctype html>
+<html lang="en-IN" data-qx-color-scheme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Example: {frame}</title>
+    <script is:inline set:html={colorSchemeScript} />
+  </head>
+  <body class="qc-frame-body">
+    <Frame id={frame} client:only="react" />
+  </body>
+</html>
+
+<style is:global>
+  @layer qx.base, qx.components, qx.state, platform, product;
+
+  @layer product {
+    .qc-frame-body {
+      margin: 0;
+      background: var(--qx-color-surface-default);
+    }
+
+    .qc-frame-nav,
+    .qc-frame-main {
+      padding: var(--qx-space-inset-lg);
+      font: var(--qx-typography-body-md);
+      color: var(--qx-color-text-default);
+    }
+
+    .qc-pattern-sign-in {
+      display: grid;
+      place-items: center;
+      min-block-size: 100dvh;
+      padding: var(--qx-space-layout-md);
+      background: var(--qx-color-surface-canvas);
+
+      & .qx-card {
+        inline-size: min(100%, 24rem);
+      }
+    }
+
+    .qc-frame-nav {
+      border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    }
+  }
+</style>

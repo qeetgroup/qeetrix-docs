@@ -1,0 +1,973 @@
+/* A component's page (ComponentPage.astro, Example.astro, tabs/, button/Playground.tsx): the tabs
+ * along the masthead, the examples and their bars, anatomy, sizes, the API and accessibility
+ * tables, and the playground. Tokens only. */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer product {
+  /* ── The masthead's tabs: links that read as Qeetrix Tabs, each a page ────── */
+
+  /* With tabs along its edge, the masthead takes a fifth row and a little less height. */
+  .doc-mast:has(.qc-tabs) {
+    grid-template-rows: auto auto 1fr auto auto;
+    min-block-size: 26rem;
+  }
+
+  /* What it renders, at code size: breaks only between an element and its attributes. */
+  .qc-mast-code {
+    font: var(--qx-typography-code-sm);
+  }
+
+  /* A badge in the strip keeps its own width. */
+  .doc-mast-strip dd .qx-badge {
+    justify-self: start;
+  }
+
+  /* The tabs along the masthead's foot, edge to edge: a TabNav whose first label lines up with
+     the title, its rule under the whole masthead. */
+  .qc-tabs {
+    --qc-tabs-gutter: var(--qx-space-layout-lg);
+    min-inline-size: 0;
+    margin-inline: calc(-1 * var(--qc-tabs-gutter));
+    border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-default);
+
+    & > .qx-tab-nav {
+      padding-inline: calc(var(--qc-tabs-gutter) - var(--qx-tabs-inset));
+    }
+  }
+
+  @media (width < 840px) {
+    .qc-tabs {
+      --qc-tabs-gutter: var(--qx-space-inset-lg);
+    }
+  }
+
+  /* ── An example: its bar, its stage, its code ───────────────────────────── */
+
+  .qc-ex {
+    margin: 0;
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-raised);
+  }
+
+  .qc-ex-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+    padding: var(--qx-space-inset-sm);
+    border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+  }
+
+  .qc-ex-end {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+    margin-inline-start: auto;
+  }
+
+  /* The stage carries its own scheme, density and direction (example.ts): the ruled canvas of
+   * the component cards, painted from the stage's own tokens. */
+  .qc-ex-stage,
+  .qc-anat-stage,
+  .qc-sizes-stage,
+  .qc-play-stage {
+    --qc-rule: color-mix(in oklab, var(--qx-color-border-subtle) 55%, transparent);
+    /* Its own stacking context: an overlay drawn on a stage stays under the sticky header. */
+    isolation: isolate;
+    background:
+      linear-gradient(var(--qc-rule) 1px, transparent 1px) 0 0 / 1.5rem 1.5rem,
+      linear-gradient(90deg, var(--qc-rule) 1px, transparent 1px) 0 0 / 1.5rem 1.5rem,
+      var(--qx-color-surface-canvas);
+    color: var(--qx-color-text-default);
+  }
+
+  .qc-ex-stage {
+    display: grid;
+    /* One track the stage's width: an auto track would grow to code's max-content and overflow. */
+    grid-template-columns: minmax(0, 1fr);
+    place-items: center;
+    min-block-size: 11rem;
+    padding: var(--qx-space-layout-md) var(--qx-space-layout-sm);
+  }
+
+  .qc-ex-code {
+    border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+
+    &[hidden] {
+      display: none;
+    }
+
+    /* The code block's own frame is the example's: no second border inside the first. */
+    & .doc-code {
+      border: 0;
+      border-radius: 0;
+    }
+  }
+
+  .qc-narrow {
+    inline-size: min(100%, 22rem);
+  }
+
+  .qc-wide {
+    inline-size: min(100%, 34rem);
+  }
+
+  /* A field in the anatomy: a field's width before the zoom; on a phone, no zoom. */
+  .qc-anat-field {
+    inline-size: 18rem;
+  }
+
+  /* A calendar: tall already, so a little zoom. */
+  .qc-anat-figure:has(.qc-anat-cal) {
+    zoom: 1.2;
+  }
+
+  @container (max-width: 40rem) {
+    .qc-anat-figure:has(.qc-anat-cal) {
+      zoom: 1;
+    }
+  }
+
+  /* A wide part (a drop zone, a summary): no zoom, at a reading width. */
+  .qc-anat-figure:has(.qc-anat-wide) {
+    zoom: 1;
+  }
+
+  .qc-anat-wide {
+    inline-size: min(100%, 30rem);
+  }
+
+  @container (max-width: 40rem) {
+    .qc-anat-figure:has(.qc-anat-field) {
+      zoom: 1;
+    }
+
+    .qc-anat-field {
+      inline-size: min(18rem, 80cqi);
+    }
+  }
+
+  /* A list row, drawn small: a name and its actions. */
+  .qc-row {
+    inline-size: min(100%, 24rem);
+    padding: var(--qx-space-gap-sm) var(--qx-space-inset-md);
+    border-block: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    background: var(--qx-color-surface-raised);
+  }
+
+  /* A toolbar, drawn as an editor's: tools on a ruled strip. */
+  .qc-toolbar-demo {
+    padding: var(--qx-space-gap-sm);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-raised);
+  }
+
+  /* The command palette drawn still (command-palette/Still.tsx): in the page, at a card's width. */
+  .qc-still-palette.qx-command {
+    position: static;
+    z-index: auto;
+    inline-size: min(100%, 20rem);
+    max-block-size: none;
+    translate: none;
+    opacity: 1;
+  }
+
+  /* Its query is a span in the drawing, an input in the palette: set on the row's centre line. */
+  .qc-still-palette .qx-command-input {
+    display: block;
+    align-self: center;
+    padding-block: 0;
+    line-height: var(--qx-size-control-md);
+  }
+
+  .qc-anat-figure:has(.qc-still-palette) {
+    zoom: 1.4;
+  }
+
+  @container (max-width: 40rem) {
+    .qc-anat-figure:has(.qc-still-palette) {
+      zoom: 1;
+    }
+  }
+
+  /* Overlays drawn still (still.tsx): each popup in the page, open, as it opens over it. */
+  .qc-still {
+    display: grid;
+    place-items: center;
+    inline-size: 100%;
+  }
+
+  .qc-still :is(.qx-dialog, .qx-drawer, .qx-popover, .qx-menu, .qx-toast),
+  .qc-still-tooltip.qx-tooltip {
+    position: relative;
+    inset: auto;
+    transform: none;
+    translate: none;
+    opacity: 1;
+    visibility: visible;
+    animation: none;
+
+    /* The pointer, centred on the side facing the trigger, as Base UI places it. */
+    & .qx-tooltip-arrow {
+      position: absolute;
+      inset-inline-start: calc(50% - 5px);
+    }
+  }
+
+  .qc-still .qx-dialog {
+    inline-size: min(100%, 25rem);
+  }
+
+  .qc-still .qx-drawer {
+    block-size: auto;
+    inline-size: min(100%, 22rem);
+  }
+
+  .qc-still :is(.qx-menu, .qx-popover) {
+    max-block-size: none;
+  }
+
+  .qc-still .qx-toast {
+    inline-size: min(100%, 22rem);
+  }
+
+  /* A context menu's areas: a row and a file, each focusable for Shift+F10. */
+  .qc-context-row,
+  .qc-context-file {
+    display: grid;
+    gap: 2px;
+    inline-size: min(100%, 20rem);
+    padding: var(--qx-space-inset-md);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-raised);
+
+    &:focus-visible {
+      outline: var(--qx-focus-ring-width) solid var(--qx-color-border-focus);
+      outline-offset: var(--qx-focus-ring-offset);
+    }
+  }
+
+  .qc-context-file {
+    inline-size: auto;
+  }
+
+  /* A tooltip, drawn still, above its button: what the name shows as on hover and focus, 8px off
+     (sideOffset's default), the pointer filling 5px of it. */
+  .qc-tip-pair {
+    display: inline-grid;
+    justify-items: center;
+    gap: 8px;
+  }
+
+  /* ── Usage ───────────────────────────────────────────────────────────────── */
+
+  .qc-fit {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--qx-space-gap-lg);
+  }
+
+  .qc-fit-col {
+    display: grid;
+    align-content: start;
+    gap: var(--qx-space-gap-md);
+    padding: var(--qx-space-inset-lg);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-raised);
+
+    &[data-kind="do"] {
+      box-shadow: inset 0 var(--qx-border-width-accent) 0 var(--qx-color-border-success);
+    }
+
+    &[data-kind="dont"] {
+      box-shadow: inset 0 var(--qx-border-width-accent) 0 var(--qx-color-border-danger);
+    }
+
+    & ul {
+      display: grid;
+      gap: var(--qx-space-gap-sm);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    & li {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--qx-space-gap-xs) var(--qx-space-gap-md);
+      padding-block-end: var(--qx-space-gap-sm);
+      border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+      font: var(--qx-typography-body-md);
+
+      &:last-child {
+        padding-block-end: 0;
+        border: 0;
+      }
+    }
+  }
+
+  .qc-fit-head {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-xs);
+    font: var(--qx-typography-label-md);
+
+    [data-kind="do"] > & {
+      color: var(--qx-color-text-success);
+    }
+
+    [data-kind="dont"] > & {
+      color: var(--qx-color-text-danger);
+    }
+  }
+
+  .qc-fit-use {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-xs);
+    color: var(--qx-color-text-link);
+    font: var(--qx-typography-label-md);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--qx-color-text-link-hover);
+      text-decoration: underline;
+    }
+  }
+
+  /* Anatomy: the component drawn large on the ruled canvas, numbered by anatomy.ts. */
+  .qc-anat {
+    display: grid;
+    gap: var(--qx-space-gap-lg);
+  }
+
+  .qc-anat-stage {
+    --qc-mark: 1.5rem;
+    --qc-leader: 1.25rem;
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: calc(var(--qc-mark) + var(--qc-leader) + var(--qx-space-gap-md))
+      var(--qx-space-layout-sm);
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+  }
+
+  .qc-anat-figure {
+    zoom: 1.75;
+  }
+
+  .qc-anat-marks {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    pointer-events: none;
+
+    & li {
+      position: absolute;
+      inset-inline-start: 0;
+      display: grid;
+      place-items: center;
+      inline-size: var(--qc-mark);
+      block-size: var(--qc-mark);
+      border-radius: var(--qx-radius-full);
+      background: var(--qx-color-bg-neutral-bold);
+      color: var(--qx-color-text-inverse);
+      font: var(--qx-typography-label-sm);
+      font-variant-numeric: tabular-nums;
+      translate: calc(var(--qc-x) - var(--qc-mark) / 2) 0;
+
+      top: var(--qc-top);
+
+      /* The leader: from the mark to the part's edge (anatomy.ts measures it). */
+      &::after {
+        content: "";
+        position: absolute;
+        inset-inline-start: calc(50% - 0.5px);
+        inline-size: 1px;
+        block-size: var(--qc-reach);
+        background: var(--qx-color-bg-neutral-bold);
+      }
+
+      &[data-side="below"]::after {
+        bottom: 100%;
+      }
+
+      &[data-side="above"]::after {
+        top: 100%;
+      }
+    }
+  }
+
+  /* The marks are placed from the left edge; in right to left, too. */
+  [dir="rtl"] .qc-anat-marks li {
+    inset-inline-start: auto;
+    left: 0;
+  }
+
+  .qc-anat-key {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & li {
+      display: grid;
+      grid-template-columns: var(--qx-size-control-sm) minmax(8rem, auto) 5rem minmax(0, 1fr);
+      align-items: center;
+      gap: var(--qx-space-gap-md);
+      padding-block: var(--qx-space-gap-sm);
+      border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    }
+
+    & code {
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  .qc-anat-n {
+    display: grid;
+    place-items: center;
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    border-radius: var(--qx-radius-full);
+    background: var(--qx-color-bg-neutral-bold);
+    color: var(--qx-color-text-inverse);
+    font: var(--qx-typography-label-sm);
+  }
+
+  .qc-anat-element {
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-code-sm);
+  }
+
+  .qc-anat-note {
+    font: var(--qx-typography-body-sm);
+  }
+
+  /* A dialog, drawn small, for a do that needs one. */
+  .qc-mini-dialog {
+    display: grid;
+    gap: var(--qx-space-gap-md);
+    inline-size: min(100%, 17rem);
+    padding: var(--qx-space-inset-lg);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-overlay);
+    background: var(--qx-color-surface-overlay);
+    box-shadow: var(--qx-shadow-overlay);
+
+    & b {
+      font: var(--qx-typography-title-sm);
+    }
+  }
+
+  .qc-sizes-stage {
+    display: grid;
+    place-items: center;
+    margin-block-end: var(--qx-space-gap-lg);
+    padding: var(--qx-space-layout-sm);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+  }
+
+  .qc-list {
+    display: grid;
+    gap: var(--qx-space-gap-sm);
+    max-inline-size: 72ch;
+    margin: 0;
+    padding-inline-start: 1.25rem;
+    font: var(--qx-typography-body-md);
+  }
+
+  /* ── API and accessibility ───────────────────────────────────────────────── */
+
+  /* A type breaks between its words, never inside one. */
+  .qc-props .qc-type {
+    white-space: normal;
+    overflow-wrap: normal;
+  }
+
+  /* A row's keys: each Kbd a key or a chord pressed together, alternatives side by side. */
+  .qc-keys {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--qx-space-gap-xs);
+  }
+
+  .qc-checks {
+    display: grid;
+    margin: 0;
+
+    & div {
+      display: grid;
+      grid-template-columns: 12rem minmax(0, 1fr);
+      gap: var(--qx-space-gap-md);
+      padding-block: var(--qx-space-gap-md);
+      border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    }
+
+    & dt {
+      font: var(--qx-typography-label-md);
+    }
+
+    & dd {
+      margin: 0;
+      font: var(--qx-typography-body-md);
+    }
+  }
+
+  .qc-tested {
+    display: grid;
+    gap: var(--qx-space-gap-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & li {
+      display: flex;
+      align-items: center;
+      gap: var(--qx-space-gap-sm);
+      font: var(--qx-typography-body-md);
+    }
+
+    & svg {
+      flex: none;
+      color: var(--qx-color-icon-success);
+    }
+  }
+
+  .qc-changelog-all a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-xs);
+    color: var(--qx-color-text-link);
+    font: var(--qx-typography-label-md);
+  }
+
+  /* ── The playground ──────────────────────────────────────────────────────── */
+
+  .qc-play {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(16rem, 1fr);
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-raised);
+  }
+
+  .qc-play-stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    place-items: center;
+    min-block-size: 20rem;
+    padding: var(--qx-space-layout-sm);
+
+    &[data-full] > *,
+    &[data-field] > * {
+      inline-size: min(100%, 22rem);
+    }
+  }
+
+  .qc-play-controls {
+    display: grid;
+    align-content: start;
+    gap: var(--qx-space-gap-lg);
+    padding: var(--qx-space-inset-lg);
+    border-inline-start: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+  }
+
+  .qc-play-field {
+    display: grid;
+    justify-items: start;
+    gap: var(--qx-space-gap-xs);
+  }
+
+  .qc-play-label {
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-label-sm);
+  }
+
+  .qc-play-switches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--qx-space-gap-sm) var(--qx-space-gap-lg);
+  }
+
+  .qc-play-code {
+    grid-column: 1 / -1;
+    border-width: var(--qx-border-width-default) 0 0;
+    border-radius: 0;
+  }
+
+  /* ── Narrow: one column ──────────────────────────────────────────────────── */
+
+  @container (max-width: 40rem) {
+    .qc-fit,
+    .qc-play {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .qc-play-controls {
+      border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+      border-inline-start: 0;
+    }
+
+    .qc-anat-key li {
+      grid-template-columns: var(--qx-size-control-sm) minmax(0, 1fr);
+
+      & .qc-anat-element {
+        display: none;
+      }
+
+      & .qc-anat-note {
+        grid-column: 2;
+      }
+    }
+
+    .qc-checks div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--qx-space-gap-xs);
+    }
+
+    .qc-anat-figure {
+      zoom: 1.25;
+    }
+  }
+
+  /* The Tabs anatomy's handle on the Ember bar (tabs/doc.tsx): a still figure keeps the sliding
+     indicator hidden while the tab draws the bar, so the mark gets a box over that bar. */
+  .qc-tab-bar {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline: 0;
+    block-size: var(--qx-border-width-accent);
+  }
+
+  /* A tab's panel in a figure or an example: its content, set off from the list. */
+  .qc-tab-panel {
+    padding-block: var(--qx-space-inset-md);
+  }
+
+  /* Tabs in an example or a figure: a page's width, a narrow one to show the scroll. */
+  .qc-tabs-stage {
+    display: grid;
+    gap: var(--qx-space-gap-md);
+    inline-size: min(100%, 36rem);
+
+    &[data-narrow] {
+      inline-size: min(100%, 22.5rem);
+    }
+  }
+
+  .qc-tabs-vertical {
+    gap: var(--qx-space-gap-xl);
+
+    & .qc-tab-panel {
+      padding-block: var(--qx-space-inset-sm);
+    }
+  }
+
+  .qc-crumb-stage {
+    inline-size: min(100%, 40rem);
+  }
+
+  /* An accordion or a collapsible in an example or a figure: a reading width. */
+  .qc-fold-stage {
+    inline-size: min(100%, 28rem);
+  }
+
+  /* A page header in an example: a page's width. */
+  .qc-crumb-header {
+    inline-size: min(100%, 44rem);
+  }
+
+  /* Pagination in an example: a list's width; a Card and its Table, a page's. */
+  .qc-pages-stage {
+    inline-size: min(100%, 40rem);
+  }
+
+  .qc-pages-card {
+    inline-size: min(100%, 44rem);
+  }
+
+  /* Steps in an example: a wizard's width; narrow, under the 24rem where labels hide. */
+  .qc-steps-stage {
+    inline-size: min(100%, 40rem);
+
+    &[data-narrow] {
+      inline-size: min(100%, 20rem);
+    }
+  }
+
+  .qc-steps-card {
+    inline-size: min(100%, 36rem);
+  }
+
+  /* A table in a figure: a page's width. A status dot, for a don't: colour with no word. */
+  .qc-table-figure {
+    inline-size: min(100%, 44rem);
+  }
+
+  .qc-dot {
+    display: inline-block;
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 50%;
+    background: var(--qx-color-icon-success);
+
+    &[data-tone="danger"] {
+      background: var(--qx-color-icon-danger);
+    }
+
+    &[data-tone="info"] {
+      background: var(--qx-color-icon-info);
+    }
+  }
+
+  /* Badges in an example: a list of keys; a narrow cell, to show the ellipsis. */
+  .qc-badge-keys {
+    inline-size: min(100%, 20rem);
+  }
+
+  .qc-badge-narrow {
+    inline-size: 10rem;
+  }
+
+  /* An avatar group in a table: a card's width. */
+  .qc-group-table {
+    inline-size: min(100%, 30rem);
+  }
+
+  /* One stat in a figure: a cell's width. */
+  .qc-stat-figure {
+    inline-size: min(100%, 16rem);
+  }
+
+  /* A code block in an example or a figure: a column's width. */
+  .qc-code-stage {
+    inline-size: min(100%, 36rem);
+  }
+
+  /* An alert in an example: a form's width; a banner, the page's. */
+  .qc-alert-stage {
+    inline-size: min(100%, 36rem);
+  }
+
+  .qc-banner-stage {
+    inline-size: 100%;
+  }
+
+  /* Skeletons and bars in an example: a column's width. */
+  .qc-skeleton-stage,
+  .qc-bar-stage {
+    inline-size: min(100%, 22rem);
+  }
+
+  /* An empty state in an example: a card's width; DataState's switch above it. */
+  .qc-empty-stage {
+    display: grid;
+    gap: var(--qx-space-gap-lg);
+    inline-size: min(100%, 32rem);
+  }
+
+  /* A top bar or a sidebar in an example: the stage's width; a sidebar, a column's height. */
+  .qc-bar-wide {
+    inline-size: 100%;
+  }
+
+  .qc-side-stage {
+    inline-size: min(100%, 16rem);
+    block-size: 28rem;
+    overflow: auto;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+
+    &[data-short] {
+      block-size: auto;
+    }
+  }
+
+  /* A page header drawn in a figure or a rule: a page's width. */
+  .qc-header-figure {
+    inline-size: 100%;
+  }
+
+  /* Layout in an example: cells to space, columns of them, a narrow box that makes rows wrap. */
+  .qc-cells {
+    inline-size: min(100%, 24rem);
+
+    &[data-narrow] {
+      inline-size: min(100%, 14rem);
+      overflow: hidden;
+    }
+  }
+
+  .qc-cell-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: var(--qx-space-gap-xl);
+    inline-size: 100%;
+  }
+
+  .qc-cell {
+    min-inline-size: 0;
+  }
+
+  .qc-cell-fixed {
+    flex: none;
+  }
+
+  .qc-grid-stage {
+    inline-size: min(100%, 40rem);
+  }
+
+  .qc-scroll-stage {
+    inline-size: min(100%, 22rem);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+  }
+
+  /* The skip link as it shows once focused, drawn still: the library hides it until then. */
+  .qc-skip-still .qx-skip-link {
+    position: static;
+    display: inline-block;
+    clip-path: none;
+    inline-size: auto;
+    block-size: auto;
+    margin: 0;
+    padding: var(--qx-space-inset-sm) var(--qx-space-inset-md);
+    overflow: visible;
+  }
+
+  .qc-type-stage {
+    inline-size: min(100%, 40rem);
+  }
+
+  /* A wide figure (a pagination bar, a table) is drawn at 1×. In a figure, which shrinks to fit,
+     min(100%, …) collapses to the content's narrowest: these take a width of their own. */
+  .qc-anat-figure:has(
+    .qc-pages-stage,
+    .qc-table-figure,
+    .qc-code-stage,
+    .qc-alert-stage,
+    .qc-empty-stage,
+    .qc-bar-figure,
+    .qc-header-figure
+  ) {
+    zoom: 1;
+  }
+
+  .qc-anat-figure > .qc-alert-stage {
+    inline-size: min(32rem, 90cqi);
+  }
+
+  .qc-anat-figure > .qc-empty-stage {
+    inline-size: min(28rem, 90cqi);
+  }
+
+  .qc-anat-figure:has(> .qc-side-figure) {
+    zoom: 1.25;
+  }
+
+  .qc-anat-figure > .qc-side-figure {
+    inline-size: 15rem;
+  }
+
+  .qc-anat-figure > .qc-header-figure {
+    inline-size: min(52rem, 95cqi);
+  }
+
+  .qc-anat-figure > .qc-bar-figure {
+    inline-size: min(60rem, 95cqi);
+  }
+
+  .qc-anat-figure > .qc-code-stage {
+    inline-size: min(32rem, 90cqi);
+  }
+
+  .qc-anat-figure > .qc-fold-stage {
+    inline-size: min(22rem, 70cqi);
+  }
+
+  /* A spinner turns its whole box: clip the box's corners, so they never scroll the figure. */
+  .qc-clip {
+    display: inline-grid;
+    overflow: clip;
+  }
+
+  .qc-anat-figure > :is(.qc-skeleton-stage, .qc-bar-stage) {
+    inline-size: min(18rem, 50cqi);
+  }
+
+  .qc-anat-figure > .qc-grid-figure {
+    inline-size: min(22rem, 60cqi);
+  }
+
+  .qc-anat-figure > .qc-cells {
+    inline-size: min(16rem, 60cqi);
+  }
+
+  .qc-anat-figure > .qc-card-figure {
+    inline-size: min(24rem, 60cqi);
+  }
+
+  .qc-anat-figure > .qc-scroll-stage {
+    inline-size: min(18rem, 60cqi);
+  }
+
+  .qc-anat-figure > .qc-stat-figure {
+    inline-size: min(14rem, 40cqi);
+  }
+
+  .qc-anat-figure > .qc-steps-stage {
+    inline-size: min(18rem, 60cqi);
+  }
+
+  .qc-anat-figure > .qc-pages-stage {
+    inline-size: min(36rem, 90cqi);
+  }
+
+  .qc-anat-figure > .qc-table-figure {
+    inline-size: min(44rem, 90cqi);
+  }
+
+  /* An embedded shell in an example: a box of its own height, which it fills. */
+  .qc-shell-box {
+    inline-size: 100%;
+    block-size: 30rem;
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+  }
+
+  /* The shell in a figure: a console window, sized down. The default shell fills the window
+     (100dvh), so the figure gives it a height of its own; embedded would drop its <main>. */
+  .qc-anat-figure:has(> .qc-shell-figure) {
+    zoom: 0.7;
+  }
+
+  .qc-anat-figure > .qc-shell-figure {
+    inline-size: min(76rem, 135cqi);
+    block-size: 30rem;
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+
+    & [data-slot="app-shell"] {
+      min-block-size: 0;
+      block-size: 100%;
+    }
+
+    & :is([data-slot="app-shell-nav"], [data-slot="app-shell-panel"]) {
+      block-size: calc(30rem - var(--qx-app-shell-top));
+    }
+  }
+}

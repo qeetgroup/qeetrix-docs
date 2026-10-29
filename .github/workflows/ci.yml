@@ -25,6 +25,6 @@ jobs:
           bun-version: ${{ env.BUN_VERSION }}
       - run: bun install --frozen-lockfile
       - run: bun run lint
-      # Generates the component and token data, then Next's route types, then runs tsc.
+      # astro sync (the content collections' types), then tsc.
       - run: bun run types:check
       - run: bun run build

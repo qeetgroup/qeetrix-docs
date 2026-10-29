@@ -1,0 +1,534 @@
+/* The Qeetrix docs pages' own blocks: the seven signatures, the install command and its package
+ * managers, the live result, troubleshooting, and the layout specimens. Tokens only. */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer product {
+  /* The seven signatures: a ruled list, each beside its live specimen. */
+  .qd-sigs {
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+    overflow: hidden;
+
+    /* The specimen takes half the row and grows with it, as a component card's preview does. */
+    & li {
+      display: grid;
+      grid-template-columns: 2.5rem minmax(0, 1fr) minmax(17rem, 1fr);
+      align-items: center;
+      gap: var(--qx-space-gap-lg);
+      padding: var(--qx-space-inset-lg);
+    }
+
+    & li + li {
+      border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    }
+  }
+
+  .qd-sig-num {
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-code-sm);
+  }
+
+  .qd-sig-text {
+    display: grid;
+    gap: var(--qx-space-gap-xs);
+
+    & b {
+      font: var(--qx-typography-title-md);
+    }
+
+    & span {
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-body-sm);
+    }
+  }
+
+  .qd-sig-specimen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    --qd-sig-rule: color-mix(in oklab, var(--qx-color-border-subtle) 55%, transparent);
+    min-block-size: 8rem;
+    margin-block: calc(-1 * var(--qx-space-inset-lg));
+    margin-inline-end: calc(-1 * var(--qx-space-inset-lg));
+    padding: var(--qx-space-inset-lg);
+    border-inline-start: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    background:
+      linear-gradient(var(--qd-sig-rule) 1px, transparent 1px) 0 0 / 1.5rem 1.5rem,
+      linear-gradient(90deg, var(--qd-sig-rule) 1px, transparent 1px) 0 0 / 1.5rem 1.5rem,
+      var(--qx-color-surface-canvas);
+
+    /* On the canvas, as fields and cards sit in a product (a field's fill is the sunken surface).
+     * Fields and cards at a natural width, not stretched across a wide specimen. */
+    & .qx-text-field,
+    & .qx-field,
+    & .qx-card {
+      inline-size: 100%;
+      max-inline-size: 18rem;
+    }
+  }
+
+  .qd-sig-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qx-space-gap-md);
+  }
+
+  .qd-sig-icons {
+    color: var(--qx-color-icon-default);
+
+    & svg:last-child {
+      color: var(--qx-color-icon-brand);
+    }
+  }
+
+  /* The page's package manager, in the header band. */
+  .qd-pm-choice {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qx-space-gap-md);
+    margin-block-start: var(--qx-space-gap-sm);
+    padding-block-start: var(--qx-space-gap-lg);
+    border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+
+    & > span {
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-label-md);
+    }
+
+    & .qx-toggle {
+      gap: var(--qx-space-gap-sm);
+    }
+  }
+
+  .qd-pm-logo {
+    flex: none;
+    inline-size: 1rem;
+    block-size: 1rem;
+  }
+
+  .qd-pm-yarn {
+    color: #2c8ebb; /* Yarn's brand blue: the mono drawing takes the text colour. */
+  }
+
+  /* An install command: the package managers as tabs, the command, Copy. */
+  .qd-cmd {
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-sunken);
+  }
+
+  .qd-cmd-bar {
+    display: flex;
+    align-items: stretch;
+    border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    background: var(--qx-color-surface-raised);
+  }
+
+  .qd-cmd-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+    padding: var(--qx-space-inset-sm) var(--qx-space-inset-md);
+    border: 0;
+    border-block-end: var(--qx-border-width-accent) solid transparent;
+    margin-block-end: -1px;
+    background: none;
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-label-md);
+    cursor: pointer;
+    transition: color var(--doc-ease);
+
+    &:hover {
+      color: var(--qx-color-text-default);
+    }
+
+    &[aria-selected="true"] {
+      border-block-end-color: var(--qx-color-border-brand);
+      color: var(--qx-color-text-default);
+      font-weight: 600;
+    }
+
+    &:focus-visible {
+      outline: var(--qx-focus-ring-width) solid var(--qx-color-border-focus);
+      outline-offset: calc(-1 * var(--qx-focus-ring-width));
+    }
+  }
+
+  .qd-cmd-copy {
+    display: flex;
+    align-items: center;
+    margin-inline-start: auto;
+    padding-inline: var(--qx-space-gap-xs);
+  }
+
+  .qd-cmd-line {
+    margin: 0;
+    padding: var(--qx-space-inset-lg);
+    overflow-x: auto;
+    font: var(--qx-typography-code-md);
+  }
+
+  .qd-cmd-prompt {
+    margin-inline-end: var(--qx-space-gap-md);
+    color: var(--qx-color-text-subtle);
+    user-select: none;
+  }
+
+  .qd-note {
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-sm);
+
+    & code {
+      color: var(--qx-color-text-default);
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  .qd-live {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+  }
+
+  .qd-live-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--qx-space-gap-xs) var(--qx-space-gap-xs) var(--qx-space-gap-xs)
+      var(--qx-space-inset-md);
+    border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    background: var(--qx-color-surface-raised);
+  }
+
+  .qd-live-stage {
+    display: grid;
+    flex: 1;
+    align-content: center;
+    padding: var(--qx-space-inset-xl);
+    background:
+      linear-gradient(var(--qx-color-border-subtle) 1px, transparent 1px) 0 0 / 1rem 1rem,
+      linear-gradient(90deg, var(--qx-color-border-subtle) 1px, transparent 1px) 0 0 / 1rem 1rem,
+      var(--qx-color-surface-sunken);
+    color: var(--qx-color-text-default);
+
+    & .qx-button {
+      justify-self: start;
+    }
+  }
+
+  .qd-faq {
+    border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-default);
+  }
+
+  @media (width < 840px) {
+    .qd-sigs li {
+      grid-template-columns: 2rem minmax(0, 1fr);
+
+      & .qd-sig-specimen {
+        grid-column: 1 / -1;
+        margin: 0;
+        border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+      }
+    }
+  }
+
+  /* Phones: the command's tabs drop their marks (the page's choice above keeps them). */
+  @media (width < 600px) {
+    .qd-cmd-tab {
+      padding-inline: var(--qx-space-inset-sm);
+
+      & .qd-pm-logo {
+        display: none;
+      }
+    }
+  }
+
+  /* The page's package manager, as a figure in the masthead strip: the strip's label names it, and
+   * beside the other figures it gets the room it needs. */
+  @media (width >= 840px) {
+    .doc-mast-strip:has(.qd-pm-choice) {
+      grid-auto-flow: row;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    }
+  }
+
+  .doc-mast-strip .qd-pm-choice {
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    & > span {
+      display: none;
+    }
+  }
+
+  /* The previews' own layout: rows, scale for the large ones, overlays standing still. */
+  .qd-pv-row {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+  }
+
+  .qd-pv-wrap {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .qd-pv-wide {
+    justify-self: stretch;
+  }
+
+  .qd-pv-grow {
+    flex: 1;
+  }
+
+  .qd-pv-zoom-50 {
+    zoom: 0.5;
+  }
+
+  .qd-pv-zoom-62 {
+    zoom: calc(0.62 * var(--doc-card-scale, 1));
+  }
+
+  .qd-pv-zoom-70 {
+    zoom: calc(0.7 * var(--doc-card-scale, 1));
+  }
+
+  .qd-pv-zoom-75 {
+    zoom: calc(0.75 * var(--doc-card-scale, 1));
+  }
+
+  .qd-pv-zoom-80 {
+    zoom: calc(0.8 * var(--doc-card-scale, 1));
+  }
+
+  .qd-pv-zoom-85 {
+    zoom: calc(0.85 * var(--doc-card-scale, 1));
+  }
+
+  .qd-pv-zoom-90 {
+    zoom: calc(0.9 * var(--doc-card-scale, 1));
+  }
+
+  .qd-pv-stack-centre {
+    display: grid;
+    justify-items: center;
+    gap: var(--qx-space-gap-sm);
+  }
+
+  .qd-pv-menu {
+    min-inline-size: 9rem;
+  }
+
+  .qd-pv-context {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: start;
+    gap: var(--qx-space-gap-xs);
+  }
+
+  .qd-pv-context-area {
+    display: grid;
+    justify-items: center;
+    gap: var(--qx-space-gap-xs);
+    padding: var(--qx-space-inset-md);
+    border: var(--qx-border-width-default) dashed var(--qx-color-border-strong);
+    border-radius: var(--qx-radius-control);
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-sm);
+  }
+
+  .qd-pv-dialog {
+    inline-size: 16rem;
+  }
+
+  .qd-pv-drawer-stage {
+    display: flex;
+    justify-content: flex-end;
+    justify-self: stretch;
+    block-size: 8.5rem;
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-control);
+    background: var(--qx-color-surface-canvas);
+  }
+
+  .qd-pv-drawer {
+    inline-size: 62%;
+    box-shadow: var(--qx-shadow-modal);
+  }
+
+  .qd-pv-toast {
+    inline-size: 11.5rem;
+  }
+
+  .qd-pv-command {
+    position: static;
+    inline-size: 17rem;
+  }
+
+  .qd-pv-skip .qx-skip-link {
+    position: static;
+    inline-size: auto;
+    block-size: auto;
+    margin: 0;
+    padding: var(--qx-space-inset-sm) var(--qx-space-inset-md);
+    clip-path: none;
+  }
+
+  .qd-pv-hidden-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+
+    & code {
+      padding: 2px var(--qx-space-inset-xs);
+      border: var(--qx-border-width-default) dashed var(--qx-color-border-strong);
+      border-radius: var(--qx-radius-sm);
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  .qd-pv-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+    padding-inline-start: var(--qx-space-inset-md);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-control);
+    background: var(--qx-color-surface-raised);
+
+    & code {
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  .qd-pv-code {
+    margin: 0;
+    padding: var(--qx-space-inset-md) var(--qx-space-inset-lg);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-raised);
+    color: var(--qx-color-text-default);
+    font: var(--qx-typography-code-sm);
+  }
+
+  .qd-pv-code-tag {
+    color: var(--qx-color-code-keyword);
+  }
+
+  .qd-pv-code-attr {
+    color: var(--qx-color-code-literal);
+  }
+
+  .qd-pv-code-str {
+    color: var(--qx-color-code-string);
+  }
+
+  .qd-pv-form {
+    display: grid;
+    gap: var(--qx-space-gap-md);
+    inline-size: 17rem;
+  }
+
+  .qd-pv-sidebar {
+    inline-size: 13rem;
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-control);
+  }
+
+  /* The console frame, in miniature: top bar, rail, page. */
+  .qd-pv-shell {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    grid-template-rows: 1.75rem minmax(0, 1fr);
+    justify-self: stretch;
+    block-size: 8.5rem;
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-control);
+    background: var(--qx-color-surface-canvas);
+  }
+
+  .qd-pv-shell-top {
+    display: flex;
+    grid-column: 1 / -1;
+    align-items: center;
+    padding-inline: var(--qx-space-inset-sm);
+    border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    background: var(--qx-color-surface-raised);
+  }
+
+  .qd-pv-shell-side {
+    display: grid;
+    align-content: start;
+    justify-items: center;
+    gap: var(--qx-space-gap-sm);
+    padding-block: var(--qx-space-inset-sm);
+    border-inline-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    background: var(--qx-color-surface-raised);
+    color: var(--qx-color-icon-subtle);
+
+    & [data-current] {
+      color: var(--qx-color-icon-brand);
+    }
+  }
+
+  .qd-pv-shell-main {
+    display: grid;
+    align-content: start;
+    gap: var(--qx-space-gap-sm);
+    padding: var(--qx-space-inset-md);
+
+    & b,
+    & i {
+      display: block;
+      block-size: 0.5rem;
+      border-radius: var(--qx-radius-sm);
+      background: var(--qx-color-bg-neutral-subtle);
+    }
+
+    & b {
+      inline-size: 45%;
+      background: var(--qx-color-text-default);
+    }
+
+    & i:nth-child(3) {
+      inline-size: 80%;
+    }
+
+    & i:nth-child(4) {
+      inline-size: 60%;
+    }
+  }
+
+  /* Browsers by their own marks, each with its version. */
+  .qd-browsers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--qx-space-gap-sm) var(--qx-space-gap-lg);
+  }
+
+  .qd-browser {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-xs);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+
+    & svg {
+      flex: none;
+      inline-size: 1.25rem;
+      block-size: 1.25rem;
+    }
+  }
+}

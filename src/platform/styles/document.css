@@ -1,0 +1,53 @@
+/* The document itself and the platform's shared pieces, in tokens only. */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer platform {
+  /* The text font on body, not html: html's font-size is what every rem resolves against. */
+  html {
+    background-color: var(--qx-color-surface-canvas);
+    color: var(--qx-color-text-default);
+    text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    font: var(--qx-typography-body-md);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* The page's content width: 96rem, with gutters that grow with the screen. */
+  .site-container {
+    inline-size: 100%;
+    max-inline-size: 96rem;
+    margin-inline: auto;
+    padding-inline: var(--qx-space-layout-sm);
+
+    @media (width >= 1024px) {
+      padding-inline: var(--qx-space-layout-lg);
+    }
+
+    @media (width >= 1280px) {
+      padding-inline: calc(var(--qx-space-layout-xl) + var(--qx-space-inset-lg));
+    }
+  }
+
+  /* Marks drawn once per scheme: render both, show one. */
+  .only-dark {
+    display: none;
+  }
+
+  [data-qx-color-scheme="dark"] .only-light {
+    display: none;
+  }
+
+  [data-qx-color-scheme="dark"] .only-dark {
+    display: revert;
+  }
+}
