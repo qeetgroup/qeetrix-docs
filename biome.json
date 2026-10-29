@@ -1,5 +1,6 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.6.3/schema.json",
+  "root": true,
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -7,33 +8,21 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "**",
-      "!node_modules",
-      "!qeetrix-new-docs",
-      "!.next",
-      "!dist",
-      "!build",
-      "!.source",
-      "!src/examples/registry.ts",
-      "!src/lib/component-imports.json",
-      "!src/lib/token-utilities.json"
-    ]
+    "includes": ["**", "!node_modules", "!dist", "!.astro"]
   },
-  "css": {
-    "parser": {
-      "tailwindDirectives": true
-    }
+  "html": {
+    "experimentalFullSupportEnabled": true
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
   },
   "markdown": {
     "formatter": {
       "enabled": false
     }
-  },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "space",
-    "indentWidth": 2
   },
   "linter": {
     "enabled": true,
@@ -41,7 +30,6 @@
       "preset": "recommended"
     },
     "domains": {
-      "next": "recommended",
       "react": "recommended"
     }
   },
