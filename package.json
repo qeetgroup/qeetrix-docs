@@ -1,6 +1,6 @@
 {
   "name": "qeetrix-docs",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "private": true,
   "type": "module",
   "description": "ui.qeet.in: the Qeetrix docs, on Qeet's own docs platform (Astro and @qeetrix/react).",
