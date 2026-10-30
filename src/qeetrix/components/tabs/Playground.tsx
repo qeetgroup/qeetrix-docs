@@ -53,7 +53,7 @@ const spec: Spec = {
     if (!v.activateOnFocus) list.push(["activateOnFocus", "{false}"]);
     const tabs = APP.flatMap(([value, label, , name]) => {
       const props: Array<[string, string?]> = [["value", `"${value}"`]];
-      if (v.icons) props.push(["icon", `{${name}}`], ["filledWhenSelected"]);
+      if (v.icons) props.push(["icon", `{${name}}`]);
       if (v.count && value === "users") props.push(["badge", "{642}"]);
       return element("Tab", props, label);
     });
@@ -81,7 +81,6 @@ const spec: Spec = {
               key={value}
               value={value}
               icon={v.icons ? Icon : undefined}
-              filledWhenSelected={Boolean(v.icons)}
               badge={v.count && value === "users" ? 642 : undefined}
             >
               {label}

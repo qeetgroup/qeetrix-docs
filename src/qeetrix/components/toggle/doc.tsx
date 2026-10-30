@@ -131,7 +131,7 @@ export const toggle: ComponentDoc = {
       },
       {
         name: "icon",
-        type: "QeetrixIcon",
+        type: "IconSource",
         default: "—",
         note: "An icon from @qeetrix/icons, drawn sharp, before the label.",
       },
@@ -227,6 +227,12 @@ export const toggle: ComponentDoc = {
   },
 
   changelog: [
+    {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
     { version: "0.1.0", items: ["tooltip and tooltipSide, for an icon-only toggle's tooltip."] },
     {
       version: "0.0.2",

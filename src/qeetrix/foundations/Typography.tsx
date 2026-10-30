@@ -2,7 +2,7 @@
 // from qeetrix-story (stories/foundations/typography.stories.tsx); each story is a section.
 import { CheckIcon } from "@qeetrix/icons/icons/check";
 import type { CSSProperties } from "react";
-import { type DtcgTypography, format, formatType, ordered, type Token, tokens } from "./data";
+import { type DtcgTypography, format, formatType, ordered, type Token, tokens, toPx } from "./data";
 import { CopyToken, Group, type Section, Specimen, SpecimenRow, SpecimenRows } from "./kit";
 
 /** Custom properties for `_typography.css`: React's CSSProperties doesn't type them. */
@@ -138,12 +138,11 @@ const Geometry: Section = {
 
 /* ── Type scale ───────────────────────────────────────────────────────────── */
 
-/** The geometry token a role uses. The `font` shorthand can't carry it. */
-function geometryOf(role: string): "display" | "heading" | "body" {
-  if (role.startsWith("display")) return "display";
-  if (role.startsWith("heading") || role.startsWith("title")) return "heading";
-  return "body";
-}
+/**
+ * The geometry a role uses, as the tokens name it (`font.geometry.display`, `heading` or `body`):
+ * the `font` shorthand can't carry it, so each role publishes its own `-font-geometry`.
+ */
+const geometryOf = (item: Token | undefined) => item?.geometry?.split(".").pop() ?? "body";
 
 const SAMPLE: Record<string, string> = {
   display: "Welcome to Qeet ID",
@@ -193,19 +192,27 @@ function metaOf(value: DtcgTypography): string {
 }
 
 /** The group's face, and its GEOM where the face has the axis. */
-function asideOf(role: string, items: Token[]): string {
+function asideOf(items: Token[]): string {
   const face = (items[0]?.light as DtcgTypography | undefined)?.fontFamily[0] ?? "";
-  return face === "Qeet Sans" ? `${face} · GEOM ${GEOMETRY[geometryOf(role)]}` : face;
+  return face === "Qeet Sans" ? `${face} · GEOM ${GEOMETRY[geometryOf(items[0])]}` : face;
 }
 
 const sentenceCase = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
 /* ── The 4px grid, checked ────────────────────────────────────────────────── */
 
-/** Every role's line height in pixels, from its size and ratio. */
+/**
+ * Every role's line height in pixels, its size times its ratio, unrounded: on the grid means a
+ * multiple of 4 to a millionth of a pixel (tokens 0.0.13 make every one exact).
+ */
 const ROLES = GROUPS.flatMap(({ items }) => items);
-const lineOf = (item: Token) => Number(formatType(item.light as DtcgTypography).split("/")[1]);
-const OFF_GRID = ROLES.filter((item) => lineOf(item) % 4 !== 0);
+const lineOf = (item: Token) => {
+  const value = item.light as DtcgTypography;
+  return toPx(value.fontSize) * value.lineHeight;
+};
+const OFF_GRID = ROLES.filter(
+  (item) => Math.abs(lineOf(item) / 4 - Math.round(lineOf(item) / 4)) > 1e-6,
+);
 
 function GridCheck() {
   return (
@@ -284,7 +291,7 @@ const TypeScale: Section = {
     <Specimen>
       <GridCheck />
       {GROUPS.map(({ role, items }) => (
-        <Group key={role} label={sentenceCase(role)} aside={asideOf(role, items)}>
+        <Group key={role} label={sentenceCase(role)} aside={asideOf(items)}>
           <SpecimenRows>
             {items.map((item) => (
               <SpecimenRow
@@ -298,7 +305,7 @@ const TypeScale: Section = {
                   style={vars({
                     "--qx-typo-role": `var(${item.cssVar})`,
                     "--qx-typo-tracking": `var(${item.cssVar}-letter-spacing)`,
-                    "--qx-typo-geom": `var(--qx-font-geometry-${geometryOf(item.name)})`,
+                    "--qx-typo-geom": `var(${item.cssVar}-font-geometry)`,
                   })}
                 >
                   {item.name === "label.caps" ? "Directory" : (SAMPLE[role] ?? item.name)}

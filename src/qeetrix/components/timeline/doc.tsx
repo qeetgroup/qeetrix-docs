@@ -142,7 +142,7 @@ export const timeline: ComponentDoc = {
       },
       {
         name: "TimelineItem: icon",
-        type: "QeetrixIcon",
+        type: "IconSource",
         default: "—",
         note: "16px, for the kind of event.",
       },
@@ -191,6 +191,12 @@ export const timeline: ComponentDoc = {
   },
 
   changelog: [
+    {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
     {
       version: "0.1.0",
       items: [

@@ -190,6 +190,12 @@ export const numberField: ComponentDoc = {
 
   changelog: [
     {
+      version: "0.4.0",
+      items: [
+        "Read-only, its line is border.strong, the editable field's, so it keeps 3:1; the missing fill still tells it apart.",
+      ],
+    },
+    {
       version: "0.0.5",
       items: [
         "NumberField: typed or stepped, on Base UI's Number Field: Input's field with units as affixes and − and + steppers (they can be turned off). It formats for the locale and takes format; strings, its spoken role too, in English and Hindi.",

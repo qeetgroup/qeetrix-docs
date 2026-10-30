@@ -367,10 +367,10 @@ const InComponents: Section = {
         <Demo name="Tabs">
           <Tabs defaultValue="overview">
             <TabsList>
-              <Tab value="overview" icon={HouseIcon} filledWhenSelected>
+              <Tab value="overview" icon={HouseIcon}>
                 Home
               </Tab>
-              <Tab value="users" icon={UsersIcon} filledWhenSelected>
+              <Tab value="users" icon={UsersIcon}>
                 Users
               </Tab>
             </TabsList>
@@ -741,14 +741,14 @@ const Filled: Section = {
           );
         })}
       </div>
-      <Group label="In components" aside="filledWhenSelected · filledWhenPressed">
+      <Group label="In components" aside="Tab by default · Toggle with filledWhenPressed">
         <div className="qf-filled-live" aria-hidden="true" inert>
           <Tabs defaultValue="members">
             <TabsList>
-              <Tab value="members" icon={UsersIcon} filledWhenSelected>
+              <Tab value="members" icon={UsersIcon}>
                 Members
               </Tab>
-              <Tab value="settings" icon={SettingsIcon} filledWhenSelected>
+              <Tab value="settings" icon={SettingsIcon}>
                 Settings
               </Tab>
             </TabsList>
@@ -848,10 +848,10 @@ const RULES: Array<{
     doIt: (
       <Tabs defaultValue="members">
         <TabsList>
-          <Tab value="members" icon={UsersIcon} filledWhenSelected>
+          <Tab value="members" icon={UsersIcon}>
             Members
           </Tab>
-          <Tab value="settings" icon={SettingsIcon} filledWhenSelected>
+          <Tab value="settings" icon={SettingsIcon}>
             Settings
           </Tab>
         </TabsList>

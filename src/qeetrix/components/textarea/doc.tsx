@@ -133,6 +133,12 @@ export const textarea: ComponentDoc = {
 
   changelog: [
     {
+      version: "0.4.0",
+      items: [
+        "Read-only, its line is border.strong, the editable field's, so it keeps 3:1; the missing fill still tells it apart.",
+      ],
+    },
+    {
       version: "0.0.2",
       items: [
         "Textarea: Input's look. It grows with its content between rows and maxRows through CSS field-sizing, with no script.",

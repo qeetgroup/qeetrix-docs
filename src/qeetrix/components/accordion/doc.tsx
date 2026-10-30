@@ -221,6 +221,10 @@ export const accordion: ComponentDoc = {
   },
 
   changelog: [
+    {
+      version: "0.4.0",
+      items: ["A disabled trigger's chevron dims with its text, to icon.disabled."],
+    },
     { version: "0.1.0", items: ["Panel text uses Qeet Sans on a page that sets no font."] },
     {
       version: "0.0.2",

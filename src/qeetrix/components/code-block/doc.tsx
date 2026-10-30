@@ -111,7 +111,7 @@ export const codeBlock: ComponentDoc = {
       },
       {
         name: "language",
-        type: '"shell" | "javascript" | "typescript" | "tsx" | "json" | "xml" | "html" | "css" | "text"',
+        type: '"shell" | "javascript" | "typescript" | "tsx" | "json" | "xml" | "html" | "css" | "kotlin" | "swift" | "text"',
         default: '"text"',
         note: "How to colour it; text has no colours.",
       },
@@ -176,6 +176,12 @@ const html = \`<pre><code>\${highlightHtml(source, "css")}</code></pre>\`;`,
   },
 
   changelog: [
+    {
+      version: "0.3.0",
+      items: [
+        'Kotlin and Swift: language="kotlin" (Gradle\'s .kts too) and language="swift", in the same kinds of colour.',
+      ],
+    },
     {
       version: "0.2.0",
       items: [

@@ -204,6 +204,13 @@ const cycles: SelectItem<Cycle>[] = [
 
   changelog: [
     {
+      version: "0.4.0",
+      items: [
+        "Read-only, its line is border.strong, the editable field's, so it keeps 3:1; the missing fill still tells it apart.",
+        "Long options wrap instead of ending in an ellipsis; the check and the icon stay on the first line.",
+      ],
+    },
+    {
       version: "0.2.0",
       items: [
         "An item's meta: a short fact at the option's end, read with it.",

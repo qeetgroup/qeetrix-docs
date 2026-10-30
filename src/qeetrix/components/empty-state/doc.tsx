@@ -119,7 +119,7 @@ export const emptyState: ComponentDoc = {
         default: "—",
         note: "One or two sentences: why, and what to do.",
       },
-      { name: "icon", type: "QeetrixIcon", default: "—", note: "A 24px sharp icon." },
+      { name: "icon", type: "IconSource", default: "—", note: "A 24px sharp icon." },
       { name: "actions", type: "ReactNode", default: "—", note: "Buttons, one primary at most." },
       {
         name: "children",
@@ -195,6 +195,12 @@ export const emptyState: ComponentDoc = {
   },
 
   changelog: [
+    {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
     {
       version: "0.1.0",
       items: [

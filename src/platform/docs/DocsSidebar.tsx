@@ -54,7 +54,8 @@ export default function DocsSidebar({ docs, current }: { docs: DocsChrome; curre
       icon={iconOf(n)}
       badge={badgeOf(n)}
       current={n.id === current}
-      filledWhenCurrent={n.filledWhenCurrent}
+      // A brand's mark has no filled drawing: drawn once, not twice for the current page.
+      filledWhenCurrent={n.brand ? false : n.filledWhenCurrent}
       defaultOpen={n.items ? n.open || holds(n) : undefined}
       data-holds-current={n.items?.some(holds) ? "" : undefined}
     >

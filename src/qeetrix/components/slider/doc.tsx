@@ -128,6 +128,12 @@ export const slider: ComponentDoc = {
         note: "Currency, per cent, a unit; in the provider's locale.",
       },
       {
+        name: "getAriaValueText",
+        type: "(formattedValue: string, value: number, index: number) => string",
+        default: "the formatted value",
+        note: "What a thumb says when the number alone doesn't: a log scale, a unit.",
+      },
+      {
         name: "description · error",
         type: "ReactNode",
         default: "—",
@@ -178,6 +184,12 @@ export const slider: ComponentDoc = {
   },
 
   changelog: [
+    {
+      version: "0.3.0",
+      items: [
+        "getAriaValueText: what a thumb says when the number alone doesn't, a position on a log scale or a value with its unit.",
+      ],
+    },
     {
       version: "0.1.0",
       items: [

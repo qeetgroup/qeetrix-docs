@@ -46,6 +46,7 @@ const COMPONENTS: Array<[slug: string, name: string, playground: boolean, live: 
   ["steps", "steps", true, true],
   ["table", "table", true, true],
   ["badge", "badge", true, false],
+  ["chip", "chip", true, true],
   ["avatar", "avatar", true, true],
   ["avatar-group", "avatarGroup", false, true],
   ["stat", "stat", false, false],

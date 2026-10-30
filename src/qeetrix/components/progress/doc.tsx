@@ -154,6 +154,13 @@ xhr.upload.onprogress = (event) => setSent(event.loaded / event.total);
   },
 
   changelog: [
+    {
+      version: "0.4.0",
+      items: [
+        "Indeterminate progress follows the reading direction: in right to left the segment enters on the right.",
+        "In dark the track is surface.sunken, so every tone's fill keeps 3:1 against it.",
+      ],
+    },
     { version: "0.1.0", items: ["tone: brand, success or danger."] },
     {
       version: "0.0.2",

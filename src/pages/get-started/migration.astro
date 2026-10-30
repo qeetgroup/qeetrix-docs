@@ -1,6 +1,6 @@
 ---
-// Get started › Migration: from @qeetrix/ui 2 to @qeetrix/react 0.2.2: the packages, the styles,
-// the providers, icons, and what replaces each of today's component pages (migration.ts).
+// Get started › Migration: from @qeetrix/ui 2 to the installed @qeetrix/react: the packages, the
+// styles, the providers, icons, and what replaces each of today's component pages (migration.ts).
 import CodeFrame from "@/platform/docs/CodeFrame.astro";
 import Masthead from "@/platform/docs/Masthead.astro";
 import NextPage from "@/platform/docs/NextPage.astro";
@@ -8,6 +8,7 @@ import { docs } from "@/qeetrix/docs/chrome";
 import DocsPage from "@/qeetrix/docs/DocsPage.astro";
 import { install } from "@/qeetrix/install";
 import { MIGRATION } from "@/qeetrix/migration";
+import { packages } from "@/qeetrix/packages";
 import { links } from "@/qeetrix/site";
 
 const toc = [
@@ -55,7 +56,7 @@ const counts = {
 const groups = [...new Set(MIGRATION.map(([group]) => group))];
 ---
 
-<DocsPage title="Migration" description="Move from @qeetrix/ui 2 to @qeetrix/react 0.2.2: the packages, the styles, the providers, icons, and what replaces each component." current="migration" section={links.docs} toc={toc}>
+<DocsPage title="Migration" description={`Move from @qeetrix/ui 2 to @qeetrix/react ${packages.react.version}: the packages, the styles, the providers, icons, and what replaces each component.`} current="migration" section={links.docs} toc={toc}>
   <Masthead slot="masthead" title="Migration" lede="From @qeetrix/ui to @qeetrix/react, one change at a time." place={["Docs", "Get started", "Migration"]} source={docs.source("get-started/migration.astro")}>
     <dl slot="strip" class="doc-mast-strip">
       <div><dt>Pages today</dt><dd>{MIGRATION.length}<span>@qeetrix/ui 2.1</span></dd></div>

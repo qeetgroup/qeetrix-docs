@@ -8,9 +8,9 @@
         "@astrojs/mdx": "8.1.1",
         "@astrojs/react": "7.1.1",
         "@base-ui/react": "^1.9.0",
-        "@qeetrix/icons": "^2.0.0",
-        "@qeetrix/react": "0.2.2",
-        "@qeetrix/tokens": "^0.0.10",
+        "@qeetrix/icons": "^2.1.0",
+        "@qeetrix/react": "0.4.0",
+        "@qeetrix/tokens": "^0.0.13",
         "astro": "7.4.2",
         "react": "^19.3.1",
         "react-dom": "^19.3.1",
@@ -197,11 +197,11 @@
 
     "@oxc-project/types": ["@oxc-project/types@0.155.0", "", {}, "sha512-SeE8JPwW1xs1tHeNycjUtUBdhorRa8o4jlvjwk49R7/Z291i+4DQa7JJIgOm/TaYQZx+QrPQbVJ/9c8dMIZN8Q=="],
 
-    "@qeetrix/icons": ["@qeetrix/icons@2.0.0", "", { "peerDependencies": { "react": "^19.0.0" } }, "sha512-2gnlIbB9gsFFwNlR2m4kcsvfCPr4KDd4UzdFiaDAg/GLmk/ed5zNY7bmmyifA8VmGAjNTmB+QZZW7y/LM+elSA=="],
+    "@qeetrix/icons": ["@qeetrix/icons@2.1.0", "", { "peerDependencies": { "react": "^19.0.0" } }, "sha512-rB3VgR90Xn/8ZvDPaZhhDoSTLcVg1FaVNT3D0SnQ8jJ0lHVAYOOP0Q/jP5tVc7PLmSVw2BU3lqTboKq3w+60LQ=="],
 
-    "@qeetrix/react": ["@qeetrix/react@0.2.2", "", { "dependencies": { "@qeetrix/icons": "^2.0.0" }, "peerDependencies": { "@base-ui/react": "^1.9.0", "@qeetrix/tokens": ">=0.0.10 <0.1.0", "react": "^19.2.0", "react-dom": "^19.2.0" } }, "sha512-sDRYk5W27ZzOT/MFA6cDctQAbg+cMhXMjFjo99ziXOZlXNzcG5s9RCXk13FoYd4XtfS+VjzXuhlIfjZf/6SNSA=="],
+    "@qeetrix/react": ["@qeetrix/react@0.4.0", "", { "dependencies": { "@qeetrix/icons": "^2.0.0" }, "peerDependencies": { "@base-ui/react": "^1.9.0", "@qeetrix/tokens": ">=0.0.10 <0.1.0", "react": "^19.2.0", "react-dom": "^19.2.0" } }, "sha512-9k9Nu/d8lExqwaZ4FNfazD88EwbHwl6HPXrsRuMTlAEOsXxcBezmFgr5T0CykmBeBRtSakM275uYSqPjpDko6Q=="],
 
-    "@qeetrix/tokens": ["@qeetrix/tokens@0.0.10", "", {}, "sha512-7aNou2AxZfvdz3Z5Yx5Uv0AJ0QhnfevodUqWKvVHM2NLU4leg5mpVeDw7v1RcAkZWNB7I1U1vFpbampjQT7o5A=="],
+    "@qeetrix/tokens": ["@qeetrix/tokens@0.0.13", "", {}, "sha512-mAvlbEM/t9QcCmOLFwJiN53AYQS72pP4WVe48BzVfKvMiZO/AapNuqJhNhuyqBEtlZKiB+Hxw0D0LpKSSiMzmQ=="],
 
     "@rolldown/binding-android-arm-eabi": ["@rolldown/binding-android-arm-eabi@1.2.15", "", { "os": "android", "cpu": "arm" }, "sha512-aLcgK9gIJ3YRvrrtfSBbRa27F5WrpiTaPulnFpsHPxpUHgFlSgnU4854MHwoRGEBhfRJDWCS2WQ7lIjskE9Olw=="],
 

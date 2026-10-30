@@ -140,7 +140,7 @@ export const alert: ComponentDoc = {
       },
       {
         name: "icon",
-        type: "QeetrixIcon",
+        type: "IconSource",
         default: "the tone's",
         note: "In place of the tone's icon.",
       },
@@ -206,6 +206,12 @@ export const alert: ComponentDoc = {
   },
 
   changelog: [
+    {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
     {
       version: "0.1.0",
       items: ["A wrapped banner keeps its icon and Dismiss on the first line."],

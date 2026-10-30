@@ -168,7 +168,7 @@ export const iconButton: ComponentDoc = {
     props: [
       {
         name: "icon",
-        type: "QeetrixIcon",
+        type: "IconSource",
         default: "required",
         note: "The icon, from @qeetrix/icons, drawn sharp.",
       },
@@ -293,6 +293,19 @@ import { Link } from "@tanstack/react-router";
   },
 
   changelog: [
+    {
+      version: "0.4.0",
+      items: [
+        "A solid neutral icon button hovers and presses in graphite, as soft does, not in Ember.",
+        "A ghost danger icon button keeps the danger tint when it's pressed without the pointer over it.",
+      ],
+    },
+    {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
     {
       version: "0.1.1",
       items: ["mirrorInRtl(Icon): an icon that points forward flips in right to left."],

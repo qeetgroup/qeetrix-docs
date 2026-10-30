@@ -744,6 +744,11 @@
     inline-size: 10rem;
   }
 
+  /* Chips in a narrow column: they wrap, and so does a long label. */
+  .qc-chip-narrow {
+    inline-size: min(100%, 16rem);
+  }
+
   /* An avatar group in a table: a card's width. */
   .qc-group-table {
     inline-size: min(100%, 30rem);

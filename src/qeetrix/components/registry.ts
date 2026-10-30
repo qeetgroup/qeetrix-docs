@@ -12,6 +12,7 @@ import { button } from "./button/doc";
 import { calendar } from "./calendar/doc";
 import { card } from "./card/doc";
 import { checkbox } from "./checkbox/doc";
+import { chip } from "./chip/doc";
 import { codeBlock } from "./code-block/doc";
 import { collapsible } from "./collapsible/doc";
 import { combobox } from "./combobox/doc";
@@ -110,6 +111,7 @@ export const DOCS: ComponentDoc[] = [
   steps,
   table,
   badge,
+  chip,
   avatar,
   avatarGroup,
   stat,
@@ -178,6 +180,7 @@ export const PLAYGROUNDS = new Set([
   "steps",
   "table",
   "badge",
+  "chip",
   "avatar",
   "description-list",
   "timeline",
@@ -234,6 +237,7 @@ export const LIVE = new Set([
   "pagination",
   "steps",
   "table",
+  "chip",
   "avatar",
   "avatar-group",
   "description-list",

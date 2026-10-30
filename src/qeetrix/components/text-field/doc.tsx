@@ -133,7 +133,7 @@ export const textField: ComponentDoc = {
       },
       {
         name: "icon",
-        type: "QeetrixIcon",
+        type: "IconSource",
         default: "—",
         note: "A leading icon, 16px and decorative.",
       },
@@ -237,6 +237,18 @@ export const textField: ComponentDoc = {
   },
 
   changelog: [
+    {
+      version: "0.4.0",
+      items: [
+        "Read-only, its line is border.strong, the editable field's, so it keeps 3:1; the missing fill still tells it apart.",
+      ],
+    },
+    {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
     {
       version: "0.1.0",
       items: [

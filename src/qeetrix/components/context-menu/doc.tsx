@@ -179,6 +179,10 @@ export const contextMenu: ComponentDoc = {
 
   changelog: [
     {
+      version: "0.4.0",
+      items: ["Long items wrap, as Menu's do, instead of ending in an ellipsis."],
+    },
+    {
       version: "0.2.0",
       items: ["MenuRadioItem closes the menu on a choice, as in Menu."],
     },

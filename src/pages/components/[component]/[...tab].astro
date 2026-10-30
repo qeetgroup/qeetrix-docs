@@ -20,6 +20,8 @@ import CalendarPlayground from "@/qeetrix/components/calendar/Playground";
 import CardPlayground from "@/qeetrix/components/card/Playground";
 import CheckboxLive from "@/qeetrix/components/checkbox/Live";
 import CheckboxPlayground from "@/qeetrix/components/checkbox/Playground";
+import ChipLive from "@/qeetrix/components/chip/Live";
+import ChipPlayground from "@/qeetrix/components/chip/Playground";
 import CodeBlockLive from "@/qeetrix/components/code-block/Live";
 import CodeBlockPlayground from "@/qeetrix/components/code-block/Playground";
 import CollapsibleLive from "@/qeetrix/components/collapsible/Live";
@@ -193,6 +195,8 @@ const { slug, examples } = doc;
         {slug === "table" && <TablePlayground slot="playground" client:visible />}
         {slug === "table" && examples.map((example) => <TableLive slot={example.id} id={example.id} client:visible />)}
         {slug === "badge" && <BadgePlayground slot="playground" client:visible />}
+        {slug === "chip" && <ChipPlayground slot="playground" client:visible />}
+        {slug === "chip" && examples.map((example) => <ChipLive slot={example.id} id={example.id} client:visible />)}
         {slug === "avatar" && <AvatarPlayground slot="playground" client:visible />}
         {slug === "avatar" && examples.map((example) => <AvatarLive slot={example.id} id={example.id} client:visible />)}
         {slug === "avatar-group" && examples.map((example) => <AvatarGroupLive slot={example.id} id={example.id} client:visible />)}
