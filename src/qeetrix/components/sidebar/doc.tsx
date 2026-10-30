@@ -164,9 +164,9 @@ export const sidebar: ComponentDoc = {
       },
       {
         name: "SidebarItem: icon · filledWhenCurrent",
-        type: "QeetrixIcon · boolean",
-        default: "— · false",
-        note: "A 16px round icon; filled while current.",
+        type: "IconSource · boolean",
+        default: "— · true",
+        note: "A 16px round icon, filled while current; false keeps the outline. An icon with no filled drawing keeps its outline.",
       },
       {
         name: "SidebarItem: current",
@@ -232,6 +232,18 @@ export const sidebar: ComponentDoc = {
   },
 
   changelog: [
+    {
+      version: "0.4.0",
+      items: [
+        "filledWhenCurrent defaults to true: the current item's icon shows its filled drawing. filledWhenCurrent={false} keeps the outline.",
+      ],
+    },
+    {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
     { version: "0.1.0", items: ["A 12px count sits on the label's baseline."] },
     {
       version: "0.0.3",

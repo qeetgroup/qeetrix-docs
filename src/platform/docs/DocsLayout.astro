@@ -1,12 +1,13 @@
 ---
-// The docs frame: the site header on the docs grid; Qeetrix's Sidebar on a rail that stays put; the
-// page on the canvas, opened by its masthead (the "masthead" slot), its contents beside the content;
-// one slim footer line under the page, not the site footer. Product-agnostic: the product passes
-// its chrome (site.ts).
+// The docs frame: the site header on the docs grid; Qeetrix's Sidebar on a rail that stays put, and
+// keeps its place from page to page (rail-place.ts); the page on the canvas, opened by its masthead
+// (the "masthead" slot), its contents beside the content; one slim footer line under the page, not
+// the site footer. Product-agnostic: the product passes its chrome (site.ts).
 import SiteHeader from "../chrome/SiteHeader.astro";
 import Document from "../layouts/Document.astro";
 import type { DocsChrome, SiteChrome } from "../site";
 import DocsSidebar from "./DocsSidebar";
+import { railPlaceScript } from "./rail-place";
 import Toc, { type TocItem } from "./Toc.astro";
 import "./docs.css";
 
@@ -28,7 +29,10 @@ const { site, docs, title, description, current, section, toc } = Astro.props;
 <Document title={title} description={description}>
   <SiteHeader site={site} current={section} layout="docs" />
   <div class="doc">
-    <aside class="doc-nav"><DocsSidebar docs={docs} current={current} /></aside>
+    <aside class="doc-nav">
+      <DocsSidebar docs={docs} current={current} />
+      <script is:inline set:html={railPlaceScript} />
+    </aside>
     <main id="main" class="doc-main" data-qx-density="comfortable">
       <slot name="masthead" />
       <div class="doc-body">

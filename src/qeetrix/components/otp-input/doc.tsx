@@ -177,6 +177,13 @@ export const otpInput: ComponentDoc = {
 
   changelog: [
     {
+      version: "0.4.0",
+      items: [
+        "The focused slot of an invalid code shows the Ember focus frame; the other slots keep the danger frame.",
+        "A read-only code looks read-only, as a read-only Input: no fill, no hover tint, a border.strong line and a default cursor.",
+      ],
+    },
+    {
       version: "0.1.0",
       items: ["Its name reaches every slot.", "The slots shrink to fit narrow columns."],
     },

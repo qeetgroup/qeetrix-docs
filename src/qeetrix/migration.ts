@@ -1,6 +1,6 @@
-// The @qeetrix/ui pages of today's site and what replaces each in @qeetrix/react 0.2.2, from the
-// content audit (docs-redesign-mockups/research/content-audit.md): [group, old page, new, slug].
-// An empty "new" has no equivalent yet; a slug links its page.
+// The @qeetrix/ui pages of today's site and what replaces each in @qeetrix/react (0.4.0 brought
+// Chip), from the content audit (docs-redesign-mockups/research/content-audit.md): [group, old
+// page, new, slug]. An empty "new" has no equivalent yet; a slug links its page.
 export const MIGRATION: ReadonlyArray<
   readonly [group: string, old: string, replacement: string, slug: string]
 > = [
@@ -20,7 +20,7 @@ export const MIGRATION: ReadonlyArray<
   ["Data display", "blockquote", "", ""],
   ["Data display", "chart", "Sparkline, ColumnChart, BarList", ""],
   ["Data display", "chart-presets", "", ""],
-  ["Data display", "chip", "Badge / FilterTags", "badge"],
+  ["Data display", "chip", "Chip", "chip"],
   ["Data display", "code-block", "CodeBlock", "code-block"],
   ["Data display", "data-table", "", ""],
   ["Data display", "description-list", "DescriptionList", "description-list"],

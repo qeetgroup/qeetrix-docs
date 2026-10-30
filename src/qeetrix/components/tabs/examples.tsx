@@ -113,9 +113,9 @@ export const examples: ExampleDoc[] = [
   {
     id: "icons-and-counts",
     title: "Icons and counts",
-    line: "icon, filled while selected with filledWhenSelected; badge, a number formatted for the locale, or your own Badge.",
-    code: `<Tab value="users" icon={UsersIcon} filledWhenSelected badge={642}>Users</Tab>
-<Tab value="credentials" icon={KeyRoundIcon} filledWhenSelected badge={<Badge tone="danger">1</Badge>}>
+    line: "icon, filled while selected (filledWhenSelected={false} keeps the outline); badge, a number formatted for the locale, or your own Badge.",
+    code: `<Tab value="users" icon={UsersIcon} badge={642}>Users</Tab>
+<Tab value="credentials" icon={KeyRoundIcon} badge={<Badge tone="danger">1</Badge>}>
   Credentials
 </Tab>`,
     render: () => (
@@ -127,7 +127,6 @@ export const examples: ExampleDoc[] = [
                 key={value}
                 value={value}
                 icon={Icon}
-                filledWhenSelected
                 badge={
                   value === "users" ? (
                     642

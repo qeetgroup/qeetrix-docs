@@ -79,6 +79,8 @@ export interface Token {
   dark: unknown;
   /** Marked `tenantOverridable`: one of the tokens `brandTheme()` may change. */
   tenant: boolean;
+  /** A typography role's letter style: the `font.geometry` token it names (`font.geometry.body`). */
+  geometry?: string;
 }
 
 const isGroupKey = (key: string) => !key.startsWith("$");
@@ -140,6 +142,9 @@ export function tokens(group: string): Token[] {
       light: resolve("light", path).value,
       dark: resolve("dark", path).value,
       tenant: extension?.tenantOverridable === true,
+      geometry: isReference(extension?.fontGeometry)
+        ? extension.fontGeometry.slice(1, -1)
+        : undefined,
     };
   });
 }
@@ -212,7 +217,7 @@ export function densityTokens(): Array<{
 
 const ROOT_FONT_SIZE = 16;
 
-const toPx = (dimension: DtcgDimension) =>
+export const toPx = (dimension: DtcgDimension) =>
   dimension.unit === "rem" ? dimension.value * ROOT_FONT_SIZE : dimension.value;
 
 /** `1rem (16px)`, or `2px`. */

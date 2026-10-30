@@ -155,6 +155,13 @@ export const switchDoc: ComponentDoc = {
 
   changelog: [
     {
+      version: "0.4.0",
+      items: [
+        "An invalid switch keeps its danger edge under the pointer and when on.",
+        "The thumb of a switch that's on is white in both schemes, icon.on-brand; it was near-black in dark.",
+      ],
+    },
+    {
       version: "0.0.2",
       items: [
         "Switch: a 32×18 track with a square thumb that moves to the end side, in either text direction.",

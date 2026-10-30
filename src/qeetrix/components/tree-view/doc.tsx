@@ -225,6 +225,12 @@ const items = useUnitTree(expanded);
 
   changelog: [
     {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
+    {
       version: "0.1.0",
       items: [
         "TreeNode disabled: skipped by the keys, never selected or ticked.",

@@ -39,7 +39,6 @@ export const docs: DocsChrome = {
           label: "Introduction",
           href: links.docs,
           icon: BookOpenIcon,
-          filledWhenCurrent: true,
         },
         { id: "installation", label: "Installation", href: links.installation, icon: DownloadIcon },
         {

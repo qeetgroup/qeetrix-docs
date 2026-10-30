@@ -295,6 +295,12 @@ export const commandPalette: ComponentDoc = {
 
   changelog: [
     {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
+    {
       version: "0.1.0",
       items: ["Results share one leading column.", "Counts sit on the label's baseline."],
     },

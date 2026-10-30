@@ -90,7 +90,7 @@ export const checkbox: ComponentDoc = {
       { name: "description", type: "ReactNode", default: "—", note: "A line under the label." },
       {
         name: "icon",
-        type: "QeetrixIcon",
+        type: "IconSource",
         default: "—",
         note: "An icon before the label; on a tile, in its box.",
       },
@@ -157,6 +157,16 @@ export const checkbox: ComponentDoc = {
   },
 
   changelog: [
+    {
+      version: "0.4.0",
+      items: ["An invalid checkbox keeps its danger edge under the pointer and when checked."],
+    },
+    {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
     {
       version: "0.1.0",
       items: [

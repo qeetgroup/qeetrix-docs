@@ -306,7 +306,7 @@ const Next = mirrorInRtl(ArrowRightIcon);
       },
       {
         name: "icon",
-        type: "QeetrixIcon",
+        type: "IconSource",
         default: "—",
         note: "A trailing icon from @qeetrix/icons, drawn sharp.",
       },
@@ -389,6 +389,19 @@ import { Link } from "@tanstack/react-router";
   },
 
   changelog: [
+    {
+      version: "0.4.0",
+      items: [
+        "A solid neutral button hovers and presses in graphite, as soft does, not in Ember.",
+        "A ghost danger button keeps the danger tint when it's pressed without the pointer over it, never the brand's.",
+      ],
+    },
+    {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
     {
       version: "0.2.0",
       items: ["LinkButton: navigation drawn as a Button, announced as a link."],

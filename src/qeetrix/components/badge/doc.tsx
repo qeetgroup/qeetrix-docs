@@ -27,7 +27,7 @@ export const badge: ComponentDoc = {
       "A plan or a tag: Qeet Pro.",
     ],
     notFor: [
-      { text: "Something to click or remove", use: "Button" },
+      { text: "A tag to click or remove", use: "Chip" },
       { text: "A message about the page", use: "Alert" },
       { text: "A person", use: "Avatar" },
     ],
@@ -111,7 +111,7 @@ export const badge: ComponentDoc = {
       { name: "size", type: '"md" | "sm"', default: '"md"', note: "20px or 16px." },
       {
         name: "icon",
-        type: "QeetrixIcon",
+        type: "IconSource",
         default: "—",
         note: "A leading 12px icon (--qx-size-icon-2xs), sharp, decorative.",
       },
@@ -147,6 +147,12 @@ export const badge: ComponentDoc = {
 
   changelog: [
     {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
+    {
       version: "0.1.1",
       items: ["Its icon is sized by --qx-size-icon-2xs, 12px; it looks the same."],
     },
@@ -161,6 +167,7 @@ export const badge: ComponentDoc = {
   ],
 
   related: [
+    { name: "Chip", when: "A tag to choose or remove" },
     { name: "Table", when: "A status in a cell" },
     { name: "Tabs", when: "A count on a tab" },
     { name: "Alert", when: "A message, not a status" },

@@ -162,7 +162,6 @@ export const ConsoleSidebar = ({ label = "Qeet ID" }) => (
         render={routerLink}
         icon={UsersIcon}
         current
-        filledWhenCurrent
         badge="1,284"
       />
       <SidebarItem

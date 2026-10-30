@@ -112,6 +112,7 @@ export const categories: { id: string; name: string; line: string; items: Entry[
     items: [
       { name: "Table", line: "Rows, sorting, selection" },
       { name: "Badge", line: "Status in a word" },
+      { name: "Chip", line: "A tag to choose or remove", exp: true },
       { name: "Avatar", line: "A person or a tenant" },
       { name: "Avatar group", line: "Several people", exp: true },
       { name: "Stat", line: "A key figure", exp: true },

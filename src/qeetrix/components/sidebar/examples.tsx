@@ -64,7 +64,7 @@ export const examples: ExampleDoc[] = [
     line: "Links only, in groups under small capitals; the current page carries the Ember bar and aria-current. This site's own navigation is one.",
     code: `<Sidebar label="Qeet ID">
   <SidebarGroup label="Directory">
-    <SidebarItem label="Users" href="/users" icon={UsersIcon} current filledWhenCurrent badge="1,284" />
+    <SidebarItem label="Users" href="/users" icon={UsersIcon} current badge="1,284" />
     <SidebarItem label="Groups" href="/groups" icon={UserGroupIcon} badge="38" />
   </SidebarGroup>
 </Sidebar>`,

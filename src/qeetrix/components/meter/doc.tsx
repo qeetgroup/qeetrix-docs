@@ -160,6 +160,12 @@ export const meter: ComponentDoc = {
 
   changelog: [
     {
+      version: "0.4.0",
+      items: [
+        "Every tone's fill keeps 3:1 against the track: in dark the track is surface.sunken, and in light warning's fill is border.warning.",
+      ],
+    },
+    {
       version: "0.2.0",
       items: ["target: a goal on the range, drawn as a tick and read with the value."],
     },

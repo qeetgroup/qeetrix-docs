@@ -39,7 +39,10 @@ export interface DocsNavItem {
   id?: string;
   href?: string;
   icon?: QeetrixIcon;
-  /** The icon fills when its page is current (for icons with a filled drawing). */
+  /**
+   * The icon fills when its page is current, as Qeetrix's SidebarItem does by default; false keeps
+   * the outline. An icon with no filled drawing keeps its outline either way.
+   */
   filledWhenCurrent?: boolean;
   /** A brand's own mark instead of an icon: its light drawing, and its dark one where it has one. */
   brand?: readonly [light: LogoName, dark?: LogoName];

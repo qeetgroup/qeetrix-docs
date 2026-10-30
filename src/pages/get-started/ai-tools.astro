@@ -27,8 +27,8 @@ const rules = `# Qeetrix
 const data = [
   ["Tokens, light and dark", "@qeetrix/tokens/dtcg/light.tokens.json", "Every token, resolved, in the W3C design tokens format"],
   ["Tokens, how they resolve", "@qeetrix/tokens/dtcg/qeetrix.resolver.json", "Which set applies in which scheme"],
-  ["Icons and logos", "import { iconManifest, logoManifest } from \"@qeetrix/icons/manifest\"", "Every icon: its component, categories, drawings, shapes, direction and tags"],
-  ["Components", "import { manifest } from \"@qeetrix/react/manifest\"", "Every family: its status, its entry point, its parts and the version it arrived in"],
+  ["Icons and logos", "import { iconManifest, logoManifest } from \"@qeetrix/icons/manifest\"", "Every icon: its component, categories, drawings, shapes, direction and tags; the icons as JSON in @qeetrix/icons/manifest.json, and each drawing and logo as an SVG file in @qeetrix/icons/svg/"],
+  ["Components", "import { manifest } from \"@qeetrix/react/manifest\"", "Every family: its status, its entry point, its parts and the version it arrived in; the same list as JSON in @qeetrix/react/manifest.json, for tools that run no JavaScript"],
 ];
 ---
 

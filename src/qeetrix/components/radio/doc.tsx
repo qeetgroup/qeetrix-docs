@@ -195,6 +195,18 @@ export const radio: ComponentDoc = {
 
   changelog: [
     {
+      version: "0.4.0",
+      items: [
+        "An invalid radio keeps its danger edge under the pointer and when chosen: a chosen invalid radio's ring is the danger colour.",
+      ],
+    },
+    {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
+    {
       version: "0.1.0",
       items: ["A Form's error summary lists a RadioGroup's error and links to it."],
     },

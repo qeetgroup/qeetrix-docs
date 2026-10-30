@@ -446,11 +446,13 @@ function PayScreen() {
             <SidebarItem label="Overview" href="#" icon={HouseIcon} />
           </SidebarGroup>
           <SidebarGroup label="Billing">
+            {/* Outlined, as the home was ported: @qeetrix/react 0.4.0 fills a current icon by default. */}
             <SidebarItem
               label="Invoices"
               href="#"
               icon={ReceiptIndianRupeeIcon}
               current
+              filledWhenCurrent={false}
               badge="214"
             />
             <SidebarItem label="Customers" href="#" icon={UsersIcon} badge="86" />
@@ -651,7 +653,14 @@ function PeopleScreen() {
             <SidebarItem label="Leave" href="#" icon={CalendarDaysIcon} badge="7" />
           </SidebarGroup>
           <SidebarGroup label="Pay">
-            <SidebarItem label="Payroll" href="#" icon={BanknoteIcon} current />
+            {/* Outlined, as the home was ported: @qeetrix/react 0.4.0 fills a current icon by default. */}
+            <SidebarItem
+              label="Payroll"
+              href="#"
+              icon={BanknoteIcon}
+              current
+              filledWhenCurrent={false}
+            />
             <SidebarItem label="Reimbursements" href="#" icon={HandCoinsIcon} />
             <SidebarItem label="Tax declarations" href="#" icon={FileTextIcon} />
           </SidebarGroup>

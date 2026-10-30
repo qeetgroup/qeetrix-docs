@@ -78,7 +78,6 @@ export const tabs: ComponentDoc = {
                 key={value}
                 value={value}
                 icon={Icon}
-                filledWhenSelected
                 badge={value === "users" ? 642 : undefined}
               >
                 {label}
@@ -227,9 +226,9 @@ export const tabs: ComponentDoc = {
       },
       {
         name: "Tab: icon · filledWhenSelected",
-        type: "QeetrixIcon · boolean",
-        default: "— · false",
-        note: "A 16px leading icon, filled while selected (for icons that have a filled drawing).",
+        type: "IconSource · boolean",
+        default: "— · true",
+        note: "A 16px leading icon, filled while selected; false keeps the outline. An icon with no filled drawing keeps its outline.",
       },
       {
         name: "Tab: badge",
@@ -242,6 +241,12 @@ export const tabs: ComponentDoc = {
         type: "boolean",
         default: "false",
         note: "Can't be selected; it stays reachable by the arrow keys, so it's read.",
+      },
+      {
+        name: "TabNavLink: current · icon · filledWhenSelected",
+        type: "boolean · IconSource · boolean",
+        default: "false · — · true",
+        note: 'In a TabNav: aria-current="page" and the bar; an icon filled while current, as a Tab\'s.',
       },
       {
         name: "TabsPanel: keepMounted",
@@ -323,6 +328,18 @@ export const tabs: ComponentDoc = {
   },
 
   changelog: [
+    {
+      version: "0.4.0",
+      items: [
+        "filledWhenSelected defaults to true on Tab and TabNavLink: a selected tab's icon shows its filled drawing. filledWhenSelected={false} keeps the outline.",
+      ],
+    },
+    {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
     {
       version: "0.2.0",
       items: [

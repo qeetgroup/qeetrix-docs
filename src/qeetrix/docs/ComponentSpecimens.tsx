@@ -69,6 +69,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Calendar,
+  Chip,
   Combobox,
   CopyButton,
   DatePicker,
@@ -541,6 +542,13 @@ export const specimens: Record<string, ReactNode> = {
         Suspended
       </Badge>
       <Badge tone="info">Invited</Badge>
+    </span>
+  ),
+  Chip: (
+    <span className="qd-pv-row qd-pv-wrap">
+      <Chip defaultChecked>Unread</Chip>
+      <Chip>Mentions</Chip>
+      <Chip onRemove={noop}>Status: Active</Chip>
     </span>
   ),
   Avatar: (

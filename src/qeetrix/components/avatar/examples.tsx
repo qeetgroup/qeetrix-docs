@@ -1,7 +1,7 @@
 // Components › Avatar: its examples, the real Avatar with the code for each. Shared by the page
 // (doc.tsx) and the island that runs them (Live.tsx), as a photo shows once it has loaded: nothing
 // here reads token data. The photo is a drawing, as in the stories; the logo is Qeet's.
-import { Avatar, Inline, Stack, Text } from "@qeetrix/react";
+import { Avatar, type AvatarStatusTone, Inline, Stack, Text } from "@qeetrix/react";
 import { AvatarItem } from "@qeetrix/react/experimental";
 import type { ExampleDoc } from "../types";
 
@@ -15,6 +15,14 @@ export const SIZES = [
   ["lg", "40"],
   ["xl", "48"],
 ] as const;
+
+/** A person's presence, as a status: who, the words, the dot's tone. */
+export const STATUSES: ReadonlyArray<readonly [string, string, AvatarStatusTone]> = [
+  ["Priya Sharma", "Online", "success"],
+  ["Rahul Verma", "Away", "warning"],
+  ["Ananya Iyer", "Busy", "danger"],
+  ["Karthik Reddy", "Offline", "neutral"],
+];
 
 export const examples: ExampleDoc[] = [
   {
@@ -59,6 +67,28 @@ export const examples: ExampleDoc[] = [
               {px}
             </Text>
           </Stack>
+        ))}
+      </Inline>
+    ),
+  },
+  {
+    id: "a-status",
+    title: "A status",
+    line: 'status: a dot on the bottom-end corner, in Badge\'s tones, 8 to 14px with the size. Its label is read with the name: "Priya Sharma, Online".',
+    code: `<Avatar name="Priya Sharma" size="sm" status={{ label: "Online", tone: "success" }} />
+<Avatar name="Rahul Verma" src={user.photoUrl} status={{ label: "Away", tone: "warning" }} />
+<Avatar name="Ananya Iyer" size="lg" status={{ label: "Busy", tone: "danger" }} />
+<Avatar name="Karthik Reddy" size="xl" status={{ label: "Offline" }} />`,
+    render: () => (
+      <Inline gap="lg" align="end">
+        {STATUSES.map(([name, label, tone], index) => (
+          <Avatar
+            key={name}
+            name={name}
+            size={SIZES[index]?.[0]}
+            src={index === 1 ? PHOTO : undefined}
+            status={{ label, tone }}
+          />
         ))}
       </Inline>
     ),

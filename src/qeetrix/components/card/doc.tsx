@@ -189,6 +189,12 @@ export const card: ComponentDoc = {
 
   changelog: [
     {
+      version: "0.4.0",
+      items: [
+        "A card with only a header ends at its header: no empty body, and its header's rule no longer doubles the card's edge or the footer's.",
+      ],
+    },
+    {
       version: "0.1.0",
       items: [
         'variant="subdued" and tone="danger".',

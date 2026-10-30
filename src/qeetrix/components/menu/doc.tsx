@@ -256,6 +256,18 @@ export const menu: ComponentDoc = {
 
   changelog: [
     {
+      version: "0.4.0",
+      items: [
+        "Long items wrap instead of ending in an ellipsis; the icon, mark, shortcut and submenu chevron stay on the first line.",
+      ],
+    },
+    {
+      version: "0.3.0",
+      items: [
+        "icon takes an element as well as a component (icon={<PlusIcon />}), so a Server Component can pass one: its type is IconSource.",
+      ],
+    },
+    {
       version: "0.2.0",
       items: ["MenuRadioItem closes its menu on a choice; closeOnClick={false} keeps it open."],
     },

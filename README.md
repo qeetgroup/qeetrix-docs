@@ -102,11 +102,11 @@ category page, the search index and `llms-full.txt` follow. Every claim about an
 ## Status
 
 Every page in the navigation is built: the home page; Get started (Introduction, Installation,
-Frameworks with Next.js, TanStack Start and Vite, AI tools, Migration); Foundations; all 68
+Frameworks with Next.js, TanStack Start and Vite, AI tools, Migration); Foundations; all 69
 components, five tabs each; Icons; Patterns; Guides; Resources; and the docs search. Known
 follow-ups:
 - The docs pages' "Updated" dates are written in each page for now.
 - `.astro` files aren't type-checked yet: `astro check` needs a TypeScript 6 alias, because
   TypeScript 7 has no JavaScript API.
-- Gaps in `@qeetrix/react` 0.2.2 are worked around in the pages and filed in Jira (QTRX): each
-  workaround names its ticket in a comment.
+- Gaps in `@qeetrix/react` (0.4.0 today) are worked around in the pages and filed in Jira (QTRX):
+  each workaround names its ticket in a comment.
