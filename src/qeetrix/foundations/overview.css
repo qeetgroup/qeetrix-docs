@@ -1,0 +1,281 @@
+/* Foundations: the foundations' previews (drawn with the tokens), the three tiers, a token name
+ * part by part, and the two modes. Tokens only. */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer product {
+  .qf-pv-colour {
+    display: grid;
+    grid-template-columns: repeat(6, 1.5rem);
+    gap: var(--qx-space-gap-xs);
+  }
+
+  .qf-pv-swatch {
+    block-size: 1.5rem;
+    border-radius: var(--qx-radius-sm);
+    box-shadow: inset 0 0 0 var(--qx-border-width-default)
+      color-mix(in oklab, var(--qx-color-border-default) 40%, transparent);
+  }
+
+  .qf-pv-type {
+    display: flex;
+    align-items: center;
+    gap: var(--qx-space-gap-lg);
+  }
+
+  .qf-pv-type-aa {
+    font: var(--qx-typography-display-md);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-display);
+  }
+
+  .qf-pv-type-scale {
+    display: grid;
+    gap: 2px;
+    color: var(--qx-color-text-subtle);
+
+    & b:nth-child(1) {
+      color: var(--qx-color-text-default);
+      font: var(--qx-typography-title-md);
+    }
+
+    & b:nth-child(2) {
+      font: var(--qx-typography-title-sm);
+    }
+
+    & b:nth-child(3) {
+      font: var(--qx-typography-label-md);
+    }
+
+    & span {
+      font: var(--qx-typography-body-sm);
+    }
+  }
+
+  .qf-pv-space {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--qx-space-gap-md);
+
+    & > span {
+      display: grid;
+      justify-items: center;
+      gap: var(--qx-space-gap-xs);
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  .qf-pv-space i {
+    display: block;
+    border-radius: var(--qx-radius-sm);
+    background: var(--qx-color-bg-brand-subtle);
+    box-shadow: inset 0 0 0 var(--qx-border-width-default) var(--qx-color-border-brand);
+  }
+
+  .qf-pv-elevation {
+    display: grid;
+    gap: var(--qx-space-gap-md);
+    inline-size: 9rem;
+
+    & i {
+      display: block;
+      padding: var(--qx-space-gap-sm) var(--qx-space-inset-md);
+      border-radius: var(--qx-radius-surface);
+      background: var(--qx-color-surface-raised);
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-label-sm);
+      font-style: normal;
+    }
+
+    & i:nth-child(2) {
+      margin-inline-start: var(--qx-space-inset-md);
+      background: var(--qx-color-surface-overlay);
+    }
+
+    & i:nth-child(3) {
+      margin-inline-start: var(--qx-space-inset-xl);
+      background: var(--qx-color-surface-overlay);
+      color: var(--qx-color-text-default);
+    }
+  }
+
+  .qf-pv-motion {
+    display: grid;
+    justify-items: center;
+    gap: var(--qx-space-gap-xs);
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-code-sm);
+
+    & svg {
+      inline-size: 8rem;
+      overflow: visible;
+    }
+
+    & small {
+      font-size: inherit;
+    }
+  }
+
+  .qf-pv-motion-axis {
+    fill: none;
+    stroke: var(--qx-color-border-strong);
+    stroke-width: 1;
+  }
+
+  .qf-pv-motion-curve {
+    fill: none;
+    stroke: var(--qx-color-border-brand);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+
+  .qf-pv-motion circle {
+    fill: var(--qx-color-bg-brand-bold);
+  }
+
+  /* The three tiers, joined by an arrow: a name, the count, what it holds, an example. */
+  .qf-tier {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--qx-space-gap-xl);
+
+    & li {
+      position: relative;
+      display: grid;
+      align-content: start;
+      gap: var(--qx-space-gap-xs);
+      padding: var(--qx-space-inset-lg);
+      border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+      border-radius: var(--qx-radius-surface);
+      background: var(--qx-color-surface-raised);
+    }
+
+    & li:nth-child(2) {
+      border-color: var(--qx-color-border-brand);
+      box-shadow: inset 0 var(--qx-border-width-accent) 0 var(--qx-color-border-brand);
+    }
+
+    & code {
+      margin-block-start: var(--qx-space-gap-sm);
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-code-sm);
+      overflow-wrap: anywhere;
+    }
+  }
+
+  .qf-tier-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--qx-space-gap-sm);
+
+    & b {
+      font: var(--qx-typography-title-md);
+    }
+  }
+
+  .qf-tier-count {
+    font: var(--qx-typography-heading-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-heading);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .qf-tier-line {
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-sm);
+  }
+
+  .qf-tier-arrow {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: calc(-1 * var(--qx-space-gap-xl) / 2 - 10px);
+    translate: 0 -50%;
+    color: var(--qx-color-icon-subtle);
+  }
+
+  .qf-tier-note {
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-sm);
+  }
+
+  /* A token name, part by part. */
+  .qf-name {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--qx-space-gap-xs);
+
+    & li {
+      display: grid;
+      gap: var(--qx-space-gap-xs);
+    }
+
+    & code {
+      padding: var(--qx-space-gap-sm) var(--qx-space-inset-md);
+      border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+      border-radius: var(--qx-radius-control);
+      background: var(--qx-color-surface-raised);
+      font: var(--qx-typography-code-md);
+    }
+
+    & li:nth-child(4) code {
+      border-color: var(--qx-color-border-brand);
+      background: var(--qx-color-bg-brand-subtle);
+    }
+
+    & span {
+      padding-inline-start: var(--qx-space-gap-xs);
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-label-sm);
+    }
+  }
+
+  /* The two modes: the attribute, and its values as chips. */
+  .qf-mode {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--qx-space-gap-lg);
+
+    & > div {
+      display: grid;
+      align-content: start;
+      gap: var(--qx-space-gap-sm);
+      padding: var(--qx-space-inset-lg);
+      border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+      border-radius: var(--qx-radius-surface);
+      background: var(--qx-color-surface-raised);
+    }
+
+    & b {
+      font: var(--qx-typography-title-md);
+    }
+
+    & code {
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  .qf-mode-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--qx-space-gap-xs);
+
+    & span {
+      padding: 2px var(--qx-space-inset-sm);
+      border-radius: var(--qx-radius-full);
+      background: var(--qx-color-bg-neutral-subtle);
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  @media (width < 840px) {
+    .qf-tier,
+    .qf-mode {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .qf-tier-arrow {
+      display: none;
+    }
+  }
+}

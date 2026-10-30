@@ -1,0 +1,74 @@
+---
+// A component's Accessibility tab: its keys, how it behaves for assistive technology, and what's
+// tested on every change.
+import { CircleCheckIcon } from "@qeetrix/icons/icons/circle-check";
+import { Kbd } from "@qeetrix/react/experimental";
+import Sec from "../Sec.astro";
+import { numberOf, sectionsOf } from "../sections";
+import type { ComponentDoc } from "../types";
+
+interface Props {
+  doc: ComponentDoc;
+}
+
+const { doc } = Astro.props;
+const { accessibility } = doc;
+const sections = sectionsOf(doc, "accessibility");
+const n = (id: string) => numberOf(sections, id);
+---
+
+{
+  accessibility.keyboard.length > 0 && (
+    <Sec id="keyboard" n={n("keyboard")} title="Keyboard">
+      <div class="doc-table-scroll">
+        <table class="doc-table">
+          <thead>
+            <tr><th scope="col">Keys</th><th scope="col">What happens</th></tr>
+          </thead>
+          <tbody>
+            {
+              accessibility.keyboard.map((row) => (
+                <tr>
+                  <th scope="row">
+                    <span class="qc-keys">
+                      {row.keys.map((key) => (
+                        <Kbd keys={key} />
+                      ))}
+                    </span>
+                  </th>
+                  <td>{row.action}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </Sec>
+  )
+}
+
+<Sec id="behaviour" n={n("behaviour")} title="Behaviour">
+  <dl class="qc-checks">
+    {
+      accessibility.checks.map((row) => (
+        <div>
+          <dt>{row.check}</dt>
+          <dd>{row.result}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</Sec>
+
+<Sec id="tested" n={n("tested")} title="Tested" line="On every change, before it ships.">
+  <ul class="qc-tested">
+    {
+      accessibility.tested.map((line) => (
+        <li>
+          <CircleCheckIcon size={16} aria-hidden />
+          {line}
+        </li>
+      ))
+    }
+  </ul>
+</Sec>

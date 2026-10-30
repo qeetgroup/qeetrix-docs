@@ -1,0 +1,235 @@
+---
+// A component's pages, one per tab: /components/<name> for its examples, then /usage, /api,
+// /accessibility and /changelog. A component's islands (its playground; examples that need React)
+// are named here, as Astro hydrates only what a page imports. Written by scripts/components.ts.
+import AccordionLive from "@/qeetrix/components/accordion/Live";
+import AccordionPlayground from "@/qeetrix/components/accordion/Playground";
+import AlertLive from "@/qeetrix/components/alert/Live";
+import AlertPlayground from "@/qeetrix/components/alert/Playground";
+import AppShellLive from "@/qeetrix/components/app-shell/Live";
+import AvatarLive from "@/qeetrix/components/avatar/Live";
+import AvatarPlayground from "@/qeetrix/components/avatar/Playground";
+import AvatarGroupLive from "@/qeetrix/components/avatar-group/Live";
+import BadgePlayground from "@/qeetrix/components/badge/Playground";
+import BoxPlayground from "@/qeetrix/components/box/Playground";
+import BreadcrumbPlayground from "@/qeetrix/components/breadcrumb/Playground";
+import ButtonPlayground from "@/qeetrix/components/button/Playground";
+import ComponentPage from "@/qeetrix/components/ComponentPage.astro";
+import CalendarLive from "@/qeetrix/components/calendar/Live";
+import CalendarPlayground from "@/qeetrix/components/calendar/Playground";
+import CardPlayground from "@/qeetrix/components/card/Playground";
+import CheckboxLive from "@/qeetrix/components/checkbox/Live";
+import CheckboxPlayground from "@/qeetrix/components/checkbox/Playground";
+import ChipLive from "@/qeetrix/components/chip/Live";
+import ChipPlayground from "@/qeetrix/components/chip/Playground";
+import CodeBlockLive from "@/qeetrix/components/code-block/Live";
+import CodeBlockPlayground from "@/qeetrix/components/code-block/Playground";
+import CollapsibleLive from "@/qeetrix/components/collapsible/Live";
+import CollapsiblePlayground from "@/qeetrix/components/collapsible/Playground";
+import ComboboxLive from "@/qeetrix/components/combobox/Live";
+import ComboboxPlayground from "@/qeetrix/components/combobox/Playground";
+import CommandPaletteLive from "@/qeetrix/components/command-palette/Live";
+import ContextMenuLive from "@/qeetrix/components/context-menu/Live";
+import CopyButtonLive from "@/qeetrix/components/copy-button/Live";
+import CopyButtonPlayground from "@/qeetrix/components/copy-button/Playground";
+import DatePickerLive from "@/qeetrix/components/date-picker/Live";
+import DatePickerPlayground from "@/qeetrix/components/date-picker/Playground";
+import DateRangePickerLive from "@/qeetrix/components/date-range-picker/Live";
+import DateRangePickerPlayground from "@/qeetrix/components/date-range-picker/Playground";
+import DescriptionListLive from "@/qeetrix/components/description-list/Live";
+import DescriptionListPlayground from "@/qeetrix/components/description-list/Playground";
+import DialogLive from "@/qeetrix/components/dialog/Live";
+import DialogPlayground from "@/qeetrix/components/dialog/Playground";
+import DrawerLive from "@/qeetrix/components/drawer/Live";
+import DrawerPlayground from "@/qeetrix/components/drawer/Playground";
+import EmptyStateLive from "@/qeetrix/components/empty-state/Live";
+import EmptyStatePlayground from "@/qeetrix/components/empty-state/Playground";
+import FileUploadLive from "@/qeetrix/components/file-upload/Live";
+import FormLive from "@/qeetrix/components/form/Live";
+import GridPlayground from "@/qeetrix/components/grid/Playground";
+import IconButtonLive from "@/qeetrix/components/icon-button/Live";
+import IconButtonPlayground from "@/qeetrix/components/icon-button/Playground";
+import InlinePlayground from "@/qeetrix/components/inline/Playground";
+import InputLive from "@/qeetrix/components/input/Live";
+import InputPlayground from "@/qeetrix/components/input/Playground";
+import MenuLive from "@/qeetrix/components/menu/Live";
+import MenuPlayground from "@/qeetrix/components/menu/Playground";
+import MeterPlayground from "@/qeetrix/components/meter/Playground";
+import NumberFieldLive from "@/qeetrix/components/number-field/Live";
+import NumberFieldPlayground from "@/qeetrix/components/number-field/Playground";
+import OtpInputLive from "@/qeetrix/components/otp-input/Live";
+import OtpInputPlayground from "@/qeetrix/components/otp-input/Playground";
+import PageHeaderLive from "@/qeetrix/components/page-header/Live";
+import PaginationLive from "@/qeetrix/components/pagination/Live";
+import PaginationPlayground from "@/qeetrix/components/pagination/Playground";
+import PasswordInputLive from "@/qeetrix/components/password-input/Live";
+import PasswordInputPlayground from "@/qeetrix/components/password-input/Playground";
+import PopoverLive from "@/qeetrix/components/popover/Live";
+import PopoverPlayground from "@/qeetrix/components/popover/Playground";
+import ProgressLive from "@/qeetrix/components/progress/Live";
+import ProgressPlayground from "@/qeetrix/components/progress/Playground";
+import RadioLive from "@/qeetrix/components/radio/Live";
+import RadioPlayground from "@/qeetrix/components/radio/Playground";
+import RangeCalendarLive from "@/qeetrix/components/range-calendar/Live";
+import RangeCalendarPlayground from "@/qeetrix/components/range-calendar/Playground";
+import { DOCS, LIVE, PLAYGROUNDS } from "@/qeetrix/components/registry";
+import ScrollAreaLive from "@/qeetrix/components/scroll-area/Live";
+import SelectLive from "@/qeetrix/components/select/Live";
+import SelectPlayground from "@/qeetrix/components/select/Playground";
+import SeparatorPlayground from "@/qeetrix/components/separator/Playground";
+import SidebarLive from "@/qeetrix/components/sidebar/Live";
+import SliderLive from "@/qeetrix/components/slider/Live";
+import SliderPlayground from "@/qeetrix/components/slider/Playground";
+import SpinnerPlayground from "@/qeetrix/components/spinner/Playground";
+import StackPlayground from "@/qeetrix/components/stack/Playground";
+import StepsLive from "@/qeetrix/components/steps/Live";
+import StepsPlayground from "@/qeetrix/components/steps/Playground";
+import SwitchLive from "@/qeetrix/components/switch/Live";
+import SwitchPlayground from "@/qeetrix/components/switch/Playground";
+import Accessibility from "@/qeetrix/components/tab-pages/Accessibility.astro";
+import Api from "@/qeetrix/components/tab-pages/Api.astro";
+import Changelog from "@/qeetrix/components/tab-pages/Changelog.astro";
+import Examples from "@/qeetrix/components/tab-pages/Examples.astro";
+import Usage from "@/qeetrix/components/tab-pages/Usage.astro";
+import TableLive from "@/qeetrix/components/table/Live";
+import TablePlayground from "@/qeetrix/components/table/Playground";
+import TabsLive from "@/qeetrix/components/tabs/Live";
+import TabsPlayground from "@/qeetrix/components/tabs/Playground";
+import TextFieldLive from "@/qeetrix/components/text-field/Live";
+import TextFieldPlayground from "@/qeetrix/components/text-field/Playground";
+import TextareaLive from "@/qeetrix/components/textarea/Live";
+import TextareaPlayground from "@/qeetrix/components/textarea/Playground";
+import TimelinePlayground from "@/qeetrix/components/timeline/Playground";
+import ToastLive from "@/qeetrix/components/toast/Live";
+import ToastPlayground from "@/qeetrix/components/toast/Playground";
+import ToggleLive from "@/qeetrix/components/toggle/Live";
+import TogglePlayground from "@/qeetrix/components/toggle/Playground";
+import ToggleGroupLive from "@/qeetrix/components/toggle-group/Live";
+import ToggleGroupPlayground from "@/qeetrix/components/toggle-group/Playground";
+import TooltipLive from "@/qeetrix/components/tooltip/Live";
+import TooltipPlayground from "@/qeetrix/components/tooltip/Playground";
+import TreeViewLive from "@/qeetrix/components/tree-view/Live";
+import TreeViewPlayground from "@/qeetrix/components/tree-view/Playground";
+import { type ComponentDoc, TABS, type Tab } from "@/qeetrix/components/types";
+
+export function getStaticPaths() {
+  return DOCS.flatMap((doc) => TABS.map((tab) => ({ params: { component: doc.slug, tab: tab.path || undefined }, props: { doc, tab: tab.id } })));
+}
+
+const { doc, tab } = Astro.props as { doc: ComponentDoc; tab: Tab };
+const { slug, examples } = doc;
+---
+
+<ComponentPage doc={doc} tab={tab} playground={PLAYGROUNDS.has(slug)}>
+  {
+    tab === "examples" && (
+      <Examples doc={doc} playground={PLAYGROUNDS.has(slug)} live={LIVE.has(slug)}>
+        {slug === "button" && <ButtonPlayground slot="playground" client:visible />}
+        {slug === "icon-button" && <IconButtonPlayground slot="playground" client:visible />}
+        {slug === "icon-button" && examples.map((example) => <IconButtonLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "toggle" && <TogglePlayground slot="playground" client:visible />}
+        {slug === "toggle" && examples.map((example) => <ToggleLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "toggle-group" && <ToggleGroupPlayground slot="playground" client:visible />}
+        {slug === "toggle-group" && examples.map((example) => <ToggleGroupLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "copy-button" && <CopyButtonPlayground slot="playground" client:visible />}
+        {slug === "copy-button" && examples.map((example) => <CopyButtonLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "command-palette" && examples.map((example) => <CommandPaletteLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "text-field" && <TextFieldPlayground slot="playground" client:visible />}
+        {slug === "text-field" && examples.map((example) => <TextFieldLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "input" && <InputPlayground slot="playground" client:visible />}
+        {slug === "input" && examples.map((example) => <InputLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "textarea" && <TextareaPlayground slot="playground" client:visible />}
+        {slug === "textarea" && examples.map((example) => <TextareaLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "select" && <SelectPlayground slot="playground" client:visible />}
+        {slug === "select" && examples.map((example) => <SelectLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "combobox" && <ComboboxPlayground slot="playground" client:visible />}
+        {slug === "combobox" && examples.map((example) => <ComboboxLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "checkbox" && <CheckboxPlayground slot="playground" client:visible />}
+        {slug === "checkbox" && examples.map((example) => <CheckboxLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "radio" && <RadioPlayground slot="playground" client:visible />}
+        {slug === "radio" && examples.map((example) => <RadioLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "switch" && <SwitchPlayground slot="playground" client:visible />}
+        {slug === "switch" && examples.map((example) => <SwitchLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "slider" && <SliderPlayground slot="playground" client:visible />}
+        {slug === "slider" && examples.map((example) => <SliderLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "number-field" && <NumberFieldPlayground slot="playground" client:visible />}
+        {slug === "number-field" && examples.map((example) => <NumberFieldLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "password-input" && <PasswordInputPlayground slot="playground" client:visible />}
+        {slug === "password-input" && examples.map((example) => <PasswordInputLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "otp-input" && <OtpInputPlayground slot="playground" client:visible />}
+        {slug === "otp-input" && examples.map((example) => <OtpInputLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "file-upload" && examples.map((example) => <FileUploadLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "form" && examples.map((example) => <FormLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "calendar" && <CalendarPlayground slot="playground" client:visible />}
+        {slug === "calendar" && examples.map((example) => <CalendarLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "range-calendar" && <RangeCalendarPlayground slot="playground" client:visible />}
+        {slug === "range-calendar" && examples.map((example) => <RangeCalendarLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "date-picker" && <DatePickerPlayground slot="playground" client:visible />}
+        {slug === "date-picker" && examples.map((example) => <DatePickerLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "date-range-picker" && <DateRangePickerPlayground slot="playground" client:visible />}
+        {slug === "date-range-picker" && examples.map((example) => <DateRangePickerLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "dialog" && <DialogPlayground slot="playground" client:visible />}
+        {slug === "dialog" && examples.map((example) => <DialogLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "drawer" && <DrawerPlayground slot="playground" client:visible />}
+        {slug === "drawer" && examples.map((example) => <DrawerLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "popover" && <PopoverPlayground slot="playground" client:visible />}
+        {slug === "popover" && examples.map((example) => <PopoverLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "tooltip" && <TooltipPlayground slot="playground" client:visible />}
+        {slug === "tooltip" && examples.map((example) => <TooltipLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "menu" && <MenuPlayground slot="playground" client:visible />}
+        {slug === "menu" && examples.map((example) => <MenuLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "context-menu" && examples.map((example) => <ContextMenuLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "toast" && <ToastPlayground slot="playground" client:visible />}
+        {slug === "toast" && examples.map((example) => <ToastLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "tabs" && <TabsPlayground slot="playground" client:visible />}
+        {slug === "tabs" && examples.map((example) => <TabsLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "accordion" && <AccordionPlayground slot="playground" client:visible />}
+        {slug === "accordion" && examples.map((example) => <AccordionLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "collapsible" && <CollapsiblePlayground slot="playground" client:visible />}
+        {slug === "collapsible" && examples.map((example) => <CollapsibleLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "breadcrumb" && <BreadcrumbPlayground slot="playground" client:visible />}
+        {slug === "pagination" && <PaginationPlayground slot="playground" client:visible />}
+        {slug === "pagination" && examples.map((example) => <PaginationLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "steps" && <StepsPlayground slot="playground" client:visible />}
+        {slug === "steps" && examples.map((example) => <StepsLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "table" && <TablePlayground slot="playground" client:visible />}
+        {slug === "table" && examples.map((example) => <TableLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "badge" && <BadgePlayground slot="playground" client:visible />}
+        {slug === "chip" && <ChipPlayground slot="playground" client:visible />}
+        {slug === "chip" && examples.map((example) => <ChipLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "avatar" && <AvatarPlayground slot="playground" client:visible />}
+        {slug === "avatar" && examples.map((example) => <AvatarLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "avatar-group" && examples.map((example) => <AvatarGroupLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "description-list" && <DescriptionListPlayground slot="playground" client:visible />}
+        {slug === "description-list" && examples.map((example) => <DescriptionListLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "timeline" && <TimelinePlayground slot="playground" client:visible />}
+        {slug === "tree-view" && <TreeViewPlayground slot="playground" client:visible />}
+        {slug === "tree-view" && examples.map((example) => <TreeViewLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "code-block" && <CodeBlockPlayground slot="playground" client:visible />}
+        {slug === "code-block" && examples.map((example) => <CodeBlockLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "alert" && <AlertPlayground slot="playground" client:visible />}
+        {slug === "alert" && examples.map((example) => <AlertLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "progress" && <ProgressPlayground slot="playground" client:visible />}
+        {slug === "progress" && examples.map((example) => <ProgressLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "meter" && <MeterPlayground slot="playground" client:visible />}
+        {slug === "spinner" && <SpinnerPlayground slot="playground" client:visible />}
+        {slug === "empty-state" && <EmptyStatePlayground slot="playground" client:visible />}
+        {slug === "empty-state" && examples.map((example) => <EmptyStateLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "app-shell" && examples.map((example) => <AppShellLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "sidebar" && examples.map((example) => <SidebarLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "page-header" && examples.map((example) => <PageHeaderLive slot={example.id} id={example.id} client:visible />)}
+        {slug === "box" && <BoxPlayground slot="playground" client:visible />}
+        {slug === "stack" && <StackPlayground slot="playground" client:visible />}
+        {slug === "inline" && <InlinePlayground slot="playground" client:visible />}
+        {slug === "grid" && <GridPlayground slot="playground" client:visible />}
+        {slug === "card" && <CardPlayground slot="playground" client:visible />}
+        {slug === "separator" && <SeparatorPlayground slot="playground" client:visible />}
+        {slug === "scroll-area" && examples.map((example) => <ScrollAreaLive slot={example.id} id={example.id} client:visible />)}
+      </Examples>
+    )
+  }
+  {tab === "usage" && <Usage doc={doc} />}
+  {tab === "api" && <Api doc={doc} />}
+  {tab === "accessibility" && <Accessibility doc={doc} />}
+  {tab === "changelog" && <Changelog doc={doc} />}
+</ComponentPage>

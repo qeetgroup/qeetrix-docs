@@ -1,0 +1,48 @@
+---
+// Foundations › Colour: every colour role, in light and dark, ported from qeetrix-story.
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { Logo } from "@/platform/components/Logo";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { counts } from "@/qeetrix/counts";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { sections } from "@/qeetrix/foundations/Colour";
+import Sections from "@/qeetrix/foundations/Sections.astro";
+import TokenFilter from "@/qeetrix/foundations/TokenFilter";
+import { tokens } from "@/qeetrix/foundations/tokens";
+import "@/qeetrix/foundations/colour.css";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const toc = sections.map((s) => ({ id: s.id, label: s.name }));
+---
+
+<DocsPage title="Colour" description="Every colour role in @qeetrix/tokens, in light and dark, with measured contrast." current="foundations-colour" section={links.foundations} toc={toc}>
+  <Masthead slot="masthead" title="Colour" lede="Every colour role, in light and dark. Click a token to copy it." place={["Docs", "Foundations", "01 of 05"]} source={docs.source("foundations/colour.astro")}>
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        <div><dt><code>{packages.tokens.name}</code></dt><dd>{packages.tokens.version}</dd></div>
+      </dl>
+      <p class="doc-mast-links">
+        <a href={links.tokensRepo}><Logo name="github-mono" />GitHub<ArrowUpRightIcon size={14} /></a>
+        <a href={links.tokensNpm}><Logo name="npm" />npm<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Colour roles</dt><dd>{tokens.colours}<span>Semantic, light and dark</span></dd></div>
+      <div><dt>Chart series</dt><dd>{tokens.categorical}<span>Categorical colours</span></dd></div>
+      <div><dt>Contrast</dt><dd>WCAG 2.2<span>Measured on every pair</span></dd></div>
+      <div><dt>Tokens</dt><dd>{counts.tokens}<span>CSS variables in all</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <TokenFilter total={tokens.colourRows} />
+  <Sections sections={sections} />
+
+  <NextPage href={links.typography} label="Next — 02 of 05" title="Typography" />
+</DocsPage>
+
+<script>
+  import "@/qeetrix/foundations/filter";
+</script>

@@ -1,0 +1,67 @@
+---
+// Guides › Right to left: Arabic, Hebrew and Urdu layouts: the direction, logical properties, and
+// icons that point a reading way.
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { links } from "@/qeetrix/site";
+
+const toc = [
+  { id: "direction", label: "The direction" },
+  { id: "icons", label: "Icons that point" },
+  { id: "follows", label: "What follows" },
+];
+const direction = `<html lang="ur" dir="rtl">
+  …
+  <QeetrixProvider direction="rtl" locale="ur-IN">…</QeetrixProvider>`;
+const icons = `import { ArrowRightIcon } from "@qeetrix/icons";
+import { Button, mirrorInRtl } from "@qeetrix/react";
+
+// Points forward in both directions: once per icon, outside render.
+const Forward = mirrorInRtl(ArrowRightIcon);
+
+<Button icon={Forward}>Continue</Button>`;
+const follows: Array<[string, string]> = [
+  ["Layout", "Stack, Inline, Grid and Box use logical properties: start and end swap."],
+  ["Keys", "Tabs, Toggle group, Radio, Slider, Menu submenus and Tree view: Left and Right follow the reading way."],
+  ["Chevrons", "Breadcrumb, Pagination and Link's external arrow mirror on their own."],
+  ["Drawers", "Drawer's side is logical: end is on the left."],
+  ["Numbers", "Pagination's range keeps each number whole, in a <bdi>."],
+];
+---
+
+<DocsPage title="Right to left" description="Qeetrix in Arabic, Hebrew or Urdu: the direction, logical properties, and icons that point a reading way." current="guides-right-to-left" section={links.guides} toc={toc}>
+  <Masthead slot="masthead" title="Right to left" lede="Set the direction twice; mirror the icons that point." place={["Docs", "Guides", "Right to left"]} source={docs.source("guides/right-to-left.astro")}>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Set</dt><dd>2 places<span>dir on html, direction on the provider</span></dd></div>
+      <div><dt>Icons</dt><dd>mirrorInRtl<span>For arrows and chevrons you pass</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="direction" class="doc-sec" aria-labelledby="direction-title">
+    <p class="doc-eyebrow">01 — The direction</p>
+    <h2 class="doc-h2" id="direction-title">On the page, and on the provider.</h2>
+    <p class="doc-p"><code>dir</code> lays out the page; <code>direction</code> tells the components, for keys, submenus, sliders and drawers. The provider renders no element of its own.</p>
+    <CodeFrame file="root.tsx" code={direction} />
+  </section>
+
+  <section id="icons" class="doc-sec" aria-labelledby="icons-title">
+    <p class="doc-eyebrow">02 — Icons that point</p>
+    <h2 class="doc-h2" id="icons-title">mirrorInRtl, at the call site.</h2>
+    <p class="doc-p">Icons that point a reading direction flip by themselves: send, reply, undo and redo, log in and out, indent, text align. Arrows and chevrons don't, as they point on paper: forward or back is yours to say, once per icon. Don't mirror an icon that doesn't point, such as search or a clock.</p>
+    <CodeFrame file="continue.tsx" code={icons} />
+  </section>
+
+  <section id="follows" class="doc-sec" aria-labelledby="follows-title">
+    <p class="doc-eyebrow">03 — What follows</p>
+    <h2 class="doc-h2" id="follows-title">Built in.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table"><tbody>{follows.map(([what, how]) => <tr><th scope="row">{what}</th><td>{how}</td></tr>)}</tbody></table>
+    </div>
+    <p class="doc-p">Every example on these pages has an RTL switch: try it.</p>
+  </section>
+
+  <NextPage href={`${links.guides}/server-rendering`} label="Next — Guides" title="Server rendering" />
+</DocsPage>

@@ -1,0 +1,269 @@
+/* Foundations › Colour (Colour.tsx): the token list and the surface stack. Ported from qeetrix-story; token values only. */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer product {
+  /* ── The token list ────────────────────────────────────────────────────────── */
+
+  .qf-tokens-wrap {
+    inline-size: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+  }
+
+  .qf-tokens {
+    inline-size: 100%;
+    border-collapse: collapse;
+    font: var(--qx-typography-body-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    color: var(--qx-color-text-default);
+  }
+
+  .qf-tokens :is(th, td) {
+    padding: 0.625rem 1rem;
+    text-align: start;
+    vertical-align: middle;
+  }
+
+  .qf-tokens thead th {
+    padding-block: 0.625rem;
+    border-block-end: 1px solid var(--qx-color-border-subtle);
+    background: var(--qx-color-surface-canvas);
+    font: var(--qx-typography-label-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    color: var(--qx-color-text-subtle);
+    white-space: nowrap;
+  }
+
+  /* The preview column hugs its tile; Light and Dark stay one line. */
+  .qf-tokens :is(th, td):first-child {
+    inline-size: 1%;
+    padding-inline-end: 0.25rem;
+  }
+
+  .qf-tokens :is(th, td):nth-last-child(-n + 2) {
+    inline-size: 1%;
+    white-space: nowrap;
+  }
+
+  .qf-tokens tbody tr:not(.qf-tokens-group) + tr :is(th, td) {
+    border-block-start: 1px solid var(--qx-color-border-subtle);
+  }
+
+  .qf-tokens tbody tr:not(.qf-tokens-group):hover :is(th, td) {
+    background: var(--qx-color-surface-canvas);
+  }
+
+  /* A group's label row: small caps on the sunken band, like a table section. */
+  .qf-tokens .qf-tokens-group th {
+    padding-block: 0.5rem;
+    border-block: 1px solid var(--qx-color-border-subtle);
+    background: var(--qx-color-surface-sunken);
+    font: var(--qx-typography-label-caps);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    text-transform: uppercase;
+    color: var(--qx-color-text-subtle);
+  }
+
+  .qf-tokens tbody:first-of-type .qf-tokens-group th {
+    border-block-start: 0;
+  }
+
+  .qf-tokens tbody th[scope="row"] {
+    font-weight: inherit;
+  }
+
+  .qf-tokens-token {
+    display: grid;
+    justify-items: start;
+    gap: 0.25rem;
+  }
+
+  .qf-tokens-name {
+    font: var(--qx-typography-label-md);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+  }
+
+  .qf-tokens-usage {
+    color: var(--qx-color-text-subtle);
+  }
+
+  .qf-tokens td:nth-last-child(-n + 2) {
+    font: var(--qx-typography-code-sm);
+    color: var(--qx-color-text-subtle);
+  }
+
+  /* ── Previews: the role as it's used, light half then dark half ────────────── */
+
+  .qf-tone {
+    display: flex;
+    inline-size: 4.5rem;
+    block-size: 2.5rem;
+    overflow: hidden;
+    border: 1px solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-control);
+  }
+
+  .qf-tone-half {
+    display: grid;
+    flex: 1;
+    place-items: center;
+    background: var(--qx-color-surface-default);
+    font: var(--qx-typography-title-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-heading);
+  }
+
+  .qf-tone-half[data-sample]::before {
+    content: "Aa";
+  }
+
+  .qf-tone-edge {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    border: 2px solid;
+    border-radius: var(--qx-radius-sm);
+  }
+
+  /* ── The surface stack ─────────────────────────────────────────────────────── */
+
+  .qf-stacks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1rem;
+  }
+
+  .qf-stack,
+  .qf-stack-page,
+  .qf-stack-card,
+  .qf-stack-menu,
+  .qf-stack-well {
+    color: var(--qx-color-text-default);
+  }
+
+  .qf-stack {
+    display: grid;
+    gap: 0.625rem;
+    padding: 1rem;
+    border: 1px solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-canvas);
+  }
+
+  .qf-stack-page {
+    position: relative;
+    display: grid;
+    gap: 0.625rem;
+    padding: 0.875rem;
+    border: 1px solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-default);
+  }
+
+  .qf-stack-card {
+    display: grid;
+    gap: 0.625rem;
+    inline-size: 70%;
+    padding: 0.875rem;
+    border: 1px solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-raised);
+    box-shadow: var(--qx-shadow-raised);
+  }
+
+  .qf-stack-well {
+    padding: 0.5rem 0.625rem;
+    border-radius: var(--qx-radius-control);
+    background: var(--qx-color-surface-sunken);
+    font: var(--qx-typography-code-sm);
+    color: var(--qx-color-text-subtle);
+  }
+
+  .qf-stack-menu {
+    position: absolute;
+    inset-block-start: 2.5rem;
+    inset-inline-end: 0.875rem;
+    inline-size: 38%;
+    padding: 0.75rem;
+    border: 1px solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-overlay);
+    background: var(--qx-color-surface-overlay);
+    box-shadow: var(--qx-shadow-overlay);
+  }
+
+  .qf-stack-label {
+    font: var(--qx-typography-label-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    color: var(--qx-color-text-subtle);
+  }
+
+  /* Narrow cards: the usage column is the first to go. */
+  /* The docs' content column is narrower than Storybook's canvas: the column goes only below 40rem. */
+  @container (max-width: 40rem) {
+    .qf-tokens-usage {
+      display: none;
+    }
+  }
+
+  /* Token names in full: they wrap rather than cut, as they're what a reader came to copy. */
+  .qf-tokens .qf-copy-token code {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: start;
+  }
+
+  /* The token column takes the room the names need; the use column wraps instead. */
+  .qf-tokens th[scope="row"] {
+    inline-size: 34%;
+  }
+
+  .qf-tokens-name {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+  }
+
+  /* Where a role's value comes from: the primitive step, under its hex. */
+  .qf-source {
+    display: block;
+    margin-block-start: 2px;
+    padding-inline-start: calc(0.75rem + var(--qx-space-gap-sm));
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-code-sm);
+  }
+
+  .qf-ratio[data-exempt] {
+    color: var(--qx-color-text-subtle);
+  }
+
+  .qf-filter-field {
+    flex: 1 1 16rem;
+    max-inline-size: 24rem;
+  }
+
+  .qf-filter-count {
+    color: var(--qx-color-text-default);
+    font: var(--qx-typography-label-md);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .qf-filter-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+    margin-inline-start: auto;
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-sm);
+
+    & code {
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  [data-qf-out] {
+    display: none;
+  }
+}

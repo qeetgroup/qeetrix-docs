@@ -1,0 +1,54 @@
+---
+// Get started › Frameworks: which frameworks have a guide, and what each covers.
+import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
+import { CircleCheckIcon } from "@qeetrix/icons/icons/circle-check";
+import { MinusIcon } from "@qeetrix/icons/icons/minus";
+import { Logo } from "@/platform/components/Logo";
+import Masthead from "@/platform/docs/Masthead.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { links } from "@/qeetrix/site";
+
+const toc = [
+  { id: "guides", label: "The guides" },
+  { id: "compare", label: "What each covers" },
+];
+const rows: [string, boolean, boolean, boolean][] = [
+  ["Server rendering", true, true, false],
+  ["React Server Components", true, false, false],
+  ["Colour scheme before paint", true, true, true],
+  ["CSS layer order", true, true, true],
+];
+---
+
+<DocsPage title="Frameworks" description="The frameworks Qeetrix has a guide for, and what each guide covers." current="frameworks" section={links.docs} toc={toc}>
+  <Masthead slot="masthead" title="Frameworks" lede="Any React app works. These three have a guide." place={["Docs", "Get started", "Frameworks"]} source={docs.source("get-started/frameworks.astro")}>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Guides</dt><dd>3<span>Next.js, TanStack Start, Vite</span></dd></div>
+      <div><dt>Requires</dt><dd>React 19.2<span>Any framework on it</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="guides" class="doc-sec" aria-labelledby="guides-title">
+    <p class="doc-eyebrow">01 — The guides</p>
+    <h2 class="doc-h2" id="guides-title">Pick your framework.</h2>
+    <div class="doc-tiles doc-tiles-3">
+      <a href={links.nextjs}><span class="doc-tile-logo"><Logo name="nextdotjs" className="only-light" /><Logo name="nextdotjs-dark" className="only-dark" /></span><b>Next.js</b><span>App Router and server components</span><span class="doc-tile-row"><span /><ArrowRightIcon size={20} className="doc-tile-go" data-qx-mirror /></span></a>
+      <a href={links.tanstackStart}><span class="doc-tile-logo"><Logo name="tanstack" /></span><b>TanStack Start</b><span>The Qeet console setup</span><span class="doc-tile-row"><span /><ArrowRightIcon size={20} className="doc-tile-go" data-qx-mirror /></span></a>
+      <a href={links.vite}><span class="doc-tile-logo"><Logo name="vite" /></span><b>Vite</b><span>A plain React app</span><span class="doc-tile-row"><span /><ArrowRightIcon size={20} className="doc-tile-go" data-qx-mirror /></span></a>
+    </div>
+  </section>
+
+  <section id="compare" class="doc-sec" aria-labelledby="compare-title">
+    <p class="doc-eyebrow">02 — What each covers</p>
+    <h2 class="doc-h2" id="compare-title">Side by side.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table doc-table-compare">
+        <thead><tr><th scope="col">Guide covers</th><th scope="col">Next.js</th><th scope="col">TanStack Start</th><th scope="col">Vite</th></tr></thead>
+        <tbody>
+          {rows.map(([what, ...has]) => <tr><th scope="row">{what}</th>{has.map((yes) => <td>{yes ? <span class="doc-yes"><CircleCheckIcon size={16} />Yes</span> : <span class="doc-no"><MinusIcon size={16} />Not needed</span>}</td>)}</tr>)}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</DocsPage>

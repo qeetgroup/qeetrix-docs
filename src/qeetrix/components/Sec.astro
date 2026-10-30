@@ -1,0 +1,18 @@
+---
+// One section of a component's tab: its number, its title, its one line, then its body.
+interface Props {
+  id: string;
+  n: string;
+  title: string;
+  line?: string;
+}
+
+const { id, n, title, line } = Astro.props;
+---
+
+<section id={id} class="doc-sec" aria-labelledby={`${id}-title`}>
+  <p class="doc-eyebrow">{n}</p>
+  <h2 class="doc-h2" id={`${id}-title`}>{title}</h2>
+  {line && <p class="qf-lede">{line}</p>}
+  <slot />
+</section>

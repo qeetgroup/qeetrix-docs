@@ -1,0 +1,48 @@
+---
+// Patterns › User detail: a record's page: back to the list, its status and actions, its facts in
+// cards, and its activity beside them.
+import PatternPage from "@/qeetrix/docs/PatternPage.astro";
+import { links } from "@/qeetrix/site";
+
+const code = `<PageHeader
+  back={<PageHeaderBack href="/users">Users</PageHeaderBack>}
+  title="Priya Sharma"
+  status={<Badge tone="success">Active</Badge>}
+  actions={<Button>Edit profile</Button>}
+/>
+<PageContent>
+  <Grid columns={{ base: 1, large: 3 }} gap="xl">
+    <GridItem span={{ large: 2 }}>
+      <Card title="Profile" level={2}>
+        <DescriptionList>…</DescriptionList>
+      </Card>
+    </GridItem>
+    <Card title="Recent activity" level={2}>
+      <Timeline aria-label="Recent activity">…</Timeline>
+    </Card>
+  </Grid>
+</PageContent>`;
+---
+
+<PatternPage
+  title="User detail"
+  slug="user-detail"
+  lede="A record's page: back to the list, its status and actions, its facts in cards, and its activity beside them."
+  frame={{ id: "pattern-user-detail", height: "720px", window: 1280 }}
+  parts={[
+    ["Page header", "page-header", "Back, the name, status and actions"],
+    ["Badge", "badge", "The status beside the title"],
+    ["Grid", "grid", "A main column and a side one"],
+    ["Card", "card", "A section per topic"],
+    ["Description list", "description-list", "The facts"],
+    ["Timeline", "timeline", "What happened lately"],
+  ]}
+  file="user-page.tsx"
+  code={code}
+  rules={[
+    "Back, not a breadcrumb, one level down.",
+    "Facts as terms and values; an empty one shows —.",
+    "The activity is recent: the full log is a Table on its own page.",
+  ]}
+  next={{ href: `${links.patterns}/account-settings`, title: "Account settings" }}
+/>

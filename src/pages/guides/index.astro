@@ -1,0 +1,26 @@
+---
+// Guides: the four guides, a line each.
+import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
+import Masthead from "@/platform/docs/Masthead.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { links } from "@/qeetrix/site";
+
+const guides: Array<[string, string, string]> = [
+  ["Theming", "theming", "The colour scheme, density and a tenant's brand"],
+  ["Accessibility", "accessibility", "What's built in, and what's yours"],
+  ["Right to left", "right-to-left", "The direction and icons that point"],
+  ["Server rendering", "server-rendering", "No JavaScript, and the same HTML"],
+];
+---
+
+<DocsPage title="Guides" description="Theming, accessibility, right to left and server rendering: the four guides." current="guides" section={links.guides} toc={[{ id: "guides", label: "The guides" }]}>
+  <Masthead slot="masthead" title="Guides" lede="What every Qeetrix app decides once." place={["Docs", "Guides"]} source={docs.source("guides/index.astro")} />
+  <section id="guides" class="doc-sec" aria-labelledby="guides-title">
+    <p class="doc-eyebrow">01 — The guides</p>
+    <h2 class="doc-h2" id="guides-title">Four decisions.</h2>
+    <div class="doc-tiles doc-tiles-3">
+      {guides.map(([title, slug, line]) => <a href={`${links.guides}/${slug}`}><b>{title}</b><span>{line}</span><span class="doc-tile-row"><span /><ArrowRightIcon size={20} className="doc-tile-go" data-qx-mirror /></span></a>)}
+    </div>
+  </section>
+</DocsPage>

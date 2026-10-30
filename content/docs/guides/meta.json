@@ -1,7 +1,0 @@
-{
-  "title": "Guides",
-  "description": "Theming, framework setup and accessibility.",
-  "icon": "BookOpen",
-  "root": true,
-  "pages": ["index", "theming", "nextjs", "tanstack-start", "accessibility"]
-}

@@ -1,0 +1,669 @@
+/* Icons (Iconography.tsx): sizes, shapes, icons in components and the common icons. Ported from qeetrix-story; token values only. */
+/* The cascade order, restated so it holds whichever stylesheet loads first (layers.css). */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer product {
+  /* ── An icon magnified on its pixel grid ───────────────────────────────────── */
+
+  /*
+   * The box is the size token times the zoom; the background draws one square per pixel of that
+   * box. Each line sits at the end of its square, so the outline closes the start edges.
+   */
+  .qf-ico-grid {
+    --qx-ico-zoom: 4;
+    --qx-ico-cell: calc(var(--qx-ico-zoom) * 1px);
+    --qx-ico-line: var(--qx-color-border-default);
+
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: calc(var(--qx-ico-box) * var(--qx-ico-zoom));
+    block-size: calc(var(--qx-ico-box) * var(--qx-ico-zoom));
+    outline: 1px solid var(--qx-ico-line);
+    background-color: var(--qx-color-surface-default);
+    background-image:
+      linear-gradient(to right, transparent calc(var(--qx-ico-cell) - 1px), var(--qx-ico-line) 0),
+      linear-gradient(to bottom, transparent calc(var(--qx-ico-cell) - 1px), var(--qx-ico-line) 0);
+    background-size: var(--qx-ico-cell) var(--qx-ico-cell);
+    color: var(--qx-color-icon-default);
+  }
+
+  .qf-ico-grid > svg {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  /* ── Size and stroke rows ──────────────────────────────────────────────────── */
+
+  .qf-ico-meta-line {
+    display: block;
+    color: var(--qx-color-text-subtlest);
+  }
+
+  .qf-ico-sample {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qx-space-gap-xl) var(--qx-space-layout-md);
+  }
+
+  /* The column the largest grid fills, so every strip starts on the same line. */
+  .qf-ico-zoom {
+    display: flex;
+    flex: none;
+    inline-size: calc(var(--qx-size-icon-lg) * 4 + 1px);
+  }
+
+  .qf-ico-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qx-space-gap-lg) var(--qx-space-gap-xl);
+    color: var(--qx-color-icon-default);
+  }
+
+  /* ── Shape and variant plates ──────────────────────────────────────────────── */
+
+  .qf-ico-plates {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--qx-space-gap-lg);
+  }
+
+  .qf-ico-plate {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-inline-size: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+  }
+
+  .qf-ico-plate-stage {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--qx-space-gap-xl) var(--qx-space-layout-md);
+    padding: var(--qx-space-layout-sm);
+    background: var(--qx-color-surface-canvas);
+  }
+
+  .qf-ico-plate-set {
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+    gap: var(--qx-space-gap-xl);
+    color: var(--qx-color-icon-default);
+  }
+
+  .qf-ico-plate-caption {
+    display: grid;
+    gap: var(--qx-space-gap-xs);
+    padding: var(--qx-space-inset-md) var(--qx-space-inset-lg);
+    border-block-start: 1px solid var(--qx-color-border-subtle);
+  }
+
+  .qf-ico-plate-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+  }
+
+  .qf-ico-plate-title {
+    font: var(--qx-typography-label-md);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+  }
+
+  .qf-ico-plate-note {
+    font: var(--qx-typography-body-sm);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    color: var(--qx-color-text-subtle);
+  }
+
+  /* ── Components, each with the size it draws ───────────────────────────────── */
+
+  .qf-ico-demos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: var(--qx-space-gap-lg);
+  }
+
+  .qf-ico-demo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+    min-inline-size: 0;
+    overflow: hidden;
+    border: 1px solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+  }
+
+  .qf-ico-demo-stage {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--qx-space-gap-sm);
+    min-block-size: 6.5rem;
+    padding: var(--qx-space-inset-xl) var(--qx-space-inset-lg);
+    background: var(--qx-color-surface-canvas);
+  }
+
+  .qf-ico-demo-fill {
+    display: block;
+    inline-size: 100%;
+  }
+
+  .qf-ico-demo-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--qx-space-gap-md);
+    padding: var(--qx-space-inset-md) var(--qx-space-inset-lg);
+    border-block-start: 1px solid var(--qx-color-border-subtle);
+  }
+
+  .qf-ico-demo-name {
+    font: var(--qx-typography-label-md);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+  }
+
+  .qf-ico-demo-size {
+    font: var(--qx-typography-code-sm);
+    color: var(--qx-color-text-subtle);
+    white-space: nowrap;
+  }
+
+  /* ── Icon tiles: the whole tile copies the import ──────────────────────────── */
+
+  .qf-ico-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    gap: var(--qx-space-gap-md) var(--qx-space-gap-lg);
+  }
+
+  .qf-ico-tile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--qx-space-gap-md);
+    min-inline-size: 0;
+    padding: var(--qx-space-inset-sm);
+    border: 1px solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-default);
+    transition:
+      transform var(--qx-motion-duration-normal) var(--qx-motion-easing-standard),
+      box-shadow var(--qx-motion-duration-normal) var(--qx-motion-easing-standard);
+  }
+
+  .qf-ico-tile:hover {
+    box-shadow: var(--qx-shadow-raised-hover);
+    transform: translateY(-1px);
+  }
+
+  .qf-ico-tile-well {
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: calc(var(--qx-size-icon-lg) * 2);
+    block-size: calc(var(--qx-size-icon-lg) * 2);
+    border-radius: var(--qx-radius-control);
+    background: var(--qx-color-surface-canvas);
+    color: var(--qx-color-icon-default);
+  }
+
+  .qf-ico-tile-meta {
+    display: grid;
+    gap: 0.0625rem;
+    min-inline-size: 0;
+  }
+
+  .qf-ico-tile-name {
+    overflow: hidden;
+    font: var(--qx-typography-label-md);
+    font-variation-settings: "GEOM" var(--qx-font-geometry-body);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .qf-ico-tile-copied {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-xs);
+    color: var(--qx-color-text-success);
+  }
+
+  .qf-ico-tile-id {
+    overflow: hidden;
+    font: var(--qx-typography-code-sm);
+    color: var(--qx-color-text-subtle);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* The tile's one target: an empty button stretched over it, named by its label. */
+  .qf-ico-tile-hit {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: inherit;
+    background: none;
+    cursor: pointer;
+  }
+
+  .qf-ico-tile-hit:focus-visible {
+    outline: var(--qx-focus-ring-width) solid var(--qx-color-border-focus);
+    outline-offset: var(--qx-focus-ring-offset);
+  }
+
+  @container (max-width: 40rem) {
+    .qf-ico-plates {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* ── The set: a wall of icons, the way in to all of them, the categories ─────── */
+
+  .qf-wall-frame {
+    position: relative;
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-canvas);
+  }
+
+  .qf-wall {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(3.5rem, 1fr));
+    color: var(--qx-color-icon-default);
+    /* The wall fades out under the way in, as if it went on. */
+    mask-image: linear-gradient(to bottom, black 45%, transparent 100%);
+  }
+
+  .qf-wall-cell {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border-inline-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-block-end: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+  }
+
+  .qf-wall-cta {
+    position: absolute;
+    inset-block-end: var(--qx-space-inset-lg);
+    inset-inline-start: 50%;
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    gap: 2px var(--qx-space-gap-lg);
+    padding: var(--qx-space-inset-md) var(--qx-space-inset-lg);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-default);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-raised);
+    box-shadow: var(--qx-shadow-overlay);
+    color: var(--qx-color-text-default);
+    translate: -50% 0;
+    transition: box-shadow var(--qx-motion-duration-normal) var(--qx-motion-easing-standard);
+
+    & b {
+      font: var(--qx-typography-title-md);
+    }
+
+    & span {
+      grid-column: 1;
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-body-sm);
+    }
+
+    & svg {
+      grid-row: 1 / 3;
+      grid-column: 2;
+      color: var(--qx-color-icon-brand);
+      transition: translate var(--qx-motion-duration-normal) var(--qx-motion-easing-standard);
+    }
+
+    &:hover {
+      box-shadow: var(--qx-shadow-modal);
+    }
+
+    &:hover svg {
+      translate: 3px 0;
+    }
+  }
+
+  [dir="rtl"] .qf-wall-cta {
+    translate: 50% 0;
+  }
+
+  .qf-cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--qx-space-gap-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & a {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--qx-space-gap-sm);
+      padding: var(--qx-space-gap-xs) var(--qx-space-inset-sm) var(--qx-space-gap-xs)
+        var(--qx-space-inset-md);
+      border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+      border-radius: var(--qx-radius-full);
+      background: var(--qx-color-surface-raised);
+      color: var(--qx-color-text-default);
+      font: var(--qx-typography-label-md);
+      text-decoration: none;
+    }
+
+    & a:hover {
+      border-color: var(--qx-color-border-default);
+      background: var(--qx-color-bg-neutral-subtle);
+    }
+
+    & a span {
+      padding: 0 var(--qx-space-inset-xs);
+      border-radius: var(--qx-radius-full);
+      background: var(--qx-color-bg-neutral-subtle);
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  /* ── Filled when selected: each icon's two drawings, then components that use them ── */
+
+  .qf-filled {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+    gap: var(--qx-space-gap-md);
+  }
+
+  .qf-filled-pair {
+    display: grid;
+    gap: var(--qx-space-gap-sm);
+    margin: 0;
+
+    & > span {
+      display: flex;
+      justify-content: center;
+      gap: var(--qx-space-gap-lg);
+      padding: var(--qx-space-inset-lg);
+      border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+      border-radius: var(--qx-radius-surface);
+      background: var(--qx-color-surface-canvas);
+      color: var(--qx-color-icon-default);
+    }
+
+    & > span svg:last-child {
+      color: var(--qx-color-icon-brand);
+    }
+
+    & code {
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  .qf-filled-live {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qx-space-gap-xl);
+    padding: var(--qx-space-inset-lg);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-canvas);
+  }
+
+  /* ── Right to left: the same icons, both ways ───────────────────────────────── */
+
+  .qf-rtl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--qx-space-gap-lg);
+  }
+
+  .qf-rtl-panel {
+    display: grid;
+    gap: var(--qx-space-gap-md);
+    padding: var(--qx-space-inset-lg);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-canvas);
+  }
+
+  .qf-rtl-label {
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-label-caps);
+    letter-spacing: var(--qx-typography-label-caps-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  .qf-rtl-icons {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(2.25rem, 1fr));
+    gap: var(--qx-space-gap-sm);
+    color: var(--qx-color-icon-default);
+
+    & span {
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1;
+      border-radius: var(--qx-radius-control);
+      background: var(--qx-color-surface-raised);
+    }
+  }
+
+  @container (max-width: 40rem) {
+    .qf-rtl {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* Common icons: "Copied" only once a tile has copied (copy.ts marks it data-copied). */
+  .qf-ico-tile-copied {
+    display: none;
+  }
+
+  .qf-ico-tile:has(.qf-ico-tile-hit[data-copied]) {
+    & .qf-ico-tile-label {
+      display: none;
+    }
+
+    & .qf-ico-tile-copied {
+      display: inline-flex;
+    }
+  }
+
+  /* ── The wall, live: each cell copies its import; the bar switches shape and drawing ── */
+
+  .qf-wall-bar {
+    position: static;
+    box-shadow: none;
+  }
+
+  .qf-wall-cell {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border-block-start: 0;
+    border-inline-start: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color var(--qx-motion-duration-fast) var(--qx-motion-easing-standard);
+
+    &:hover,
+    &:focus-visible {
+      z-index: 1;
+      background: var(--qx-color-surface-raised);
+      color: var(--qx-color-icon-brand);
+    }
+
+    &:focus-visible {
+      outline: var(--qx-focus-ring-width) solid var(--qx-color-border-focus);
+      outline-offset: calc(-1 * var(--qx-focus-ring-width));
+    }
+  }
+
+  /* One drawing shows: the wall's shape and drawing; outline where an icon has no filled one. */
+  .qf-wall [data-glyph] {
+    display: none;
+  }
+
+  .qf-wall[data-shape="round"][data-drawing="outline"] [data-glyph="round-outline"],
+  .qf-wall[data-shape="sharp"][data-drawing="outline"] [data-glyph="sharp-outline"],
+  .qf-wall[data-shape="round"][data-drawing="filled"] [data-glyph="round-filled"],
+  .qf-wall[data-shape="sharp"][data-drawing="filled"] [data-glyph="sharp-filled"],
+  .qf-wall[data-shape="round"][data-drawing="filled"]
+    .qf-wall-cell:not([data-has-filled])
+    [data-glyph="round-outline"],
+  .qf-wall[data-shape="sharp"][data-drawing="filled"]
+    .qf-wall-cell:not([data-has-filled])
+    [data-glyph="sharp-outline"] {
+    display: block;
+  }
+
+  /* The name, at the cell's foot on hover or focus; "Copied" once it has copied. */
+  .qf-wall-name {
+    position: absolute;
+    inset-inline: 2px;
+    inset-block-end: 3px;
+    overflow: hidden;
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-code-sm);
+    font-size: 0.625rem;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0;
+  }
+
+  .qf-wall-cell:is(:hover, :focus-visible, [data-copied]) .qf-wall-name {
+    opacity: 1;
+  }
+
+  .qf-wall-copied {
+    display: none;
+    color: var(--qx-color-text-success);
+  }
+
+  .qf-wall-cell[data-copied] {
+    & .qf-wall-label {
+      display: none;
+    }
+
+    & .qf-wall-copied {
+      display: inline;
+    }
+  }
+
+  /* ── Do and don't: the cases are rules.css; here, what the icon rules draw ───────── */
+
+  .qf-rule-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-lg);
+    color: var(--qx-color-icon-default);
+  }
+
+  .qf-rule-labels {
+    gap: var(--qx-space-gap-xl);
+    color: var(--qx-color-text-default);
+    font: var(--qx-typography-label-md);
+
+    & span {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--qx-space-gap-sm);
+    }
+  }
+
+  .qf-rule-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--qx-space-gap-sm);
+    padding: var(--qx-space-gap-sm) var(--qx-space-inset-md);
+    border-radius: var(--qx-radius-control);
+    background: var(--qx-color-bg-brand-bold);
+    color: var(--qx-color-text-on-brand);
+    font: var(--qx-typography-label-md);
+  }
+
+  /* ── Qeet logos: each file on the surface it's drawn for ──────────────────────── */
+
+  .qf-logos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: var(--qx-space-gap-md);
+  }
+
+  .qf-logo {
+    display: grid;
+    margin: 0;
+    overflow: hidden;
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-raised);
+    color: var(--qx-color-text-default);
+
+    & figcaption {
+      display: grid;
+      gap: 2px;
+      padding: var(--qx-space-inset-sm) var(--qx-space-inset-md);
+      border-block-start: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+      color: var(--qx-color-text-subtle);
+      font: var(--qx-typography-body-sm);
+    }
+
+    & code {
+      color: var(--qx-color-text-default);
+      font: var(--qx-typography-code-sm);
+    }
+  }
+
+  .qf-logo-stage {
+    display: grid;
+    place-items: center;
+    min-block-size: 7rem;
+    padding: var(--qx-space-inset-lg);
+    background: var(--qx-color-surface-canvas);
+  }
+
+  .qf-logo-colour {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--qx-space-gap-sm) var(--qx-space-gap-md);
+    margin: 0;
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-body-md);
+
+    & code {
+      color: var(--qx-color-text-default);
+      font: var(--qx-typography-code-md);
+    }
+
+    & a {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--qx-space-gap-xs);
+      margin-inline-start: auto;
+      color: var(--qx-color-text-link);
+      font: var(--qx-typography-label-md);
+    }
+  }
+
+  .qf-logo-swatch {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    border-radius: var(--qx-radius-sm);
+  }
+}

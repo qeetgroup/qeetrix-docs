@@ -1,7 +1,0 @@
-{
-  "title": "Patterns",
-  "description": "Copy-paste blocks and layout patterns.",
-  "icon": "LayoutTemplate",
-  "root": true,
-  "pages": ["index"]
-}

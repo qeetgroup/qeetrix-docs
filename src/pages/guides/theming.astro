@@ -1,0 +1,90 @@
+---
+// Guides › Theming: the colour scheme, density and a tenant's brand, all from the tokens.
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { links } from "@/qeetrix/site";
+
+const toc = [
+  { id: "scheme", label: "Colour scheme" },
+  { id: "density", label: "Density" },
+  { id: "brand", label: "A tenant's brand" },
+];
+const scheme = `import { Toggle, ToggleGroup, useColorScheme } from "@qeetrix/react";
+
+export function SchemeChoice() {
+  const { colorScheme, setColorScheme } = useColorScheme();
+  return (
+    <ToggleGroup aria-label="Colour scheme" value={[colorScheme]} onValueChange={([next]) => next && setColorScheme(next)}>
+      <Toggle value="light">Light</Toggle>
+      <Toggle value="dark">Dark</Toggle>
+      <Toggle value="system">System</Toggle>
+    </ToggleGroup>
+  );
+}`;
+const subtree = `<!-- A dark panel on a light page: the attribute switches everything inside. -->
+<aside data-qx-color-scheme="dark">…</aside>`;
+const density = `<!-- A dense table, a roomier form: on any element. -->
+<section data-qx-density="compact">…</section>
+<form data-qx-density="comfortable">…</form>`;
+const densities: Array<[string, string, string, string, string, string]> = [
+  ["compact", "32px", "28px", "24px", "32px", "12px"],
+  ["default", "40px", "32px", "28px", "40px", "16px"],
+  ["comfortable", "44px", "36px", "32px", "48px", "20px"],
+];
+const brand = `/* A tenant's brand colour, on the region that shows their product. In your own layer, after
+   Qeetrix's, so it wins without !important. Check the pairs meet AA in both schemes. */
+@layer app {
+  [data-tenant="globex"] {
+    --qx-color-bg-brand-bold: oklch(0.52 0.16 255);
+    --qx-color-bg-brand-bold-hover: oklch(0.47 0.16 255);
+    --qx-color-text-on-brand: oklch(1 0 0);
+    --qx-color-text-brand: oklch(0.5 0.16 255);
+    --qx-color-bg-brand-subtle: oklch(0.95 0.03 255);
+    --qx-color-text-link: oklch(0.5 0.16 255);
+    --qx-color-border-focus: oklch(0.55 0.16 255);
+  }
+}`;
+---
+
+<DocsPage title="Theming" description="The colour scheme, density and a tenant's brand: what Qeetrix lets you change, and where." current="guides-theming" section={links.guides} toc={toc}>
+  <Masthead slot="masthead" title="Theming" lede="Three things change: the scheme, the density, and a tenant's brand. The rest is Qeetrix." place={["Docs", "Guides", "Theming"]} source={docs.source("guides/theming.astro")}>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Schemes</dt><dd>2<span>Light and dark, or the system's</span></dd></div>
+      <div><dt>Densities</dt><dd>3<span>Compact, default, comfortable</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="scheme" class="doc-sec" aria-labelledby="scheme-title">
+    <p class="doc-eyebrow">01 — Colour scheme</p>
+    <h2 class="doc-h2" id="scheme-title">One provider owns it.</h2>
+    <p class="doc-p">QeetrixProvider with <code>defaultColorScheme</code> or <code>colorScheme</code> sets <code>data-qx-color-scheme</code> on <code>&lt;html&gt;</code>, following the system while it's "system". <code>useColorScheme</code> reads and changes it. Each framework guide sets it before the first paint.</p>
+    <CodeFrame file="scheme-choice.tsx" code={scheme} />
+    <p class="doc-p">The attribute works on any element, for a subtree:</p>
+    <CodeFrame file="panel.html" lang="html" code={subtree} />
+  </section>
+
+  <section id="density" class="doc-sec" aria-labelledby="density-title">
+    <p class="doc-eyebrow">02 — Density</p>
+    <h2 class="doc-h2" id="density-title">Control heights and rows, by region.</h2>
+    <p class="doc-p"><code>data-qx-density</code> changes the size tokens beneath it; consoles are compact, through AppShell's <code>density</code>.</p>
+    <CodeFrame file="regions.html" lang="html" code={density} />
+    <div class="doc-table-scroll">
+      <table class="doc-table">
+        <thead><tr><th scope="col">Density</th><th scope="col">Control lg</th><th scope="col">md</th><th scope="col">sm</th><th scope="col">Table row</th><th scope="col">Form gap</th></tr></thead>
+        <tbody>{densities.map(([name, ...sizes]) => <tr><th scope="row"><code>{name}</code></th>{sizes.map((size) => <td>{size}</td>)}</tr>)}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="brand" class="doc-sec" aria-labelledby="brand-title">
+    <p class="doc-eyebrow">03 — A tenant's brand</p>
+    <h2 class="doc-h2" id="brand-title">Seven tokens, in your layer.</h2>
+    <p class="doc-p">A tenant's colour replaces Ember on their pages; Qeet's own chrome stays Qeet's. Try it on <a href={links.brand}>Brand</a>.</p>
+    <CodeFrame file="tenant.css" lang="css" code={brand} />
+  </section>
+
+  <NextPage href={`${links.guides}/accessibility`} label="Next — Guides" title="Accessibility" />
+</DocsPage>

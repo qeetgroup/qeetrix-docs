@@ -1,7 +1,0 @@
-{
-  "title": "Resources",
-  "description": "Releases, changelog, packages and source.",
-  "icon": "Library",
-  "root": true,
-  "pages": ["index"]
-}

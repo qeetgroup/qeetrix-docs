@@ -1,0 +1,120 @@
+---
+// Get started › Introduction: what Qeetrix is, where to start, the packages, and how releases work.
+import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { BotIcon } from "@qeetrix/icons/icons/bot";
+import { CodeXmlIcon } from "@qeetrix/icons/icons/code-xml";
+import { PaletteIcon } from "@qeetrix/icons/icons/palette";
+import { RouteIcon } from "@qeetrix/icons/icons/route";
+import { formatNumber } from "@qeetrix/react";
+import { Logo } from "@/platform/components/Logo";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { counts } from "@/qeetrix/counts";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import Signatures from "@/qeetrix/docs/Signatures";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const toc = [
+  { id: "system", label: "What Qeetrix is" },
+  { id: "signatures", label: "The seven signatures", depth: 2 },
+  { id: "paths", label: "Choose your path" },
+  { id: "packages", label: "The packages" },
+  { id: "releases", label: "How releases work" },
+  { id: "experimental", label: "Experimental", depth: 2 },
+  { id: "stable", label: "Stable", depth: 2 },
+] as const;
+const paths = [
+  { icon: CodeXmlIcon, title: "Build an app", line: "Install the packages and render a first screen.", href: links.installation },
+  { icon: PaletteIcon, title: "Learn the foundations", line: "Colour, type, space, shape and motion, and why.", href: links.foundations },
+  { icon: RouteIcon, title: "Move from @qeetrix/ui", line: "Every component mapped to its replacement.", href: links.migration },
+  { icon: BotIcon, title: "Work with AI tools", line: "llms.txt and a Markdown copy of every page.", href: links.aiTools },
+];
+const table = [
+  { ...packages.react, line: "The components", repo: "qeetrix-react" },
+  { ...packages.tokens, line: "The design tokens", repo: "qeetrix-tokens" },
+  { ...packages.icons, line: "Icons and Qeet logos", repo: "qeetrix-icons" },
+];
+---
+
+<DocsPage
+  title="Introduction"
+  description="Qeetrix is the Qeet Group design system: the components, tokens and icons every Qeet product is built from."
+  current="introduction"
+  section={links.docs}
+  toc={[...toc]}
+>
+  <Masthead
+    slot="masthead"
+    title="Introduction"
+    lede="The components, tokens and icons every Qeet product is built from."
+    place={["Docs", "Get started", "01 of 07", "Updated 28 Oct 2026"]}
+    source={docs.source("get-started/introduction.astro")}
+  >
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        {table.map((p) => <div><dt><code>{p.name}</code></dt><dd>{p.version}</dd></div>)}
+      </dl>
+      <p class="doc-mast-links">
+        <a href={links.github}><Logo name="github-mono" />GitHub<ArrowUpRightIcon size={14} /></a>
+        <a href={links.storybook}><Logo name="storybook" />Storybook<ArrowUpRightIcon size={14} /></a>
+        <a href={links.npm}><Logo name="npm" />npm<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Components</dt><dd>{counts.components}<span>{counts.stable} stable, {counts.experimental} experimental</span></dd></div>
+      <div><dt>Design tokens</dt><dd>{counts.tokens}<span>CSS variables, light and dark</span></dd></div>
+      <div><dt>Icons</dt><dd>{formatNumber(counts.icons, "en-IN")}<span>Round and sharp</span></dd></div>
+      <div><dt>Accessibility</dt><dd>WCAG 2.2 AA<span>Tested on every pull request</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="system" class="doc-sec" aria-labelledby="system-title">
+    <p class="doc-eyebrow">01 — What Qeetrix is</p>
+    <h2 class="doc-h2" id="system-title">One system for every Qeet product.</h2>
+    <h3 class="doc-h3" id="signatures">The seven signatures</h3>
+    <Signatures />
+  </section>
+
+  <section id="paths" class="doc-sec" aria-labelledby="paths-title">
+    <p class="doc-eyebrow">02 — Choose your path</p>
+    <h2 class="doc-h2" id="paths-title">Start where your work starts.</h2>
+    <div class="doc-tiles">
+      {
+        paths.map((p) => (
+          <a href={p.href}>
+            <b>{p.title}</b>
+            <span>{p.line}</span>
+            <span class="doc-tile-row"><p.icon size={24} /><ArrowRightIcon size={20} className="doc-tile-go" data-qx-mirror /></span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="packages" class="doc-sec" aria-labelledby="packages-title">
+    <p class="doc-eyebrow">03 — The packages</p>
+    <h2 class="doc-h2" id="packages-title">Three packages, released together.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table">
+        <thead><tr><th scope="col">Package</th><th scope="col">Version</th><th scope="col">What it is</th><th scope="col">Source</th></tr></thead>
+        <tbody>
+          {table.map((p) => <tr><th scope="row"><code>{p.name}</code></th><td>{p.version}</td><td>{p.line}</td><td><a href={`https://github.com/qeetgroup/${p.repo}`}>{p.repo}</a></td></tr>)}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="releases" class="doc-sec" aria-labelledby="releases-title">
+    <p class="doc-eyebrow">04 — How releases work</p>
+    <h2 class="doc-h2" id="releases-title">Experimental first, then stable.</h2>
+    <ol class="doc-track">
+      <li><h3 class="doc-h3" id="experimental">Experimental</h3><span>From <code>@qeetrix/react/experimental</code>. May change in a patch.</span></li>
+      <li><h3 class="doc-h3" id="stable">Stable</h3><span>From <code>@qeetrix/react</code>. Changes raise the version.</span></li>
+    </ol>
+  </section>
+
+  <NextPage href={links.installation} label="Next — 02 of 07" title="Installation" />
+</DocsPage>

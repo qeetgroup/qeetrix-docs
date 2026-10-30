@@ -1,0 +1,43 @@
+---
+// A component's Examples tab: the playground when it has one (the page's "playground" slot, an
+// island), then each example, live, with its bar and its code. An example that needs React (an icon
+// button's tooltip) comes from the page as an island, in the slot named for the example.
+import Example from "../Example.astro";
+import Node from "../Node";
+import Sec from "../Sec.astro";
+import { numberOf, sectionsOf } from "../sections";
+import type { ComponentDoc } from "../types";
+
+interface Props {
+  doc: ComponentDoc;
+  /** It opens with a playground, in the "playground" slot. */
+  playground?: boolean;
+  /** Its examples run live, each in the slot named for it. Said outright: Astro counts a slot the
+   * page declares even inside a condition that's false. */
+  live?: boolean;
+}
+
+const { doc, playground = false, live = false } = Astro.props;
+const sections = sectionsOf(doc, "examples", playground);
+---
+
+{
+  playground && (
+    <Sec id="playground" n={numberOf(sections, "playground")} title="Playground" line="Every prop, live, and the code it takes.">
+      <slot name="playground" />
+    </Sec>
+  )
+}
+{
+  doc.examples.map((example) => (
+    <Sec id={example.id} n={numberOf(sections, example.id)} title={example.title} line={example.line}>
+      <Example id={example.id} title={example.title} code={example.code}>
+        {live ? <slot name={example.id} /> : <Node render={example.render} />}
+      </Example>
+    </Sec>
+  ))
+}
+
+<script>
+  import "../example";
+</script>

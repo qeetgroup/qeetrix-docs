@@ -1,0 +1,38 @@
+---
+// The page's masthead: a raised card on the canvas, as Carbon opens a page. A ruled line of where
+// you are with Copy page at its end, the title at display size, then the lede at the start and the
+// page's facts at the end (the "aside" slot); key figures between column rules at the foot (the
+// "strip" slot); and a page's own tabs along its bottom edge (the "tabs" slot), as Carbon has them.
+import CopyPage from "./CopyPage";
+
+interface Props {
+  title: string;
+  lede: string;
+  /** Where the page is, and its facts: "Docs", "Get started", "01 of 07". */
+  place: string[];
+  /** The page's source, for Edit on GitHub. */
+  source: string;
+}
+
+const { title, lede, place, source } = Astro.props;
+---
+
+<header class="doc-mast">
+  <div class="doc-mast-line">
+    <ol class="doc-mast-place">
+      {place.map((p) => <li>{p}</li>)}
+    </ol>
+    <CopyPage source={source} />
+  </div>
+  <h1 class="doc-mast-title">{title}</h1>
+  <div class="doc-mast-foot">
+    <p class="doc-mast-lede">{lede}</p>
+    {Astro.slots.has("aside") && <aside class="doc-mast-aside"><slot name="aside" /></aside>}
+  </div>
+  <slot name="strip" />
+  <slot name="tabs" />
+</header>
+
+<script>
+  import "./copy-page";
+</script>

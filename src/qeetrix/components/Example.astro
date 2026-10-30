@@ -1,0 +1,44 @@
+---
+// One live example: the real component on a stage, a bar that switches the stage alone to light or
+// dark, a density, or right to left, and its code, shown on demand and copied without React.
+// Rendered to HTML; example.ts runs the bar.
+import { CodeIcon } from "@qeetrix/icons/icons/code";
+import { CopyIcon } from "@qeetrix/icons/icons/copy";
+import { MoonIcon } from "@qeetrix/icons/icons/moon";
+import { SunIcon } from "@qeetrix/icons/icons/sun";
+import { Button, Toggle, ToggleGroup } from "@qeetrix/react";
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+
+interface Props {
+  id: string;
+  title: string;
+  code: string;
+}
+
+const { id, title, code } = Astro.props;
+---
+
+<figure class="qc-ex" data-qc-ex aria-label={`${title}, live`}>
+  <div class="qc-ex-bar">
+    <ToggleGroup variant="segmented" size="sm" aria-label="Colour scheme of the example" defaultValue={["light"]}>
+      <Toggle value="light" icon={SunIcon} aria-label="Light" title="Light" tooltip={false} data-qc-ex-set="scheme" data-value="light" />
+      <Toggle value="dark" icon={MoonIcon} aria-label="Dark" title="Dark" tooltip={false} data-qc-ex-set="scheme" data-value="dark" />
+    </ToggleGroup>
+    <ToggleGroup variant="segmented" size="sm" aria-label="Density of the example" defaultValue={["default"]}>
+      <Toggle value="compact" data-qc-ex-set="density" data-value="compact">Compact</Toggle>
+      <Toggle value="default" data-qc-ex-set="density" data-value="default">Default</Toggle>
+      <Toggle value="comfortable" data-qc-ex-set="density" data-value="comfortable">Comfortable</Toggle>
+    </ToggleGroup>
+    <Toggle size="sm" title="Right to left" data-qc-ex-set="dir">RTL</Toggle>
+    <span class="qc-ex-end">
+      <Toggle size="sm" icon={CodeIcon} data-qc-ex-set="code">Code</Toggle>
+      <Button size="sm" variant="ghost" tone="neutral" icon={CopyIcon} data-qc-ex-copy={code}>Copy</Button>
+    </span>
+  </div>
+  <div class="qc-ex-stage" data-qc-ex-stage>
+    <slot />
+  </div>
+  <div class="qc-ex-code" hidden data-qc-ex-code>
+    <CodeFrame file={`${id}.tsx`} code={code} />
+  </div>
+</figure>

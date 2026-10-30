@@ -1,11 +1,794 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nextjs",
+  "framework": "astro",
   "installCommand": "bun install --frozen-lockfile",
   "buildCommand": "bun run build",
+  "outputDirectory": "dist",
   "git": {
     "deploymentEnabled": {
       "main": false
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/docs",
+      "destination": "/get-started/introduction/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/installation",
+      "destination": "/get-started/installation/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/foundations",
+      "destination": "/foundations/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/foundations/colors",
+      "destination": "/foundations/colour/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/foundations/elevation",
+      "destination": "/foundations/elevation/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/foundations/icons",
+      "destination": "/icons/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/foundations/motion",
+      "destination": "/foundations/motion/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/foundations/spacing",
+      "destination": "/foundations/spacing/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/foundations/typography",
+      "destination": "/foundations/typography/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/guides",
+      "destination": "/guides/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/guides/accessibility",
+      "destination": "/guides/accessibility/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/guides/theming",
+      "destination": "/guides/theming/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/guides/nextjs",
+      "destination": "/get-started/frameworks/nextjs/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/guides/tanstack-start",
+      "destination": "/get-started/frameworks/tanstack-start/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/patterns",
+      "destination": "/patterns/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/resources",
+      "destination": "/resources/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components",
+      "destination": "/components/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/accordion",
+      "destination": "/components/accordion/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/action-bar",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/alert",
+      "destination": "/components/alert/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/alert-dialog",
+      "destination": "/components/dialog/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/angle-slider",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/app-shell",
+      "destination": "/components/app-shell/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/aspect-ratio",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/autocomplete",
+      "destination": "/components/combobox/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/availability-grid",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/avatar",
+      "destination": "/components/avatar/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/badge",
+      "destination": "/components/badge/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/banner",
+      "destination": "/components/alert/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/blockquote",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/breadcrumb",
+      "destination": "/components/breadcrumb/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/button",
+      "destination": "/components/button/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/button-group",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/calendar",
+      "destination": "/components/calendar/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/callout",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/card",
+      "destination": "/components/card/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/carousel",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/chart",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/chart-presets",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/checkbox",
+      "destination": "/components/checkbox/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/checkbox-card",
+      "destination": "/components/checkbox/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/chip",
+      "destination": "/components/badge/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/clipboard",
+      "destination": "/components/copy-button/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/close-button",
+      "destination": "/components/icon-button/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/code-block",
+      "destination": "/components/code-block/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/collapsible",
+      "destination": "/components/collapsible/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/color-picker",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/color-swatch",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/combobox",
+      "destination": "/components/combobox/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/command-palette",
+      "destination": "/components/command-palette/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/container",
+      "destination": "/components/box/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/context-menu",
+      "destination": "/components/context-menu/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/copyable-secret",
+      "destination": "/components/copy-button/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/country-picker",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/currency-input",
+      "destination": "/components/number-field/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/data-state",
+      "destination": "/components/empty-state/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/data-table",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/date-picker",
+      "destination": "/components/date-picker/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/date-time-picker",
+      "destination": "/components/date-picker/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/description-list",
+      "destination": "/components/description-list/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/dialog",
+      "destination": "/components/dialog/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/diff-viewer",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/drawer",
+      "destination": "/components/drawer/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/dropdown-menu",
+      "destination": "/components/menu/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/editable",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/empty-state",
+      "destination": "/components/empty-state/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/feed",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/field",
+      "destination": "/components/select/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/file-card",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/file-type-icon",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/file-upload",
+      "destination": "/components/file-upload/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/filter-bar",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/floating-window",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/focus-trap",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/form",
+      "destination": "/components/form/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/highlight",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/hover-card",
+      "destination": "/components/popover/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/icon",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/icon-button",
+      "destination": "/components/icon-button/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/input",
+      "destination": "/components/input/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/input-group",
+      "destination": "/components/text-field/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/json-tree",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/kbd",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/label",
+      "destination": "/components/select/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/link",
+      "destination": "/components/link/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/listbox",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/marquee",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/mask-input",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/mention-input",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/menubar",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/meter",
+      "destination": "/components/meter/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/native-select",
+      "destination": "/components/select/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/navigation-menu",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/notification",
+      "destination": "/components/toast/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/number-field",
+      "destination": "/components/number-field/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/number-formatter",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/org-chart",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/otp-input",
+      "destination": "/components/otp-input/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/overflow-list",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/page-header",
+      "destination": "/components/page-header/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/pagination",
+      "destination": "/components/pagination/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/pagination-bar",
+      "destination": "/components/pagination/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/password-input",
+      "destination": "/components/password-input/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/password-strength-meter",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/popover",
+      "destination": "/components/popover/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/portal",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/presence-indicator",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/preview-card",
+      "destination": "/components/popover/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/progress",
+      "destination": "/components/progress/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/progress-circle",
+      "destination": "/components/progress/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/qr-code",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/radio-card",
+      "destination": "/components/radio/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/radio-group",
+      "destination": "/components/radio/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/rating",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/reaction-bar",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/resizable",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/rich-text-editor",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/rolling-number",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/schedule-calendar",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/scroll-area",
+      "destination": "/components/scroll-area/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/segmented-control",
+      "destination": "/components/toggle-group/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/select",
+      "destination": "/components/select/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/separator",
+      "destination": "/components/separator/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/sheet",
+      "destination": "/components/drawer/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/sidebar",
+      "destination": "/components/sidebar/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/skeleton",
+      "destination": "/components/skeleton/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/skip-nav",
+      "destination": "/components/skip-link/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/slider",
+      "destination": "/components/slider/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/spinner",
+      "destination": "/components/spinner/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/spoiler",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/stat",
+      "destination": "/components/stat/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/status-pill",
+      "destination": "/components/badge/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/stepper",
+      "destination": "/components/steps/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/switch",
+      "destination": "/components/switch/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/table",
+      "destination": "/components/table/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/table-of-contents",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/tabs",
+      "destination": "/components/tabs/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/tag-input",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/textarea",
+      "destination": "/components/textarea/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/time-picker",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/time-range-picker",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/time-since",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/timeline",
+      "destination": "/components/timeline/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/timer",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/timezone-picker",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/toast",
+      "destination": "/components/toast/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/toggle",
+      "destination": "/components/toggle/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/toggle-tip",
+      "destination": "/components/popover/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/toolbar",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/tooltip",
+      "destination": "/components/tooltip/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/tour",
+      "destination": "/get-started/migration/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/tree-view",
+      "destination": "/components/tree-view/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/typography",
+      "destination": "/components/heading/",
+      "permanent": true
+    },
+    {
+      "source": "/docs/components/visually-hidden",
+      "destination": "/components/visually-hidden/",
+      "permanent": true
+    },
+    {
+      "source": "/llms.mdx/:path*",
+      "destination": "/llms-full.txt",
+      "permanent": true
+    },
+    {
+      "source": "/docs/:path*",
+      "destination": "/get-started/introduction/",
+      "permanent": true
+    }
+  ]
 }

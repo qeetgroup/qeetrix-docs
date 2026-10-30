@@ -1,0 +1,41 @@
+---
+// Patterns › Account settings: a narrow page of cards: a form that saves, switches that apply at
+// once, and a danger zone last.
+import PatternPage from "@/qeetrix/docs/PatternPage.astro";
+
+const code = `<PageHeader title="Account settings" description="Your profile and how you sign in." />
+<PageContent width="narrow">
+  <Stack gap="xl">
+    <Card title="Profile" level={2} footer={<Button>Save changes</Button>}>
+      <TextField label="Display name" />
+    </Card>
+    <Card title="Sign-in" level={2}>
+      <Switch label="Ask for a passkey on new devices" />
+    </Card>
+    <Card tone="danger" title="Delete account" level={2} footer={<Button tone="danger">Delete my account</Button>}>
+      …
+    </Card>
+  </Stack>
+</PageContent>`;
+---
+
+<PatternPage
+  title="Account settings"
+  slug="account-settings"
+  lede="A narrow page of cards: a form that saves, switches that apply at once, and a danger zone last."
+  frame={{ id: "pattern-account-settings", height: "820px", window: 1280 }}
+  parts={[
+    ["Page header", "page-header", "The title and one line"],
+    ["Card", "card", "A section each; the danger zone in danger"],
+    ["Text field", "text-field", "The profile, saved by its card's button"],
+    ["Switch", "switch", "Settings that apply at once, with no save"],
+    ["Button", "button", "Save, and the destructive one"],
+  ]}
+  file="settings.tsx"
+  code={code}
+  rules={[
+    "Narrow content: 800px, for reading and filling in.",
+    "A form saves with its button; a switch applies at once. Never both in one card.",
+    "The danger zone last, in danger, its button saying what it deletes.",
+  ]}
+/>

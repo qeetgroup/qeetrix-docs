@@ -1,0 +1,35 @@
+/* A console example's frame (FrameOf.tsx): an iframe of /frames/<id>/, the column's width, a set
+ * height, ruled; frame-fit.ts zooms one with a window width to fit. Imported by FrameOf, so every
+ * page that shows a frame has it. */
+@layer qx.base, qx.components, qx.state, platform, product;
+
+@layer product {
+  .qc-frame-pair {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--qx-space-gap-lg);
+    inline-size: 100%;
+  }
+
+  .qc-frame-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+    min-inline-size: 0;
+    gap: var(--qx-space-gap-sm);
+    inline-size: 100%;
+  }
+
+  .qc-frame {
+    display: block;
+    inline-size: 100%;
+    block-size: var(--qc-frame-height, 36rem);
+    border: var(--qx-border-width-default) solid var(--qx-color-border-subtle);
+    border-radius: var(--qx-radius-surface);
+    background: var(--qx-color-surface-default);
+
+    &[data-narrow] {
+      inline-size: min(100%, 390px);
+    }
+  }
+}

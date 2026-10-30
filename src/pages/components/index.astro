@@ -1,0 +1,55 @@
+---
+// Components: every component, by category, as a card with a live preview (as Storybook's welcome
+// cards). Each category heading is a page too.
+import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
+import { Badge } from "@qeetrix/react";
+import Masthead from "@/platform/docs/Masthead.astro";
+import { ComponentSpecimen } from "@/qeetrix/docs/ComponentSpecimens";
+import { docs } from "@/qeetrix/docs/chrome";
+import { categories, categoryHref, componentHref } from "@/qeetrix/docs/components";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const toc = categories.map((c) => ({ id: c.id, label: c.name }));
+const total = categories.reduce((n, c) => n + c.items.length, 0);
+---
+
+<DocsPage title="Components" description="Every Qeetrix component, by category, each live on its own page." current="components" section={links.components} toc={toc}>
+  <Masthead slot="masthead" title="Components" lede="Every Qeetrix component, live on its own page." place={["Docs", "Components", "Updated 28 Oct 2026"]} source={docs.source("components/index.astro")}>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Components</dt><dd>{total}<span>In {categories.length} categories</span></dd></div>
+      <div><dt>Package</dt><dd><code>{packages.react.name}</code><span>{packages.react.version}</span></dd></div>
+      <div><dt>Every page</dt><dd>Live examples<span>Usage, API, accessibility</span></dd></div>
+    </dl>
+  </Masthead>
+
+  {
+    categories.map((c, i) => (
+      <section id={c.id} class="doc-sec" aria-labelledby={`${c.id}-title`}>
+        <p class="doc-eyebrow">{String(i + 1).padStart(2, "0")} — {c.items.length} components</p>
+        <div class="doc-boxes-head">
+          <h2 class="doc-h2" id={`${c.id}-title`}>{c.name}</h2>
+          <a class="doc-more" href={categoryHref(c.id)}>About {c.name.toLowerCase()}<ArrowRightIcon size={16} data-qx-mirror /></a>
+        </div>
+        <ul class="doc-cards">
+          {c.items.map((item) => (
+            <li class="doc-card">
+              <ComponentSpecimen name={item.name} />
+              <div class="doc-card-copy">
+                <span class="doc-card-title">
+                  <a class="doc-card-link" href={componentHref(item.name)}>{item.name}</a>
+                  <ArrowRightIcon size={16} className="doc-card-arrow" data-qx-mirror />
+                </span>
+                <span class="doc-card-meta">
+                  <span class="doc-card-line">{item.line}</span>
+                  {item.exp && <Badge tone="info" size="sm">Experimental</Badge>}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</DocsPage>

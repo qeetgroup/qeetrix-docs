@@ -1,0 +1,33 @@
+---
+// A component's Changelog tab: its entries from @qeetrix/react's changelog, newest first.
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { Badge } from "@qeetrix/react";
+import { packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+import Sec from "../Sec.astro";
+import { numberOf, sectionsOf } from "../sections";
+import type { ComponentDoc } from "../types";
+
+interface Props {
+  doc: ComponentDoc;
+}
+
+const { doc } = Astro.props;
+const sections = sectionsOf(doc, "changelog");
+---
+
+{
+  doc.changelog.map((entry, index) => {
+    const id = `v${entry.version.replaceAll(".", "-")}`;
+    return (
+      <Sec id={id} n={numberOf(sections, id)} title={entry.version}>
+        {index === 0 && entry.version === packages.react.version && <Badge tone="brand" size="sm">Current</Badge>}
+        <ul class="qc-list">{entry.items.map((item) => <li>{item}</li>)}</ul>
+      </Sec>
+    );
+  })
+}
+
+<p class="qc-changelog-all">
+  <a href={`${links.github}/blob/main/packages/react/CHANGELOG.md`}>Every change to {packages.react.name}<ArrowUpRightIcon size={14} aria-hidden /></a>
+</p>

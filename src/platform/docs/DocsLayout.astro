@@ -1,0 +1,54 @@
+---
+// The docs frame: the site header on the docs grid; Qeetrix's Sidebar on a rail that stays put, and
+// keeps its place from page to page (rail-place.ts); the page on the canvas, opened by its masthead
+// (the "masthead" slot), its contents beside the content; one slim footer line under the page, not
+// the site footer. Product-agnostic: the product passes its chrome (site.ts).
+import SiteHeader from "../chrome/SiteHeader.astro";
+import Document from "../layouts/Document.astro";
+import type { DocsChrome, SiteChrome } from "../site";
+import DocsSidebar from "./DocsSidebar";
+import { railPlaceScript } from "./rail-place";
+import Toc, { type TocItem } from "./Toc.astro";
+import "./docs.css";
+
+interface Props {
+  site: SiteChrome;
+  docs: DocsChrome;
+  title: string;
+  description: string;
+  /** The navigation id of this page, marked current in the rail. */
+  current: string;
+  /** The header link for this part of the docs, marked current in the header. */
+  section: string;
+  toc: TocItem[];
+}
+
+const { site, docs, title, description, current, section, toc } = Astro.props;
+---
+
+<Document title={title} description={description}>
+  <SiteHeader site={site} current={section} layout="docs" />
+  <div class="doc">
+    <aside class="doc-nav">
+      <DocsSidebar docs={docs} current={current} />
+      <script is:inline set:html={railPlaceScript} />
+    </aside>
+    <main id="main" class="doc-main" data-qx-density="comfortable">
+      <slot name="masthead" />
+      <div class="doc-body">
+        <div class="doc-content"><slot /></div>
+        <Toc items={toc} />
+      </div>
+      <footer class="doc-foot">
+        <span>{docs.footer.legal}</span>
+        <nav aria-label="More">
+          {docs.footer.links.map((link) => <a href={link.href}>{link.label}</a>)}
+        </nav>
+      </footer>
+    </main>
+  </div>
+</Document>
+
+<script>
+  import "./docs-nav";
+</script>

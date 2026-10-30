@@ -1,74 +1,112 @@
 # qeetrix-docs
 
-[ui.qeet.in](https://ui.qeet.in) — the documentation and developer platform for Qeetrix, the
-Qeet Group design system. A Next.js app built on [Fumadocs](https://fumadocs.dev), rendering
-`@qeetrix/ui` itself.
+[ui.qeet.in](https://ui.qeet.in): the Qeetrix docs, on Qeet's own docs platform. It replaced the
+Next.js and Fumadocs site that lived here; its old `/docs/…` addresses redirect to the new pages
+(`vercel.json`).
+
+- **Astro 7, static pages.** A reading page ships no React. Interactive parts (live examples,
+  the home page's demos) are React islands that load only where they're used. The site's chrome (the
+  header, its menu, the docs navigation, the theme menu, Copy page) is Qeetrix rendered to HTML plus
+  a few lines of script.
+- **Built from Qeetrix itself:** `@qeetrix/react`, `@qeetrix/tokens` and `@qeetrix/icons`, styled
+  with tokens in plain CSS. No Fumadocs, no Tailwind.
+- **A platform other Qeet products can reuse.** The product-agnostic parts live in `src/platform/`;
+  the Qeetrix-only parts live in `src/qeetrix/`.
 
 ## Develop
 
 ```bash
-bun install
-bun run dev
+bun install           # Bun 1.3.14, as CI: npx -y bun@1.3.14 install
+bun run dev           # http://localhost:3007
+bun run build         # static site in dist/
+bun run lint          # Biome
+bun run types:check   # Astro's content types, then tsc
+bun run components    # rewrite the component registry and route (scripts/components.ts)
 ```
 
-Open http://localhost:3006. `dev` and `build` first generate the component and token data from the
-installed `@qeetrix/ui` (`scripts/generate-components.mjs`, `scripts/generate-tokens.mjs`), and the
-icon browser's data from the installed `@qeetrix/icons` (`scripts/generate-icons.mjs`, written to
-`public/icon-data/`).
+CI runs lint, the type check and the build on every pull request and on `main`
+(`.github/workflows/ci.yml`). A merge to `main` deploys ui.qeet.in through Vercel and tags the
+version (`release.yml`; `version.yml` bumps it on the pull request, `rollback.yml` redeploys a
+tag).
 
-The checks CI runs on every pull request:
+## Layout
 
-```bash
-bun run lint         # Biome
-bun run types:check  # generated data, Next route types, then tsc
-bun run build
+```text
+src/
+├── content.config.ts      the docs collection, checked against the page schema
+├── content/docs/          MDX pages, for later; the path is the URL ([...slug].astro renders them)
+├── pages/                 routes: index.astro, get-started/*, foundations/*, components/*,
+│                          icons/*, patterns/*, guides/*, resources/*; frames/[frame].astro (a
+│                          console example on a bare page, for an iframe); llms.txt, llms-full.txt
+│                          and search-index.json, written from the component docs
+├── platform/              the product-agnostic platform
+│   ├── chrome/            SiteHeader (its <dialog> menu and search), search.ts (the search, over
+│                          the product's /search-index.json), SiteFooter, ThemeMenu (chrome.css)
+│   ├── components/        Code (build-time highlighting), Logo (third-party marks),
+│   │                      StaticMenu + menu.ts (Qeetrix menus without React)
+│   ├── docs/              the docs frame: DocsLayout, DocsSidebar (Qeetrix's Sidebar, folders and
+│   │                      filter), Masthead, CopyPage, Toc (the zigzag contents), CodeFrame,
+│   │                      NextPage (docs.css)
+│   ├── content/schema.ts  page metadata: title, description, status, since, aka
+│   ├── layouts/           Document.astro: metadata, colour scheme before paint, styles, skip link
+│   ├── motion/            Reveal.astro: blocks that rise in once, for landing pages
+│   ├── styles/            layers.css (cascade order, tokens, Qeetrix components), document.css
+│   ├── site.ts            SiteChrome and DocsChrome: what a product gives the header, footer and docs
+│   └── theme.ts           the pre-paint colour-scheme script
+└── qeetrix/               the Qeetrix docs on the platform
+    ├── site.ts            every link, the navigation and the footer
+    ├── packages.ts        package names and versions, read from what's installed
+    ├── counts.ts          component, icon and token counts, counted at build time
+    ├── install.ts         the install command and setup the pages show
+    ├── components/        the component pages: one folder per component (doc.tsx, examples.tsx,
+    │                      Playground.tsx, Live.tsx), the template (ComponentPage.astro, Example,
+    │                      tab-pages/, PlaygroundKit, anatomy.ts, component.css), the registry
+    │                      (generated), and the console frames (console.tsx, frames.tsx, FrameOf,
+    │                      frame-fit.ts) and patterns (patterns.tsx)
+    ├── foundations/       Colour, Typography, Spacing, Elevation and Motion, from Storybook's
+    ├── icons/             the Icons pages: Iconography, the browser, Brand
+    ├── guides.ts          the server-safe components the guides list
+    ├── migration.ts       today's @qeetrix/ui pages and what replaces each
+    ├── llms.ts            the docs as Markdown, for /llms.txt and /llms-full.txt
+    ├── docs/              the docs navigation (chrome.ts), the components list, DocsPage,
+    │                      PatternPage, and
+    │                      the pages' own blocks: Signatures, PackageManager, FirstScreen,
+    │                      Troubleshooting, and ComponentSpecimens (a live preview of every
+    │                      component, for the cards) with LayoutSpecimens (docs.css)
+    └── home/              the home page's islands (HeroStory, Showcase, ThemeEngine,
+                           InstallCommand), its cards and its styles
 ```
 
-## Releasing
+## Rules
 
-Every merge to `main` releases. It works like qeetrix-ui and qeetrix-icons, with a Vercel
-production deploy where they publish to npm:
+- **Tokens only.** Every colour, size, radius, shadow and duration is a `var(--qx-*)`.
+- **Cascade layers, not `!important`.** The order is `qx.base, qx.components, platform, product`.
+  Every stylesheet restates it on its first line: Astro bundles CSS in import order, and the first
+  file to name a layer fixes its place.
+- **Server first.** A Qeetrix component renders to HTML at build time. Make it an island
+  (`client:visible`) only when it must respond in the browser.
+- **The colour scheme belongs to `<html>`.** The pre-paint script sets `data-qx-color-scheme` (and
+  the reader's choice, `data-scheme-choice`). Islands use `QeetrixProvider` for locale and direction
+  only, never `colorScheme`. The theme is chosen at the foot of a page, never in the header.
+- **Every page has a title and a description.** The schema fails the build otherwise.
 
-1. **Open a PR into `main`** (usually `develop` → `main`). `version.yml` bumps the patch version in
-   `package.json` on the PR branch, so the version you ship is in the diff. For a minor or major,
-   set the version yourself; the bump leaves a raised version alone.
-2. **Merge.** `release.yml` runs lint and the type check, builds the commit, deploys it to Vercel
-   production, then pushes the `vX.Y.Z` tag and opens a GitHub Release. The tag comes *after* a
-   successful deploy, so every tag is a version that was live; a failed deploy leaves no tag.
-   A merge whose version is already tagged deploys nothing.
-3. **Roll back** from Actions → Rollback with an earlier tag. It redeploys exactly that tagged
-   commit. Vercel's dashboard Instant Rollback is the quicker manual alternative.
+## A component's page
 
-Vercel's own Git deploys of `main` are switched off in `vercel.json`, so production changes only
-through this pipeline.
+Each component is a folder in `src/qeetrix/components/`: `doc.tsx` (its facts, usage, API,
+accessibility and changelog, as a `ComponentDoc`), `examples.tsx` (the real component with the code
+for each example), `Playground.tsx` (a spec for `PlaygroundKit`) and `Live.tsx` (when its examples
+need React). Add a row to `scripts/components.ts` and run `bun run components`: the five tabs, the
+category page, the search index and `llms-full.txt` follow. Every claim about an element (`<button>`,
+`role="tab"`) is checked against the rendered DOM.
 
-Deploying needs, under Settings → Secrets and variables → Actions:
+## Status
 
-| Kind     | Name                | Where it comes from                                         |
-| -------- | ------------------- | ----------------------------------------------------------- |
-| Secret   | `VERCEL_TOKEN`      | Vercel → Account Settings → Tokens, scoped to the Qeet Group team |
-| Variable | `VERCEL_ORG_ID`     | `vercel link`, then `.vercel/project.json`                  |
-| Variable | `VERCEL_PROJECT_ID` | the same file                                               |
-
-Until they are set, a release still runs the checks, then reports that deploying is skipped and
-creates no tag.
-
-## Explore
-
-- `content/docs` — the MDX pages. Collections are defined with the
-  [Macro API](https://fumadocs.dev/docs/mdx/macro) in `src/lib/source.ts`, which also sets the code
-  theme (`src/lib/code-theme.ts`) and the package-manager tabs for ```` ```npm ```` blocks.
-- `src/components/site-header.tsx` — the header of the homepage, the docs and the icon browser.
-- `src/lib/layout.shared.tsx` — options for the docs layout.
-- `src/lib/component-groups.json` — the sidebar groups of the component pages.
-- `src/components/docs` — the docs page header, code blocks, example previews and callouts.
-- `src/components/icons` — the icon browser.
-- `src/components/home` — the landing page's sections.
-
-| Route                         | Description                         |
-| ----------------------------- | ----------------------------------- |
-| `src/app/(home)`              | The landing page.                   |
-| `src/app/docs`                | The documentation layout and pages. |
-| `src/app/icons`               | The icon browser.                   |
-| `src/app/api/search/route.ts` | The route handler for search.       |
-| `src/app/llms.txt`            | The docs index for LLMs.            |
+Every page in the navigation is built: the home page; Get started (Introduction, Installation,
+Frameworks with Next.js, TanStack Start and Vite, AI tools, Migration); Foundations; all 69
+components, five tabs each; Icons; Patterns; Guides; Resources; and the docs search. Known
+follow-ups:
+- The docs pages' "Updated" dates are written in each page for now.
+- `.astro` files aren't type-checked yet: `astro check` needs a TypeScript 6 alias, because
+  TypeScript 7 has no JavaScript API.
+- Gaps in `@qeetrix/react` (0.4.0 today) are worked around in the pages and filed in Jira (QTRX):
+  each workaround names its ticket in a comment.
