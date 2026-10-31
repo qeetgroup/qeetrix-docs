@@ -40,8 +40,10 @@ src/
 │                          console example on a bare page, for an iframe); llms.txt, llms-full.txt
 │                          and search-index.json, written from the component docs
 ├── platform/              the product-agnostic platform
-│   ├── chrome/            SiteHeader (its <dialog> menu and search), search.ts (the search, over
-│                          the product's /search-index.json), SiteFooter, ThemeMenu (chrome.css)
+│   ├── chrome/            SiteHeader (its <dialog> menu), SearchPalette (the search: Qeetrix's
+│                          CommandPalette over the product's /search-index.json, an island
+│                          hydrated when idle) + search.ts (its button, / and ⌘K), SiteFooter,
+│                          ThemeMenu (chrome.css)
 │   ├── components/        Code (build-time highlighting), Logo (third-party marks),
 │   │                      StaticMenu + menu.ts (Qeetrix menus without React)
 │   ├── docs/              the docs frame: DocsLayout, DocsSidebar (Qeetrix's Sidebar, folders and

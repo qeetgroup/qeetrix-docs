@@ -2,7 +2,8 @@
 // The site header: the Qeet logo and product name, the primary navigation, search and the source
 // repository. The theme is chosen at the foot of the page, never here. Below 1280px the navigation
 // moves into a menu, a native <dialog> (focus held inside, Escape closes it), with the theme menu at
-// its end, so the header needs no React. On docs pages it follows the docs grid.
+// its end, so the header needs no React, except search: Qeetrix's CommandPalette, an island hydrated
+// when the browser is idle (SearchPalette.tsx). On docs pages it follows the docs grid.
 import { QeetLogo } from "@qeetrix/icons";
 import { MenuIcon } from "@qeetrix/icons/icons/menu";
 import { SearchIcon } from "@qeetrix/icons/icons/search";
@@ -11,6 +12,7 @@ import { IconButton } from "@qeetrix/react";
 import { Kbd } from "@qeetrix/react/experimental";
 import { Logo } from "../components/Logo";
 import type { SiteChrome } from "../site";
+import { SearchPalette } from "./SearchPalette";
 import { ThemeMenu } from "./ThemeMenu";
 import "./chrome.css";
 
@@ -38,7 +40,7 @@ const { site, current, layout } = Astro.props;
       </ul>
     </nav>
     <div class="site-header-tools">
-      <button type="button" class="site-search" aria-label="Search the docs" aria-haspopup="dialog" aria-controls="site-search" data-site-search>
+      <button type="button" class="site-search" aria-label="Search the docs" aria-haspopup="dialog" data-site-search>
         <SearchIcon size={16} aria-hidden="true" />
         <span class="site-search-label">Search</span>
         <span class="site-search-keys" aria-hidden="true"><Kbd keys="Mod+K" /></span>
@@ -59,31 +61,9 @@ const { site, current, layout } = Astro.props;
   </div>
 </header>
 
-<!-- The docs search (search.ts): the product's /search-index.json, filtered as you type. -->
-<dialog id="site-search" class="site-search-dialog" aria-label="Search the docs">
-  <div class="site-search-panel">
-    <div class="site-search-field">
-      <SearchIcon size={16} aria-hidden="true" />
-      <input
-        type="search"
-        class="site-search-input"
-        placeholder="Search the docs"
-        aria-label="Search the docs"
-        role="combobox"
-        aria-expanded="false"
-        aria-controls="site-search-results"
-        aria-autocomplete="list"
-        autocomplete="off"
-        spellcheck="false"
-        data-search-input
-      />
-      <Kbd keys="Esc" size="sm" />
-    </div>
-    <div id="site-search-results" class="site-search-results" role="listbox" aria-label="Results" data-search-results></div>
-    <p class="site-search-note" data-search-note>Pages, guides and every component.</p>
-    <p class="site-search-status" role="status" data-search-status></p>
-  </div>
-</dialog>
+<!-- The docs search: Qeetrix's CommandPalette over /search-index.json (SearchPalette.tsx), hydrated when
+     the browser is idle; search.ts opens it from the button, / and an early ⌘K. -->
+<SearchPalette client:idle />
 
 <dialog id="site-menu" class="site-menu" aria-label="Menu">
   <div class="site-menu-panel">

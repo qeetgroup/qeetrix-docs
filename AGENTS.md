@@ -27,7 +27,8 @@ bun run components          # after adding a component: the registry and the rou
 
 1. **UI comes from `@qeetrix/react`;** styles are tokens (`var(--qx-*)`) in plain CSS, in the
    layers `src/platform/styles/layers.css` declares.
-2. **Pages render to HTML;** React runs only in islands (`client:*`). The chrome runs no React.
+2. **Pages render to HTML;** React runs only in islands (`client:*`). The chrome runs no React, except
+   search: Qeetrix's CommandPalette (`src/platform/chrome/SearchPalette.tsx`), hydrated when the browser is idle.
 3. **A Qeetrix gap:** work around it here, name its QTRX ticket in a comment, and file the ticket.
 4. **Every claim on a page is checked** against the installed packages: props against their types,
    parts against the DOM.
