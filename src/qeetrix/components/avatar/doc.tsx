@@ -72,7 +72,7 @@ export const avatar: ComponentDoc = {
         title: "Say the status too",
         doLine: "Where the status matters, it's in words beside the name.",
         dontLine: "The dot alone beside a name: the avatar is decorative, so no one hears it.",
-        // AvatarItem takes no status in 0.4.0 (QTRX-207), so the rows are Avatar and Text.
+        // AvatarItem takes no status in 0.4.0, so the rows are Avatar and Text.
         doIt: (
           <Inline gap="sm" align="center">
             <Avatar name="Priya Sharma" status={{ label: "Online", tone: "success" }} decorative />

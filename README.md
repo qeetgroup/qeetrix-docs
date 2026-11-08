@@ -110,5 +110,5 @@ follow-ups:
 - The docs pages' "Updated" dates are written in each page for now.
 - `.astro` files aren't type-checked yet: `astro check` needs a TypeScript 6 alias, because
   TypeScript 7 has no JavaScript API.
-- Gaps in `@qeetrix/react` (0.4.0 today) are worked around in the pages and filed in Jira (QTRX):
-  each workaround names its ticket in a comment.
+- Gaps in `@qeetrix/react` (0.4.0 today) are worked around in the pages and filed in Jira;
+  each workaround says in a comment what it works around, without a ticket number.

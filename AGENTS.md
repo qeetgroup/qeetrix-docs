@@ -29,7 +29,8 @@ bun run components          # after adding a component: the registry and the rou
    layers `src/platform/styles/layers.css` declares.
 2. **Pages render to HTML;** React runs only in islands (`client:*`). The chrome runs no React, except
    search: Qeetrix's CommandPalette (`src/platform/chrome/SearchPalette.tsx`), hydrated when the browser is idle.
-3. **A Qeetrix gap:** work around it here, name its QTRX ticket in a comment, and file the ticket.
+3. **A Qeetrix gap:** work around it here, say in a comment what the workaround covers, and file the ticket.
+   Never write ticket numbers in code, comments or docs: the link lives in the Jira ticket.
 4. **Every claim on a page is checked** against the installed packages: props against their types,
    parts against the DOM.
 5. **Deploys go from `main`** (`.github/workflows/release.yml`, Vercel). Don't commit or push unless
