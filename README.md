@@ -26,7 +26,7 @@ bun run components    # rewrite the component registry and route (scripts/compon
 
 CI runs lint, the type check and the build on every push to `develop` and every pull request into it
 (`.github/workflows/ci.yml`). A merge to `main` deploys ui.qeet.in through Vercel and tags the
-version (`release.yml`; `version.yml` bumps it on the pull request, `rollback.yml` redeploys a
+version (`release.yml`; `version.yml` checks the pull request raised it on `develop`, `rollback.yml` redeploys a
 tag).
 
 ## Layout
