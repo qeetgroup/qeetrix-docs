@@ -24,7 +24,7 @@ bun run types:check   # Astro's content types, then tsc
 bun run components    # rewrite the component registry and route (scripts/components.ts)
 ```
 
-CI runs lint, the type check and the build on every pull request and on `main`
+CI runs lint, the type check and the build on every push to `develop` and every pull request into it
 (`.github/workflows/ci.yml`). A merge to `main` deploys ui.qeet.in through Vercel and tags the
 version (`release.yml`; `version.yml` bumps it on the pull request, `rollback.yml` redeploys a
 tag).
