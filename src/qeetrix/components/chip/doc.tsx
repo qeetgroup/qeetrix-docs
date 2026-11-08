@@ -1,6 +1,6 @@
 // Components › Chip: its documentation, from @qeetrix/react 0.4.0 (experimental/chip: chip.d.ts,
-// chip.js, chip.css) and the changelog. There's no Storybook story for it yet (QTRX-211). Its examples run
-// live (Live.tsx); the figures are the real Chip and ChipGroup, server-rendered.
+// chip.js, chip.css) and the changelog. Its examples run live (Live.tsx); the figures are the real
+// Chip and ChipGroup, server-rendered.
 import { UsersIcon } from "@qeetrix/icons/icons/users";
 import { Badge, Inline } from "@qeetrix/react";
 import { Chip, ChipGroup } from "@qeetrix/react/experimental";
@@ -20,6 +20,7 @@ export const chip: ComponentDoc = {
   exports: ["Chip", "ChipGroup"],
   renders: '<span role="checkbox">',
   source: "experimental/chip",
+  story: "components/data-entry/chip.stories.tsx",
   examples,
 
   usage: {
