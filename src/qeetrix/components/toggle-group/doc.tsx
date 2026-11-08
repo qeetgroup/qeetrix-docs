@@ -157,6 +157,12 @@ export const toggleGroup: ComponentDoc = {
         default: '"horizontal"',
         note: "How they line up, and which arrow keys move.",
       },
+      {
+        name: "fullWidth",
+        type: "boolean",
+        default: "false",
+        note: "Fills its row; every toggle takes an equal share, its label centred. A vertical group ignores it.",
+      },
       { name: "disabled", type: "boolean", default: "false", note: "Disables every toggle." },
       {
         name: "aria-label",
@@ -229,6 +235,12 @@ export const toggleGroup: ComponentDoc = {
   },
 
   changelog: [
+    {
+      version: "0.5.0",
+      items: [
+        "fullWidth: the group fills its row, every toggle an equal share, as a phone's segmented control.",
+      ],
+    },
     {
       version: "0.1.0",
       items: ["A toggle's tooltip and tooltipSide, for icon-only toggles in a group."],

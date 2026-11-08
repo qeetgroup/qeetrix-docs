@@ -7,11 +7,11 @@ name: Release
 #
 # The flow end to end:
 #
-#   1. Open a PR into main (develop → main). `version.yml` bumps the patch
-#      version on your branch, so the version you are about to ship is visible
-#      in the PR diff. Want a minor or major? Set it by hand in package.json and
-#      the bump leaves it alone.
-#   2. Merge to main. This workflow gates the commit, builds it, deploys it to
+#   1. Raise the version in package.json on develop, then open the PR into main
+#      (develop → main); its Version check fails until it's raised. The version
+#      you are about to ship is in the PR diff.
+#   2. Merge to main. This workflow builds the commit (every gate already passed
+#      in develop's CI on it), deploys it to
 #      Vercel production, pushes the matching `vX.Y.Z` tag and opens a GitHub
 #      Release.
 #   3. Bad release? Run `rollback.yml` with an earlier tag — it redeploys
@@ -35,7 +35,7 @@ name: Release
 #   Variable  VERCEL_ORG_ID      from `vercel link` (.vercel/project.json)
 #   Variable  VERCEL_PROJECT_ID  same file
 #
-# Without them the workflow still gates the commit, then reports that deploying
+# Without them the workflow still checks the version, then reports that deploying
 # is not configured and creates no tag. The CLI builds here and uploads the
 # finished output, so the deployment is pinned to this commit rather than to
 # whatever sits at the head of a branch.
@@ -102,12 +102,9 @@ jobs:
       - if: steps.version.outputs.release == 'true'
         run: bun install --frozen-lockfile
 
-      # Gate before shipping — the same checks as CI. The build itself runs in
-      # `vercel build` below (vercel.json: `bun run build`).
-      - if: steps.version.outputs.release == 'true'
-        run: bun run lint
-      - if: steps.version.outputs.release == 'true'
-        run: bun run types:check
+      # develop's CI already passed every gate on this commit (main takes develop only, on an up-to-date
+      # branch), so they don't run again here. The site is built in `vercel build` below
+      # (vercel.json: `bun run build`).
 
       # Secrets are unavailable in a step-level `if`, so reduce the decision to
       # a boolean output. Evaluates to "true"/"false" and never prints the token.

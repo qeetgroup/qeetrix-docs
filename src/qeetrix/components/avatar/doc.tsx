@@ -72,7 +72,8 @@ export const avatar: ComponentDoc = {
         title: "Say the status too",
         doLine: "Where the status matters, it's in words beside the name.",
         dontLine: "The dot alone beside a name: the avatar is decorative, so no one hears it.",
-        // AvatarItem takes no status in 0.4.0, so the rows are Avatar and Text.
+        // Avatar and Text, so the status shows in words beside the name (AvatarItem's status, from 0.5.0, is read
+        // with the name but not shown).
         doIt: (
           <Inline gap="sm" align="center">
             <Avatar name="Priya Sharma" status={{ label: "Online", tone: "success" }} decorative />
