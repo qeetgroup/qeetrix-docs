@@ -119,6 +119,12 @@ export const input: ComponentDoc = {
         note: "After the value: %, .qeet.in, or a tool such as a Copy button.",
       },
       {
+        name: "size",
+        type: '"md" | "lg"',
+        default: '"md"',
+        note: "md is the shared field height; lg is for the one value a sign-in or sign-up step asks for.",
+      },
+      {
         name: "value · defaultValue · onValueChange",
         type: "string",
         default: "—",
@@ -192,6 +198,12 @@ export const input: ComponentDoc = {
   },
 
   changelog: [
+    {
+      version: "0.5.0",
+      items: [
+        'size is the field\'s size, "md" or "lg", no longer the HTML size attribute: lg is the one value a sign-in or sign-up step asks for.',
+      ],
+    },
     {
       version: "0.4.0",
       items: [

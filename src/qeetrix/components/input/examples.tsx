@@ -47,6 +47,19 @@ export const examples: ExampleDoc[] = [
     ),
   },
   {
+    id: "large",
+    title: "Large",
+    line: 'size="lg" for the one value a sign-in or sign-up step asks for: taller, the value in title type with tabular figures. That step\'s one field only.',
+    code: `<Field label="Phone number"><Input size="lg" type="tel" startAdornment="+91" placeholder="98765 43210" /></Field>`,
+    render: () => (
+      <div className="qc-narrow">
+        <Field label="Phone number">
+          <Input size="lg" type="tel" startAdornment="+91" placeholder="98765 43210" />
+        </Field>
+      </div>
+    ),
+  },
+  {
     id: "with-a-tool",
     title: "With a tool",
     line: "endAdornment holds a control too: a Copy button beside a read-only key.",

@@ -129,7 +129,7 @@ const Next = mirrorInRtl(ArrowRightIcon);
     {
       id: "full-width",
       title: "Full width",
-      line: "Fills its container: the one action of a narrow form or a phone screen.",
+      line: "Fills its container, its label centred on the whole button: the one action of a narrow form or a phone screen.",
       code: `<Button fullWidth icon={Next}>Continue with a passkey</Button>`,
       render: () => (
         <div className="qc-narrow">
@@ -316,7 +316,12 @@ const Next = mirrorInRtl(ArrowRightIcon);
         default: "false",
         note: "A spinner replaces the icon; clicks are ignored; aria-busy is set.",
       },
-      { name: "fullWidth", type: "boolean", default: "false", note: "Fills its container." },
+      {
+        name: "fullWidth",
+        type: "boolean",
+        default: "false",
+        note: "Fills its container, its label centred on the whole button.",
+      },
       {
         name: "disabled",
         type: "boolean",
@@ -389,6 +394,18 @@ import { Link } from "@tanstack/react-router";
   },
 
   changelog: [
+    {
+      version: "0.5.1",
+      items: [
+        "A ghost danger button presses in bg.danger.subtle-pressed, so a press no longer looks like a hover.",
+      ],
+    },
+    {
+      version: "0.5.0",
+      items: [
+        "A full-width button centres its label on the whole button, with or without an icon.",
+      ],
+    },
     {
       version: "0.4.0",
       items: [
