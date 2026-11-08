@@ -23,6 +23,11 @@ bun run components          # after adding a component: the registry and the rou
   `Playground.tsx` or `Live.tsx`), foundations, icons, guides' data.
 - `src/pages/` — the routes.
 
+## Branches
+
+Work on a branch from `develop` and open its pull request into `develop`. Only `develop` goes into `main`, through
+a `develop` → `main` pull request the maintainer opens; `main` refuses anything else.
+
 ## Rules
 
 1. **UI comes from `@qeetrix/react`;** styles are tokens (`var(--qx-*)`) in plain CSS, in the
