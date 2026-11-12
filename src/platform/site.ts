@@ -12,8 +12,14 @@ export interface SiteLink {
  * Qeetrix docs today; Qeet ID and Qeet Pay docs later) supplies one.
  */
 export interface SiteChrome {
-  /** The product's name, shown beside the Qeet logo: "Qeetrix". */
+  /** The product's name, shown beside its icon: "Qeetrix". */
   name: string;
+  /**
+   * The product's own icon, its rounded tile in the Qeet format (Qeet orange, the product's mark in
+   * a white disc), shown before the name in the header and the footer. One square file that reads
+   * on light and dark: the favicon, so the page and the browser tab show the same icon.
+   */
+  icon: string;
   /** The home page. */
   home: string;
   /** The primary navigation, in the header and the mobile menu. */

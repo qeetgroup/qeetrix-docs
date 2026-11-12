@@ -77,6 +77,7 @@ export const links = {
 /** The Qeetrix docs' header and footer. */
 export const site: SiteChrome = {
   name: "Qeetrix",
+  icon: "/icon.svg",
   home: links.home,
   nav: [
     { label: "Docs", href: links.docs },

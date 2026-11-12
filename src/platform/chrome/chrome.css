@@ -58,6 +58,12 @@
     line-height: 1.2;
   }
 
+  /* The product's icon: a fixed 26px tile before the name, in the header and the footer. */
+  .site-header-icon,
+  .site-footer-icon {
+    flex: none;
+  }
+
   .site-header-nav {
     display: none;
     margin-inline: auto;

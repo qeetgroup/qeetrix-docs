@@ -41,7 +41,7 @@ src/
 │                          and search-index.json, written from the component docs
 ├── platform/              the product-agnostic platform
 │   ├── chrome/            SiteHeader (its <dialog> menu), SearchPalette (the search: Qeetrix's
-│                          CommandPalette over the product's /search-index.json, an island
+│                          SiteSearch over the product's /search-index.json, an island
 │                          hydrated when idle) + search.ts (its button, / and ⌘K), SiteFooter,
 │                          ThemeMenu (chrome.css)
 │   ├── components/        Code (build-time highlighting), Logo (third-party marks),
