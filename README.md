@@ -1,114 +1,83 @@
-# qeetrix-docs
+<div align="center">
 
-[ui.qeet.in](https://ui.qeet.in): the Qeetrix docs, on Qeet's own docs platform. It replaced the
-Next.js and Fumadocs site that lived here; its old `/docs/…` addresses redirect to the new pages
-(`vercel.json`).
+# 📘 Qeetrix Docs
 
-- **Astro 7, static pages.** A reading page ships no React. Interactive parts (live examples,
-  the home page's demos) are React islands that load only where they're used. The site's chrome (the
-  header, its menu, the docs navigation, the theme menu, Copy page) is Qeetrix rendered to HTML plus
-  a few lines of script.
-- **Built from Qeetrix itself:** `@qeetrix/react`, `@qeetrix/tokens` and `@qeetrix/icons`, styled
-  with tokens in plain CSS. No Fumadocs, no Tailwind.
-- **A platform other Qeet products can reuse.** The product-agnostic parts live in `src/platform/`;
-  the Qeetrix-only parts live in `src/qeetrix/`.
+**[ui.qeet.in](https://ui.qeet.in): the documentation of Qeetrix, the Qeet Group design system, on Qeet's own docs
+platform.**
 
-## Develop
+[![Astro 7](https://img.shields.io/badge/Astro-7-BC52EE?logo=astro&logoColor=white)](https://astro.build)
+[![@qeetrix/react](https://img.shields.io/badge/%40qeetrix%2Freact-0.5.2-d04800)](https://www.npmjs.com/package/@qeetrix/react)
+[![Static pages](https://img.shields.io/badge/pages-static%20HTML-2EA043)](#-whats-inside)
+[![Deployed on Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://ui.qeet.in)
 
-```bash
-bun install           # Bun 1.3.14, as CI: npx -y bun@1.3.14 install
-bun run dev           # http://localhost:3007
-bun run build         # static site in dist/
-bun run lint          # Biome
-bun run types:check   # Astro's content types, then tsc
-bun run components    # rewrite the component registry and route (scripts/components.ts)
+[🌐 ui.qeet.in](https://ui.qeet.in) · [🛠️ Develop](#-develop) · [🗂️ Layout](#-layout) · [🧩 A component's page](#-a-components-page) · [🤝 AGENTS.md](AGENTS.md)
+
+</div>
+
+## 📦 What's inside
+
+| | |
+|:--|:--|
+| 📄 **Static pages** | Astro 7: a reading page ships no React. Live examples and the home page's demos are islands, loaded only where they're used |
+| 🧩 **Every component** | Each with five tabs: usage, examples (with a live playground), API, accessibility and changelog |
+| 🎨 **Built from Qeetrix** | `@qeetrix/react`, `@qeetrix/tokens` and `@qeetrix/icons`, styled with tokens in plain CSS; no Fumadocs, no Tailwind |
+| 🔎 **Search and AI-ready** | Qeetrix's SiteSearch over a build-time index, plus `llms.txt`, `llms-full.txt` and every page as Markdown |
+| ♻️ **A reusable platform** | The product-agnostic parts in `src/platform/`, ready for other Qeet products' docs |
+
+## 🔗 How it fits
+
+```mermaid
+flowchart LR
+    Pkgs["@qeetrix/react · tokens · icons<br/>the installed versions"] --> Pages["src/qeetrix/<br/>component docs, foundations, guides"]
+    Platform["src/platform/<br/>chrome, docs frame, layouts"] --> Build
+    Pages --> Build["⚙️ astro build<br/>static HTML + islands"]
+    Build --> Site["🌐 ui.qeet.in<br/>Vercel"]
 ```
 
-CI runs lint, the type check and the build on every push to `develop` and every pull request into it
-(`.github/workflows/ci.yml`). A merge to `main` deploys ui.qeet.in through Vercel and tags the
-version (`release.yml`; `version.yml` checks the pull request raised it on `develop`, `rollback.yml` redeploys a
-tag).
+## 🛠️ Develop
 
-## Layout
+```sh
+npx -y bun@1.3.14 install   # CI's Bun: a newer one rewrites the lockfile CI can't read
+bun run dev                 # http://localhost:3007
+bun run build               # the static site, in dist/
+bun run components          # after adding a component: its registry entry and route
+```
+
+Before every push, run the whole gate (Biome, the types, the build and the audit): the one command is in
+[AGENTS.md](AGENTS.md), with the rules every page follows.
+
+## 🗂️ Layout
 
 ```text
 src/
-├── content.config.ts      the docs collection, checked against the page schema
-├── content/docs/          MDX pages, for later; the path is the URL ([...slug].astro renders them)
-├── pages/                 routes: index.astro, get-started/*, foundations/*, components/*,
-│                          icons/*, patterns/*, guides/*, resources/*; frames/[frame].astro (a
-│                          console example on a bare page, for an iframe); llms.txt, llms-full.txt
-│                          and search-index.json, written from the component docs
-├── platform/              the product-agnostic platform
-│   ├── chrome/            SiteHeader (its <dialog> menu), SearchPalette (the search: Qeetrix's
-│                          SiteSearch over the product's /search-index.json, an island
-│                          hydrated when idle) + search.ts (its button, / and ⌘K), SiteFooter,
-│                          ThemeMenu (chrome.css)
-│   ├── components/        Code (build-time highlighting), Logo (third-party marks),
-│   │                      StaticMenu + menu.ts (Qeetrix menus without React)
-│   ├── docs/              the docs frame: DocsLayout, DocsSidebar (Qeetrix's Sidebar, folders and
-│   │                      filter), Masthead, CopyPage, Toc (the zigzag contents), CodeFrame,
-│   │                      NextPage (docs.css)
-│   ├── content/schema.ts  page metadata: title, description, status, since, aka
-│   ├── layouts/           Document.astro: metadata, colour scheme before paint, styles, skip link
-│   ├── motion/            Reveal.astro: blocks that rise in once, for landing pages
-│   ├── styles/            layers.css (cascade order, tokens, Qeetrix components), document.css
-│   ├── site.ts            SiteChrome and DocsChrome: what a product gives the header, footer and docs
-│   └── theme.ts           the pre-paint colour-scheme script
-└── qeetrix/               the Qeetrix docs on the platform
-    ├── site.ts            every link, the navigation and the footer
-    ├── packages.ts        package names and versions, read from what's installed
-    ├── counts.ts          component, icon and token counts, counted at build time
-    ├── install.ts         the install command and setup the pages show
-    ├── components/        the component pages: one folder per component (doc.tsx, examples.tsx,
-    │                      Playground.tsx, Live.tsx), the template (ComponentPage.astro, Example,
-    │                      tab-pages/, PlaygroundKit, anatomy.ts, component.css), the registry
-    │                      (generated), and the console frames (console.tsx, frames.tsx, FrameOf,
-    │                      frame-fit.ts) and patterns (patterns.tsx)
-    ├── foundations/       Colour, Typography, Spacing, Elevation and Motion, from Storybook's
-    ├── icons/             the Icons pages: Iconography, the browser, Brand
-    ├── guides.ts          the server-safe components the guides list
-    ├── migration.ts       today's @qeetrix/ui pages and what replaces each
-    ├── llms.ts            the docs as Markdown, for /llms.txt and /llms-full.txt
-    ├── docs/              the docs navigation (chrome.ts), the components list, DocsPage,
-    │                      PatternPage, and
-    │                      the pages' own blocks: Signatures, PackageManager, FirstScreen,
-    │                      Troubleshooting, and ComponentSpecimens (a live preview of every
-    │                      component, for the cards) with LayoutSpecimens (docs.css)
-    └── home/              the home page's islands (HeroStory, Showcase, ThemeEngine,
-                           InstallCommand), its cards and its styles
+├── platform/      the product-agnostic platform: chrome (header, search, footer, theme menu), the docs frame,
+│                  layouts, motion, styles, and the SiteChrome / DocsChrome contract a product fills in
+├── qeetrix/       the Qeetrix docs: one folder per component, foundations, icons, guides, the home page's islands,
+│                  site.ts (every link, the navigation, the footer), and the counts and versions read at build time
+├── pages/         the routes, plus llms.txt, llms-full.txt and search-index.json, written from the component docs
+└── content/       the docs collection, checked against the page schema
 ```
 
-## Rules
+## 📐 Rules
 
-- **Tokens only.** Every colour, size, radius, shadow and duration is a `var(--qx-*)`.
-- **Cascade layers, not `!important`.** The order is `qx.base, qx.components, platform, product`.
-  Every stylesheet restates it on its first line: Astro bundles CSS in import order, and the first
-  file to name a layer fixes its place.
-- **Server first.** A Qeetrix component renders to HTML at build time. Make it an island
-  (`client:visible`) only when it must respond in the browser.
-- **The colour scheme belongs to `<html>`.** The pre-paint script sets `data-qx-color-scheme` (and
-  the reader's choice, `data-scheme-choice`). Islands use `QeetrixProvider` for locale and direction
-  only, never `colorScheme`. The theme is chosen at the foot of a page, never in the header.
-- **Every page has a title and a description.** The schema fails the build otherwise.
+- **Tokens only:** every colour, size, radius, shadow and duration is a `var(--qx-*)`.
+- **Cascade layers, not `!important`:** `qx.base, qx.components, platform, product`, restated on each stylesheet's
+  first line, since Astro bundles CSS in import order.
+- **Server first:** a component renders to HTML at build time; it becomes an island only when it must respond in the
+  browser.
+- **The colour scheme belongs to `<html>`:** a pre-paint script sets it; islands' `QeetrixProvider` sets locale and
+  direction only.
+- **Every claim is checked** against the installed packages: props against their types, parts against the DOM.
 
-## A component's page
+## 🧩 A component's page
 
-Each component is a folder in `src/qeetrix/components/`: `doc.tsx` (its facts, usage, API,
-accessibility and changelog, as a `ComponentDoc`), `examples.tsx` (the real component with the code
-for each example), `Playground.tsx` (a spec for `PlaygroundKit`) and `Live.tsx` (when its examples
-need React). Add a row to `scripts/components.ts` and run `bun run components`: the five tabs, the
-category page, the search index and `llms-full.txt` follow. Every claim about an element (`<button>`,
-`role="tab"`) is checked against the rendered DOM.
+Each component is a folder in `src/qeetrix/components/`: `doc.tsx` (its facts, usage, API, accessibility and
+changelog), `examples.tsx` (the real component with each example's code), `Playground.tsx` and, when its examples need
+React, `Live.tsx`. Add a row to `scripts/components.ts` and run `bun run components`: the five tabs, the category
+page, the search index and `llms-full.txt` follow.
 
-## Status
+## 🚢 Releases
 
-Every page in the navigation is built: the home page; Get started (Introduction, Installation,
-Frameworks with Next.js, TanStack Start and Vite, AI tools, Migration); Foundations; all 69
-components, five tabs each; Icons; Patterns; Guides; Resources; and the docs search. Known
-follow-ups:
-- The docs pages' "Updated" dates are written in each page for now.
-- `.astro` files aren't type-checked yet: `astro check` needs a TypeScript 6 alias, because
-  TypeScript 7 has no JavaScript API.
-- Gaps in `@qeetrix/react` (0.4.0 today) are worked around in the pages and filed in Jira;
-  each workaround says in a comment what it works around, without a ticket number.
+Work lands on `develop`. A pull request from `develop` into `main` with the version raised in `package.json`
+deploys it: merging builds the site, deploys it to Vercel production and tags `vX.Y.Z`. `rollback.yml` redeploys an
+earlier tag. The old Next.js site's `/docs/…` addresses redirect to the new pages (`vercel.json`).
