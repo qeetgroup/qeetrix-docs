@@ -15,6 +15,20 @@ bun run types:check         # astro sync, then tsc
 bun run components          # after adding a component: the registry and the route
 ```
 
+## CI, and before you push
+
+CI checks each change once, on its pull request (every pull request into `develop`, and the `develop` → `main`
+pull request); pushes run nothing. **Verify** (`ci.yml`) runs Biome, `types:check` and `bun audit`; the **Release
+gate** (`release-gate.yml`) checks the `develop` → `main` pull request comes from `develop` with the version raised;
+`release.yml` builds the site and deploys it to Vercel on merge, then tags it. The repository is private, so its
+Actions minutes are paid: nothing runs twice.
+
+The build doesn't run in CI. Run the whole gate before every push and say so in the commit:
+
+```bash
+bun run lint && bun run types:check && bun run build && bun audit
+```
+
 ## Where things live
 
 - `src/platform/` — the product-agnostic docs platform (chrome, docs frame, layouts, styles), meant
