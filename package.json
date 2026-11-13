@@ -1,6 +1,6 @@
 {
   "name": "qeetrix-docs",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "private": true,
   "type": "module",
   "description": "ui.qeet.in: the Qeetrix docs, on Qeet's own docs platform (Astro and @qeetrix/react).",
@@ -16,7 +16,8 @@
     "types:check": "astro sync && tsc --noEmit",
     "lint": "biome check",
     "format": "biome format --write",
-    "components": "bun scripts/components.ts && biome check --write src/qeetrix/components/registry.ts \"src/pages/components/[component]/[...tab].astro\""
+    "components": "bun scripts/components.ts && biome check --write src/qeetrix/components/registry.ts \"src/pages/components/[component]/[...tab].astro\"",
+    "native": "bun scripts/native-components.ts && biome check --write src/qeetrix/native-components.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "8.1.1",

@@ -1,0 +1,243 @@
+---
+// Get started › Native apps › iOS: Qeetrix for iOS in a SwiftUI app, as Installation is for the web:
+// what it needs, the four steps, the web's names in Swift, the problems people hit, and where the rest
+// is documented. Every name is checked against the release nativeLibraries.ios names (the qeetrix-ios
+// tag); the API reference stays in DocC.
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { BookOpenIcon } from "@qeetrix/icons/icons/book-open";
+import { ScrollTextIcon } from "@qeetrix/icons/icons/scroll-text";
+import { ShapesIcon } from "@qeetrix/icons/icons/shapes";
+import { SmartphoneIcon } from "@qeetrix/icons/icons/smartphone";
+import { Logo } from "@/platform/components/Logo";
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import Troubleshooting, { type Problem } from "@/qeetrix/docs/Troubleshooting";
+import { nativeLibraries, packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const { version } = nativeLibraries.ios;
+const repo = links.iosRepo;
+const toc = [
+  { id: "requirements", label: "Requirements" },
+  { id: "setup", label: "Setup" },
+  { id: "package", label: "Add the package", depth: 2 },
+  { id: "theme", label: "Set the theme", depth: 2 },
+  { id: "screen", label: "Build a screen", depth: 2 },
+  { id: "icons", label: "Add more icons", depth: 2 },
+  { id: "web", label: "Coming from the web" },
+  { id: "troubleshooting", label: "Troubleshooting" },
+  { id: "reference", label: "Reference" },
+] as const;
+const requirements: [string, { logo?: "apple-mono" | "swift"; text: string }, string][] = [
+  ["Platform", { logo: "apple-mono", text: "iOS 17 or later" }, "The package's deployment target"],
+  ["Language", { logo: "swift", text: "Swift 6" }, "In Xcode 27.1 or later: the package's tools version, with strict concurrency"],
+  ["Dependencies", { text: "None at run time" }, "And no privacy manifest: the package uses none of Apple's required-reason APIs"],
+  ["Licence", { text: "MIT" }, "The bundled fonts are SIL OFL 1.1; the icons MIT, with Lucide's ISC notice"],
+];
+const manifest = `// Before 1.0 a minor version may break source, so take patches only.
+.package(
+    url: "${repo}.git",
+    .upToNextMinor(from: "${version}")
+),
+
+// In your app target's dependencies:
+.product(name: "Qeetrix", package: "qeetrix-ios"),`;
+const app = `import Qeetrix
+import SwiftUI
+
+@main
+struct InvoicesApp: App {
+    var body: some Scene {
+        WindowGroup { RootView() }
+    }
+}
+
+struct RootView: View {
+    // Light, dark or system, kept across launches. Read here, in the
+    // scene's root view: a WindowGroup's content isn't rebuilt when the
+    // App's own state changes, so a choice wouldn't reach the window.
+    @AppStorage("theme") private var mode: QeetrixThemeMode = .system
+
+    var body: some View {
+        ContentView()
+            .qeetrixThemeMode(mode)
+    }
+}`;
+const view = `import Qeetrix
+import SwiftUI
+
+struct ContentView: View {
+    var body: some View {
+        HStack(spacing: QeetrixSpace.gapSm) {
+            QeetrixButton("Create invoice") { create() }
+            QeetrixButton("Export", icon: .share2, variant: .soft) {
+                export()
+            }
+        }
+    }
+
+    private func create() {}
+    private func export() {}
+}`;
+const extended = `// In your app target's dependencies, beside Qeetrix:
+.product(name: "QeetrixIconsExtended", package: "qeetrix-ios"),
+
+// Then, in a file that draws one:
+import QeetrixIconsExtended
+
+QeetrixEmptyState("No reminders", icon: .alarmClock)`;
+// The same decision, by the name each platform gives it.
+const web: [string, string, string][] = [
+  ["Colour scheme", `<QeetrixProvider defaultColorScheme="system">`, ".qeetrixThemeMode(.system)"],
+  ["Density", `data-qx-density="compact"`, ".qeetrixDensity(.compact)"],
+  ["Colour role", "var(--qx-color-text-subtle)", "QeetrixColor.textSubtle"],
+  ["Text style", "var(--qx-typography-body-md)", ".qeetrixTextStyle(.bodyMd)"],
+  ["Space", "var(--qx-space-gap-sm)", "QeetrixSpace.gapSm"],
+  ["Button", `<Button variant="soft" icon={Share2Icon}>`, `QeetrixButton("Export", icon: .share2, variant: .soft)`],
+  ["Icon", "Share2Icon, from @qeetrix/icons", ".share2, a QeetrixIconName"],
+];
+const problems: Problem[] = [
+  {
+    value: "resolve",
+    title: "Xcode can't resolve the package",
+    answer: `Qeetrix needs Swift 6, so Xcode 27.1 or later. Check the URL ends in qeetrix-ios.git and the rule starts from a released version, such as ${version}: the tags are the bare version, with no v.`,
+  },
+  {
+    value: "minor",
+    title: "A new minor release doesn't arrive",
+    answer:
+      "upToNextMinor takes patches only, on purpose: before 1.0 a minor release may break source. Read its Breaking section in the release notes, then raise the version in from: by hand.",
+  },
+  {
+    value: "icon",
+    title: "An icon's name doesn't compile",
+    answer:
+      "It's one of the extended icons. Add the QeetrixIconsExtended product to the target and import QeetrixIconsExtended in the file; it comes from the same package, at the same version.",
+  },
+  {
+    value: "system-chrome",
+    title: "Sheets and alerts stay light in dark mode",
+    answer:
+      "Set the theme with qeetrixThemeMode, once in each scene's root view: the system's own sheets, alerts and keyboard follow it. qeetrixTheme draws one part of a screen in a fixed theme, for previews and comparisons, and leaves them as they are.",
+  },
+  {
+    value: "theme-change",
+    title: "The theme is right at launch, then doesn't change",
+    answer:
+      "The stored value is read in the App and passed into WindowGroup { … }, whose content isn't rebuilt when the App's state changes. Read it with @AppStorage in the scene's root view instead, and apply qeetrixThemeMode there.",
+  },
+  {
+    value: "hindi",
+    title: "Hindi text isn't in Qeet Sans",
+    answer:
+      "Qeet Sans and Fira Code don't include the Indic scripts, so that text falls back to the system's fonts, as a browser does without the Noto Sans faces the web names.",
+  },
+];
+const reference = [
+  { icon: BookOpenIcon, title: "API reference", line: "The DocC catalogue: build it in Xcode with Product › Build Documentation.", href: `${repo}/tree/main/Sources/Qeetrix/Qeetrix.docc` },
+  { icon: ShapesIcon, title: "Every component", line: "Each with its @qeetrix/react counterpart, and the ones only iOS has.", href: `${repo}/blob/main/docs/components.md` },
+  { icon: SmartphoneIcon, title: "Showcase app", line: "Every foundation and component, in both themes and at any text size.", href: `${repo}/tree/main/Showcase` },
+  { icon: ScrollTextIcon, title: "Release notes", line: "What each version changed, with the steps for a breaking one.", href: `${repo}/blob/main/CHANGELOG.md` },
+];
+---
+
+<DocsPage title="iOS" description="Set up Qeetrix for iOS in a SwiftUI app: add the package, set the theme once at the root, build from the components, and find the web's names in Swift." current="ios" section={links.docs} toc={[...toc]}>
+  <Masthead slot="masthead" title="iOS" lede="Qeetrix in a SwiftUI app: the web's tokens, fonts and icons, as native components." place={["Docs", "Get started", "Native apps", "Updated 13 Nov 2026"]} source={docs.source("get-started/ios.astro")}>
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        <div><dt><code>Qeetrix</code></dt><dd>{version}</dd></div>
+        <div><dt><code>QeetrixIconsExtended</code></dt><dd>{version}</dd></div>
+      </dl>
+      <p class="doc-mast-links">
+        <a href={repo}><Logo name="github-mono" />GitHub<ArrowUpRightIcon size={14} /></a>
+        <a href={`${repo}/releases`}><ScrollTextIcon size={16} />Releases<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Time</dt><dd>4 minutes<span>Four steps</span></dd></div>
+      <div><dt>Requires</dt><dd>iOS 17<span>Swift 6, Xcode 27.1 or later</span></dd></div>
+      <div><dt>Installs with</dt><dd>Swift Package Manager<span>No account or token</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="requirements" class="doc-sec" aria-labelledby="requirements-title">
+    <p class="doc-eyebrow">01 — Requirements</p>
+    <h2 class="doc-h2" id="requirements-title">Before you start.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table">
+        <thead><tr><th scope="col">What</th><th scope="col">Supported</th><th scope="col">Notes</th></tr></thead>
+        <tbody>
+          {requirements.map(([what, v, note]) => <tr><th scope="row">{what}</th><td><span class="qd-browser">{v.logo && <Logo name={v.logo} />}{v.text}</span></td><td>{note}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="setup" class="doc-sec" aria-labelledby="setup-title">
+    <p class="doc-eyebrow">02 — Setup</p>
+    <h2 class="doc-h2" id="setup-title">Four steps.</h2>
+    <ol class="doc-steps">
+      <li id="package" class="doc-step">
+        <h3 class="doc-h3"><span>1</span>Add the package</h3>
+        <p class="doc-p">In Xcode, File › Add Package Dependencies… with <code>{repo}.git</code>, then add the Qeetrix product to your app target. Or in <code>Package.swift</code>:</p>
+        <CodeFrame file="Package.swift" lang="swift" code={manifest} />
+      </li>
+      <li id="theme" class="doc-step">
+        <h3 class="doc-h3"><span>2</span>Set the theme</h3>
+        <p class="doc-p">Once, in each scene's root view: light, dark or system, the web's three colour schemes. The system's own sheets, alerts and keyboard follow it, and system follows the device setting live.</p>
+        <CodeFrame file="InvoicesApp.swift" lang="swift" code={app} />
+      </li>
+      <li id="screen" class="doc-step">
+        <h3 class="doc-h3"><span>3</span>Build a screen</h3>
+        <p class="doc-p">The components draw what the web draws, from the same tokens. Where SwiftUI has a style protocol, Qeetrix styles its own controls too: <code>.buttonStyle(.qeetrix())</code>, <code>.toggleStyle(.qeetrixSwitch)</code>.</p>
+        <CodeFrame file="ContentView.swift" lang="swift" code={view} />
+      </li>
+      <li id="icons" class="doc-step">
+        <h3 class="doc-h3"><span>4</span>Add more icons</h3>
+        <p class="doc-p">Optional. Qeetrix carries the icons its components draw, and Qeet Sans and Fira Code, which register the first time text draws. Every other <code>{packages.icons.name}</code> icon is in QeetrixIconsExtended; an app compiles only the icons it names.</p>
+        <CodeFrame file="Package.swift" lang="swift" code={extended} />
+      </li>
+    </ol>
+  </section>
+
+  <section id="web" class="doc-sec" aria-labelledby="web-title">
+    <p class="doc-eyebrow">03 — Coming from the web</p>
+    <h2 class="doc-h2" id="web-title">The same decisions, in Swift.</h2>
+    <p class="doc-p">Tokens, fonts and icons are generated from the web's packages, never copied by hand, so a colour or a space is the same value on both.</p>
+    <div class="doc-table-scroll">
+      <table class="doc-table doc-table-names">
+        <thead><tr><th scope="col">What</th><th scope="col">@qeetrix/react</th><th scope="col">Qeetrix for iOS</th></tr></thead>
+        <tbody>
+          {web.map(([what, react, swift]) => <tr><th scope="row">{what}</th><td><code>{react}</code></td><td><code>{swift}</code></td></tr>)}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="troubleshooting" class="doc-sec" aria-labelledby="troubleshooting-title">
+    <p class="doc-eyebrow">04 — Troubleshooting</p>
+    <h2 class="doc-h2" id="troubleshooting-title">If something goes wrong.</h2>
+    <Troubleshooting client:visible problems={problems} />
+  </section>
+
+  <section id="reference" class="doc-sec" aria-labelledby="reference-title">
+    <p class="doc-eyebrow">05 — Reference</p>
+    <h2 class="doc-h2" id="reference-title">Where the rest lives.</h2>
+    <div class="doc-tiles">
+      {
+        reference.map((r) => (
+          <a href={r.href}>
+            <b>{r.title}</b>
+            <span>{r.line}</span>
+            <span class="doc-tile-row"><r.icon size={24} /><ArrowUpRightIcon size={20} className="doc-tile-go" /></span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <NextPage href={links.aiTools} label="Next — Get started" title="AI tools" />
+</DocsPage>

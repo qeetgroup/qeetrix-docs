@@ -237,10 +237,19 @@
       font-weight: 600;
     }
 
+    /* A version, after its platform's mark where it has one (iOS, Android). */
     & dd {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--qx-space-gap-xs);
       color: var(--qx-color-text-subtle);
       font-variant-numeric: tabular-nums;
     }
+  }
+
+  .doc-mast-mark {
+    inline-size: 0.875rem;
+    block-size: 0.875rem;
   }
 
   .doc-mast-links {
@@ -294,7 +303,8 @@
       font-variant-numeric: tabular-nums;
     }
 
-    & dd span {
+    /* The figure's caption: a span straight inside dd, so a control in a figure keeps its own spans. */
+    & dd > span {
       display: block;
       color: var(--qx-color-text-subtle);
       font: var(--qx-typography-body-sm);
@@ -836,7 +846,18 @@
     inline-size: 1rem;
     block-size: 1rem;
 
+    /* A brand's mark fills its drawing, where an outline icon keeps a margin inside its own: drawn
+     * at the icons' live area, in the same 1rem slot, it reads the same size beside them. */
     & svg {
+      inline-size: 0.875rem;
+      block-size: 0.875rem;
+    }
+
+    /* Apple's mark is narrow and Android's short, and neither has a tile or circle round it: at the
+     * slot's full size each carries the weight of the round marks, and still centres on its label as
+     * the icons do. */
+    &[data-mark="apple-mono"] svg,
+    &[data-mark="android"] svg {
       inline-size: 1rem;
       block-size: 1rem;
     }
@@ -1069,6 +1090,11 @@
       inline-size: 2.5rem;
       block-size: 2.5rem;
     }
+  }
+
+  /* A table of code names: a long name breaks where it must, rather than widen the table past its box. */
+  .doc-table-names td code {
+    overflow-wrap: anywhere;
   }
 
   .doc-table-compare {

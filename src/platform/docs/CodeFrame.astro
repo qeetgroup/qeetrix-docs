@@ -9,7 +9,7 @@ import { Logo } from "../components/Logo";
 
 interface Props {
   code: string;
-  lang?: "tsx" | "ts" | "css" | "bash" | "json" | "html";
+  lang?: "tsx" | "ts" | "css" | "bash" | "json" | "html" | "swift" | "kotlin" | "text";
   file: string;
 }
 
@@ -30,6 +30,10 @@ const ext = file.split(".").pop();
           </>
         ) : ext === "ts" ? (
           <Logo name="typescript" />
+        ) : ext === "swift" ? (
+          <Logo name="swift" />
+        ) : ext === "kt" || ext === "kts" ? (
+          <Logo name="kotlin" />
         ) : (
           <FileCodeIcon size={16} />
         )

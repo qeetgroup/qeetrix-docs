@@ -1,17 +1,22 @@
 ---
 // A component's Usage tab: when to use it and what instead, its anatomy (the real component, its
 // parts numbered by anatomy.ts), its do-and-don'ts drawn with the real components, its sizes,
-// its words, and the components near it.
+// its words, its names on iOS and Android, and the components near it.
 import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
 import { CircleCheckIcon } from "@qeetrix/icons/icons/circle-check";
 import { CircleXIcon } from "@qeetrix/icons/icons/circle-x";
 import { Badge } from "@qeetrix/react";
+import { Logo } from "@/platform/components/Logo";
 import { ComponentSpecimen } from "@/qeetrix/docs/ComponentSpecimens";
 import { categories, componentHref } from "@/qeetrix/docs/components";
 import "@/qeetrix/icons/rules.css";
+import { nativeLibraries } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
 import Node from "../Node";
+import { leftOutOnAndroid, type NativeComponent, nativeOf } from "../platforms";
 import Sec from "../Sec.astro";
-import { numberOf, sectionsOf } from "../sections";
+import { seams } from "../seams";
+import { moduleOf, numberOf, sectionsOf } from "../sections";
 import type { ComponentDoc } from "../types";
 
 interface Props {
@@ -23,6 +28,29 @@ const { usage } = doc;
 const sections = sectionsOf(doc, "usage");
 const n = (id: string) => numberOf(sections, id);
 const entry = (name: string) => categories.flatMap((category) => category.items).find((item) => item.name === name);
+// Its counterparts in the native libraries' own lists: the native name where it differs from the page's.
+const native = nativeOf(doc.slug);
+const named = (c: NativeComponent) => (c.name.toLowerCase() === doc.name.toLowerCase() ? "" : c.name);
+const platforms = [
+  {
+    logo: "apple-mono",
+    label: "iOS",
+    href: links.ios,
+    rows: native.ios.map((c) => ({ name: named(c), api: c.api, from: "Qeetrix" })),
+    none: "Not in Qeetrix for iOS",
+  },
+  {
+    logo: "android",
+    label: "Android",
+    href: links.android,
+    rows: native.android.map((c) => ({
+      name: named(c),
+      api: c.api,
+      from: `com.qeetgroup.qeetrix.components.${c.package}`,
+    })),
+    none: leftOutOnAndroid(doc.name) ? "Left out of Qeetrix for Android, by decision" : "Not in Qeetrix for Android",
+  },
+] as const;
 ---
 
 <Sec id="when-to-use" n={n("when-to-use")} title="When to use">
@@ -123,6 +151,39 @@ const entry = (name: string) => categories.flatMap((category) => category.items)
 
 <Sec id="content" n={n("content")} title="Content">
   <ul class="qc-list">{usage.content.map((line) => <li>{line}</li>)}</ul>
+</Sec>
+
+<Sec id="platforms" n={n("platforms")} title="Platforms" line={`The same tokens and the same look in Qeetrix for iOS ${nativeLibraries.ios.version} and for Android ${nativeLibraries.android.version}, by each library's own names.`}>
+  <div class="doc-table-scroll">
+    <table class="doc-table doc-table-names">
+      <thead><tr><th scope="col">Platform</th><th scope="col">Name</th><th scope="col">Import</th></tr></thead>
+      <tbody>
+        <tr>
+          <th scope="row"><span class="qd-browser"><Logo name="react-light" className="only-light" /><Logo name="react-dark" className="only-dark" />Web</span></th>
+          <td><code set:html={seams(doc.exports.join(", "))} /></td>
+          <td><code>{moduleOf(doc)}</code></td>
+        </tr>
+        {
+          platforms.map((p) =>
+            p.rows.length ? (
+              p.rows.map((r, i) => (
+                <tr>
+                  <th scope="row">{i === 0 && <a class="qd-browser" href={p.href}><Logo name={p.logo} />{p.label}</a>}</th>
+                  <td>{r.name && <>{r.name}: </>}<code set:html={seams(r.api.join(", "))} /></td>
+                  <td><code set:html={seams(r.from)} /></td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <th scope="row"><a class="qd-browser" href={p.href}><Logo name={p.logo} />{p.label}</a></th>
+                <td colspan="2">{p.none}</td>
+              </tr>
+            ),
+          )
+        }
+      </tbody>
+    </table>
+  </div>
 </Sec>
 
 <Sec id="related" n={n("related")} title="Related">

@@ -30,6 +30,7 @@ export function sectionsOf(doc: ComponentDoc, tab: Tab, playground = false): Sec
         { id: "do-and-dont", label: "Do and don't" },
         ...(doc.usage.sizes ? [{ id: "sizes", label: "Sizes" }] : []),
         { id: "content", label: "Content" },
+        { id: "platforms", label: "Platforms" },
         { id: "related", label: "Related" },
       ];
     case "api":

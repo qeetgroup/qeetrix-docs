@@ -26,15 +26,27 @@ export interface SiteChrome {
   nav: readonly SiteLink[];
   /** The source repository, linked from the header. */
   github: SiteLink;
+  /**
+   * The footer every Qeet site ends on (qeet.in's, as Qeet ID's site has it): always dark; the product
+   * and its line, a feature beside them, the link columns, where to follow the group, the legal line,
+   * and the group's name set at the width of the page.
+   */
   footer: {
     /** One line under the name. */
     tagline: string;
+    /** The button under the line: where to start. */
+    action: SiteLink;
+    /** Beside the name, where qeet.in has its newsletter and Qeet ID its status: a label, a title, a line, a link. */
+    feature: { label: string; title: string; line: string; link: SiteLink };
     columns: readonly { title: string; links: readonly SiteLink[] }[];
-    social: readonly (SiteLink & { logo: LogoName })[];
+    /** Where to follow the organisation, by each network's name. */
+    follow: { title: string; links: readonly (SiteLink & { name: string })[] };
     /** The copyright line. */
     legal: string;
-    /** An optional second line at the end, e.g. the package versions. */
-    meta?: string;
+    /** Beside it: whose this is, and where. */
+    based: string;
+    /** The organisation's name, set at the width of the page under it all: every Qeet site signs off with it. */
+    signature: string;
   };
 }
 

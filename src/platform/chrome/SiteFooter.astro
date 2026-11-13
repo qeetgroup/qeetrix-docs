@@ -1,7 +1,12 @@
 ---
-// The site footer: the product's icon and name (as in the header), social links, link columns, and
-// a base line ending with the theme menu.
-import { Logo } from "../components/Logo";
+// The site footer every Qeet site ends on (qeet.in's, as Qeet ID's site has it), always dark whatever
+// the theme, so the page closes on the same surface in both: the product's icon, name and line with
+// where to start; a feature beside them; the link columns; where to follow the group; the legal line
+// with the theme menu and Back to top; and the group's name set at the width of the page.
+import { ArrowRightIcon } from "@qeetrix/icons/icons/arrow-right";
+import { ArrowUpIcon } from "@qeetrix/icons/icons/arrow-up";
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { LinkButton, mirrorInRtl } from "@qeetrix/react";
 import type { SiteChrome } from "../site";
 import { ThemeMenu } from "./ThemeMenu";
 import "./chrome.css";
@@ -12,40 +17,77 @@ interface Props {
 
 const { site } = Astro.props;
 const { footer } = site;
+const forward = mirrorInRtl(ArrowRightIcon);
+const external = (href: string) => href.startsWith("http");
 ---
 
-<footer class="site-footer">
-  <div class="site-container site-footer-grid">
-    <div class="site-footer-brand">
-      <a class="site-footer-logo" href={site.home}>
-        <img src={site.icon} width="26" height="26" alt="" class="site-footer-icon" />
-        {site.name}
-      </a>
-      <p>{footer.tagline}</p>
-      <p class="site-footer-social">
-        {footer.social.map((link) => <a href={link.href} aria-label={link.label}><Logo name={link.logo} /></a>)}
-      </p>
+<footer class="site-footer" data-qx-color-scheme="dark">
+  <div class="site-container">
+    <div class="site-footer-top">
+      <div class="site-footer-intro">
+        <p class="site-footer-brand">
+          <img src={site.icon} width="36" height="36" alt="" class="site-footer-icon" />
+          <span>{site.name}</span>
+        </p>
+        <p class="site-footer-lede">{footer.tagline}</p>
+        <LinkButton href={footer.action.href} variant="ghost" icon={forward}>{footer.action.label}</LinkButton>
+      </div>
+      <div class="site-footer-feature">
+        <p class="site-footer-caps">{footer.feature.label}</p>
+        <h2 class="site-footer-heading">{footer.feature.title}</h2>
+        <p class="site-footer-line">{footer.feature.line}</p>
+        <LinkButton href={footer.feature.link.href} icon={external(footer.feature.link.href) ? ArrowUpRightIcon : forward}>{footer.feature.link.label}</LinkButton>
+      </div>
     </div>
-    {
-      footer.columns.map((column) => (
-        <nav aria-label={column.title}>
-          <p class="site-footer-title">{column.title}</p>
-          <ul>
-            {column.links.map((link) => (
-              <li>
-                <a href={link.href}>{link.label}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      ))
-    }
+
+    <nav class="site-footer-cols" aria-label="Footer">
+      {
+        footer.columns.map((column) => (
+          <div>
+            <h2 class="site-footer-caps">{column.title}</h2>
+            <ul>
+              {column.links.map((link) => (
+                <li>
+                  <a class="site-footer-link" href={link.href}>
+                    {link.label}
+                    {external(link.href) && <ArrowUpRightIcon size={14} aria-hidden="true" />}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </nav>
+
+    <div class="site-footer-follow">
+      <h2 class="site-footer-caps" id="site-footer-follow">{footer.follow.title}</h2>
+      <ul aria-labelledby="site-footer-follow">
+        {
+          footer.follow.links.map((link) => (
+            <li>
+              <a class="site-footer-link" href={link.href} aria-label={link.label}>
+                {link.name}
+                <ArrowUpRightIcon size={14} aria-hidden="true" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="site-footer-legal">
+      <p>{footer.legal}</p>
+      <p>{footer.based}</p>
+      <span class="site-footer-tools">
+        <ThemeMenu id="site-footer-theme-menu" />
+        <a href="#main">Back to top<ArrowUpIcon size={14} aria-hidden="true" /></a>
+      </span>
+    </div>
   </div>
-  <div class="site-container site-footer-base">
-    <span>{footer.legal}</span>
-    <span class="site-footer-end">
-      {footer.meta}
-      <ThemeMenu id="site-footer-theme-menu" />
-    </span>
+  {/* The signature is decoration, drawn by CSS from data-text so a screen reader or a contrast check
+      doesn't read it as text: the group's name, faint, at the width of the page. */}
+  <div class="site-container" aria-hidden="true">
+    <p class="site-footer-mark" data-text={footer.signature} data-reveal></p>
   </div>
 </footer>

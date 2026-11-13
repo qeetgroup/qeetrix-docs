@@ -40,7 +40,7 @@ import ThemeEngine from "@/qeetrix/home/ThemeEngine";
 import "@/qeetrix/home/home.css";
 import "@/qeetrix/home/home-sections.css";
 import { install } from "@/qeetrix/install";
-import { packages } from "@/qeetrix/packages";
+import { nativeLibraries, packages } from "@/qeetrix/packages";
 import { links, site } from "@/qeetrix/site";
 
 /** Forward, in either reading direction. */
@@ -122,7 +122,8 @@ const ai = [
       </dl>
     </section>
 
-    <!-- Platforms: the web today; Android and iOS on their way to the same language. -->
+    <!-- Platforms: the web, Android and iOS, one design language. The native libraries are released but
+         before 1.0, which comes once a Qeet app ships with them, so they say Released, not Stable. -->
     <section class="site-container home-sec home-sec-tight" aria-labelledby="platforms-title">
       <div class="home-head home-head-row" data-reveal>
         <h2 id="platforms-title" class="home-h2 home-h2-sm">One design language. Every platform.</h2>
@@ -135,16 +136,16 @@ const ai = [
           <a class="home-more" href={links.docs}>Get started<ArrowRightIcon size={16} data-qx-mirror /></a>
         </li>
         <li data-reveal data-reveal-delay="60">
-          <div class="home-platform-top"><span class="home-tile"><Logo name="android" /></span><Badge tone="info">Release candidate</Badge></div>
+          <div class="home-platform-top"><span class="home-tile"><Logo name="android" /></span><Badge tone="info">Released</Badge></div>
           <b>Android</b>
-          <span>Jetpack Compose, 0.1.0-rc.1, not yet published.</span>
-          <a class="home-more" href={links.android}>View on GitHub<ArrowRightIcon size={16} data-qx-mirror /></a>
+          <span>Jetpack Compose, {nativeLibraries.android.version}, from GitHub Packages.</span>
+          <a class="home-more" href={links.android}>Get started<ArrowRightIcon size={16} data-qx-mirror /></a>
         </li>
         <li data-reveal data-reveal-delay="120">
-          <div class="home-platform-top"><span class="home-tile"><Logo name="apple-mono" /></span><Badge tone="neutral">In development</Badge></div>
+          <div class="home-platform-top"><span class="home-tile"><Logo name="apple-mono" /></span><Badge tone="info">Released</Badge></div>
           <b>iOS</b>
-          <span>SwiftUI, through Swift Package Manager.</span>
-          <a class="home-more" href={links.ios}>View on GitHub<ArrowRightIcon size={16} data-qx-mirror /></a>
+          <span>SwiftUI, {nativeLibraries.ios.version}, through Swift Package Manager.</span>
+          <a class="home-more" href={links.ios}>Get started<ArrowRightIcon size={16} data-qx-mirror /></a>
         </li>
       </ul>
     </section>

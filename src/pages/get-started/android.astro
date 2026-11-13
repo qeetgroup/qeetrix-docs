@@ -1,0 +1,266 @@
+---
+// Get started › Native apps › Android: Qeetrix for Android in a Jetpack Compose app, as Installation is
+// for the web: what it needs, the five steps, the web's names in Kotlin, the problems people hit, and
+// where the rest is documented. Every name is checked against the release nativeLibraries.android names
+// (the qeetrix-android tag); the API reference stays in KDoc.
+import { ArrowUpRightIcon } from "@qeetrix/icons/icons/arrow-up-right";
+import { BookOpenIcon } from "@qeetrix/icons/icons/book-open";
+import { ScrollTextIcon } from "@qeetrix/icons/icons/scroll-text";
+import { ShapesIcon } from "@qeetrix/icons/icons/shapes";
+import { SmartphoneIcon } from "@qeetrix/icons/icons/smartphone";
+import { Logo } from "@/platform/components/Logo";
+import CodeFrame from "@/platform/docs/CodeFrame.astro";
+import Masthead from "@/platform/docs/Masthead.astro";
+import NextPage from "@/platform/docs/NextPage.astro";
+import { docs } from "@/qeetrix/docs/chrome";
+import DocsPage from "@/qeetrix/docs/DocsPage.astro";
+import Troubleshooting, { type Problem } from "@/qeetrix/docs/Troubleshooting";
+import { nativeLibraries, packages } from "@/qeetrix/packages";
+import { links } from "@/qeetrix/site";
+
+const { version } = nativeLibraries.android;
+const repo = links.androidRepo;
+const toc = [
+  { id: "requirements", label: "Requirements" },
+  { id: "setup", label: "Setup" },
+  { id: "token", label: "Add a token", depth: 2 },
+  { id: "dependency", label: "Add the library", depth: 2 },
+  { id: "theme", label: "Set the theme", depth: 2 },
+  { id: "screen", label: "Build a screen", depth: 2 },
+  { id: "icons", label: "Add more icons", depth: 2 },
+  { id: "web", label: "Coming from the web" },
+  { id: "troubleshooting", label: "Troubleshooting" },
+  { id: "reference", label: "Reference" },
+] as const;
+const requirements: [string, { logo?: "android" | "kotlin"; text: string }, string][] = [
+  ["Platform", { logo: "android", text: "Android 10 (API 29) or newer" }, "The library's minimum SDK"],
+  ["Build", { text: "Compile SDK 37, Android Gradle Plugin 9.1" }, "Compose 1.12 requires them, in its AAR metadata"],
+  ["Language", { logo: "kotlin", text: "Kotlin 2.3 or newer" }, "The library carries Kotlin 2.4 metadata, which a compiler reads one version back"],
+  ["Keep rules", { text: "None" }, "Tokens are compiled in; the fonts and strings ship in the AAR"],
+  ["Licence", { text: "MIT" }, "The bundled fonts are SIL OFL 1.1; the icons MIT, with Lucide's ISC notice; the runtime dependencies Apache 2.0"],
+];
+const properties = `gpr.user=<your GitHub username>
+gpr.key=<a token with read:packages>`;
+const settings = `// In dependencyResolutionManagement { repositories { … } }:
+// com.qeetgroup comes from Qeetrix's repository and nowhere else.
+exclusiveContent {
+    forRepository {
+        maven {
+            url = uri("https://maven.pkg.github.com/qeetgroup/qeetrix-android")
+            credentials {
+                username = providers.gradleProperty("gpr.user").orNull
+                    ?: System.getenv("GITHUB_ACTOR")
+                password = providers.gradleProperty("gpr.key").orNull
+                    ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    filter { includeGroup("com.qeetgroup") }
+}`;
+const dependency = `dependencies {
+    implementation("com.qeetgroup:qeetrix:${version}")
+}`;
+const activity = `import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import com.qeetgroup.qeetrix.theme.QeetrixTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // The activity owns the system bars; the theme draws the content.
+        enableEdgeToEdge()
+        setContent {
+            // Follows the device's light or dark setting, live.
+            QeetrixTheme {
+                InvoiceActions(onCreate = {}, onExport = {})
+            }
+        }
+    }
+}`;
+const screen = `import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.runtime.Composable
+import com.qeetgroup.qeetrix.components.button.QeetrixButton
+import com.qeetgroup.qeetrix.components.button.QeetrixButtonVariant
+import com.qeetgroup.qeetrix.foundation.spacing.QeetrixSpace
+import com.qeetgroup.qeetrix.icons.QeetrixIconName
+
+@Composable
+fun InvoiceActions(onCreate: () -> Unit, onExport: () -> Unit) {
+    Row(horizontalArrangement = Arrangement.spacedBy(QeetrixSpace.GapSm)) {
+        QeetrixButton("Create invoice", onClick = onCreate)
+        QeetrixButton(
+            "Export",
+            onClick = onExport,
+            variant = QeetrixButtonVariant.Soft,
+            icon = QeetrixIconName.Share2,
+        )
+    }
+}`;
+const extendedDependency = `dependencies {
+    implementation("com.qeetgroup:qeetrix:${version}")
+    // Optional: every other icon. Always the same version as qeetrix.
+    implementation("com.qeetgroup:qeetrix-icons-extended:${version}")
+}`;
+const extendedUse = `import com.qeetgroup.qeetrix.icons.QeetrixIconName
+import com.qeetgroup.qeetrix.icons.extended.AlarmClock
+
+QeetrixEmptyState(title = "No reminders", icon = QeetrixIconName.AlarmClock)`;
+// The same decision, by the name each platform gives it.
+const web: [string, string, string][] = [
+  ["Colour scheme", `<QeetrixProvider defaultColorScheme="system">`, "QeetrixTheme(mode = QeetrixThemeMode.System)"],
+  ["A fixed region", `data-qx-color-scheme="dark"`, "QeetrixTheme(mode = QeetrixThemeMode.Dark), nested"],
+  ["Density", `data-qx-density="compact"`, "LocalQeetrixDensity provides QeetrixDensity.Compact"],
+  ["Colour role", "var(--qx-color-text-subtle)", "QeetrixTheme.colors.textSubtle"],
+  ["Text style", "var(--qx-typography-body-md)", "QeetrixTheme.typography.bodyMd"],
+  ["Space", "var(--qx-space-gap-sm)", "QeetrixSpace.GapSm"],
+  ["Button", `<Button variant="soft" icon={Share2Icon}>`, "QeetrixButton(variant = QeetrixButtonVariant.Soft, icon = QeetrixIconName.Share2)"],
+  ["Icon", "Share2Icon, from @qeetrix/icons", "QeetrixIconName.Share2"],
+  ["Money", `formatCurrency(124500, "INR")`, `QeetrixFormat.currency(124500, "INR")`],
+];
+const problems: Problem[] = [
+  {
+    value: "unauthorized",
+    title: "Gradle gets 401 Unauthorized from GitHub Packages",
+    answer:
+      "GitHub Packages asks for a token even for a public package: a personal access token (classic) with read:packages, as gpr.user and gpr.key in ~/.gradle/gradle.properties. In GitHub Actions, GITHUB_TOKEN works once the package grants that repository read access, in its Settings › Manage Actions access.",
+  },
+  {
+    value: "sdk",
+    title: "The build asks for compile SDK 37",
+    answer:
+      "Compose 1.12, which Qeetrix is built on, requires compile SDK 37 and Android Gradle Plugin 9.1 or newer, and says so in its AAR metadata. Raise both in the app; the minimum SDK stays 29.",
+  },
+  {
+    value: "kotlin",
+    title: "Kotlin says the library's metadata is too new",
+    answer:
+      "The library carries Kotlin 2.4 metadata, and a compiler reads metadata one version back, so the app needs Kotlin 2.3 or newer.",
+  },
+  {
+    value: "icon",
+    title: "An icon's name doesn't resolve",
+    answer:
+      "It's one of the extended icons. Add com.qeetgroup:qeetrix-icons-extended at the same version as the library, and import the icon from com.qeetgroup.qeetrix.icons.extended.",
+  },
+  {
+    value: "bars",
+    title: "The status bar doesn't follow the theme",
+    answer:
+      "The status and navigation bars belong to the activity, not to QeetrixTheme: call enableEdgeToEdge() before setContent.",
+  },
+];
+const reference = [
+  { icon: BookOpenIcon, title: "API reference", line: "Every parameter in its KDoc: generate the site with ./gradlew :qeetrix:dokkaGenerate.", href: `${repo}/tree/main/qeetrix/src/main/kotlin/com/qeetgroup/qeetrix` },
+  { icon: ShapesIcon, title: "Every component", line: "Each with its @qeetrix/react counterpart, and the ones only Android has.", href: `${repo}/blob/main/docs/components.md` },
+  { icon: SmartphoneIcon, title: "Sample app", line: "Every component, with theme, density, right to left and text size.", href: `${repo}/tree/main/sample` },
+  { icon: ScrollTextIcon, title: "Release notes", line: "What each version changed, with the steps for a breaking one.", href: `${repo}/blob/main/CHANGELOG.md` },
+];
+---
+
+<DocsPage title="Android" description="Set up Qeetrix for Android in a Jetpack Compose app: add the library from GitHub Packages, wrap the app in its theme, build from the components, and find the web's names in Kotlin." current="android" section={links.docs} toc={[...toc]}>
+  <Masthead slot="masthead" title="Android" lede="Qeetrix in a Jetpack Compose app: the web's tokens, fonts and icons, as native components." place={["Docs", "Get started", "Native apps", "Updated 13 Nov 2026"]} source={docs.source("get-started/android.astro")}>
+    <Fragment slot="aside">
+      <dl class="doc-mast-pkgs">
+        <div><dt><code>com.qeetgroup:qeetrix</code></dt><dd>{version}</dd></div>
+        <div><dt><code>qeetrix-icons-extended</code></dt><dd>{version}</dd></div>
+      </dl>
+      <p class="doc-mast-links">
+        <a href={repo}><Logo name="github-mono" />GitHub<ArrowUpRightIcon size={14} /></a>
+        <a href={`${repo}/releases`}><ScrollTextIcon size={16} />Releases<ArrowUpRightIcon size={14} /></a>
+      </p>
+    </Fragment>
+    <dl slot="strip" class="doc-mast-strip">
+      <div><dt>Time</dt><dd>5 minutes<span>Five steps</span></dd></div>
+      <div><dt>Requires</dt><dd>Android 10<span>API 29, compile SDK 37, Kotlin 2.3</span></dd></div>
+      <div><dt>Installs from</dt><dd>GitHub Packages<span>With a read:packages token</span></dd></div>
+    </dl>
+  </Masthead>
+
+  <section id="requirements" class="doc-sec" aria-labelledby="requirements-title">
+    <p class="doc-eyebrow">01 — Requirements</p>
+    <h2 class="doc-h2" id="requirements-title">Before you start.</h2>
+    <div class="doc-table-scroll">
+      <table class="doc-table">
+        <thead><tr><th scope="col">What</th><th scope="col">Supported</th><th scope="col">Notes</th></tr></thead>
+        <tbody>
+          {requirements.map(([what, v, note]) => <tr><th scope="row">{what}</th><td><span class="qd-browser">{v.logo && <Logo name={v.logo} />}{v.text}</span></td><td>{note}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="setup" class="doc-sec" aria-labelledby="setup-title">
+    <p class="doc-eyebrow">02 — Setup</p>
+    <h2 class="doc-h2" id="setup-title">Five steps.</h2>
+    <ol class="doc-steps">
+      <li id="token" class="doc-step">
+        <h3 class="doc-h3"><span>1</span>Add a token</h3>
+        <p class="doc-p">GitHub Packages asks for a token even for a public package. Create a personal access token (classic) with <code>read:packages</code>, and keep it in your own Gradle properties, never in the app's repository:</p>
+        <CodeFrame file="~/.gradle/gradle.properties" lang="text" code={properties} />
+      </li>
+      <li id="dependency" class="doc-step">
+        <h3 class="doc-h3"><span>2</span>Add the library</h3>
+        <p class="doc-p">Qeetrix's repository, for its own group only, then the dependency:</p>
+        <CodeFrame file="settings.gradle.kts" lang="kotlin" code={settings} />
+        <CodeFrame file="app/build.gradle.kts" lang="kotlin" code={dependency} />
+      </li>
+      <li id="theme" class="doc-step">
+        <h3 class="doc-h3"><span>3</span>Set the theme</h3>
+        <p class="doc-p">Once, at the root. QeetrixTheme follows the device's light or dark setting live; pass <code>mode = QeetrixThemeMode.Dark</code> or <code>Light</code> to force one, the web's three colour schemes.</p>
+        <CodeFrame file="MainActivity.kt" lang="kotlin" code={activity} />
+      </li>
+      <li id="screen" class="doc-step">
+        <h3 class="doc-h3"><span>4</span>Build a screen</h3>
+        <p class="doc-p">The same screen as the iOS guide's: the components draw what the web draws, from the same tokens. The app owns the state; Qeetrix draws it.</p>
+        <CodeFrame file="InvoiceActions.kt" lang="kotlin" code={screen} />
+      </li>
+      <li id="icons" class="doc-step">
+        <h3 class="doc-h3"><span>5</span>Add more icons</h3>
+        <p class="doc-p">Optional. The library carries the icons its components draw, and Qeet Sans and Fira Code. Every other <code>{packages.icons.name}</code> icon is in qeetrix-icons-extended; R8 drops every one a release build doesn't name.</p>
+        <CodeFrame file="app/build.gradle.kts" lang="kotlin" code={extendedDependency} />
+        <CodeFrame file="Reminders.kt" lang="kotlin" code={extendedUse} />
+      </li>
+    </ol>
+  </section>
+
+  <section id="web" class="doc-sec" aria-labelledby="web-title">
+    <p class="doc-eyebrow">03 — Coming from the web</p>
+    <h2 class="doc-h2" id="web-title">The same decisions, in Kotlin.</h2>
+    <p class="doc-p">Tokens, fonts and icons are generated from the web's packages, never copied by hand, so a colour or a space is the same value on both.</p>
+    <div class="doc-table-scroll">
+      <table class="doc-table doc-table-names">
+        <thead><tr><th scope="col">What</th><th scope="col">@qeetrix/react</th><th scope="col">Qeetrix for Android</th></tr></thead>
+        <tbody>
+          {web.map(([what, react, kotlin]) => <tr><th scope="row">{what}</th><td><code>{react}</code></td><td><code>{kotlin}</code></td></tr>)}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="troubleshooting" class="doc-sec" aria-labelledby="troubleshooting-title">
+    <p class="doc-eyebrow">04 — Troubleshooting</p>
+    <h2 class="doc-h2" id="troubleshooting-title">If something goes wrong.</h2>
+    <Troubleshooting client:visible problems={problems} />
+  </section>
+
+  <section id="reference" class="doc-sec" aria-labelledby="reference-title">
+    <p class="doc-eyebrow">05 — Reference</p>
+    <h2 class="doc-h2" id="reference-title">Where the rest lives.</h2>
+    <div class="doc-tiles">
+      {
+        reference.map((r) => (
+          <a href={r.href}>
+            <b>{r.title}</b>
+            <span>{r.line}</span>
+            <span class="doc-tile-row"><r.icon size={24} /><ArrowUpRightIcon size={20} className="doc-tile-go" /></span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <NextPage href={links.ios} label="Next — Native apps" title="iOS" />
+</DocsPage>

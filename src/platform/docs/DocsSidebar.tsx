@@ -15,7 +15,7 @@ const brandIcon = ([light, dark]: NonNullable<DocsNavItem["brand"]>) =>
   // biome-ignore lint/correctness/noComponentHookFactories: rendered to HTML once, never re-rendered, so there's no state to lose.
   function BrandIcon({ className }: { className?: string }) {
     return (
-      <span className={`doc-nav-brand ${className ?? ""}`}>
+      <span className={`doc-nav-brand ${className ?? ""}`} data-mark={light}>
         <Logo name={light} className={dark ? "only-light" : undefined} />
         {dark && <Logo name={dark} className="only-dark" />}
       </span>

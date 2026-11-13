@@ -1,10 +1,10 @@
 ---
 // A code block highlighted at build time by Qeetrix's own highlighter (highlightHtml), each token in
 // its code colour: the same colours as CodeBlock, and no highlighter reaches the browser.
-import { type CodeLanguage, highlightHtml } from "@qeetrix/react/experimental";
+import { type CodeLanguage, highlight, highlightHtml } from "@qeetrix/react/experimental";
 import "./code.css";
 
-type Lang = "tsx" | "ts" | "css" | "bash" | "json" | "html";
+type Lang = "tsx" | "ts" | "css" | "bash" | "json" | "html" | "swift" | "kotlin" | "text";
 
 interface Props {
   code: string;
@@ -18,9 +18,33 @@ const LANGUAGE: Record<Lang, CodeLanguage> = {
   bash: "shell",
   json: "json",
   html: "html",
+  swift: "swift",
+  kotlin: "kotlin",
+  text: "text",
 };
 
+// Qeetrix's highlighter colours a TSX component's name (<Button>) as a literal, but leaves Swift and
+// Kotlin type names plain, so native code reads in two colours. Until it does the same for them, a
+// capitalised name there (QeetrixButton, HStack, View) takes the literal colour here, as in TSX.
+const TYPE_NAME = /^[A-Z]\w*$/;
+const escapeHtml = (text: string) =>
+  text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const native = (source: string, language: "swift" | "kotlin") =>
+  highlight(source.replace(/\n$/, ""), language)
+    .map((line) =>
+      line
+        .map(({ kind, text }) => {
+          const k = kind === "plain" && TYPE_NAME.test(text) ? "literal" : kind;
+          return k === "plain"
+            ? escapeHtml(text)
+            : `<span data-token="${k}" style="color:var(--qx-color-code-${k})">${escapeHtml(text)}</span>`;
+        })
+        .join(""),
+    )
+    .join("\n");
+
 const { code, lang = "tsx" } = Astro.props;
+const html = lang === "swift" || lang === "kotlin" ? native(code, lang) : highlightHtml(code, LANGUAGE[lang]);
 ---
 
-<div class="site-code"><pre data-language={lang}><code set:html={highlightHtml(code, LANGUAGE[lang])} /></pre></div>
+<div class="site-code"><pre data-language={lang}><code set:html={html} /></pre></div>

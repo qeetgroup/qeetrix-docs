@@ -13,6 +13,7 @@ import { PaletteIcon } from "@qeetrix/icons/icons/palette";
 import { RouteIcon } from "@qeetrix/icons/icons/route";
 import { ScrollTextIcon } from "@qeetrix/icons/icons/scroll-text";
 import { ShapesIcon } from "@qeetrix/icons/icons/shapes";
+import { SmartphoneIcon } from "@qeetrix/icons/icons/smartphone";
 import { formatNumber } from "@qeetrix/react";
 import type { DocsChrome, DocsNavItem } from "@/platform/site";
 import { counts } from "../counts";
@@ -62,6 +63,21 @@ export const docs: DocsChrome = {
             { id: "vite", label: "Vite", href: links.vite, brand: ["vite"], isNew: true },
           ],
         },
+        // Qeetrix for iOS and Android: a folder, not a page, as each platform's setup is its own.
+        {
+          label: "Native apps",
+          icon: SmartphoneIcon,
+          items: [
+            {
+              id: "android",
+              label: "Android",
+              href: links.android,
+              brand: ["android"],
+              isNew: true,
+            },
+            { id: "ios", label: "iOS", href: links.ios, brand: ["apple-mono"], isNew: true },
+          ],
+        },
         { id: "ai-tools", label: "AI tools", href: links.aiTools, icon: BotIcon, isNew: true },
         { id: "migration", label: "Migration", href: links.migration, icon: RouteIcon },
       ],
@@ -90,17 +106,20 @@ export const docs: DocsChrome = {
           href: links.components,
           icon: BlocksIcon,
           count: String(counts.components),
-          items: categories.map((c) => ({
-            id: `components-${c.id}`,
-            label: c.name,
-            href: categoryHref(c.id),
-            count: String(c.items.length),
-            items: c.items.map((item) => ({
-              id: `component-${slug(item.name)}`,
-              label: item.name,
-              href: componentHref(item.name),
+          items: [
+            { id: "components-platforms", label: "Platforms", href: links.platforms, isNew: true },
+            ...categories.map((c) => ({
+              id: `components-${c.id}`,
+              label: c.name,
+              href: categoryHref(c.id),
+              count: String(c.items.length),
+              items: c.items.map((item) => ({
+                id: `component-${slug(item.name)}`,
+                label: item.name,
+                href: componentHref(item.name),
+              })),
             })),
-          })),
+          ],
         },
         {
           id: "patterns",

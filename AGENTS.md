@@ -13,6 +13,7 @@ bun run build               # dist/
 bun run lint                # Biome
 bun run types:check         # astro sync, then tsc
 bun run components          # after adding a component: the registry and the route
+bun run native              # after raising nativeLibraries: iOS's and Android's components, read beside this repo
 ```
 
 ## CI, and before you push

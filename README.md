@@ -41,6 +41,7 @@ npx -y bun@1.3.14 install   # CI's Bun: a newer one rewrites the lockfile CI can
 bun run dev                 # http://localhost:3007
 bun run build               # the static site, in dist/
 bun run components          # after adding a component: its registry entry and route
+bun run native              # after raising nativeLibraries: the iOS and Android components, from their repos
 ```
 
 Before every push, run the whole gate (Biome, the types, the build and the audit): the one command is in

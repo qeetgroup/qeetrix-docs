@@ -99,7 +99,11 @@
       font: var(--qx-typography-label-md);
     }
 
-    & .qx-toggle {
+    /* Toggle puts its children in one inline label, and its icon prop takes @qeetrix/icons only: a
+     * brand mark beside the name is laid out here, as a row, centred on the text. */
+    & .qx-toggle-label {
+      display: inline-flex;
+      align-items: center;
       gap: var(--qx-space-gap-sm);
     }
   }
@@ -512,6 +516,24 @@
   }
 
   /* Browsers by their own marks, each with its version. */
+  /* A name that keeps its own case where labels are capitals: Apple writes iOS, never IOS. */
+  .doc-brand-case {
+    text-transform: none;
+  }
+
+  /* The Platforms page's matrix: a category's name as a band across the table, then its components. */
+  .qd-platforms-group th {
+    background: var(--qx-color-bg-neutral-subtle);
+    color: var(--qx-color-text-subtle);
+    font: var(--qx-typography-label-caps);
+    letter-spacing: var(--qx-typography-label-caps-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  .doc-table-platforms tbody th a {
+    color: var(--qx-color-text-default);
+  }
+
   .qd-browsers {
     display: flex;
     flex-wrap: wrap;
