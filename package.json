@@ -1,6 +1,6 @@
 {
   "name": "qeetrix-docs",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": true,
   "type": "module",
   "description": "ui.qeet.in: the Qeetrix docs, on Qeet's own docs platform (Astro and @qeetrix/react).",
@@ -23,7 +23,7 @@
     "@astrojs/react": "7.1.1",
     "@base-ui/react": "^1.9.0",
     "@qeetrix/icons": "^2.1.2",
-    "@qeetrix/react": "0.5.1",
+    "@qeetrix/react": "0.5.2",
     "@qeetrix/tokens": "^0.0.15",
     "astro": "7.4.2",
     "react": "^19.3.1",

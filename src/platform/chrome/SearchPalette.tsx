@@ -1,10 +1,11 @@
-// The docs search: Qeetrix's CommandPalette over the product's /search-index.json, fetched on first
-// open. ⌘K or Ctrl+K anywhere (the palette's own hotkey), / outside a field, or the header's Search
+// The docs search: Qeetrix's SiteSearch over the product's /search-index.json, fetched on first
+// open. ⌘K or Ctrl+K anywhere (the search's own hotkey), / outside a field, or the header's Search
 // button opens it (search.ts, which also catches a click before this island has hydrated). The
 // results are ranked here, through onQueryChange: every word must match, a title that starts with
-// one counts most. They're grouped by section, each section where its best result ranks.
-import { QeetrixProvider } from "@qeetrix/react";
-import { type CommandGroup, type CommandItem, CommandPalette } from "@qeetrix/react/experimental";
+// one counts most. Each result is a link, its section in small caps over it, and a component's
+// status beside that, as its page shows it.
+import { Badge, QeetrixProvider } from "@qeetrix/react";
+import { SiteSearch, type SiteSearchResult } from "@qeetrix/react/experimental";
 import { useEffect, useMemo, useState } from "react";
 
 interface Entry {
@@ -13,13 +14,15 @@ interface Entry {
   section: string;
   line?: string;
   keywords?: string;
+  /** A component's release phase. */
+  status?: "stable" | "experimental";
 }
 
 declare global {
   interface Window {
     /** Set by search.ts when Search is asked for before this island has hydrated. */
     qxSearchPending?: boolean;
-    /** Set once this island is ready, so search.ts leaves ⌘K to the palette. */
+    /** Set once this island is ready, so search.ts leaves ⌘K to the search. */
     qxSearchReady?: boolean;
   }
 }
@@ -44,34 +47,40 @@ const score = (entry: Entry, words: string[]) => {
   return total;
 };
 
-const item = (entry: Entry): CommandItem => ({
-  value: entry.url,
-  label: entry.title,
-  description: entry.line,
+/** How many results are shown: the docs have no search page to send the rest to. */
+const SHOWN = 10;
+
+/** Before anything is typed: where most people start. Each finds its page first. */
+const SUGGESTIONS = ["Installation", "Button", "Date picker", "Colour", "Theming"];
+
+/** A component's section is its category, under Components. */
+const kindOf = (entry: Entry) => (entry.status ? `Components · ${entry.section}` : entry.section);
+
+const result = (entry: Entry): SiteSearchResult => ({
+  href: entry.url,
+  title: entry.title,
+  kind: kindOf(entry),
+  ...(entry.line ? { description: entry.line } : {}),
+  ...(entry.status
+    ? {
+        badge: (
+          <Badge tone={entry.status === "stable" ? "success" : "warning"}>
+            {entry.status === "stable" ? "Stable" : "Experimental"}
+          </Badge>
+        ),
+      }
+    : {}),
 });
 
-/** Before anything is typed: where most people start. */
-const START = "Get started";
-const STARTERS = ["Introduction", "Installation", "Frameworks", "AI tools", "Migration"];
-
-const rank = (entries: Entry[], query: string): CommandGroup[] => {
+const rank = (entries: Entry[], query: string): SiteSearchResult[] => {
   const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
-  if (!words.length) {
-    const starters = STARTERS.flatMap((title) =>
-      entries.filter((entry) => entry.section === START && entry.title === title),
-    );
-    return starters.length ? [{ label: START, items: starters.map(item) }] : [];
-  }
-  const ranked = entries
+  if (!words.length) return [];
+  return entries
     .map((entry) => [entry, score(entry, words)] as const)
     .filter(([, value]) => value > 0)
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 12)
-    .map(([entry]) => entry);
-  const sections = new Map<string, Entry[]>();
-  for (const entry of ranked)
-    sections.set(entry.section, [...(sections.get(entry.section) ?? []), entry]);
-  return [...sections].map(([label, list]) => ({ label, items: list.map(item) }));
+    .slice(0, SHOWN)
+    .map(([entry]) => result(entry));
 };
 
 export function SearchPalette() {
@@ -97,19 +106,19 @@ export function SearchPalette() {
     if (open && !entries) void load().then(setEntries);
   }, [open, entries]);
 
-  const groups = useMemo(() => rank(entries ?? [], query), [entries, query]);
+  const results = useMemo(() => rank(entries ?? [], query), [entries, query]);
 
   return (
     <QeetrixProvider locale="en-IN">
-      <CommandPalette
+      <SiteSearch
         open={open}
         onOpenChange={setOpen}
-        groups={groups}
+        title="Search Qeetrix"
+        placeholder="Search components, foundations, guides…"
+        suggestions={SUGGESTIONS}
+        results={results}
         onQueryChange={setQuery}
-        loading={open && !entries}
-        placeholder="Search the docs"
-        messages={{ label: "Search the docs" }}
-        onSelect={(chosen) => location.assign(chosen.value)}
+        loading={open && !entries && query.trim() !== ""}
       />
     </QeetrixProvider>
   );

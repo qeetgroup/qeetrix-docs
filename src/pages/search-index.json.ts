@@ -1,5 +1,5 @@
 // /search-index.json: what the docs search (platform/chrome/search.ts) filters: every page the
-// navigation links, and every component with its line, its category and what it exports.
+// navigation links, and every component with its line, its category, its status and what it exports.
 import type { APIRoute } from "astro";
 import { DOCS } from "@/qeetrix/components/registry";
 import { categories } from "@/qeetrix/docs/components";
@@ -27,6 +27,7 @@ export const GET: APIRoute = () => {
     section: categories.find((c) => c.id === doc.category)?.name ?? "Components",
     line: doc.lede,
     keywords: [...doc.exports, doc.status].join(" "),
+    status: doc.status,
   }));
   // The section landings the navigation shows as headings, not links.
   const landings = [
